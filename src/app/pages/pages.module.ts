@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PAGES_ROUTES } from './pages.routes';
+import { PagesRoutingModule } from './pages-routing.module';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -7,6 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 import { PagesComponent } from './pages.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProgressComponent } from './progress/progress.component';
+import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
+import { FormsModule } from '@angular/forms';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 
@@ -14,7 +18,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 @NgModule({
     declarations: [
         PagesComponent,
-        DashboardComponent
+        DashboardComponent,
+        ProgressComponent,
+        IncrementadorComponent,
+        AccountSettingsComponent
     ],
     exports: [
         DashboardComponent
@@ -22,7 +29,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ],
     imports: [
         SharedModule,
-        PAGES_ROUTES
+        PagesRoutingModule,
+        FormsModule
     ]
 })
 export class PagesModule { }
