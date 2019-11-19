@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -14,6 +15,7 @@ const pagesRoutes: Routes = [
         component: PagesComponent,
         children: [
             { path: 'dashboard', component: DashboardComponent },
+            { path: 'profile', component: ProfileComponent }, 
             { path: 'progress', component: ProgressComponent },
             { path: 'account-settings', component: AccountSettingsComponent },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }

@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PagesModule } from './pages/pages.module';
 
 // temporal
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { AppComponent } from './app.component';
@@ -17,13 +17,18 @@ import { RegisterComponent } from './register/register.component';
 import { ServiceModule } from './services/service.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent
-  ],
-  imports: [BrowserModule, PagesModule, AppRoutingModule, FormsModule, ServiceModule ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, LoginComponent, RegisterComponent],
+    // Si queda clavado en LOADING... es posible que este alterado el orden de la importación de módulos
+    // verificar que el módulo de las páginas se importe ANTES que el módulo de las rutas.
+    imports: [
+        BrowserModule,
+        PagesModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ServiceModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

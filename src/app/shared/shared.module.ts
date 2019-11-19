@@ -6,13 +6,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
-    imports: [
-        RouterModule,
-        CommonModule
-    ],
+    imports: [RouterModule, CommonModule, PipesModule],
     declarations: [
         NopagefoundComponent,
         HeaderComponent,
@@ -26,4 +23,4 @@ import { CommonModule } from '@angular/common';
         BreadcrumbsComponent
     ]
 })
-export class SharedModule { }
+export class SharedModule {}
