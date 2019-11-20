@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// declare function init_plugins();
 
 @Component({
   selector: 'app-nopagefound',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class NopagefoundComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    // init_plugins(); // Si queda clavado en LOADING... quitar comentario
   }
-
 }

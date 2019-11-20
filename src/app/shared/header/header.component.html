@@ -136,9 +136,9 @@
                                             src="{{ usuario.img | imagenPipe : 'usuarios' : usuario._id }}" alt="user">
                                     </div>
                                     <div class="u-text">
-                                        <h4>Steave Jobs</h4>
-                                        <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html"
-                                            class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                        <h4>{{ usuario.nombre }}</h4>
+                                        <p class="text-muted">{{ usuario.email }}</p><a href="pages-profile.html"
+                                            class="btn btn-rounded btn-danger btn-sm">Ver perfil</a>
                                     </div>
                                 </div>
                             </li>
@@ -147,9 +147,9 @@
                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li><a routerLinkActive="active" routerLink="/account-settings"><i class="ti-settings"></i> Tema </a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a (click)="userService.logout()"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
                     </div>
                 </li>
@@ -157,3 +157,6 @@
         </div>
     </nav>
 </header>
+<!-- ============================================================== -->
+<!-- End Topbar header -->
+<!-- ============================================================== -->

@@ -17,18 +17,18 @@ import { RegisterComponent } from './register/register.component';
 import { ServiceModule } from './services/service.module';
 
 @NgModule({
-    declarations: [AppComponent, LoginComponent, RegisterComponent],
-    // Si queda clavado en LOADING... es posible que este alterado el orden de la importación de módulos
-    // verificar que el módulo de las páginas se importe ANTES que el módulo de las rutas.
-    imports: [
-        BrowserModule,
-        PagesModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ServiceModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, LoginComponent, RegisterComponent],
+  // Si queda clavado en LOADING... es posible que este alterado el orden de la importación de módulos
+  // verificar que el módulo de las páginas se importe ANTES que el módulo de las rutas.
+  imports: [
+    BrowserModule,
+    PagesModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ServiceModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

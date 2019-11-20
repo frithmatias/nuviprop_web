@@ -15,7 +15,6 @@ export class ImagenPipe implements PipeTransform {
     if (img.indexOf('https') >= 0) {
       return img;
     }
-    console.log(img, tipo, id);
     switch (tipo) {
       case 'usuarios':
         url += '/usuarios/' + id + '/' + img;

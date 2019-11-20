@@ -12,14 +12,10 @@ import { OnDestroy } from '@angular/core';
 @Injectable()
 export class UsuarioService implements OnDestroy {
   obsUploadImage: Subscription;
-  usuario: Usuario;
   token: string;
+  usuario: Usuario;
 
-  constructor(
-    public http: HttpClient,
-    public router: Router,
-    public uploadFileService: UploadFileService
-  ) {
+  constructor(public http: HttpClient, public router: Router) {
     this.cargarStorage();
   }
 
@@ -37,6 +33,7 @@ export class UsuarioService implements OnDestroy {
     const url = URL_SERVICIOS + '/login';
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {
+        console.log(resp);
         this.guardarStorage(resp.id, resp.token, resp.usuario);
         return true;
       })
@@ -103,7 +100,14 @@ export class UsuarioService implements OnDestroy {
 
         // los datos estan actualizados en la bd, pero no voy a ver los cambios
         // si no actualizo los datos en la localstorage
-        this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+
+        // Este if es porque SOLO guardo los datos en la localstorage si estoy
+        // actualizando datos PROPIOS. Si soy ADMIN y estoy cambiando datos en
+        // la lista de usuarios NO tengo que guardar nada en la localstorage.
+        if (usuario._id === this.usuario._id) {
+          this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+        }
+
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
 
         return true;
@@ -111,38 +115,34 @@ export class UsuarioService implements OnDestroy {
     );
   }
 
-  // ************************************************************************
-  // 1. USANDO VANILLA JAVASCRIPT Y AJAX CON UN SERVICIO UPLOAD-FILE.SERVICE.TS
-  // ************************************************************************
-  cambiarImagen(archivo: File, tipo: string = 'usuarios', id: string) {
-    this.uploadFileService
-      .subirArchivo(archivo, tipo, id)
-      .then((resp: any) => {
-        this.usuario.img = resp.usuario.img;
-        Swal.fire('Imagen Actualizada', this.usuario.nombre, 'success');
-        this.guardarStorage(id, this.token, this.usuario);
-      })
-      .catch(resp => {
-        console.log(resp);
-      });
+  cargarUsuarios(desde: number = 0) {
+    const url = URL_SERVICIOS + '/usuarios?desde=' + desde;
+    return this.http.get(url);
   }
-  // ************************************************************************
-  // 2. USANDO HTTPCLIENT
-  // ************************************************************************
-  cambiarImagen2(fileItem: File, tipo: string = 'usuarios', id: string) {
-    const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id;
-    const formData: FormData = new FormData();
-    formData.append('imagen', fileItem, fileItem.name);
-    this.http
-      .put(url, formData, { reportProgress: true })
-      .subscribe((resp: any) => {
-        console.log(resp);
-        if (resp.ok) {
-          Swal.fire('Imagen Actualizada', this.usuario.nombre, 'success');
-          this.usuario.img = resp.usuario.img;
-          this.guardarStorage(id, this.token, this.usuario);
-        }
-      });
+
+  buscarUsuarios(termino: string) {
+    const url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino;
+    return this.http.get(url).pipe(map((resp: any) => resp.usuarios));
+  }
+
+  borrarUsuario(id: string) {
+    const url = URL_SERVICIOS + '/usuarios/' + id;
+
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+    // url += '?token=' + this.token;
+
+    return this.http.delete(url, { headers }).pipe(
+      map(resp => {
+        Swal.fire(
+          'Usuario borrado',
+          'El usuario a sido eliminado correctamente',
+          'success'
+        );
+        return true;
+      })
+    );
   }
 
   logout() {
@@ -151,7 +151,7 @@ export class UsuarioService implements OnDestroy {
 
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-
+    console.log('LOGOUT');
     this.router.navigate(['/login']);
   }
 }

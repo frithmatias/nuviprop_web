@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ProfileComponent } from './profile/profile.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { PropiedadesComponent } from './propiedades/propiedades.component';
+import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { ProfileComponent } from './profile/profile.component';
     ProgressComponent,
     IncrementadorComponent,
     AccountSettingsComponent,
-    ProfileComponent
+    ProfileComponent,
+    UsuariosComponent,
+    PropiedadesComponent,
+    ModalUploadComponent
   ],
   exports: [DashboardComponent],
   imports: [

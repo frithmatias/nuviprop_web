@@ -9,6 +9,7 @@ import {
   UsuarioService,
   UploadFileService
 } from './service.index';
+import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -17,7 +18,8 @@ import {
     SidebarService,
     SharedService,
     UsuarioService,
-    UploadFileService
+    UploadFileService,
+    ModalUploadService
   ],
   declarations: []
 })
