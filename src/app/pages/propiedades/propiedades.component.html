@@ -1,1 +1,101 @@
-<p>propiedades works!</p>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarPropiedad( input.value )" type="text" class="form-control" placeholder="Buscar propiedad...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+
+    <div class="col-sm-12">
+
+        <div class="text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                
+                <div class="text-right">
+                    <button [routerLink]="['/propiedad','nuevo']" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
+                    <i class="fa fa-plus"></i> 
+                    Agregar Propiedad
+                    </button>
+                </div>
+
+                <h3 class="card-title">Propiedades registradas ( <small>{{ totalRegistros }}</small> )</h3>
+
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Imagen</th>
+                            <th>Tipo Propiedad</th>
+                            <th>Operacion</th>
+                            <th>Pais</th>
+                            <th>Provincia</th>
+                            <th>Ciudad</th>
+                            <th>Barrio</th>
+                            <th>Calle</th>
+                            <th>Numero</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let propiedad of propiedades; index as i">
+                            <td>{{i}}</td>
+                            <td class="w70">
+                                <img (click)="mostrarModal( propiedad._id )" [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" class="img-50 img-circle pointer">
+                            </td>
+                            <td>{{ propiedad.tipopropiedad }}</td>
+                            <td>{{ propiedad.operacion }}</td>
+                            <td>{{ propiedad.pais }}</td>
+                            <td>{{ propiedad.provincia }}</td>
+                            <td>{{ propiedad.ciudad }}</td>
+                            <td>{{ propiedad.barrio }}</td>
+                            <td>{{ propiedad.calle }}</td>
+                            <td>{{ propiedad.numero }}</td>
+                            <td>
+                                <button [routerLink]="['/propiedad', propiedad._id ]" class="btn btn-primary">
+                                <i class="fa fa-edit"></i>
+                              </button>
+
+                                <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger">
+                                  <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <button (click)="cambiarDesde(-5)" class="btn btn-secondary">
+                  Anteriores
+                </button>
+
+                <button (click)="cambiarDesde(5)" class="btn btn-secondary">
+                    Siguientes
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

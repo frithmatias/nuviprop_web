@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 // import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UploadFileService } from '../upload/upload-file.service';
 import { Subscription } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 @Injectable()
@@ -121,7 +120,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   buscarUsuarios(termino: string) {
-    const url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino;
+    const url = URL_SERVICIOS + '/busqueda/usuarios/' + termino;
     return this.http.get(url).pipe(map((resp: any) => resp.usuarios));
   }
 

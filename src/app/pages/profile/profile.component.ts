@@ -3,7 +3,7 @@ import { Usuario } from '../../models/usuario.model';
 import {
   UsuarioService,
   UploadFileService
-} from '../../services/service.index';
+} from '../../services/services.index';
 import Swal from 'sweetalert2';
 
 @Component({

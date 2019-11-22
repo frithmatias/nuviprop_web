@@ -5,21 +5,23 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   SettingsService,
   SidebarService,
-  SharedService,
   UsuarioService,
-  UploadFileService
-} from './service.index';
-import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
+  UploadFileService,
+  ModalUploadService,
+  PropiedadesService,
+  InmobiliariaService
+} from './services.index';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
     SettingsService,
     SidebarService,
-    SharedService,
     UsuarioService,
     UploadFileService,
-    ModalUploadService
+    ModalUploadService,
+    PropiedadesService,
+    InmobiliariaService
   ],
   declarations: []
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.model';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { UsuarioService } from 'src/app/pages/usuarios/usuarios.service';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import Swal from 'sweetalert2';
 @Component({

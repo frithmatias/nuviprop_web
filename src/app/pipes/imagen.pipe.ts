@@ -24,6 +24,10 @@ export class ImagenPipe implements PipeTransform {
         url += '/propiedades/' + id + '/' + img;
         break;
 
+      case 'inmobiliarias':
+        url += '/inmobiliarias/' + id + '/' + img;
+        break;
+
       default:
         console.log('tipo de imagen no existe, usuarios, propiedades');
         url += '/usuarios/xxx';

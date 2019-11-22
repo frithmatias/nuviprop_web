@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { URL_SERVICIOS } from '../../config/config';
+import { URL_SERVICIOS } from '../config/config';
 import { HttpClient } from '@angular/common/http';
-import { UsuarioService } from '../usuario/usuario.service';
+import { UsuarioService } from '../pages/usuarios/usuarios.service';
 
 @Injectable()
 export class UploadFileService {

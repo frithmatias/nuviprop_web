@@ -10,7 +10,8 @@ export class SidebarService {
         { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'ProgressBar', url: '/progress' },
         { titulo: 'Usuarios', url: '/usuarios' },
-        { titulo: 'Propiedades', url: '/propiedades' }
+        { titulo: 'Propiedades', url: '/propiedades' },
+        { titulo: 'Inmobiliarias', url: '/inmobiliarias' }
       ]
     }
   ];
