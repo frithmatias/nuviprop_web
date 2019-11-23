@@ -51,10 +51,10 @@
                         <div class="form-group">
                             <label>Inmobiliaria</label>
                             <select (change)="cambioInmobiliaria( $event.target.value )"
-                                [(ngModel)]="propiedad.inmobiliaria" name="inmob" class="form-control" required>
+                                [(ngModel)]="propiedad.inmobiliaria" name="inmobiliaria" class="form-control" required>
                                 <option value="">Seleccione Inmobiliaria</option>
-                                <option *ngFor="let inmob of inmobiliarias" [value]="inmob._id">
-                                    {{ inmob.nombre }}
+                                <option *ngFor="let inmobiliaria of inmobiliarias" [value]="inmobiliaria._id">
+                                    {{ inmobiliaria.nombre }}
                                 </option>
                             </select>
 
@@ -73,10 +73,10 @@
     </div>
 
 
-    <div class="col-md-3">
+    <div *ngIf="id!='nuevo'" class="col-md-3">
         <div class="card card-body">
             <h4 class="box-title m-b-0">Inmobiliaria</h4>
-
+            id: {{id}}
             <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id" class="rounded img-fluid">
         </div>
     </div>

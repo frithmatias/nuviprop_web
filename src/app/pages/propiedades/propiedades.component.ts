@@ -29,7 +29,7 @@ export class PropiedadesComponent implements OnInit {
     this.propiedadesService
       .cargarPropiedades()
       .subscribe((props: Propiedades) => {
-        console.log(props);
+        // console.log(props);
         this.propiedades = props.propiedads;
         this.cargando = false;
       });
@@ -63,7 +63,7 @@ export class PropiedadesComponent implements OnInit {
       dangerMode: true
     }).then(result => {
       if (result) {
-        console.log(propiedad);
+        // console.log(propiedad);
         this.cargando = true;
         this.propiedadesService
           .borrarPropiedad(propiedad._id)

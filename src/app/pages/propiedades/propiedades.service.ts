@@ -55,7 +55,7 @@ export class PropiedadesService {
       return this.http.post(url, propiedad, { headers }).pipe(
         map((resp: any) => {
           Swal.fire('Propiedad Creada', propiedad.calle, 'success');
-          return resp.medico;
+          return resp.propiedad;
         })
       );
     }

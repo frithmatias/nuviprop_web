@@ -59,6 +59,7 @@ export class ModalUploadComponent implements OnInit {
         this.modalUploadService.id
       )
       .then((resp: any) => {
+        Swal.fire('Actualizado!', resp.mensaje, 'success');
         this.modalUploadService.notificacion.emit(resp);
         this.cerrarModal();
       })

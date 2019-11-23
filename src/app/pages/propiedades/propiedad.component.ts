@@ -17,6 +17,7 @@ export class PropiedadComponent implements OnInit {
 
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
+  id: string;
 
   constructor(
     public propiedadesService: PropiedadesService,
@@ -26,30 +27,28 @@ export class PropiedadComponent implements OnInit {
     public modalUploadService: ModalUploadService
   ) {
     activatedRoute.params.subscribe(params => {
-      const id = params.id;
+      this.id = params.id;
 
-      if (id !== 'nuevo') {
-        this.cargarPropiedad(id);
+      if (this.id !== 'nuevo') {
+        this.cargarPropiedad(this.id);
       }
     });
   }
 
   ngOnInit() {
     this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
-      console.log(inmobiliarias);
       this.inmobiliarias = inmobiliarias;
     });
 
     this.modalUploadService.notificacion.subscribe(resp => {
       console.log(resp);
       // actualizo la lista de inmobiliarias
-      this.inmobiliaria.img = resp.inmobiliaria.img;
+      /// this.inmobiliaria.img = resp.inmobiliaria.img;
     });
   }
 
   cargarPropiedad(id: string) {
     this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: any) => {
-      console.log(propiedad);
       this.propiedad = propiedad;
       // this.propiedad.inmobiliaria = propiedad.inmobiliaria._id;
       this.cambioInmobiliaria(propiedad.inmobiliaria._id);
@@ -57,9 +56,8 @@ export class PropiedadComponent implements OnInit {
   }
 
   guardarPropiedad(f: NgForm) {
-    console.log(f.valid);
-    console.log(f.value);
-
+    // console.log(f.valid);
+    // console.log(f.value);
     if (f.invalid) {
       return;
     }
@@ -67,8 +65,7 @@ export class PropiedadComponent implements OnInit {
     this.propiedadesService
       .guardarPropiedad(this.propiedad)
       .subscribe(propiedad => {
-        this.propiedad._id = propiedad._id;
-
+        this.propiedad = propiedad;
         this.router.navigate(['/propiedad', propiedad._id]);
       });
   }

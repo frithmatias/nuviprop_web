@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../config/config';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UsuarioService } from '../pages/usuarios/usuarios.service';
 
 @Injectable()
@@ -44,7 +44,12 @@ export class UploadFileService {
       const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id;
       const formData: FormData = new FormData();
       formData.append('imagen', fileItem, fileItem.name);
-      this.http.put(url, formData, { reportProgress: true }).subscribe(
+
+      const headers = new HttpHeaders({
+        'x-token': this.usuarioService.token
+      });
+
+      this.http.put(url, formData, { headers, reportProgress: true }).subscribe(
         (resp: any) => {
           console.log(resp);
 
@@ -60,7 +65,7 @@ export class UploadFileService {
               this.usuarioService.usuario
             );
           }
-          resolve(resp.usuario);
+          resolve(resp);
         },
         err => {
           reject(err.message);
