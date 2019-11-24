@@ -6,3 +6,5 @@ export { UsuarioService } from '../pages/usuarios/usuarios.service';
 export { PropiedadesService } from '../pages/propiedades/propiedades.service';
 export { InmobiliariaService } from '../pages/inmobiliarias/inmobiliarias.service';
 export { ModalUploadService } from '../components/modal-upload/modal-upload.service';
+export { LoginGuard } from '../guards/login.guard';
+export { AdminGuard } from '../guards/admin.guard';

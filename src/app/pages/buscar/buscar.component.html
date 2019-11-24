@@ -1,0 +1,67 @@
+<div class="row">
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+
+                <table class="table table-hover" *ngIf="usuarios?.length > 0">
+                    <tbody>
+                        <p>Usuarios</p>
+                        <tr *ngFor="let usuario of usuarios" [routerLink]="['/usuarios']" class="pointer">
+                            <td>
+                                <img [src]="usuario.img | imagenPipe:'usuarios':usuario._id" class="img-50 img-circle">
+                            </td>
+                            <td>{{ usuario.nombre }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+
+
+
+                <table class="table table-hover" *ngIf="propiedades?.length > 0">
+                    <tbody>
+                        <p>Propiedades</p>
+                        <tr *ngFor=" let propiedad of propiedades" [routerLink]="['/propiedad', propiedad._id]"
+                            class="pointer">
+                            <td>
+                                <img [src]="propiedad.imgs[0] | imagenPipe:'propiedades':propiedad._id"
+                                    class="img-50 img-circle">
+                            </td>
+                            <td>{{ propiedad.calle }} {{ propiedad.numero}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+
+
+                <table class="table table-hover" *ngIf="inmobiliarias?.length > 0">
+
+                    <tbody>
+                        <p>Inmobiliarias</p>
+                        <tr *ngFor="let inmobiliaria of inmobiliarias" [routerLink]="['/inmobiliarias']"
+                            class="pointer">
+                            <td>
+                                <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id"
+                                    class="img-50 img-circle">
+                            </td>
+                            <td>{{ inmobiliaria.nombre }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="usuarios.length === 0 && propiedades.length === 0 && inmobiliarias.length === 0">
+                    No se encontraron resultados
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

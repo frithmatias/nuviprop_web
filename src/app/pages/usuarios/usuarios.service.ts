@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_SERVICIOS } from '../../config/config';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 // import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 @Injectable()
 export class UsuarioService implements OnDestroy {
   obsUploadImage: Subscription;
   token: string;
   usuario: Usuario;
+  menu: any[] = [];
 
   constructor(public http: HttpClient, public router: Router) {
+    //
     this.cargarStorage();
   }
 
@@ -32,9 +34,12 @@ export class UsuarioService implements OnDestroy {
     const url = URL_SERVICIOS + '/login';
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {
-        console.log(resp);
-        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         return true;
+      }),
+      // clase 222 seccion 17, manejo de errores
+      catchError(err => {
+        return throwError(err);
       })
     );
   }
@@ -44,12 +49,13 @@ export class UsuarioService implements OnDestroy {
     console.log(token);
     return this.http.post(url, { token }).pipe(
       map((resp: any) => {
-        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         return true;
       })
     );
   }
 
+  // metodo usado por el loginguard
   estaLogueado() {
     return this.token.length > 5 ? true : false;
   }
@@ -58,19 +64,23 @@ export class UsuarioService implements OnDestroy {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.usuario = null;
+      this.menu = [];
     }
   }
 
-  guardarStorage(id: string, token: string, usuario: Usuario) {
+  guardarStorage(id: string, token: string, usuario: Usuario, menu: any) {
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('menu', JSON.stringify(menu));
 
     this.usuario = usuario;
     this.token = token;
+    this.menu = menu;
   }
 
   crearUsuario(usuario: Usuario) {
@@ -85,13 +95,12 @@ export class UsuarioService implements OnDestroy {
   }
 
   actualizarUsuario(usuario: Usuario) {
-    const url = URL_SERVICIOS + '/usuarios/' + usuario._id;
+    const url = URL_SERVICIOS + '/usuarioss/' + usuario._id;
 
     // url += '?token=' + this.token;
     const headers = new HttpHeaders({
       'x-token': this.token
     });
-    console.log(usuario, headers);
     return this.http.put(url, usuario, { headers }).pipe(
       map((resp: any) => {
         // this.usuario = resp.usuario;
@@ -104,12 +113,16 @@ export class UsuarioService implements OnDestroy {
         // actualizando datos PROPIOS. Si soy ADMIN y estoy cambiando datos en
         // la lista de usuarios NO tengo que guardar nada en la localstorage.
         if (usuario._id === this.usuario._id) {
-          this.guardarStorage(usuarioDB._id, this.token, usuarioDB);
+          this.guardarStorage(usuarioDB._id, this.token, usuarioDB, this.menu);
         }
 
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
 
         return true;
+      }),
+      // seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
+      catchError(err => {
+        return throwError(err);
       })
     );
   }
@@ -147,10 +160,14 @@ export class UsuarioService implements OnDestroy {
   logout() {
     this.usuario = null;
     this.token = '';
+    this.menu = [];
 
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-    console.log('LOGOUT');
+    localStorage.removeItem('menu');
+
     this.router.navigate(['/login']);
   }
+
+
 }

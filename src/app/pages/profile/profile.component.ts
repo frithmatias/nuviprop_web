@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styles: []
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   usuario: Usuario;
@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
     this.usuario = this.usuarioService.usuario;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   guardar(usuario: Usuario) {
     this.usuario.nombre = usuario.nombre;
@@ -32,7 +32,13 @@ export class ProfileComponent implements OnInit {
       this.usuario.email = usuario.email;
     }
 
-    this.usuarioService.actualizarUsuario(this.usuario).subscribe();
+    this.usuarioService.actualizarUsuario(this.usuario).subscribe(() => { }, err => {
+      // la ubicacion del mensaje de error en el objeto puede variar dependiendo del error en
+      // este caso, si yo al actualizar un dato en el perfil, dejo un campo vacío la ubicacion
+      // del mensaje de error es distinta a si yo obtengo un error porque la ruta del URL es
+      // incorrecta.
+      Swal.fire('Error en la actualización', err.message || err.error.errors.message, 'error');
+    });
   }
 
   seleccionImage(archivo: File) {

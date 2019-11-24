@@ -19,6 +19,7 @@ import { PropiedadesComponent } from './propiedades/propiedades.component';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 import { PropiedadComponent } from './propiedades/propiedad.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
+import { BuscarComponent } from './buscar/buscar.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
     PropiedadesComponent,
     ModalUploadComponent,
     PropiedadComponent,
-    InmobiliariasComponent
+    InmobiliariasComponent,
+    BuscarComponent
   ],
   exports: [DashboardComponent],
   imports: [
@@ -43,4 +45,4 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
     PipesModule
   ]
 })
-export class PagesModule {}
+export class PagesModule { }

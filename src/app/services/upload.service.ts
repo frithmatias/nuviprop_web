@@ -8,7 +8,7 @@ export class UploadFileService {
   constructor(
     public http: HttpClient,
     private usuarioService: UsuarioService
-  ) {}
+  ) { }
 
   // subirArchivo(archivo: File, tipo: string, id: string) {
   //   return new Promise((resolve, reject) => {
@@ -62,7 +62,8 @@ export class UploadFileService {
             this.usuarioService.guardarStorage(
               resp.usuario._id,
               this.usuarioService.token,
-              this.usuarioService.usuario
+              this.usuarioService.usuario,
+              this.usuarioService.menu
             );
           }
           resolve(resp);

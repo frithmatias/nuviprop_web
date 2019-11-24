@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/services.index';
 import { Usuario } from '../../models/usuario.model';
+import Swal from 'sweetalert2';
 
 declare function init_plugins();
 declare const gapi: any;
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   recuerdame = false;
   auth2: any;
 
-  constructor(public router: Router, public _usuarioService: UsuarioService) {}
+  constructor(public router: Router, public _usuarioService: UsuarioService) { }
 
   ngOnInit() {
     init_plugins();
@@ -76,8 +77,12 @@ export class LoginComponent implements OnInit {
 
     this._usuarioService
       .login(usuario, forma.value.recuerdame)
-      .subscribe(correcto => this.router.navigate(['/dashboard']));
-
+      .subscribe(
+        // seccion 17 clase 222, capturo el error de throwError del observable POST en el
+        // servicio usuariosService metodo login()
+        correcto => this.router.navigate(['/dashboard']),
+        err => Swal.fire('Error', err.error.mensaje, 'error')
+      );
     // this.router.navigate([ '/dashboard' ]);
   }
 }

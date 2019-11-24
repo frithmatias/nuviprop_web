@@ -9,7 +9,9 @@ import {
   UploadFileService,
   ModalUploadService,
   PropiedadesService,
-  InmobiliariaService
+  InmobiliariaService,
+  LoginGuard,
+  AdminGuard
 } from './services.index';
 
 @NgModule({
@@ -21,8 +23,10 @@ import {
     UploadFileService,
     ModalUploadService,
     PropiedadesService,
-    InmobiliariaService
+    InmobiliariaService,
+    LoginGuard,
+    AdminGuard
   ],
   declarations: []
 })
-export class ServiceModule {}
+export class ServiceModule { }

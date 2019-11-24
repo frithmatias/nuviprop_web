@@ -41,7 +41,6 @@ export class PropiedadComponent implements OnInit {
     });
 
     this.modalUploadService.notificacion.subscribe(resp => {
-      console.log(resp);
       // actualizo la lista de inmobiliarias
       /// this.inmobiliaria.img = resp.inmobiliaria.img;
     });
@@ -71,7 +70,6 @@ export class PropiedadComponent implements OnInit {
   }
 
   cambioInmobiliaria(id: string) {
-    console.log(id);
     this.inmobiliariaService
       .obtenerInmobiliaria(id)
       .subscribe(inmobiliaria => (this.inmobiliaria = inmobiliaria));
