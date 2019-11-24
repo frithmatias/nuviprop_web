@@ -8,7 +8,23 @@ import { PipesModule } from '../pipes/pipes.module';
 import { SharedModule } from '../shared/shared.module';
 
 // Componentes
-import { PagesComponent } from './pages.component';
+
+// Saco PagesComponent de PAGES.MODULE.TS y lo agrego en APP.MODULE.TS
+// Saco PagesModule de APP.MODULE.TS y lo agrego junto a PagesComponent
+// en APP-ROUTING.MODULE para cargarlo con LazyLoad.
+
+//  const appRoutes: Routes = [
+//     { path: 'login', component: LoginComponent },
+//     { path: 'register', component: RegisterComponent },
+//     { path: '**', component: NopagefoundComponent },
+//     {
+//       path: '',
+// ->    canActivate: [LoginGuard],
+// ->    component: PagesComponent,
+// ->    loadChildren: './pages/pages.module#PagesModule'
+//     }
+//   ];
+// import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
@@ -16,14 +32,13 @@ import { AccountSettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { PropiedadesComponent } from './propiedades/propiedades.component';
-import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 import { PropiedadComponent } from './propiedades/propiedad.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 
 @NgModule({
   declarations: [
-    PagesComponent,
+    // PagesComponent,
     DashboardComponent,
     ProgressComponent,
     IncrementadorComponent,
@@ -31,7 +46,6 @@ import { BuscarComponent } from './buscar/buscar.component';
     ProfileComponent,
     UsuariosComponent,
     PropiedadesComponent,
-    ModalUploadComponent,
     PropiedadComponent,
     InmobiliariasComponent,
     BuscarComponent

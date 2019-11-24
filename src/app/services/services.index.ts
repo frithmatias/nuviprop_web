@@ -8,3 +8,4 @@ export { InmobiliariaService } from '../pages/inmobiliarias/inmobiliarias.servic
 export { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 export { LoginGuard } from '../guards/login.guard';
 export { AdminGuard } from '../guards/admin.guard';
+export { TokenGuard } from '../guards/token.guard';

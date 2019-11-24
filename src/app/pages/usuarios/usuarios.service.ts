@@ -55,6 +55,27 @@ export class UsuarioService implements OnDestroy {
     );
   }
 
+  renuevaToken() {
+
+    const url = URL_SERVICIOS + '/login/updatetoken';
+    // url += '?token=' + this.token;
+
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+
+    return this.http.get(url, { headers })
+      .pipe(map((resp: any) => {
+
+        this.token = resp.token;
+        localStorage.setItem('token', this.token);
+        console.log('Token renovado');
+
+      }));
+
+
+  }
+
   // metodo usado por el loginguard
   estaLogueado() {
     return this.token.length > 5 ? true : false;
