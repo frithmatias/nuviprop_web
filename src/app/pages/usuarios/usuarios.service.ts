@@ -15,6 +15,7 @@ export class UsuarioService implements OnDestroy {
   usuario: Usuario;
   menu: any[] = [];
 
+
   constructor(public http: HttpClient, public router: Router) {
     //
     this.cargarStorage();
@@ -116,7 +117,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   actualizarUsuario(usuario: Usuario) {
-    const url = URL_SERVICIOS + '/usuarioss/' + usuario._id;
+    const url = URL_SERVICIOS + '/usuarios/' + usuario._id;
 
     // url += '?token=' + this.token;
     const headers = new HttpHeaders({
@@ -187,7 +188,7 @@ export class UsuarioService implements OnDestroy {
     localStorage.removeItem('usuario');
     localStorage.removeItem('menu');
 
-    this.router.navigate(['/login']);
+    this.router.navigate(['/inicio']);
   }
 
 

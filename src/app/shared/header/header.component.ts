@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from 'src/app/services/services.index';
-import { Usuario } from 'src/app/models/usuario.model';
 import { Router } from '@angular/router';
+import { SidebarService, UsuarioService } from 'src/app/services/services.index';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +10,18 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   usuario: Usuario;
-  constructor(private userService: UsuarioService, private router: Router) { }
+  publicmenu: any[];
+
+  constructor(
+    private router: Router,
+    private userService: UsuarioService,
+    private sidebarService: SidebarService
+  ) { }
 
   ngOnInit() {
-    this.usuario = this.userService.usuario;
+    this.publicmenu = this.sidebarService.publicHeaderMenu;
   }
+
   buscar(termino: string) {
     this.router.navigate(['/buscar', termino]);
   }

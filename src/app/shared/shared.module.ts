@@ -17,6 +17,7 @@ import { ModalUploadComponent } from '../components/modal-upload/modal-upload.co
         SidebarComponent,
         BreadcrumbsComponent,
         ModalUploadComponent
+
     ],
     exports: [
         NopagefoundComponent,

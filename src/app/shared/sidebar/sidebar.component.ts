@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  UsuarioService
+  UsuarioService, SidebarService
 } from 'src/app/services/services.index';
 import { Usuario } from 'src/app/models/usuario.model';
-
+declare function init_plugins();
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -11,15 +11,19 @@ import { Usuario } from 'src/app/models/usuario.model';
 })
 export class SidebarComponent implements OnInit {
   usuario: Usuario;
-  usermenu: any[] = [];
-
+  publicmenu: any[];
+  logged = false;
   constructor(
-    private userService: UsuarioService
+    private userService: UsuarioService,
+    private sidebarService: SidebarService
   ) { }
 
   ngOnInit() {
-    this.usuario = this.userService.usuario;
-    this.usermenu = this.userService.menu;
+    init_plugins();
+    this.logged = this.userService.estaLogueado();
+    this.publicmenu = this.sidebarService.publicSidebarMenu;
+    if (this.logged) {
+      this.usuario = this.userService.usuario;
+    }
   }
-
 }

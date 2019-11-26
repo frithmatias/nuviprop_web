@@ -40,7 +40,7 @@ export class TokenGuard implements CanActivate {
       const difRenueva = tokenExp.getTime() - renueva.getTime();
       const difExpira = tokenExp.getTime() - ahora.getTime();
 
-      if (tokenExp.getTime() > ahora.getTime()) {
+      if (tokenExp.getTime() > renueva.getTime()) {
         // si falta mas de una hora (definida en 'ahora + 3600') No es necesario renovar
         console.log('No se necesita renovar');
         console.log('Para la renovación: ', difRenueva / 1000 + 'segundos');

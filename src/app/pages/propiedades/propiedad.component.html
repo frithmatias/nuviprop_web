@@ -50,18 +50,20 @@
 
                         <div class="form-group">
                             <label>Inmobiliaria</label>
-                            <select (change)="cambioInmobiliaria( $event.target.value )"
+                            <select (change)="cambioInmobiliaria($event.target.value)"
                                 [(ngModel)]="propiedad.inmobiliaria" name="inmobiliaria" class="form-control" required>
                                 <option value="">Seleccione Inmobiliaria</option>
-                                <option *ngFor="let inmobiliaria of inmobiliarias" [value]="inmobiliaria._id">
-                                    {{ inmobiliaria.nombre }}
+                                <option *ngFor="let inmo of inmobiliarias" [value]="inmo._id"
+                                    [selected]="propiedad.inmobiliaria===inmo._id">
+                                    {{ inmo.nombre }}
                                 </option>
                             </select>
+
 
                         </div>
 
 
-                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <button type=" submit" class="btn btn-success waves-effect waves-light m-r-10">
                             <i class="fa fa-save"></i>
                             Guardar
                         </button>
@@ -76,7 +78,6 @@
     <div *ngIf="id!='nuevo'" class="col-md-3">
         <div class="card card-body">
             <h4 class="box-title m-b-0">Inmobiliaria</h4>
-            id: {{id}}
             <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id" class="rounded img-fluid">
         </div>
     </div>

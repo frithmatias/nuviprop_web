@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // declare function init_plugins();
+declare function init_plugins();
+
 
 @Component({
   selector: 'app-nopagefound',
@@ -18,16 +20,18 @@ import { Component, OnInit } from '@angular/core';
   .error-body {
     padding-top: 5%; }
     .error-body h1 {
-      font-size: 210px;
+      font-size: 100px;
       font-weight: 900;
       text-shadow: 4px 4px 0 #ffffff, 6px 6px 0 #263238;
       line-height: 210px; }
   `]
 })
 export class NopagefoundComponent implements OnInit {
+  anio: number;
   constructor() { }
 
   ngOnInit() {
-    // init_plugins(); // Si queda clavado en LOADING... quitar comentario
+    this.anio = new Date().getFullYear();
+    init_plugins(); // Si queda clavado en LOADING... quitar comentario
   }
 }

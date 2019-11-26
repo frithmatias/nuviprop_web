@@ -13,7 +13,7 @@ export class PropiedadesService {
   constructor(
     private http: HttpClient,
     private usuarioService: UsuarioService
-  ) {}
+  ) { }
 
   cargarPropiedades() {
     const url = URL_SERVICIOS + '/propiedades';

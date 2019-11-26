@@ -3,20 +3,39 @@ import { UsuarioService } from 'src/app/services/services.index';
 
 @Injectable()
 export class SidebarService {
-  // menu: any[] = [];
-  // menu: any = [
-  //   {
-  //     titulo: 'Principal',
-  //     icono: 'mdi mdi-gauge',
-  //     submenu: [
-  //       { titulo: 'Dashboard', url: '/dashboard' },
-  //       { titulo: 'ProgressBar', url: '/progress' },
-  //       { titulo: 'Usuarios', url: '/usuarios' },
-  //       { titulo: 'Propiedades', url: '/propiedades' },
-  //       { titulo: 'Inmobiliarias', url: '/inmobiliarias' }
-  //     ]
-  //   }
-  // ];
+
+  publicSidebarMenu = [{
+    titulo: 'Menu',
+    icono: 'mdi mdi-menu',
+    submenu: [
+      { titulo: 'Inicio', url: '/inicio' },
+      { titulo: 'Buscar propiedades', url: '/filtrosaplicados' },
+      { titulo: 'Filtros', url: '/filtros' },
+      { titulo: 'Emprendimientos', url: '/emprendimientos' },
+      { titulo: 'Tasaciones', url: '/tasaciones' },
+      { titulo: 'Nosotros', url: '/nosotros' },
+      { titulo: 'Contacto', url: '/tasaciones' }
+    ]
+  },
+  {
+    titulo: 'Filtros',
+    icono: 'mdi mdi-tune',
+    submenu: [
+      { titulo: 'precio', valor: 200 }
+    ]
+
+  }
+  ];
+
+  publicHeaderMenu = [
+    { titulo: 'Inicio', url: '/inicio' },
+    { titulo: 'Buscar propiedades', url: '/filtrosaplicados' },
+    { titulo: 'Filtros', url: '/filtros' },
+    { titulo: 'Emprendimientos', url: '/emprendimientos' },
+    { titulo: 'Tasaciones', url: '/tasaciones' },
+    { titulo: 'Nosotros', url: '/nosotros' },
+    { titulo: 'Contacto', url: '/tasaciones' }
+  ];
 
   constructor() {
     // this.menu = this.usuarioService.menu;

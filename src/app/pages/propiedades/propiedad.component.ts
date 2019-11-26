@@ -26,9 +26,11 @@ export class PropiedadComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public modalUploadService: ModalUploadService
   ) {
-    activatedRoute.params.subscribe(params => {
-      this.id = params.id;
 
+    activatedRoute.params.subscribe(params => {
+
+      this.id = params.id;
+      this.cargarInmobiliarias();
       if (this.id !== 'nuevo') {
         this.cargarPropiedad(this.id);
       }
@@ -36,21 +38,25 @@ export class PropiedadComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
-      this.inmobiliarias = inmobiliarias;
-    });
-
     this.modalUploadService.notificacion.subscribe(resp => {
       // actualizo la lista de inmobiliarias
       /// this.inmobiliaria.img = resp.inmobiliaria.img;
     });
   }
 
+  cargarInmobiliarias() {
+    this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
+      this.inmobiliarias = inmobiliarias;
+      console.log(inmobiliarias);
+    });
+  }
+
   cargarPropiedad(id: string) {
     this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: any) => {
       this.propiedad = propiedad;
-      // this.propiedad.inmobiliaria = propiedad.inmobiliaria._id;
-      this.cambioInmobiliaria(propiedad.inmobiliaria._id);
+      console.log(propiedad);
+      this.propiedad.inmobiliaria = propiedad.inmobiliaria._id;
+      this.cambioInmobiliaria(this.propiedad.inmobiliaria);
     });
   }
 
@@ -60,19 +66,24 @@ export class PropiedadComponent implements OnInit {
     if (f.invalid) {
       return;
     }
-
+    this.propiedad.inmobiliaria = f.value.inmobiliaria;
     this.propiedadesService
       .guardarPropiedad(this.propiedad)
       .subscribe(propiedad => {
         this.propiedad = propiedad;
+        this.cambioInmobiliaria(propiedad.inmobiliaria);
         this.router.navigate(['/propiedad', propiedad._id]);
       });
   }
 
   cambioInmobiliaria(id: string) {
-    this.inmobiliariaService
-      .obtenerInmobiliaria(id)
-      .subscribe(inmobiliaria => (this.inmobiliaria = inmobiliaria));
+
+    this.inmobiliarias.forEach(inmobiliaria => {
+      if (inmobiliaria._id === id) {
+        this.inmobiliaria = inmobiliaria;
+      }
+    });
+    console.log(this.inmobiliaria);
   }
 
   cambiarFoto() {

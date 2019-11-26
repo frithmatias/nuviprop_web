@@ -43,14 +43,14 @@
                 <li class="nav-item hidden-sm-down"></li>
             </ul>
             <!-- ============================================================== -->
-            <!-- User profile and search -->
+            <!-- Navbar and search -->
             <!-- ============================================================== -->
             <ul class="navbar-nav my-lg-0">
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
-                <li class="nav-item hidden-xs-down search-box">
-                    <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)">
+                <li class="nav-item search-box">
+                    <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
                         <i class="ti-search"></i>
                     </a>
 
@@ -59,11 +59,26 @@
                             placeholder="Buscar y enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                     </div>
                 </li>
+                <!-- ============================================================== -->
+                <!-- End Search -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- Login -->
+                <!-- ============================================================== -->
+                <li class="nav-item" *ngIf="!userService.estaLogueado()">
+                    <a routerLink="/login" class="nav-link waves-effect waves-dark">
+                        <i class="fa fa-power-off"></i> Login
+                    </a>
+                </li>
+                <!-- ============================================================== -->
+                <!-- Login -->
+                <!-- ============================================================== -->
 
                 <!-- ============================================================== -->
                 <!-- Messages -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" *ngIf="userService.estaLogueado()">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="mdi mdi-email"></i>
@@ -144,23 +159,23 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" *ngIf="userService.estaLogueado()">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"><img
-                            src="{{ usuario.img | imagenPipe: 'usuarios':usuario._id }}" alt="user"
-                            class="profile-pic" /></a>
+                            src="{{ userService.usuario.img | imagenPipe: 'usuarios':userService.usuario._id }}"
+                            alt="user" class="profile-pic" /></a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box">
                                     <div class="u-img">
                                         <img src="{{
-                        usuario.img | imagenPipe: 'usuarios':usuario._id
-                      }}" alt="user" />
+                                            userService.usuario.img | imagenPipe: 'usuarios':userService.usuario._id
+                                      }}" alt="user" />
                                     </div>
                                     <div class="u-text">
-                                        <h4>{{ usuario.nombre }}</h4>
-                                        <p class="text-muted">{{ usuario.email }}</p>
+                                        <h4>{{ userService.usuario.nombre }}</h4>
+                                        <p class="text-muted">{{ userService.usuario.email }}</p>
                                         <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">Ver
                                             perfil</a>
                                     </div>
@@ -186,6 +201,10 @@
                         </ul>
                     </div>
                 </li>
+                <!-- ============================================================== -->
+                <!-- End Profile -->
+                <!-- ============================================================== -->
+
             </ul>
         </div>
     </nav>

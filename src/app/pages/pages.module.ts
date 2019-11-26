@@ -35,6 +35,7 @@ import { PropiedadesComponent } from './propiedades/propiedades.component';
 import { PropiedadComponent } from './propiedades/propiedad.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { BuscarComponent } from './buscar/buscar.component';
     PropiedadesComponent,
     PropiedadComponent,
     InmobiliariasComponent,
-    BuscarComponent
+    BuscarComponent,
+    InicioComponent
   ],
   exports: [DashboardComponent],
   imports: [

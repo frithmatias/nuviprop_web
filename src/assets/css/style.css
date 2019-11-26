@@ -1268,8 +1268,9 @@ Notify
 *******************/
 .page-titles {
   background: #f4f6f9;
-  margin-bottom: 20px;
-  padding: 0px; }
+  margin-bottom: 0px;
+  padding: 0px; 
+}
   .page-titles h3 {
     margin-bottom: 0px;
     margin-top: 0px; }

@@ -7,6 +7,9 @@ import { SettingsService } from './services/services.index';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public _ajustes: SettingsService) {}
+  constructor(public _ajustes: SettingsService) {
+  }
   title = 'inMob';
+
+
 }
