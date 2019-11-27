@@ -15,16 +15,17 @@ export class TokenGuard implements CanActivate {
   // si no expiro verifica si tiene que renovar (es cuando defino un tiempo proximo a vencer)
   // si tiene que renovar devuelve true y sino, devuelve false.
   canActivate(): Promise<boolean> | boolean {
-    console.log('Token guard');
+
     const token = this.usuarioService.token;
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirado = this.expirado(payload.exp);
-    console.log('Verificando si el token expiro...');
     if (expirado) {
       console.log('El token expiro, se despacha al login.');
       this.router.navigate(['/login']);
       return false;
     }
+    // si no expiro, tengo que chequer si es hora de renovar el token
+    // Se renueva el token 1 hora o 3600 segundos antes de expirar
     return this.verificaRenueva(payload.exp);
   }
 
@@ -34,17 +35,25 @@ export class TokenGuard implements CanActivate {
       const ahora = new Date();
       const renueva = new Date();
       renueva.setTime(ahora.getTime() + (1 * 60 * 60 * 1000));
-      console.log('El token no expiro, verificando si debe renovar...');
-      console.log('Hora de expiración del token: ', tokenExp);
-      console.log('Se renueva el token 1 hora o 3600 segundos antes de expirar');
+      console.log('El token no expiro todavía...');
+
       const difRenueva = tokenExp.getTime() - renueva.getTime();
       const difExpira = tokenExp.getTime() - ahora.getTime();
 
       if (tokenExp.getTime() > renueva.getTime()) {
         // si falta mas de una hora (definida en 'ahora + 3600') No es necesario renovar
-        console.log('No se necesita renovar');
-        console.log('Para la renovación: ', difRenueva / 1000 + 'segundos');
-        console.log('Para la expiracion: ', difExpira / 1000 + 'segundos');
+
+        const horaRenueva = (difRenueva / 1000 / 3600).toFixed(3).split('.');
+        const horaExpira = (difExpira / 1000 / 3600).toFixed(3).split('.');
+
+        const minRenueva = String(Number(horaRenueva[1]) * 60 / 1000).split('.');
+        const minExpira = String(Number(horaExpira[1]) * 60 / 1000).split('.');
+
+        const segRenueva = Number(minRenueva[1]) * 60 / 100;
+        const segExpira = Number(minExpira[1]) * 60 / 100;
+
+        console.log('Para la renovación: ', horaRenueva[0] + ':' + minRenueva[0] + ':' + segRenueva);
+        console.log('Para la expiracion: ', horaExpira[0] + ':' + minExpira[0] + ':' + segExpira);
 
         resolve(true);
       } else {

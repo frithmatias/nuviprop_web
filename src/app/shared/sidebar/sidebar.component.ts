@@ -3,7 +3,7 @@ import {
   UsuarioService, SidebarService
 } from 'src/app/services/services.index';
 import { Usuario } from 'src/app/models/usuario.model';
-declare function init_plugins();
+// declare function init_plugins();
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    init_plugins();
+    // init_plugins();
     this.logged = this.userService.estaLogueado();
     this.publicmenu = this.sidebarService.publicSidebarMenu;
     if (this.logged) {

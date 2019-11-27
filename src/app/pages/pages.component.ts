@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from '../services/services.index';
+declare function init_plugins();
 
 @Component({
   selector: 'app-pages',
@@ -6,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class PagesComponent implements OnInit {
-
-  constructor() { }
+  setclass = true;
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit() {
+    init_plugins();
   }
 
 }
