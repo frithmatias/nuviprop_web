@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MAPBOX_TOKEN } from '../../config/config';
 import { PuntosMapa } from 'src/app/models/puntosmapa.model';
+
 declare var mapboxgl: any;
 @Component({
   selector: 'app-inicio',
@@ -81,6 +82,8 @@ export class InicioComponent implements OnInit {
       map.on('mouseleave', 'places', () => {
         map.getCanvas().style.cursor = '';
       });
+
+      // Selección del tema del mapa, light, dark, setelite, etc
       const layerList = document.getElementById('menu');
       const inputs = layerList.getElementsByTagName('input');
 

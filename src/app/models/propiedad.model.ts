@@ -4,9 +4,9 @@ export class Propiedades {
   constructor(
     public ok: boolean,
     public mensaje: string,
-    public propiedads: Propiedad[],
+    public propiedades: Propiedad[],
     public total: number
-  ) {}
+  ) { }
 }
 
 export class Propiedad {
@@ -41,9 +41,24 @@ export class Propiedad {
     public dolares?: boolean,
     public supcubierta?: number,
     public supdescubierta?: number,
-    public usuario?: string,
-    public inmobiliaria?: string,
+    public usuario?: Usuario,
+    public inmobiliaria?: Inmobiliaria,
     public _id?: string,
     public __v?: number
-  ) {}
+  ) { }
+}
+
+interface Inmobiliaria {
+  _id: string;
+  nombre: string;
+  usuario: string;
+  __v: number;
+  img: string;
+}
+
+interface Usuario {
+  img: string;
+  _id: string;
+  email: string;
+  nombre: string;
 }

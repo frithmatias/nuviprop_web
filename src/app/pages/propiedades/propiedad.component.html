@@ -1,93 +1,82 @@
-<div class="row animated fadeIn">
+<div class="container animated fadeIn">
+    <div class="row">
 
-    <div class="col-md-6">
-        <div class="card card-body">
+        <div class="col-lg-6 p-3">
             <h3 class="box-title m-b-0">Propiedad: {{ propiedad.calle }} {{propiedad.numero}}</h3>
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarPropiedad(f)">
-                        <div class="form-group">
-                            <label>Operacion</label>
-                            <input [(ngModel)]="propiedad.operacion" name="operacion" type="text" class="form-control"
-                                placeholder="Tipo de operacion" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo de Propiedad</label>
-                            <input [(ngModel)]="propiedad.tipopropiedad" name="tipopropiedad" type="text"
-                                class="form-control" placeholder="Tipo de Propiedad" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Pais</label>
-                            <input [(ngModel)]="propiedad.pais" name="pais" type="text" class="form-control"
-                                placeholder="Pais" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Provincia</label>
-                            <input [(ngModel)]="propiedad.provincia" name="provincia" type="text" class="form-control"
-                                placeholder="Provincia" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Ciudad</label>
-                            <input [(ngModel)]="propiedad.ciudad" name="ciudad" type="text" class="form-control"
-                                placeholder="Ciudad" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Barrio</label>
-                            <input [(ngModel)]="propiedad.barrio" name="barrio" type="text" class="form-control"
-                                placeholder="Barrio" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Calle</label>
-                            <input [(ngModel)]="propiedad.calle" name="calle" type="text" class="form-control"
-                                placeholder="Calle" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Numero</label>
-                            <input [(ngModel)]="propiedad.numero" name="numero" type="text" class="form-control"
-                                placeholder="Numero" required>
-                        </div>
 
-
-                        <div class="form-group">
-                            <label>Inmobiliaria</label>
-                            <select (change)="cambioInmobiliaria($event.target.value)"
-                                [(ngModel)]="propiedad.inmobiliaria" name="inmobiliaria" class="form-control" required>
-                                <option value="">Seleccione Inmobiliaria</option>
-                                <option *ngFor="let inmo of inmobiliarias" [value]="inmo._id"
-                                    [selected]="propiedad.inmobiliaria===inmo._id">
-                                    {{ inmo.nombre }}
-                                </option>
-                            </select>
-
-
-                        </div>
-
-
-                        <button type=" submit" class="btn btn-success waves-effect waves-light m-r-10">
-                            <i class="fa fa-save"></i>
-                            Guardar
-                        </button>
-                        <a routerLink="/propiedades" class="btn btn-inverse waves-effect waves-light">Cancelar</a>
-                    </form>
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarPropiedad(f)">
+                <div class="form-group">
+                    <label>Operacion</label>
+                    <input [(ngModel)]="propiedad.operacion" name="operacion" type="text" class="form-control"
+                        placeholder="Tipo de operacion" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Tipo de Propiedad</label>
+                    <input [(ngModel)]="propiedad.tipopropiedad" name="tipopropiedad" type="text" class="form-control"
+                        placeholder="Tipo de Propiedad" required>
+                </div>
+                <div class="form-group">
+                    <label>Pais</label>
+                    <input [(ngModel)]="propiedad.pais" name="pais" type="text" class="form-control" placeholder="Pais"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>Provincia</label>
+                    <input [(ngModel)]="propiedad.provincia" name="provincia" type="text" class="form-control"
+                        placeholder="Provincia" required>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <input [(ngModel)]="propiedad.ciudad" name="ciudad" type="text" class="form-control"
+                        placeholder="Ciudad" required>
+                </div>
+                <div class="form-group">
+                    <label>Barrio</label>
+                    <input [(ngModel)]="propiedad.barrio" name="barrio" type="text" class="form-control"
+                        placeholder="Barrio" required>
+                </div>
+                <div class="form-group">
+                    <label>Calle</label>
+                    <input [(ngModel)]="propiedad.calle" name="calle" type="text" class="form-control"
+                        placeholder="Calle" required>
+                </div>
+                <div class="form-group">
+                    <label>Numero</label>
+                    <input [(ngModel)]="propiedad.numero" name="numero" type="text" class="form-control"
+                        placeholder="Numero" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Inmobiliaria</label>
+                    <select (change)="cambioInmobiliaria($event.target.value)" [(ngModel)]="propiedad.inmobiliaria._id"
+                        name="inmobiliaria" class="form-control" required>
+                        <option value="">Seleccione Inmobiliaria</option>
+                        <option *ngFor="let inmo of inmobiliarias" [value]="inmo._id">
+                            {{ inmo.nombre }}
+                        </option>
+                    </select>
+                </div>
+
+
+                <button type=" submit" class="btn btn-success waves-effect waves-light m-r-10">
+                    <i class="fa fa-save"></i>
+                    Guardar
+                </button>
+                <a routerLink="/propiedades" class="btn btn-inverse waves-effect waves-light">Cancelar</a>
+            </form>
+
+
         </div>
-    </div>
 
 
-    <div *ngIf="id!='nuevo'" class="col-md-3">
-        <div class="card card-body">
+        <div class="col-lg-6 p-3">
+            <app-uploader [propiedad]="propiedad" [tipo]="'propiedades'" [id]="'5ddaf83375fe3e16309f1e74'">
+            </app-uploader>
+            <!-- 
             <h4 class="box-title m-b-0">Inmobiliaria</h4>
-            <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id" class="rounded img-fluid">
-        </div>
-    </div>
+            <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id" class="rounded img-fluid"> -->
 
-    <div class="col-md-3" *ngIf="propiedad._id">
-        <div class="card card-body">
-            <h4 class="box-title m-b-0">Fotografía</h4>
-
-            <img (click)="cambiarFoto()" [src]="propiedad.imgs[0] | imagenPipe:'propiedades':propiedad._id"
-                class="img-circle img-fluid pointer">
         </div>
     </div>
 

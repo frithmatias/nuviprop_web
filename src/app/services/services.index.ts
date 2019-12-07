@@ -1,5 +1,4 @@
 export { UploadFileService } from './upload.service';
-
 export { SettingsService } from '../pages/settings/settings.service';
 export { SidebarService } from '../shared/sidebar/sidebar.service';
 export { UsuarioService } from '../pages/usuarios/usuarios.service';

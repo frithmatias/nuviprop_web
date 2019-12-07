@@ -36,6 +36,8 @@ import { PropiedadComponent } from './propiedades/propiedad.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { NgDropFilesDirective } from '../directives/ng-drop-files.directive';
+import { UploaderComponent } from '../components/uploader/uploader.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { InicioComponent } from './inicio/inicio.component';
     PropiedadComponent,
     InmobiliariasComponent,
     BuscarComponent,
-    InicioComponent
+    InicioComponent,
+    NgDropFilesDirective,
+    UploaderComponent
   ],
   exports: [DashboardComponent],
   imports: [
@@ -58,7 +62,6 @@ import { InicioComponent } from './inicio/inicio.component';
     SharedModule,
     PagesRoutingModule,
     FormsModule,
-    PipesModule
-  ]
+    PipesModule]
 })
 export class PagesModule { }

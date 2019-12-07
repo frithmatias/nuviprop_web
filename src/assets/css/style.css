@@ -1488,13 +1488,13 @@ ul#themecolors {
 .yellow-dark-theme {
   background: #263238;
   /* Old browsers */
-  background: -moz-linear-gradient(left, #263238 0%, #263238 23%, #ef5350 23%, #ef5350 99%);
+  background: -moz-linear-gradient(left, #263238 0%, #263238 23%, #ffb22b 23%, #ffb22b 99%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #263238 0%, #263238 23%, #ef5350 23%, #ef5350 99%);
+  background: -webkit-linear-gradient(left, #263238 0%, #263238 23%, #ffb22b 23%, #ffb22b 99%);
   /* Chrome10-25,Safari5.1-6 */
-  background: -webkit-gradient(linear, left top, right top, from(#263238), color-stop(23%, #263238), color-stop(23%, #ef5350), color-stop(99%, #ef5350));
-  background: -o-linear-gradient(left, #263238 0%, #263238 23%, #ef5350 23%, #ef5350 99%);
-  background: linear-gradient(to right, #263238 0%, #263238 23%, #ef5350 23%, #ef5350 99%); }
+  background: -webkit-gradient(linear, left top, right top, from(#263238), color-stop(23%, #263238), color-stop(23%, #ffb22b), color-stop(99%, #ffb22b));
+  background: -o-linear-gradient(left, #263238 0%, #263238 23%, #ffb22b 23%, #ffb22b 99%);
+  background: linear-gradient(to right, #263238 0%, #263238 23%, #ffb22b 23%, #ffb22b 99%); }
 
 .blue-dark-theme {
   background: #263238;

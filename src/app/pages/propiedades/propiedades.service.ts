@@ -10,6 +10,10 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PropiedadesService {
+
+  propiedades: Propiedades;
+  propiedad: Propiedad;
+
   constructor(
     private http: HttpClient,
     private usuarioService: UsuarioService
@@ -17,13 +21,17 @@ export class PropiedadesService {
 
   cargarPropiedades() {
     const url = URL_SERVICIOS + '/propiedades';
-    return this.http.get(url);
+    return this.http.get(url).pipe(map((propiedades: Propiedades) => {
+      this.propiedades = propiedades;
+      return propiedades;
+    }));
   }
 
   obtenerPropiedad(id: string) {
     const url = URL_SERVICIOS + '/propiedades/' + id;
     return this.http.get(url).pipe(
       map((resp: any) => {
+        this.propiedad = resp.propiedad;
         return resp.propiedad;
       })
     );

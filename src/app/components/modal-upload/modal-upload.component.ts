@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadFileService } from '../../services/upload.service';
 import { ModalUploadService } from './modal-upload.service';
 import Swal from 'sweetalert2';
+import { FileUpload } from 'src/app/models/fileupload.model';
 
 @Component({
   selector: 'app-modal-upload',
@@ -15,9 +16,9 @@ export class ModalUploadComponent implements OnInit {
   constructor(
     public uploadFileService: UploadFileService,
     public modalUploadService: ModalUploadService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   cerrarModal() {
     // si yo vuelvo a abrir el modal para cambiar la imagen de otro usuario,
@@ -28,6 +29,7 @@ export class ModalUploadComponent implements OnInit {
   }
 
   seleccionImage(archivo: File) {
+    console.log('ARCHIVO', archivo);
     if (!archivo) {
       this.imagenSubir = null;
       return;
@@ -47,14 +49,14 @@ export class ModalUploadComponent implements OnInit {
 
     const reader = new FileReader();
     const urlImagenTemp = reader.readAsDataURL(archivo);
-
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }
 
   subirImagen() {
+    const imagenSubir = new FileUpload(this.imagenSubir);
     this.uploadFileService
-      .subirArchivo(
-        this.imagenSubir,
+      .subirImagen(
+        imagenSubir,
         this.modalUploadService.tipo,
         this.modalUploadService.id
       )

@@ -16,11 +16,6 @@
                     </tbody>
                 </table>
 
-
-
-
-
-
                 <table class="table table-hover" *ngIf="propiedades?.length > 0">
                     <tbody>
                         <p>Propiedades</p>
@@ -36,25 +31,7 @@
                 </table>
 
 
-
-
-
-                <table class="table table-hover" *ngIf="inmobiliarias?.length > 0">
-
-                    <tbody>
-                        <p>Inmobiliarias</p>
-                        <tr *ngFor="let inmobiliaria of inmobiliarias" [routerLink]="['/inmobiliarias']"
-                            class="pointer">
-                            <td>
-                                <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id"
-                                    class="img-50 img-circle">
-                            </td>
-                            <td>{{ inmobiliaria.nombre }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div *ngIf="usuarios.length === 0 && propiedades.length === 0 && inmobiliarias.length === 0">
+                <div *ngIf="usuarios.length === 0 && propiedades.length === 0 ">
                     No se encontraron resultados
                 </div>
 

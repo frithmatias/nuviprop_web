@@ -1,20 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { PropiedadesService } from 'src/app/services/services.index';
+import { PropiedadesService, UploadFileService } from 'src/app/services/services.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.service';
 import { NgForm } from '@angular/forms';
+import { FileUpload } from 'src/app/models/fileupload.model';
 
 @Component({
   selector: 'app-propiedad',
   templateUrl: './propiedad.component.html',
-  styles: []
+  styles: [`
+  .custom-dropzone{
+    width: 100%;
+    border: 1px dashed #cccccc;
+
+  }
+  .custom-dropzone-image{
+    height: 50px;
+    border: 1px dashed #cccccc;
+  }
+  `]
 })
 export class PropiedadComponent implements OnInit {
   propiedad: Propiedad = new Propiedad('', '', '', '', '', '', '', 0);
-
+  files: FileUpload[] = [];
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
   id: string;
@@ -24,9 +35,9 @@ export class PropiedadComponent implements OnInit {
     public inmobiliariaService: InmobiliariaService,
     public router: Router,
     public activatedRoute: ActivatedRoute,
-    public modalUploadService: ModalUploadService
+    public modalUploadService: ModalUploadService,
+    private uploadFileServie: UploadFileService
   ) {
-
     activatedRoute.params.subscribe(params => {
 
       this.id = params.id;
@@ -47,16 +58,15 @@ export class PropiedadComponent implements OnInit {
   cargarInmobiliarias() {
     this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
       this.inmobiliarias = inmobiliarias;
-      console.log(inmobiliarias);
     });
   }
 
   cargarPropiedad(id: string) {
-    this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: any) => {
+    this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
       this.propiedad = propiedad;
-      console.log(propiedad);
-      this.propiedad.inmobiliaria = propiedad.inmobiliaria._id;
-      this.cambioInmobiliaria(this.propiedad.inmobiliaria);
+      // this.files = propiedad.imgs;
+      console.log('Propiedad obtenida: ', propiedad);
+      this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
     });
   }
 
@@ -83,10 +93,22 @@ export class PropiedadComponent implements OnInit {
         this.inmobiliaria = inmobiliaria;
       }
     });
-    console.log(this.inmobiliaria);
   }
 
   cambiarFoto() {
     this.modalUploadService.mostrarModal('propiedades', this.propiedad._id);
   }
+
+  subir() {
+    this.files.forEach(file => {
+      this.uploadFileServie.subirImagen(file, 'propiedades', this.id);
+    });
+    console.log('subir imagenes');
+  }
+
+  quitarImagenes() {
+    this.files = [];
+  }
+
+
 }

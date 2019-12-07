@@ -1,0 +1,52 @@
+<div class="row">
+
+    <div appNgDropFiles [archivos]="archivos" [tipo]="tipo" [id]="id" (mouseSobre)="estaSobreElemento = $event"
+        [ngClass]="{'file-over':estaSobreElemento}" class="col-md-12 well drop-zone file-over">
+
+        <div id="slide" class="d-flex">
+            <div *ngFor="let img of propiedad.imgs" class="gallery img-wrap">
+                <span class="close" (click)="borrarImagen(img)">&times;</span>
+                <img src="{{img | imagenPipe : 'propiedades' : propiedad._id }}">
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <br>
+        <button (click)="cargarImagenes()" [disabled]="archivos.length==0" class="btn btn-success">Cargar
+            Imagenes</button> &nbsp;
+        <button (click)="borrarImagenes()" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre archivo</th>
+                    <th>Tamaño</th>
+                    <th>Progreso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let archivo of archivos">
+                    <td [ngClass]="{'text-green':archivo.progreso>=100}">
+                        {{archivo.nombreArchivo}}
+                    </td>
+                    <td>{{archivo.archivo.size / 1024 / 1024 | number: '.2-2'}} MB</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':archivo.progreso + '%'}">
+                                {{archivo.progreso}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

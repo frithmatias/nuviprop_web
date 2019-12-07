@@ -5,6 +5,7 @@ import {
   UploadFileService
 } from '../../services/services.index';
 import Swal from 'sweetalert2';
+import { FileUpload } from 'src/app/models/fileupload.model';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,7 @@ import Swal from 'sweetalert2';
 export class ProfileComponent implements OnInit {
   usuario: Usuario;
 
-  imagenSubir: File;
+  imagenSubir: FileUpload;
   imagenTemp: any;
 
   constructor(
@@ -41,13 +42,13 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  seleccionImage(archivo: File) {
+  seleccionImage(archivo: FileUpload) {
     if (!archivo) {
       this.imagenSubir = null;
       return;
     }
 
-    if (archivo.type.indexOf('image') < 0) {
+    if (archivo.archivo.type.indexOf('image') < 0) {
       Swal.fire(
         'Sólo imágenes',
         'El archivo seleccionado no es una imagen',
@@ -59,7 +60,7 @@ export class ProfileComponent implements OnInit {
 
     this.imagenSubir = archivo;
     const reader = new FileReader();
-    const urlImagenTemp = reader.readAsDataURL(archivo);
+    const urlImagenTemp = reader.readAsDataURL(archivo.archivo);
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }
 
@@ -67,7 +68,7 @@ export class ProfileComponent implements OnInit {
     // cambiarImagen() -> Ajax y Vanilla JS
     // cambiarImagen2() -> HttpClient
     this.uploadFileService
-      .subirArchivo(this.imagenSubir, 'usuarios', this.usuario._id)
+      .subirImagen(this.imagenSubir, 'usuarios', this.usuario._id)
       .then((resp: any) => {
         console.log(resp);
 

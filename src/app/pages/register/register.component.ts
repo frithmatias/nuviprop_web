@@ -56,22 +56,22 @@ export class RegisterComponent implements OnInit {
     }, { validators: this.sonIguales('password', 'password2') });
 
 
-    this.forma.setValue({
-      correo: 'test@test.com',
-      nombre: 'NombrePba',
-      apellido: 'ApellidoPba',
-      nacimiento: '27-04-1979',
-      password: '123456',
-      password2: '123456',
-      condiciones: true
-    });
+    // this.forma.setValue({
+      //   correo: 'test@test.com',
+      //   nombre: 'NombrePba',
+      //   apellido: 'ApellidoPba',
+      //   nacimiento: '27-04-1979',
+      //   password: '123456',
+      //   password2: '123456',
+      //   condiciones: true
+      // });
 
-  }
+    }
 
 
   registrarUsuario() {
 
-    if (this.forma.invalid) {
+      if(this.forma.invalid) {
       return;
     }
 

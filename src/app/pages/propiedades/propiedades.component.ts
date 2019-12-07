@@ -18,7 +18,7 @@ export class PropiedadesComponent implements OnInit {
   constructor(
     private propiedadesService: PropiedadesService,
     private modalUploadService: ModalUploadService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cargarPropiedades();
@@ -30,7 +30,7 @@ export class PropiedadesComponent implements OnInit {
       .cargarPropiedades()
       .subscribe((props: Propiedades) => {
         // console.log(props);
-        this.propiedades = props.propiedads;
+        this.propiedades = props.propiedades;
         this.cargando = false;
       });
   }

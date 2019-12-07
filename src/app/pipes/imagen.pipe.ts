@@ -5,7 +5,7 @@ import { URL_SERVICIOS } from '../config/config';
   name: 'imagenPipe'
 })
 export class ImagenPipe implements PipeTransform {
-  transform(img: string, tipo: string = 'usuarios', id: string): any {
+  transform(img: string, tipo: string, id: string): any {
     let url = URL_SERVICIOS + '/imagenes';
 
     if (!img) {
@@ -17,20 +17,16 @@ export class ImagenPipe implements PipeTransform {
     }
     switch (tipo) {
       case 'usuarios':
-        url += '/usuarios/' + id + '/' + img;
-        break;
-
       case 'propiedades':
-        url += '/propiedades/' + id + '/' + img;
-        break;
-
       case 'inmobiliarias':
-        url += '/inmobiliarias/' + id + '/' + img;
+
+        url += '/' + tipo + '/' + id + '/' + img;
+        // console.log('Tipo coleccion ok: ', url);
         break;
 
       default:
-        console.log('tipo de imagen no existe, usuarios, propiedades');
         url += '/usuarios/xxx';
+      // console.log('Tipo coleccion falló: ', url);
     }
     return url;
   }

@@ -52,21 +52,33 @@
                 <!-- end toggle sidebar -->
                 <!-- ============================================================== -->
 
+                <!-- ============================================================== -->
+                <!-- Header Menu  -->
+                <!-- ============================================================== -->
 
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li> -->
+                <li class="{{item.class}}" *ngFor="let item of sidebarService.publicHeaderMenu; let i = index">
+                    <a class="nav-link" routerLink="{{item.url}}">
+                        <!-- <i class="{{item.icono}}"></i> -->
+                        &nbsp;{{item.titulo}}
+                    </a>
                 </li>
-                <li class="nav-item d-none d-sm-block">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item d-none d-sm-block">
+                <!-- <li class="nav-item d-none d-sm-block">
                     <a class="nav-link disabled " href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-
+                </li> -->
 
                 <li class="nav-item hidden-sm-down"></li>
+
+                <!-- ============================================================== -->
+                <!-- End Header Menu  -->
+                <!-- ============================================================== -->
+
             </ul>
             <ul class="navbar-nav">
+
+
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
@@ -89,7 +101,10 @@
                 <!-- ============================================================== -->
                 <li class="nav-item" *ngIf="!userService.estaLogueado()">
                     <a routerLink="/login" class="nav-link waves-effect waves-dark">
-                        <i class="fa fa-power-off"></i> Login
+                        <div class="btn btn-success">
+
+                            <i class="fa fa-power-off"></i> Login
+                        </div>
                     </a>
                 </li>
                 <!-- ============================================================== -->
@@ -117,7 +132,8 @@
                                     <!-- Message -->
                                     <a href="#">
                                         <div class="user-img">
-                                            <img src="../assets/images/users/1.jpg" alt="user" class="img-circle" />
+                                            <img src="../assets/images/animals/crab-icon.png" alt="user"
+                                                class="img-circle" />
                                             <span class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
@@ -129,7 +145,8 @@
                                     <!-- Message -->
                                     <a href="#">
                                         <div class="user-img">
-                                            <img src="../assets/images/users/2.jpg" alt="user" class="img-circle" />
+                                            <img src="../assets/images/animals/frog-icon.png" alt="user"
+                                                class="img-circle" />
                                             <span class="profile-status busy pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
@@ -141,7 +158,8 @@
                                     <!-- Message -->
                                     <a href="#">
                                         <div class="user-img">
-                                            <img src="../assets/images/users/3.jpg" alt="user" class="img-circle" />
+                                            <img src="../assets/images/animals/sheep-icon.png" alt="user"
+                                                class="img-circle" />
                                             <span class="profile-status away pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
@@ -153,7 +171,8 @@
                                     <!-- Message -->
                                     <a href="#">
                                         <div class="user-img">
-                                            <img src="../assets/images/users/4.jpg" alt="user" class="img-circle" />
+                                            <img src="../assets/images/animals/turtle-icon.png" alt="user"
+                                                class="img-circle" />
                                             <span class="profile-status offline pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">

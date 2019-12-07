@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UsuarioService } from '../pages/usuarios/usuarios.service';
+import { FileUpload } from '../models/fileupload.model';
 
 @Injectable()
 export class UploadFileService {
@@ -39,17 +40,21 @@ export class UploadFileService {
   // ************************************
   // USANDO HTTPCLIENT
   // ************************************
-  subirArchivo(fileItem: File, tipo: string = 'usuarios', id: string) {
+
+
+  subirImagen(fileItem: FileUpload, tipo: string = 'usuarios', id: string) {
     return new Promise((resolve, reject) => {
       const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id;
       const formData: FormData = new FormData();
-      formData.append('imagen', fileItem, fileItem.name);
+      formData.append('imagen', fileItem.archivo, fileItem.archivo.name);
 
       const headers = new HttpHeaders({
         'x-token': this.usuarioService.token
       });
 
+      fileItem.estaSubiendo = true;
       this.http.put(url, formData, { headers, reportProgress: true }).subscribe(
+        // respuesta durante el proceso
         (resp: any) => {
           console.log(resp);
 
@@ -68,10 +73,28 @@ export class UploadFileService {
           }
           resolve(resp);
         },
+        // respuesta en caso de error
         err => {
           reject(err.message);
+        },
+        // callback cuando finaliza el proceso
+        () => {
+          fileItem.progreso = 100;
+          fileItem.estaSubiendo = false;
         }
       );
+    });
+  }
+
+
+  borrarImagen(tipo: string, id: string, file_name: string) {
+    const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id + '/' + file_name;
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+
+    this.http.put(url, { headers, reportProgress: true }).subscribe(data => {
+      console.log(data);
     });
   }
 }

@@ -1,0 +1,56 @@
+.drop-zone {
+    border: dotted 3px lightgray;
+    opacity: 0.5;
+    color: #666;
+    text-align: center
+}
+
+.file-over {
+    border: dotted 3px dodgerblue;
+}
+.text-green {
+    color: green
+}
+
+.slider_imgs {
+    height: 70px;
+    width: 70px;
+}
+
+// X para borrar imagen
+.img-wrap {
+    position: relative;
+}
+.img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+}
+// fin X para borrar imagen
+
+.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 100px;
+  }
+  
+  .gallery:hover {
+    border: 1px solid #777;
+  }
+  
+  .gallery img {
+    width: 100%;
+    height: auto;
+    width: 100px;
+    height: 100px;
+  }
+
+  #slide {
+    width: auto;
+    //height: 50px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}

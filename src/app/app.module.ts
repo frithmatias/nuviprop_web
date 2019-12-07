@@ -30,6 +30,8 @@ import { PagesComponent } from './pages/pages.component';
     ReactiveFormsModule,
     ServiceModule,
     SharedModule
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]

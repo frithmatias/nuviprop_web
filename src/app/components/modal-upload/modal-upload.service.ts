@@ -5,9 +5,7 @@ import { EventEmitter } from '@angular/core';
 export class ModalUploadService {
   public tipo: string;
   public id: string;
-
   public oculto = 'oculto';
-
   public notificacion = new EventEmitter<any>();
 
   constructor() {

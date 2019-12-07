@@ -29,6 +29,7 @@ export class BuscarComponent implements OnInit {
 
   ngOnInit() { }
   buscar(termino: string) {
+
     const url = URL_SERVICIOS + '/buscar/' + termino;
 
     this.http.get(url).subscribe((resp: any) => {
