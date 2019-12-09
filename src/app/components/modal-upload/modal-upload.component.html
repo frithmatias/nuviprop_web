@@ -9,16 +9,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body text-center">
+                <div class="modal-body text-center d-flex justify-content-around">
 
+                    <div>
+                        <img *ngIf="!imagenTemp" [src]="'xxx' | imagenPipe" class="w150">
+                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150">
+                    </div>
 
-                    <img *ngIf="!imagenTemp" [src]="'xxx' | imagenPipe" class="w150">
-                    <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150">
+                    <!-- <input (change)="seleccionImage($event.target.files[0])" type="file"> -->
 
-                    <input (change)="seleccionImage($event.target.files[0])" type="file">
-
-
-
+                    <div>
+                        <label class="btn btn-warning" for="fusk">Seleccionar Imagen</label>
+                        <input (change)="seleccionImage($event.target.files[0])" id="fusk" type="file" name="photo"
+                            style="display: none;">
+                    </div>
 
                 </div>
                 <div class="modal-footer">

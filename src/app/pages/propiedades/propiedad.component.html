@@ -1,10 +1,12 @@
-<div class="container animated fadeIn">
-    <div class="row">
+<div class="container animated fadeIn" *ngIf="parsetemplate">
 
-        <div class="col-lg-6 p-3">
-            <h3 class="box-title m-b-0">Propiedad: {{ propiedad.calle }} {{propiedad.numero}}</h3>
+    <h3 class="box-title m-b-0">Propiedad: {{ propiedad.calle }} {{propiedad.numero}}</h3>
 
-            <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarPropiedad(f)">
+    <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarPropiedad(f)">
+
+        <div class="row">
+            <div class="col-lg-6 p-3">
+
                 <div class="form-group">
                     <label>Operacion</label>
                     <input [(ngModel)]="propiedad.operacion" name="operacion" type="text" class="form-control"
@@ -30,6 +32,10 @@
                     <input [(ngModel)]="propiedad.ciudad" name="ciudad" type="text" class="form-control"
                         placeholder="Ciudad" required>
                 </div>
+
+            </div>
+            <div class="col-lg-6 p-3">
+
                 <div class="form-group">
                     <label>Barrio</label>
                     <input [(ngModel)]="propiedad.barrio" name="barrio" type="text" class="form-control"
@@ -64,19 +70,21 @@
                     Guardar
                 </button>
                 <a routerLink="/propiedades" class="btn btn-inverse waves-effect waves-light">Cancelar</a>
-            </form>
-
-
+            </div>
         </div>
+    </form>
 
-
-        <div class="col-lg-6 p-3">
-            <app-uploader [propiedad]="propiedad" [tipo]="'propiedades'" [id]="'5ddaf83375fe3e16309f1e74'">
-            </app-uploader>
-            <!-- 
+    <!-- 
             <h4 class="box-title m-b-0">Inmobiliaria</h4>
             <img [src]="inmobiliaria.img | imagenPipe:'inmobiliarias':inmobiliaria._id" class="rounded img-fluid"> -->
 
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <app-uploader [propiedad]="propiedad" [tipo]="'propiedades'" [id]="'5ddaf83375fe3e16309f1e74'">
+            </app-uploader>
         </div>
     </div>
 

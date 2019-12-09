@@ -17,10 +17,15 @@ export class TokenGuard implements CanActivate {
   canActivate(): Promise<boolean> | boolean {
 
     const token = this.usuarioService.token;
+    if (typeof token === 'undefined') {
+      console.log('No existe token, se despacha al login.');
+      this.router.navigate(['/login']);
+      return false;
+    }
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirado = this.expirado(payload.exp);
     if (expirado) {
-      console.log('El token expiro, se despacha al login.');
+      console.log('TokenGuard: El token expiro, se despacha al login.');
       this.router.navigate(['/login']);
       return false;
     }
@@ -35,7 +40,7 @@ export class TokenGuard implements CanActivate {
       const ahora = new Date();
       const renueva = new Date();
       renueva.setTime(ahora.getTime() + (1 * 60 * 60 * 1000));
-      console.log('El token no expiro todavía...');
+      console.log('TokenGuard: El token no expiro todavía.');
 
       const difRenueva = tokenExp.getTime() - renueva.getTime();
       const difExpira = tokenExp.getTime() - ahora.getTime();

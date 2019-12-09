@@ -5,6 +5,7 @@ export class FileUpload {
     public url: string;
     public estaSubiendo: boolean; // flag
     public progreso: number;
+    public bufferImage: any;
 
     constructor(archivo: File) {
         this.archivo = archivo;

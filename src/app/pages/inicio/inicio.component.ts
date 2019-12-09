@@ -3,6 +3,7 @@ import { MAPBOX_TOKEN } from '../../config/config';
 import { PuntosMapa } from 'src/app/models/puntosmapa.model';
 
 declare var mapboxgl: any;
+declare function init_plugins();
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
@@ -16,12 +17,12 @@ export class InicioComponent implements OnInit {
 
   misPuntosMapa: PuntosMapa[];
   ngOnInit() {
-
+    init_plugins();
     const latLng = this.coords.split(',');
     const lat = Number(latLng[0]);
     const lng = Number(latLng[1]);
 
-    console.log(this.coords);
+    // console.log(this.coords);
     mapboxgl.accessToken = MAPBOX_TOKEN;
     const map = new mapboxgl.Map({
       container: 'mapa',

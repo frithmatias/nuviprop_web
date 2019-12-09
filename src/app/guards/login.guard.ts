@@ -14,9 +14,10 @@ export class LoginGuard implements CanActivate {
   canActivate() {
 
     if (this.usuarioService.estaLogueado()) {
+      console.log('LoginGuard: Acceso admitido.');
       return true;
     } else {
-      console.log('Bloqueado por guard');
+      console.log('LoginGuard: Acceso bloqueado!.');
       this.router.navigate(['/login']);
       return false;
     }

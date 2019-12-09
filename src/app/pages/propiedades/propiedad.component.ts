@@ -29,6 +29,7 @@ export class PropiedadComponent implements OnInit {
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
   id: string;
+  parsetemplate = false;
 
   constructor(
     public propiedadesService: PropiedadesService,
@@ -38,14 +39,7 @@ export class PropiedadComponent implements OnInit {
     public modalUploadService: ModalUploadService,
     private uploadFileServie: UploadFileService
   ) {
-    activatedRoute.params.subscribe(params => {
 
-      this.id = params.id;
-      this.cargarInmobiliarias();
-      if (this.id !== 'nuevo') {
-        this.cargarPropiedad(this.id);
-      }
-    });
   }
 
   ngOnInit() {
@@ -53,20 +47,40 @@ export class PropiedadComponent implements OnInit {
       // actualizo la lista de inmobiliarias
       /// this.inmobiliaria.img = resp.inmobiliaria.img;
     });
+
+
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params.id;
+      if (this.id !== 'nuevo') {
+        Promise.all([
+          this.cargarPropiedad(this.id),
+          this.cargarInmobiliarias()
+        ]).then(() => {
+          this.parsetemplate = true;
+        });
+      }
+    });
   }
 
   cargarInmobiliarias() {
-    this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
-      this.inmobiliarias = inmobiliarias;
+    return new Promise((resolve, reject) => {
+      this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
+        this.inmobiliarias = inmobiliarias;
+        resolve();
+      });
     });
   }
 
   cargarPropiedad(id: string) {
-    this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
-      this.propiedad = propiedad;
-      // this.files = propiedad.imgs;
-      console.log('Propiedad obtenida: ', propiedad);
-      this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
+    return new Promise((resolve, reject) => {
+      this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
+        this.propiedad = propiedad;
+        // this.files = propiedad.imgs;
+        console.log('Propiedad obtenida: ', propiedad);
+        this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
+        resolve();
+      });
+
     });
   }
 
@@ -103,12 +117,10 @@ export class PropiedadComponent implements OnInit {
     this.files.forEach(file => {
       this.uploadFileServie.subirImagen(file, 'propiedades', this.id);
     });
-    console.log('subir imagenes');
   }
 
   quitarImagenes() {
     this.files = [];
   }
-
 
 }

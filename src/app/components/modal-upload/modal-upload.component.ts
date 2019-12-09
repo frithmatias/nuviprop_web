@@ -49,6 +49,8 @@ export class ModalUploadComponent implements OnInit {
 
     const reader = new FileReader();
     const urlImagenTemp = reader.readAsDataURL(archivo);
+    console.log('reader:', reader); // IMAGEN
+    console.log('urlImagenTemp:', urlImagenTemp); // UNDEFINED
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }
 

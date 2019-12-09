@@ -56,8 +56,6 @@ export class UploadFileService {
       this.http.put(url, formData, { headers, reportProgress: true }).subscribe(
         // respuesta durante el proceso
         (resp: any) => {
-          console.log(resp);
-
           // Al igual que en el metodo actualizarUsuario() del servicio UsuarioService
           // Este if es porque SOLO guardo los datos en la localstorage si estoy
           // actualizando datos PROPIOS. Si soy ADMIN y estoy cambiando datos en
@@ -71,6 +69,7 @@ export class UploadFileService {
               this.usuarioService.menu
             );
           }
+
           resolve(resp);
         },
         // respuesta en caso de error
@@ -87,14 +86,21 @@ export class UploadFileService {
   }
 
 
-  borrarImagen(tipo: string, id: string, file_name: string) {
-    const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id + '/' + file_name;
+  borrarImagen(tipo: string, id: string, filename: string) {
+    const url = URL_SERVICIOS + '/uploads/' + tipo + '/' + id + '/' + filename;
     const headers = new HttpHeaders({
       'x-token': this.usuarioService.token
     });
 
-    this.http.put(url, { headers, reportProgress: true }).subscribe(data => {
-      console.log(data);
+
+    return new Promise((resolve, reject) => {
+      this.http.delete(url, { headers, reportProgress: true }).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      },
+        (err) => {
+          reject(err);
+        });
     });
   }
 }
