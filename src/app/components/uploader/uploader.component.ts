@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { FileUpload } from '../../models/fileupload.model';
-import { UploadFileService } from '../../services/upload.service';
-import { PropiedadesService } from 'src/app/services/services.index';
+import { PropiedadesService, UploadFileService } from 'src/app/services/services.index';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import Swal from 'sweetalert2';
 @Component({
@@ -23,23 +22,97 @@ export class UploaderComponent implements OnInit {
 
   ngOnInit() { }
 
-  cargarImagenes() {
-    this.archivos.forEach(archivo => {
-      this.uploadService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
-        this.propiedad.imgs = data.propiedad.imgs;
-        // cuando termino de subir la imagen, borro sólo esa imagen de ambos buffers
 
-        // this.archivos = this.archivos.filter(file => file.nombreArchivo !== archivo.nombreArchivo);
+  delay(milis) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, milis);
+    });
+  }
 
+
+  async cargarImagenes() {
+    await this.subirImagenes();
+    await this.delay(2000);
+    await this.obtenerImagenes();
+  }
+
+
+  subirImagenes() {
+    return new Promise((resolve) => {
+      let count = 0;
+      this.archivos.forEach(archivo => {
+        archivo.estaSubiendo = true;
+
+        this.uploadService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
+          archivo.progreso = 100;
+          archivo.estaSubiendo = false;
+          count++;
+          console.log('count:', count);
+          if (count === this.archivos.length) {
+            resolve();
+          }
+          // actualizo las imagenes en cola quitando la que recién acaba de subirse.
+          // this.archivos = this.archivos.filter(file => file.nombreArchivo !== archivo.nombreArchivo);
+          // console.log(data.propiedad.imgs);
+
+          // actualizo las imagenes subidas al server, pero tengo que obtener la ULTIMA respuesta y
+          // no es fácil, pueden venir en distinto orden porque la subida de archivos es un proceso
+          // asíncrono, puede devolverme último el resultado "data" correspondiente al primer archivo
+          // subido. Para evitar esto voy a caputrar en el arreglo donde guardo las imagenes que ya
+          // estan en el servidor (this.propiedad.imgs) la respuesta que mas fotos trajo, por lo tanto
+          // yo se, que esa respuesta fué la última.
+
+          // this.propiedad.imgs = data.propiedad.imgs;
+
+
+        });
       });
     });
-    // this.archivosBuffer = [];
-    // this.archivos = [];
+  }
+
+  obtenerImagenes() {
+    return new Promise((resolve) => {
+
+      this.propiedadesService.obtenerPropiedad(this.id).subscribe(data => {
+        console.log(data);
+        this.propiedad.imgs = data.imgs;
+        this.archivos = [];
+      });
+    });
   }
 
   borrarImagenes() {
-    console.log(this.archivos);
-    this.archivos = [];
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta por borrar todas las imagenes de esta propiedad en el servidor',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No, cancelar!',
+      confirmButtonText: 'Si, quiero borrarla'
+    }).then((result) => {
+      if (result.value) {
+        this.propiedad.imgs.forEach(imagen => {
+          this.uploadService.borrarImagen(this.tipo, this.id, imagen);
+        });
+        this.archivos = [];
+        this.propiedad.imgs = [];
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Eliminada!',
+          showConfirmButton: false,
+          timer: 700
+        });
+      }
+    });
+
+
+
+
   }
 
   borrarImagen(id: string) {
@@ -54,35 +127,34 @@ export class UploaderComponent implements OnInit {
       confirmButtonText: 'Si, quiero borrarla'
     }).then((result) => {
       if (result.value) {
-        this.uploadService.borrarImagen('propiedades', this.propiedad._id, id).then((data: any) => {
+        this.uploadService.borrarImagen(this.tipo, this.id, id).then((data: any) => {
           this.propiedad.imgs = data.propiedad.imgs;
         });
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'La imagen fue eliminada',
+          title: 'Eliminada!',
           showConfirmButton: false,
-          timer: 1000
+          timer: 700
         });
       }
     });
 
   }
   borrarImagenQueue(nombreArchivo) {
-
-    console.log(nombreArchivo);
+    // console.log(nombreArchivo);
     this.archivos = this.archivos.filter(archivo => archivo.nombreArchivo !== nombreArchivo);
   }
 
   queueFilesInput(event) {
-    console.log('QueueFilesInput:', event);
+    // console.log('QueueFilesInput:', event);
     this._extraerArchivos(event.target.files); // le envío un objeto que voy a tener que convertir en array
     this._prevenirDetener(event);
   }
 
 
   queueFilesDrop(event) {
-    console.log('QueueFilesDrop:', event);
+    // console.log('QueueFilesDrop:', event);
     this._extraerArchivos(event.dataTransfer.files); // le envío un objeto que voy a tener que convertir en array
     this._prevenirDetener(event);
   }

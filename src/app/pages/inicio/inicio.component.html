@@ -1,23 +1,81 @@
-<div id='mapa'></div>
-<div id="menu" class="input-group">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a (click)="inicioService.tabselected=0" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa"
+            role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa </a>
+    </li>
+    <li class="nav-item">
+        <a (click)="inicioService.tabselected=1" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista"
+            role="tab" aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i> Lista </a>
+    </li>
+    <li class="nav-item">
+        <a (click)="inicioService.tabselected=2" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards"
+            role="tab" aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i> Cards </a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
 
-    <input id='streets-v11' type='radio' class="check" name='rtoggle' value='streets'>
-    <label for='streets-v11'>streets</label>
+    <!-- ---------------------------------- -->
+    <!-- TAB MAP -->
+    <!-- ---------------------------------- -->
+
+    <div #content1 class="tab-pane fade" id="mapa" role="tabpanel" aria-labelledby="mapa-tab">
+        <app-mapa class="inicio"></app-mapa>
+    </div>
+
+    <!-- ---------------------------------- -->
+    <!-- TAB LIST -->
+    <!-- ---------------------------------- -->
+
+    <div #content2 class="tab-pane fade" id="lista" role="tabpanel" aria-labelledby="lista-tab">
+        <table class="table mt-3 animated fadeIn">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Operación</th>
+                    <th scope="col">Barrio</th>
+                    <th scope="col">Calle</th>
+                    <th scope="col">Numero</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let propiedad of propiedades; let i = index">
+                    <th scope="row">{{i}}</th>
+                    <td>{{ propiedad.operacion }}</td>
+                    <td>{{ propiedad.barrio }}</td>
+                    <td>{{ propiedad.calle }}</td>
+                    <td>{{ propiedad.numero }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ---------------------------------- -->
+    <!-- TAB CARDS -->
+    <!-- ---------------------------------- -->
+
+    <div #content3 class="tab-pane d-flex fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
+        <div class="container">
+            <div class="row  animated fadeIn">
+
+                <div class="card col-12 col-sm-6 col-md-4 col-lg-3" style="width: 18rem;"
+                    *ngFor="let propiedad of propiedades">
+                    <img class="card-img-top" [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{propiedad.tipopropiedad}} en {{propiedad.operacion}}</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's content.</p>
+                        <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-primary">Ver
+                            propiedad</button>
+                    </div>
+                </div>
 
 
-    <input id='light-v10' type='radio' class="check" name='rtoggle' value='light'>
-    <label for='light-v10'>light</label>
+
+            </div>
+        </div>
 
 
-
-    <input id='dark-v10' type='radio' class="check" name='rtoggle' value='dark'>
-    <label for='dark-v10'>dark</label>
-
-    <input id='outdoors-v11' type='radio' class="check" name='rtoggle' value='outdoors'>
-    <label for='outdoors-v11'>outdoors</label>
-
-    <input id='satellite-v9' type='radio' class="check" name='rtoggle' value='satellite'>
-    <label for='satellite-v9'>satellite</label>
-
-
+    </div>
 </div>

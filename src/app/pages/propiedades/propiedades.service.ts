@@ -11,7 +11,8 @@ import { map } from 'rxjs/operators';
 })
 export class PropiedadesService {
 
-  propiedades: Propiedades;
+
+  propiedades: Propiedad[] = [];
   propiedad: Propiedad;
 
   constructor(
@@ -22,7 +23,8 @@ export class PropiedadesService {
   cargarPropiedades() {
     const url = URL_SERVICIOS + '/propiedades';
     return this.http.get(url).pipe(map((propiedades: Propiedades) => {
-      this.propiedades = propiedades;
+      console.log(propiedades);
+      this.propiedades = propiedades.propiedades;
       return propiedades;
     }));
   }

@@ -14,11 +14,12 @@ export class UsuarioService implements OnDestroy {
   token: string;
   usuario: Usuario;
   menu: any[] = [];
-
+  logueado = false;
 
   constructor(public http: HttpClient, public router: Router) {
     //
     this.cargarStorage();
+    this.logueado = this.estaLogueado();
   }
 
   ngOnDestroy() {
@@ -36,6 +37,7 @@ export class UsuarioService implements OnDestroy {
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
+        this.logueado = true;
         return true;
       }),
       // clase 222 seccion 17, manejo de errores
@@ -51,6 +53,7 @@ export class UsuarioService implements OnDestroy {
     return this.http.post(url, { token }).pipe(
       map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
+        this.logueado = true;
         return true;
       })
     );
@@ -67,19 +70,29 @@ export class UsuarioService implements OnDestroy {
 
     return this.http.get(url, { headers })
       .pipe(map((resp: any) => {
-
         this.token = resp.token;
         localStorage.setItem('token', this.token);
         console.log('Token renovado');
-
       }));
-
 
   }
 
   // metodo usado por el loginguard
   estaLogueado() {
-    return this.token.length > 5 ? true : false;
+    // si no hay token el usuario no esta logueado
+    if ((this.token.length < 5) || (typeof this.token === 'undefined') || (this.token === 'undefined')) {
+      return false;
+    }
+    // si el usuario se logueo en algun momento verifico la expiracion del token
+    const payload = JSON.parse(atob(this.token.split('.')[1]));
+    const ahora = new Date().getTime() / 1000;
+    // console.log('expira: ', payload.exp, ' ahora: ', ahora);
+    if (payload.exp < ahora) {
+      this.logout();
+      return false; // token expirado
+    } else {
+      return true; // token valido
+    }
   }
 
   cargarStorage() {
@@ -183,6 +196,7 @@ export class UsuarioService implements OnDestroy {
     this.usuario = null;
     this.token = '';
     this.menu = [];
+    this.logueado = false;
 
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');

@@ -13,6 +13,7 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
 import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
 import { InicioComponent } from './inicio/inicio.component';
+import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
@@ -20,10 +21,11 @@ const pagesRoutes: Routes = [
 
   // PUBLIC PAGES
   { path: 'inicio', component: InicioComponent },
-  { path: 'account-settings', component: AccountSettingsComponent },
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
+  { path: 'propiedadver/:id', component: PropiedadVerComponent },
 
   // LOGIN PAGES
+  { path: 'account-settings', canActivate: [LoginGuard, TokenGuard], component: AccountSettingsComponent },
   { path: 'dashboard', canActivate: [LoginGuard, TokenGuard], component: DashboardComponent },
   { path: 'profile', canActivate: [LoginGuard, TokenGuard], component: ProfileComponent },
 

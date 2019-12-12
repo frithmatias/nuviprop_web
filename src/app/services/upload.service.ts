@@ -52,7 +52,7 @@ export class UploadFileService {
         'x-token': this.usuarioService.token
       });
 
-      fileItem.estaSubiendo = true;
+      // fileItem.estaSubiendo = true;
       this.http.put(url, formData, { headers, reportProgress: true }).subscribe(
         // respuesta durante el proceso
         (resp: any) => {
@@ -78,8 +78,8 @@ export class UploadFileService {
         },
         // callback cuando finaliza el proceso
         () => {
-          fileItem.progreso = 100;
-          fileItem.estaSubiendo = false;
+          // fileItem.progreso = 100;
+          // fileItem.estaSubiendo = false;
         }
       );
     });

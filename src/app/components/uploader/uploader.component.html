@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-lg-5">
+        <div class="col-lg-5 animated fadeIn">
             <table class="table-upload table-sm">
                 <thead>
                     <tr>
@@ -55,7 +55,7 @@
                         </td>
                         <td>{{archivo.archivo.size / 1024 / 1024 | number: '.2-2'}} MB</td>
                         <td>
-                            <div class="progress">
+                            <div class="progress animated fadeIn">
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
                                     aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':archivo.progreso + '%'}">
                                     {{archivo.progreso}}

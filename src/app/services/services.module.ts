@@ -12,7 +12,9 @@ import {
   InmobiliariaService,
   LoginGuard,
   AdminGuard,
-  TokenGuard
+  TokenGuard,
+  InicioService,
+  MapaService
 } from './services.index';
 
 @NgModule({
@@ -27,7 +29,9 @@ import {
     InmobiliariaService,
     LoginGuard,
     AdminGuard,
-    TokenGuard
+    TokenGuard,
+    InicioService,
+    MapaService
   ],
   declarations: []
 })

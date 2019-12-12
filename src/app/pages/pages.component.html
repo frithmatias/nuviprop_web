@@ -3,18 +3,18 @@
 <!-- ============================================================== -->
 <div id="main-wrapper">
   <app-header></app-header>
-  <app-sidebar *ngIf="usuarioService.estaLogueado()"></app-sidebar>
+  <app-sidebar *ngIf="usuarioService.logueado"></app-sidebar>
 
   <!-- ============================================================== -->
   <!-- Page wrapper  -->
   <!-- ============================================================== -->
-  <div [ngClass]="{'page-wrapper' : usuarioService.estaLogueado()}">
+  <div [ngClass]="{'page-wrapper' : usuarioService.logueado}">
 
     <!-- ============================================================== -->
     <!-- Container fluid  -->
     <!-- ============================================================== -->
     <!-- <div class="container-fluid"> -->
-    <div>
+    <div style="margin-top: 70px">
       <app-breadcrumbs></app-breadcrumbs>
 
       <router-outlet></router-outlet>

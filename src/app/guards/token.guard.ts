@@ -17,16 +17,21 @@ export class TokenGuard implements CanActivate {
   canActivate(): Promise<boolean> | boolean {
 
     const token = this.usuarioService.token;
-    if (typeof token === 'undefined') {
-      console.log('No existe token, se despacha al login.');
-      this.router.navigate(['/login']);
+    // if (typeof token === 'undefined') {
+    if (!token) {
+      console.log('TokenGuard: No existe token, se despacha al inicio.');
+      this.usuarioService.logout();
+      this.router.navigate(['/inicio']);
       return false;
     }
+
+
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirado = this.expirado(payload.exp);
     if (expirado) {
-      console.log('TokenGuard: El token expiro, se despacha al login.');
-      this.router.navigate(['/login']);
+      console.log('TokenGuard: El token expiro, se despacha al inicio.');
+      this.usuarioService.logout();
+      this.router.navigate(['/inicio']);
       return false;
     }
     // si no expiro, tengo que chequer si es hora de renovar el token
@@ -69,7 +74,8 @@ export class TokenGuard implements CanActivate {
             resolve(true);
           }, () => {
             console.log('Error en la renovación del token, se despacha al login.');
-            this.router.navigate(['/login']);
+            this.usuarioService.logout();
+            this.router.navigate(['/inicio']);
             reject(false);
           });
       }

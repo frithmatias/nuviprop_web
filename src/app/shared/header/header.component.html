@@ -40,11 +40,11 @@
                 <!-- ============================================================== -->
                 <!-- toggle sidebar -->
                 <!-- ============================================================== -->
-                <li class="nav-item" *ngIf="userService.estaLogueado()">
+                <li class="nav-item" *ngIf="userService.logueado">
                     <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i
                             class="ti-menu"></i></a>
                 </li>
-                <li class="nav-item" *ngIf="userService.estaLogueado()">
+                <li class="nav-item" *ngIf="userService.logueado">
                     <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark"
                         href="javascript:void(0)"><i class="ti-menu"></i></a>
                 </li>
@@ -99,7 +99,7 @@
                 <!-- ============================================================== -->
                 <!-- Login -->
                 <!-- ============================================================== -->
-                <li class="nav-item" *ngIf="!userService.estaLogueado()">
+                <li class="nav-item" *ngIf="!userService.logueado">
                     <a routerLink="/login" class="nav-link waves-effect waves-dark">
                         <div class="btn btn-success">
 
@@ -114,7 +114,7 @@
                 <!-- ============================================================== -->
                 <!-- Messages -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown" *ngIf="userService.estaLogueado()">
+                <li class="nav-item dropdown" *ngIf="userService.logueado">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="mdi mdi-email"></i>
@@ -199,7 +199,7 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown" *ngIf="userService.estaLogueado()">
+                <li class="nav-item dropdown" *ngIf="userService.logueado">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"><img
                             src="{{ userService.usuario.img | imagenPipe: 'usuarios':userService.usuario._id }}"

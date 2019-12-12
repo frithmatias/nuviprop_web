@@ -57,7 +57,6 @@
                     <label>Inmobiliaria</label>
                     <select (change)="cambioInmobiliaria($event.target.value)" [(ngModel)]="propiedad.inmobiliaria._id"
                         name="inmobiliaria" class="form-control" required>
-                        <option value="">Seleccione Inmobiliaria</option>
                         <option *ngFor="let inmo of inmobiliarias" [value]="inmo._id">
                             {{ inmo.nombre }}
                         </option>
@@ -83,7 +82,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <app-uploader [propiedad]="propiedad" [tipo]="'propiedades'" [id]="'5ddaf83375fe3e16309f1e74'">
+            <app-uploader [propiedad]="propiedad" [tipo]="'propiedades'" [id]="id">
             </app-uploader>
         </div>
     </div>

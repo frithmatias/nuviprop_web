@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // init_plugins();
-    this.logged = this.userService.estaLogueado();
+    this.logged = this.userService.logueado;
     this.publicmenu = this.sidebarService.publicSidebarMenu;
     if (this.logged) {
       this.usuario = this.userService.usuario;

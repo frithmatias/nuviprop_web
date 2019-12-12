@@ -10,7 +10,7 @@
 
                 <!-- MENU DE PERFIL DE USUSARIO -->
 
-                <li class="user-profile" *ngIf="userService.estaLogueado()">
+                <li class="user-profile" *ngIf="userService.logueado">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img
                             src="{{ usuario.img | imagenPipe : 'usuarios' : usuario._id }}" alt="user" /><span
                             class="hide-menu">{{usuario.nombre}}
@@ -28,7 +28,7 @@
 
 
 
-                <li class="user-profile" *ngIf="!userService.estaLogueado()">
+                <li class="user-profile" *ngIf="!userService.logueado">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false" routerLinkActive="active"
                         routerLink="/login"><i class="mdi mdi-power"></i>
                         <span class="hide-menu">Login</span>

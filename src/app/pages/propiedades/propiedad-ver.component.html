@@ -1,0 +1,183 @@
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<!-- Row -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-4 col-xlg-3 col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <div style="text-align: center;" class="m-t-30"> <img
+                        [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" class="img-circle"
+                        width="150" />
+                    <h4 class="card-title m-t-10">{{ propiedad.calle }} {{ propiedad.numero }} </h4>
+                    <h6 class="card-subtitle">{{ propiedad.tipopropiedad }} en {{ propiedad.operacion }}</h6>
+                    <div class="row text-center justify-content-md-center">
+                        <div class="col-4"><a href="javascript:void(0)" class="link"><i
+                                    class="icon-size-fullscreen"></i>
+                                <div class="font-medium text-muted">76 m²</div>
+                            </a></div>
+                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i>
+                                <div class="font-medium text-muted">{{ propiedad.imgs.length }}</div>
+                            </a></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <hr>
+            </div>
+            <div class="card-body"> <small class="text-muted">Email address </small>
+                <h6>hannagover@gmail.com</h6> <small class="text-muted p-t-30 db">Phone</small>
+                <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
+                <h6>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
+                <div class="mapbox">
+                    <app-mapa class="verpropiedad"></app-mapa>
+                </div> <small class="text-muted p-t-30 db">Social Profile</small>
+                <br />
+                <button class="btn btn-circle btn-secondary"><i class="fa fa-facebook"></i></button>
+                <button class="btn btn-circle btn-secondary"><i class="fa fa-twitter"></i></button>
+                <button class="btn btn-circle btn-secondary"><i class="fa fa-youtube"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+
+
+
+
+    <!-- Column -->
+    <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="card">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs profile-tab" role="tablist">
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#descripcion"
+                        role="tab">Descripción</a>
+                </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#especificaciones"
+                        role="tab">Especificaciones</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+
+
+                <div class="tab-pane active" id="descripcion" role="tabpanel">
+                    <div class="card-body">
+                        (RGI-RGI-822) PH DE 3 AMBIENTES REFACCIONADO A NUEVO EN VILLA PUEYRREDON
+                        Venta de PH 3 AMBIENTES en Villa Pueyrredón, Capital Federal.-
+
+                        ¡¡¡ OPORTUNIDAD !!! - -LISTO PARA HABITAR -
+
+                        PH de 3 Ambientes con Patio y Gran Terraza REFACCIONADO A NUEVO.-
+                        - .SIN EXPENSAS.-
+                        La propiedad se refaccionó totalmente a nueva (revoques, cañerías, cerámicos, etc).-
+
+                        En la Primer Planta:
+
+                        - Pasillo distribuidor.-
+                        - Cocina Independiente con muebles completos nuevos (alacena y bajo mesada).-
+                        - Comedor diario con ventanal (vista al Patio).-
+                        - 2 Dormitorios con pisos cerámicos, estufa tiro balanceado, placard (sin interiores) y
+                        ventanal.
+
+                        Dormitorio principal en Suite (completo). En el 2º dormitorio cuenta con espacio para generar un
+                        placard (guardado).-
+
+                        - 2º Baño compartimentado con ducha.-
+                        - Patio 4,83 m x 3.77 m.-
+
+                        Segunda Planta:
+
+                        - Por el Patio se accede a la Primer Terraza (de paso) y a la Terraza Principal (8.11 m x 6.54
+                        m).-
+
+                        En la Terraza Principal se encuentra el tanque de agua.-
+
+                        Por cualquier consulta no dude en contactarnos.-
+                    </div>
+                </div>
+
+
+                <!--second tab-->
+                <div class="tab-pane" id="especificaciones" role="tabpanel">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 col-xs-6 b-r"> <strong>Superficie total</strong>
+                                <br>
+                                <p class="text-muted">76 m²</p>
+                            </div>
+                            <div class="col-md-3 col-xs-6 b-r"> <strong>Dormitorios</strong>
+                                <br>
+                                <p class="text-muted">2</p>
+                            </div>
+                            <div class="col-md-3 col-xs-6 b-r"> <strong>Baños</strong>
+                                <br>
+                                <p class="text-muted">2</p>
+                            </div>
+                            <div class="col-md-3 col-xs-6"> <strong>Terraza</strong>
+                                <br>
+                                <p class="text-muted">Si</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="m-t-30">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis
+                            pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
+                            eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type specimen book. It has survived not only five
+                            centuries </p>
+                        <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.</p>
+                        <h4 class="font-medium m-t-30">Skill Set</h4>
+                        <hr>
+                        <h5 class="m-t-30">Wordpress <span class="pull-right">80%</span></h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                aria-valuemax="100" style="width:80%; height:6px;"> <span class="sr-only">50%
+                                    Complete</span> </div>
+                        </div>
+                        <h5 class="m-t-30">HTML 5 <span class="pull-right">90%</span></h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                                aria-valuemax="100" style="width:90%; height:6px;"> <span class="sr-only">50%
+                                    Complete</span> </div>
+                        </div>
+                        <h5 class="m-t-30">jQuery <span class="pull-right">50%</span></h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+                                aria-valuemax="100" style="width:50%; height:6px;"> <span class="sr-only">50%
+                                    Complete</span> </div>
+                        </div>
+                        <h5 class="m-t-30">Photoshop <span class="pull-right">70%</span></h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                aria-valuemax="100" style="width:70%; height:6px;"> <span class="sr-only">50%
+                                    Complete</span> </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane" id="settings" role="tabpanel">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button routerLink="/inicio" class="btn btn-primary"><i class="mdi mdi-arrow-left-box"></i>
+                    Volver</button>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+</div>
+<!-- Row -->
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

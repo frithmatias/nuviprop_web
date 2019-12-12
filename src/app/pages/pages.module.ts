@@ -38,6 +38,8 @@ import { BuscarComponent } from './buscar/buscar.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { NgDropFilesDirective } from '../directives/ng-drop-files.directive';
 import { UploaderComponent } from '../components/uploader/uploader.component';
+import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
+import { MapaComponent } from '../components/mapa/mapa.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { UploaderComponent } from '../components/uploader/uploader.component';
     BuscarComponent,
     InicioComponent,
     NgDropFilesDirective,
-    UploaderComponent
+    UploaderComponent,
+    PropiedadVerComponent,
+    MapaComponent
   ],
   exports: [DashboardComponent],
   imports: [

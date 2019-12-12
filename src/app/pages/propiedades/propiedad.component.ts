@@ -29,7 +29,7 @@ export class PropiedadComponent implements OnInit {
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
   id: string;
-  parsetemplate = false;
+  parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data
 
   constructor(
     public propiedadesService: PropiedadesService,
@@ -49,13 +49,22 @@ export class PropiedadComponent implements OnInit {
     });
 
 
+
     this.activatedRoute.params.subscribe(params => {
       this.id = params.id;
+      console.log('id ', this.id);
       if (this.id !== 'nuevo') {
         Promise.all([
           this.cargarPropiedad(this.id),
           this.cargarInmobiliarias()
         ]).then(() => {
+          this.parsetemplate = true;
+        });
+      } else {
+        this.cargarInmobiliarias().then((inmobs) => {
+          console.log(inmobs);
+          this.propiedad.inmobiliaria = inmobs[0];
+          this.propiedad.imgs = [];
           this.parsetemplate = true;
         });
       }
@@ -66,7 +75,8 @@ export class PropiedadComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
         this.inmobiliarias = inmobiliarias;
-        resolve();
+        console.log('Inmobiliarias obtenidas: ', this.inmobiliarias);
+        resolve(this.inmobiliarias);
       });
     });
   }

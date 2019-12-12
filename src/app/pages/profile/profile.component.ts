@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
-import {
-  UsuarioService,
-  UploadFileService
-} from '../../services/services.index';
+import { UsuarioService, UploadFileService } from '../../services/services.index';
 import Swal from 'sweetalert2';
 import { FileUpload } from 'src/app/models/fileupload.model';
 
