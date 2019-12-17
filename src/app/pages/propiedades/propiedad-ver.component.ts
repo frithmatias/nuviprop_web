@@ -20,19 +20,12 @@ export class PropiedadVerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private propiedadesService: PropiedadesService, private mapaService: MapaService) { }
 
   ngOnInit() {
-
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(async params => {
       this.id = params.id;
       console.log('id ', this.id);
-
-
-      this.cargarPropiedad(this.id).then(() => {
+      await this.cargarPropiedad(this.id).then(() => {
         this.parsetemplate = true;
       });
-
-
-
-
     });
   }
 

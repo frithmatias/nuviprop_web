@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PropiedadesService, InicioService, MapaService } from 'src/app/services/services.index';
 import { Propiedad } from 'src/app/models/propiedad.model';
 
@@ -28,17 +28,27 @@ export class InicioComponent implements OnInit {
   }
 
   cambiarTab(tab: number) {
+
+    // guardo en el servico el tab seleccionado por última vez, para que al volver de
+    // ver una propiedad, quede seleccionado el ultimo tab seleccionado.
+
     const tabs: any = document.getElementsByClassName('nav-link tabs');
     const contents: any = document.getElementsByClassName('tab-pane');
+
+    // desactivo los tabs
     for (const ref of tabs) {
       ref.classList.remove('active');
     }
+    // desactivo los contenidos
     for (const ref of contents) {
       ref.classList.remove('show.active');
     }
+
+    // activo el tab correspondiente al ultimo seleccionado guardado en el servicio.
     tabs[tab].classList.add('active');
+
+    // activo el contenedor correspondiente al tab seleccionado.
     contents[tab].classList.add('show', 'active');
   }
-
 
 }

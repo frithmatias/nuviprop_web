@@ -1,15 +1,18 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <a (click)="inicioService.tabselected=0" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa"
-            role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa </a>
+            role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa
+        </a>
     </li>
     <li class="nav-item">
         <a (click)="inicioService.tabselected=1" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista"
-            role="tab" aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i> Lista </a>
+            role="tab" aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i>
+            Lista </a>
     </li>
     <li class="nav-item">
         <a (click)="inicioService.tabselected=2" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards"
-            role="tab" aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i> Cards </a>
+            role="tab" aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i>
+            Cards </a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -54,27 +57,40 @@
     <!-- ---------------------------------- -->
 
     <div #content3 class="tab-pane d-flex fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
-        <div class="container">
-            <div class="row  animated fadeIn">
+        <div class="content p-3">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let propiedad of propiedades">
+                    <div class="ribbon-wrapper card cardshadow">
+                        <div class="ribbon ribbon-bookmark ribbon-warning"> <i class="fa fa-check-circle"></i>
+                            Destacado </div>
 
-                <div class="card col-12 col-sm-6 col-md-4 col-lg-3" style="width: 18rem;"
-                    *ngFor="let propiedad of propiedades">
-                    <img class="card-img-top" [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
-                        alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{propiedad.tipopropiedad}} en {{propiedad.operacion}}</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the
-                            card's content.</p>
-                        <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-primary">Ver
+                        <div class="ribbon-content">
+                            <img class="card-img-top"
+                                [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                                alt="Card image cap">
+                            <div class="card-body p-2">
+                                <h5 class="card-title">{{propiedad.tipopropiedad}} en {{propiedad.operacion}}</h5>
+                                Some quick example text to build on the card title and make up
+                                the
+                                bulk
+                                of
+                                the
+                            </div>
+                        </div>
+                        <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-success btn-block"><i
+                                class="mdi mdi-content-paste"></i> Ver
                             propiedad</button>
                     </div>
+
                 </div>
-
-
-
             </div>
         </div>
+
+
+
+
+
+
 
 
     </div>

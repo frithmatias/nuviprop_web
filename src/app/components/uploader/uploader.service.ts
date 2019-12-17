@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { URL_SERVICIOS } from '../config/config';
+import { URL_SERVICIOS } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsuarioService } from '../pages/usuarios/usuarios.service';
-import { FileUpload } from '../models/fileupload.model';
+import { UsuarioService } from '../../pages/usuarios/usuarios.service';
+import { FileUpload } from '../../models/fileupload.model';
 
 @Injectable()
-export class UploadFileService {
+export class UploaderService {
   constructor(
     public http: HttpClient,
     private usuarioService: UsuarioService

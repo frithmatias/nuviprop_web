@@ -6,7 +6,7 @@ import {
   SettingsService,
   SidebarService,
   UsuarioService,
-  UploadFileService,
+  UploaderService,
   ModalUploadService,
   PropiedadesService,
   InmobiliariaService,
@@ -14,7 +14,8 @@ import {
   AdminGuard,
   TokenGuard,
   InicioService,
-  MapaService
+  MapaService,
+  FormService
 } from './services.index';
 
 @NgModule({
@@ -23,7 +24,7 @@ import {
     SettingsService,
     SidebarService,
     UsuarioService,
-    UploadFileService,
+    UploaderService,
     ModalUploadService,
     PropiedadesService,
     InmobiliariaService,
@@ -31,7 +32,8 @@ import {
     AdminGuard,
     TokenGuard,
     InicioService,
-    MapaService
+    MapaService,
+    FormService
   ],
   declarations: []
 })

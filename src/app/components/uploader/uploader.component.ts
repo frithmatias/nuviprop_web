@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { FileUpload } from '../../models/fileupload.model';
-import { PropiedadesService, UploadFileService } from 'src/app/services/services.index';
+import { PropiedadesService, UploaderService } from 'src/app/services/services.index';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import Swal from 'sweetalert2';
 @Component({
@@ -17,7 +17,7 @@ export class UploaderComponent implements OnInit {
   archivos: FileUpload[] = [];
   maxupload = 30;
   estaSobreElemento = false;
-  constructor(public uploadService: UploadFileService, private propiedadesService: PropiedadesService) { }
+  constructor(public uploaderService: UploaderService, private propiedadesService: PropiedadesService) { }
 
 
   ngOnInit() { }
@@ -45,7 +45,7 @@ export class UploaderComponent implements OnInit {
       this.archivos.forEach(archivo => {
         archivo.estaSubiendo = true;
 
-        this.uploadService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
+        this.uploaderService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
           archivo.progreso = 100;
           archivo.estaSubiendo = false;
           count++;
@@ -96,7 +96,7 @@ export class UploaderComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.propiedad.imgs.forEach(imagen => {
-          this.uploadService.borrarImagen(this.tipo, this.id, imagen);
+          this.uploaderService.borrarImagen(this.tipo, this.id, imagen);
         });
         this.archivos = [];
         this.propiedad.imgs = [];
@@ -127,7 +127,7 @@ export class UploaderComponent implements OnInit {
       confirmButtonText: 'Si, quiero borrarla'
     }).then((result) => {
       if (result.value) {
-        this.uploadService.borrarImagen(this.tipo, this.id, id).then((data: any) => {
+        this.uploaderService.borrarImagen(this.tipo, this.id, id).then((data: any) => {
           this.propiedad.imgs = data.propiedad.imgs;
         });
         Swal.fire({

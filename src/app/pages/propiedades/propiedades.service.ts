@@ -23,7 +23,6 @@ export class PropiedadesService {
   cargarPropiedades() {
     const url = URL_SERVICIOS + '/propiedades';
     return this.http.get(url).pipe(map((propiedades: Propiedades) => {
-      console.log(propiedades);
       this.propiedades = propiedades.propiedades;
       return propiedades;
     }));

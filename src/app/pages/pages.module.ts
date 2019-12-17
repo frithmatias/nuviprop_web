@@ -40,6 +40,7 @@ import { NgDropFilesDirective } from '../directives/ng-drop-files.directive';
 import { UploaderComponent } from '../components/uploader/uploader.component';
 import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
 import { MapaComponent } from '../components/mapa/mapa.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { MapaComponent } from '../components/mapa/mapa.component';
     SharedModule,
     PagesRoutingModule,
     FormsModule,
-    PipesModule]
+    PipesModule,
+    ComponentsModule]
 })
 export class PagesModule { }

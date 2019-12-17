@@ -9,7 +9,8 @@ export class ImagenPipe implements PipeTransform {
     let url = URL_SERVICIOS + '/imagenes';
 
     if (!img) {
-      return url + '/usuarios/xxx';
+      // al no existir esta url el backend me devuelve una imagen por defecto 'NO IMAGE'
+      return url + '/xxx/xxx/xxx'; // http://localhost:3000/imagenes/xxx/xxx/xxx -> 'usuarios'/user_id/img_id
     }
 
     if (img.indexOf('https') >= 0) {
@@ -25,7 +26,7 @@ export class ImagenPipe implements PipeTransform {
         break;
 
       default:
-        url += '/usuarios/xxx';
+        url += '/xxx/xxx/xxx';
       // console.log('Tipo coleccion falló: ', url);
     }
     return url;

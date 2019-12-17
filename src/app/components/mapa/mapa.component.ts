@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { PuntosMapa } from '../../models/puntosmapa.model';
 import { MAPBOX_TOKEN } from '../../config/config';
 
@@ -14,11 +14,11 @@ export class MapaComponent implements OnInit {
 
   coords = '-34.584335,-58.4593311';
   misPuntosMapa: PuntosMapa[];
-
   constructor() { }
 
   ngOnInit() {
     this.inicializarMapa();
+
   }
   inicializarMapa() {
 

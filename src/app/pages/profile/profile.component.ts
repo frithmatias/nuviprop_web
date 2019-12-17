@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
-import { UsuarioService, UploadFileService } from '../../services/services.index';
+import { UsuarioService, UploaderService } from '../../services/services.index';
 import Swal from 'sweetalert2';
 import { FileUpload } from 'src/app/models/fileupload.model';
 
@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public usuarioService: UsuarioService,
-    private uploadFileService: UploadFileService
+    private uploaderService: UploaderService
   ) {
     this.usuario = this.usuarioService.usuario;
   }
@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
   cambiarImagen() {
     // cambiarImagen() -> Ajax y Vanilla JS
     // cambiarImagen2() -> HttpClient
-    this.uploadFileService
+    this.uploaderService
       .subirImagen(this.imagenSubir, 'usuarios', this.usuario._id)
       .then((resp: any) => {
         console.log(resp);

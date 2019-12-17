@@ -1,4 +1,4 @@
-export { UploadFileService } from './upload.service';
+export { UploaderService } from '../components/uploader/uploader.service';
 export { SettingsService } from '../pages/settings/settings.service';
 export { SidebarService } from '../shared/sidebar/sidebar.service';
 export { UsuarioService } from '../pages/usuarios/usuarios.service';
@@ -10,3 +10,4 @@ export { AdminGuard } from '../guards/admin.guard';
 export { TokenGuard } from '../guards/token.guard';
 export { InicioService } from '../pages/inicio/inicio.service';
 export { MapaService } from '../components/mapa/mapa.service';
+export { FormService } from '../components/form/form.service';

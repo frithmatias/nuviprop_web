@@ -1,0 +1,69 @@
+<form ngNativeValidate [formGroup]="formulario" (ngSubmit)="guardarCambios()" novalidate="novalidate" *ngIf="parsehtml">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="p-3 my-3 bg-success text-white lead bold">Propiedad: {{ formulario.controls.calle.value }}
+                    {{formulario.controls.altura.value}}
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let control of formData.controls; let i = index" class="col-12 col-lg-6">
+
+                <!-- TITLE -->
+                <label>{{control.label}}</label>
+
+                <!-- SELECT -->
+                <select class="form-control" [id]="control.id" type="select" *ngIf="control.type==='select'"
+                    (change)="checkForFills(i, $event)" [formControlName]="control.name">
+                    <option *ngFor="let option of control.value" [value]="option.label">{{option.label}}
+                    </option>
+                </select>
+
+                <!-- INPUT TEXT -->
+                <input [formControlName]="control.name" type="text" class="form-control form-control-success"
+                    *ngIf="control.type==='text'">
+
+                <!-- TEXTAREA -->
+                <textarea [formControlName]="control.name" rows="5" class="form-control col-12"
+                    *ngIf="control.type==='textarea'"></textarea>
+
+                <!-- INPUT CHECKBOX -->
+                <div *ngIf="control.type==='check'">
+                    <input [formControlName]="control.name" [name]="control.name" type="checkbox" [id]="control.id" />
+                    <label [for]="control.id">{{control.label}}</label>
+                </div>
+
+                <!-- INPUT RADIO -->
+                <div *ngIf="control.type==='radiogroup'">
+                    <span *ngFor="let radio of control.radios">
+                        <input type="radio" [id]="radio.id" [formControlName]="control.name" [name]="control.name"
+                            class="with-gap radio-col-red" [value]="radio.value" />
+                        <label [for]="radio.id">{{radio.label}}</label>&nbsp;
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div *ngFor="let control of formData.controls">
+                    {{control.name}}: {{formulario.controls[control.name].valid}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 my-3">
+                <button type="submit" class="btn btn-success float-right" [disabled]="formulario.invalid">
+                    Guardar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</form>

@@ -53,11 +53,11 @@ export class PropiedadesComponent implements OnInit {
       title: 'Esta seguro?',
       text:
         'Esta a punto de borrar ' +
-        propiedad.tipopropiedad +
+        propiedad.tipo_inmueble +
         ' en ' +
         propiedad.calle +
         ' ' +
-        propiedad.numero,
+        propiedad.altura,
       icon: 'warning',
       buttons: true,
       dangerMode: true

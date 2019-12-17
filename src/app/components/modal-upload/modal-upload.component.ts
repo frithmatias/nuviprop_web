@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalUploadService, UploadFileService } from '../../services/services.index';
+import { ModalUploadService, UploaderService } from '../../services/services.index';
 import Swal from 'sweetalert2';
 import { FileUpload } from 'src/app/models/fileupload.model';
 
@@ -13,7 +13,7 @@ export class ModalUploadComponent implements OnInit {
   imagenTemp: any;
 
   constructor(
-    public uploadFileService: UploadFileService,
+    public uploaderService: UploaderService,
     public modalUploadService: ModalUploadService
   ) { }
 
@@ -55,7 +55,7 @@ export class ModalUploadComponent implements OnInit {
 
   subirImagen() {
     const imagenSubir = new FileUpload(this.imagenSubir);
-    this.uploadFileService
+    this.uploaderService
       .subirImagen(
         imagenSubir,
         this.modalUploadService.tipo,

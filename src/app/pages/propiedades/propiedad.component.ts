@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { PropiedadesService, UploadFileService } from 'src/app/services/services.index';
+import { PropiedadesService, UploaderService, FormService } from 'src/app/services/services.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 import { FileUpload } from 'src/app/models/fileupload.model';
 
 @Component({
@@ -24,20 +24,27 @@ import { FileUpload } from 'src/app/models/fileupload.model';
   `]
 })
 export class PropiedadComponent implements OnInit {
-  propiedad: Propiedad = new Propiedad('', '', '', '', '', '', '', 0);
+
+  propiedad: Propiedad = new Propiedad();
   files: FileUpload[] = [];
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
-  id: string;
+
+  id: string; // id de la propiedad (si no se trata de una propiedad 'nueva')
   parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data
 
+  formValid = false;
+  formData: FormGroup;
+
+
   constructor(
-    public propiedadesService: PropiedadesService,
-    public inmobiliariaService: InmobiliariaService,
     public router: Router,
     public activatedRoute: ActivatedRoute,
+    public propiedadesService: PropiedadesService,
+    public inmobiliariaService: InmobiliariaService,
     public modalUploadService: ModalUploadService,
-    private uploadFileServie: UploadFileService
+    public uploaderService: UploaderService,
+    public formService: FormService
   ) {
 
   }
@@ -49,21 +56,20 @@ export class PropiedadComponent implements OnInit {
     });
 
 
-
     this.activatedRoute.params.subscribe(params => {
       this.id = params.id;
       console.log('id ', this.id);
       if (this.id !== 'nuevo') {
         Promise.all([
           this.cargarPropiedad(this.id),
-          this.cargarInmobiliarias()
+          // this.cargarInmobiliarias()
         ]).then(() => {
           this.parsetemplate = true;
         });
       } else {
         this.cargarInmobiliarias().then((inmobs) => {
           console.log(inmobs);
-          this.propiedad.inmobiliaria = inmobs[0];
+          // this.propiedad.inmobiliaria = inmobs[0];
           this.propiedad.imgs = [];
           this.parsetemplate = true;
         });
@@ -87,26 +93,27 @@ export class PropiedadComponent implements OnInit {
         this.propiedad = propiedad;
         // this.files = propiedad.imgs;
         console.log('Propiedad obtenida: ', propiedad);
-        this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
+        // this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
         resolve();
       });
 
     });
   }
 
-  guardarPropiedad(f: NgForm) {
+
+  guardarPropiedad() {
     // console.log(f.valid);
-    // console.log(f.value);
-    if (f.invalid) {
+    console.log(this.formService.formulario.value);
+    if (this.formService.formulario.invalid) {
       return;
     }
-    this.propiedad.inmobiliaria = f.value.inmobiliaria;
+    // this.propiedad.inmobiliaria = f.value.inmobiliaria;
     this.propiedadesService
-      .guardarPropiedad(this.propiedad)
+      .guardarPropiedad(this.formService.formulario.value)
       .subscribe(propiedad => {
         this.propiedad = propiedad;
         this.cambioInmobiliaria(propiedad.inmobiliaria);
-        this.router.navigate(['/propiedad', propiedad._id]);
+        this.router.navigate(['/propiedadver', propiedad._id]);
       });
   }
 
@@ -125,7 +132,7 @@ export class PropiedadComponent implements OnInit {
 
   subir() {
     this.files.forEach(file => {
-      this.uploadFileServie.subirImagen(file, 'propiedades', this.id);
+      this.uploaderService.subirImagen(file, 'propiedades', this.id);
     });
   }
 

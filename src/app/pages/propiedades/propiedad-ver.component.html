@@ -2,16 +2,58 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <!-- Row -->
-<div class="row">
+
+<div class="row" *ngIf="parsetemplate">
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
             <div class="card-body">
-                <div style="text-align: center;" class="m-t-30"> <img
+                <div style="text-align: center;" class="m-t-30">
+
+
+
+
+
+
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100"
+                                    [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                                    alt="First slide">
+                            </div>
+
+                            <div class="carousel-item" *ngFor="let img of propiedad.imgs">
+                                <img class="d-block w-100" [src]="img | imagenPipe : 'propiedades' : propiedad._id"
+                                    alt="First slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+
+                    <!-- <img
                         [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" class="img-circle"
-                        width="150" />
-                    <h4 class="card-title m-t-10">{{ propiedad.calle }} {{ propiedad.numero }} </h4>
-                    <h6 class="card-subtitle">{{ propiedad.tipopropiedad }} en {{ propiedad.operacion }}</h6>
+                        width="150" /> -->
+
+
+
+
+
+
+
+                    <h4 class="card-title m-t-10">{{ propiedad.calle }} {{ propiedad.altura }} </h4>
+                    <h6 class="card-subtitle">{{ propiedad.tipo_inmueble }} en {{ propiedad.tipo_operacion }} en
+                        {{propiedad.subbarrio}} </h6>
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                     class="icon-size-fullscreen"></i>
@@ -20,19 +62,33 @@
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i>
                                 <div class="font-medium text-muted">{{ propiedad.imgs.length }}</div>
                             </a></div>
+                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-money"></i>
+                                <div class="font-medium text-muted">{{ propiedad.precio }}</div>
+                            </a></div>
                     </div>
                 </div>
             </div>
             <div>
                 <hr>
             </div>
-            <div class="card-body"> <small class="text-muted">Email address </small>
-                <h6>hannagover@gmail.com</h6> <small class="text-muted p-t-30 db">Phone</small>
-                <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
-                <h6>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
+            <div class="card-body">
+                <small class="text-muted">Dirección</small>
+                <h6>{{propiedad.calle}} {{propiedad.altura}}, {{propiedad.subbarrio}}, {{propiedad.barrio}}</h6>
+
+                <small class="text-muted p-t-30 db">Zona</small>
+                <h6>{{propiedad.localidad}}, {{propiedad.partido}} </h6>
+                <h6>{{propiedad.provincia}} </h6>
+                <h6>{{propiedad.pais}} </h6>
+
+                <small class="text-muted p-t-30 db">Código Postal</small>
+                <h6>{{propiedad.codigopostal}}</h6>
+
+
                 <div class="mapbox">
                     <app-mapa class="verpropiedad"></app-mapa>
-                </div> <small class="text-muted p-t-30 db">Social Profile</small>
+                </div>
+
+                <small class="text-muted p-t-30 db">Social Profile</small>
                 <br />
                 <button class="btn btn-circle btn-secondary"><i class="fa fa-facebook"></i></button>
                 <button class="btn btn-circle btn-secondary"><i class="fa fa-twitter"></i></button>
@@ -59,43 +115,20 @@
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
                 </li>
             </ul>
+
+
+
+
             <!-- Tab panes -->
             <div class="tab-content">
 
-
+                <!-- DESCRIPCION -->
                 <div class="tab-pane active" id="descripcion" role="tabpanel">
+                    <div class="card-title">
+                        {{propiedad.titulo}}
+                    </div>
                     <div class="card-body">
-                        (RGI-RGI-822) PH DE 3 AMBIENTES REFACCIONADO A NUEVO EN VILLA PUEYRREDON
-                        Venta de PH 3 AMBIENTES en Villa Pueyrredón, Capital Federal.-
-
-                        ¡¡¡ OPORTUNIDAD !!! - -LISTO PARA HABITAR -
-
-                        PH de 3 Ambientes con Patio y Gran Terraza REFACCIONADO A NUEVO.-
-                        - .SIN EXPENSAS.-
-                        La propiedad se refaccionó totalmente a nueva (revoques, cañerías, cerámicos, etc).-
-
-                        En la Primer Planta:
-
-                        - Pasillo distribuidor.-
-                        - Cocina Independiente con muebles completos nuevos (alacena y bajo mesada).-
-                        - Comedor diario con ventanal (vista al Patio).-
-                        - 2 Dormitorios con pisos cerámicos, estufa tiro balanceado, placard (sin interiores) y
-                        ventanal.
-
-                        Dormitorio principal en Suite (completo). En el 2º dormitorio cuenta con espacio para generar un
-                        placard (guardado).-
-
-                        - 2º Baño compartimentado con ducha.-
-                        - Patio 4,83 m x 3.77 m.-
-
-                        Segunda Planta:
-
-                        - Por el Patio se accede a la Primer Terraza (de paso) y a la Terraza Principal (8.11 m x 6.54
-                        m).-
-
-                        En la Terraza Principal se encuentra el tanque de agua.-
-
-                        Por cualquier consulta no dude en contactarnos.-
+                        {{propiedad.descripcion}}
                     </div>
                 </div>
 
