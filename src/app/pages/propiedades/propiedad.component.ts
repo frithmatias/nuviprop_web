@@ -29,12 +29,12 @@ export class PropiedadComponent implements OnInit {
   files: FileUpload[] = [];
   inmobiliarias: Inmobiliaria[] = [];
   inmobiliaria: Inmobiliaria = new Inmobiliaria('');
-
-  id: string; // id de la propiedad (si no se trata de una propiedad 'nueva')
+  propId: string; // esta propiedad la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
   parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data
-
   formValid = false;
   formData: FormGroup;
+
+  isLinear = true; // material stepper
 
 
   constructor(
@@ -57,37 +57,36 @@ export class PropiedadComponent implements OnInit {
 
 
     this.activatedRoute.params.subscribe(params => {
-      this.id = params.id;
-      console.log('id ', this.id);
-      if (this.id !== 'nuevo') {
+      this.propId = params.id;
+      if (params.id !== 'nuevo') {
         Promise.all([
-          this.cargarPropiedad(this.id),
-          // this.cargarInmobiliarias()
+          this.obtenerPropiedad(params.id),
+          this.obtenerInmobiliarias()
         ]).then(() => {
           this.parsetemplate = true;
         });
       } else {
-        this.cargarInmobiliarias().then((inmobs) => {
-          console.log(inmobs);
+        this.obtenerInmobiliarias().then((inmobs) => {
           // this.propiedad.inmobiliaria = inmobs[0];
-          this.propiedad.imgs = [];
-          this.parsetemplate = true;
+          // si se trata de de un aviso nuevo limpio el array de imagenes y hablilito el template
         });
+        this.propiedad.imgs = [];
+        this.parsetemplate = true;
+
       }
     });
   }
 
-  cargarInmobiliarias() {
+  obtenerInmobiliarias() {
     return new Promise((resolve, reject) => {
-      this.inmobiliariaService.cargarInmobiliarias().subscribe(inmobiliarias => {
+      this.inmobiliariaService.obtenerInmobiliarias().subscribe(inmobiliarias => {
         this.inmobiliarias = inmobiliarias;
-        console.log('Inmobiliarias obtenidas: ', this.inmobiliarias);
         resolve(this.inmobiliarias);
       });
     });
   }
 
-  cargarPropiedad(id: string) {
+  obtenerPropiedad(id: string) {
     return new Promise((resolve, reject) => {
       this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
         this.propiedad = propiedad;
@@ -103,17 +102,18 @@ export class PropiedadComponent implements OnInit {
 
   guardarPropiedad() {
     // console.log(f.valid);
-    console.log(this.formService.formulario.value);
-    if (this.formService.formulario.invalid) {
+    // console.log(this.formService.formAviso.value);
+    if (this.formService.formAviso.invalid) {
       return;
     }
     // this.propiedad.inmobiliaria = f.value.inmobiliaria;
     this.propiedadesService
-      .guardarPropiedad(this.formService.formulario.value)
+      .guardarPropiedad(this.formService.formAviso.value, this.propId) // Envío propId para saber si inserta o actualiza
       .subscribe(propiedad => {
         this.propiedad = propiedad;
-        this.cambioInmobiliaria(propiedad.inmobiliaria);
-        this.router.navigate(['/propiedadver', propiedad._id]);
+        console.log(this.propiedad);
+        // this.cambioInmobiliaria(propiedad.inmobiliaria);
+        // this.router.navigate(['/propiedadver', propiedad._id]);
       });
   }
 
@@ -132,7 +132,7 @@ export class PropiedadComponent implements OnInit {
 
   subir() {
     this.files.forEach(file => {
-      this.uploaderService.subirImagen(file, 'propiedades', this.id);
+      this.uploaderService.subirImagen(file, 'propiedades', this.propiedad._id);
     });
   }
 

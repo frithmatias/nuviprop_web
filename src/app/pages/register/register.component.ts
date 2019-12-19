@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   forma: FormGroup;
 
   constructor(
-    public _usuarioService: UsuarioService,
+    public usuarioService: UsuarioService,
     public router: Router
   ) { }
 
@@ -57,21 +57,21 @@ export class RegisterComponent implements OnInit {
 
 
     // this.forma.setValue({
-      //   correo: 'test@test.com',
-      //   nombre: 'NombrePba',
-      //   apellido: 'ApellidoPba',
-      //   nacimiento: '27-04-1979',
-      //   password: '123456',
-      //   password2: '123456',
-      //   condiciones: true
-      // });
+    //   correo: 'test@test.com',
+    //   nombre: 'NombrePba',
+    //   apellido: 'ApellidoPba',
+    //   nacimiento: '27-04-1979',
+    //   password: '123456',
+    //   password2: '123456',
+    //   condiciones: true
+    // });
 
-    }
+  }
 
 
   registrarUsuario() {
 
-      if(this.forma.invalid) {
+    if (this.forma.invalid) {
       return;
     }
 
@@ -99,10 +99,13 @@ export class RegisterComponent implements OnInit {
       this.forma.value.nacimiento,
       this.forma.value.password
     );
-
-    this._usuarioService.crearUsuario(usuario)
-      .subscribe(resp => this.router.navigate(['/login']),
-        err => {
+    console.log(usuario);
+    this.usuarioService.crearUsuario(usuario)
+      .subscribe(
+        (resp) => {
+          this.router.navigate(['/login']);
+        },
+        (err) => {
           console.log(err);
           Swal.fire('Error en el registro', err.message, 'error');
         }

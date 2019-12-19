@@ -1,13 +1,17 @@
-<form ngNativeValidate [formGroup]="formulario" (ngSubmit)="guardarCambios()" novalidate="novalidate" *ngIf="parsehtml">
+<form ngNativeValidate [formGroup]="formAviso" (ngSubmit)="guardarCambios()" novalidate="novalidate" *ngIf="parsehtml">
 
     <div class="container">
+
+        <!-- FORM HEADER         -->
         <div class="row">
             <div class="col-12">
-                <h1 class="p-3 my-3 bg-success text-white lead bold">Propiedad: {{ formulario.controls.calle.value }}
-                    {{formulario.controls.altura.value}}
+                <h1 class="p-3 my-3 bg-success text-white lead bold">Propiedad:
+                    {{ formAviso.controls.calle.value }}
+                    {{formAviso.controls.altura.value}}
                 </h1>
             </div>
         </div>
+
         <div class="row">
             <div *ngFor="let control of formData.controls; let i = index" class="col-12 col-lg-6">
 
@@ -47,23 +51,26 @@
             </div>
         </div>
 
+        <!-- SHOW CONTROLS VALIDITY -->
         <div class="row">
             <div class="col-12">
-                <div *ngFor="let control of formData.controls">
-                    {{control.name}}: {{formulario.controls[control.name].valid}}
-                </div>
+                <span *ngFor="let control of formData.controls">
+                    [{{control.name}}: <b>{{formAviso.controls[control.name].valid}}</b>],
+                </span>
             </div>
         </div>
+
+        <!-- SUBMIT BUTTON -->
         <div class="row">
-            <div class="col-12 my-3">
-                <button type="submit" class="btn btn-success float-right" [disabled]="formulario.invalid">
+            <div class="col-12 my-1 p-0">
+                <button type="submit" class="btn btn-success float-right" [disabled]="formAviso.invalid" mat-button
+                    matStepperNext>
+                    <i class="fa fa-save"></i>&nbsp;
                     Guardar
                 </button>
             </div>
-
         </div>
+
+
     </div>
-
-
-
 </form>

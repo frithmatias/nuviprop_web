@@ -46,9 +46,8 @@
                     <thead>
                         <tr>
                             <th>Imagen</th>
-                            <th>Tipo Propiedad</th>
+                            <th>Tipo Prop</th>
                             <th>Operacion</th>
-                            <th>Ciudad</th>
                             <th>Barrio</th>
                             <th>Calle</th>
                             <th>Numero</th>
@@ -65,16 +64,16 @@
                             </td>
                             <td>{{ propiedad.tipopropiedad }}</td>
                             <td>{{ propiedad.operacion }}</td>
-                            <td>{{ propiedad.ciudad }}</td>
                             <td>{{ propiedad.barrio }}</td>
                             <td>{{ propiedad.calle }}</td>
                             <td>{{ propiedad.numero }}</td>
                             <td>
-                                <button [routerLink]="['/propiedad', propiedad._id ]" class="btn btn-primary">
+                                <button [routerLink]="['/propiedad', propiedad._id ]"
+                                    class="btn btn-primary m-1 btn-sm">
                                     <i class="fa fa-edit"></i>
                                 </button>
 
-                                <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger">
+                                <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger m-1 btn-sm">
                                     <i class="fa fa-trash-o"></i>
                                 </button>
                             </td>
@@ -84,11 +83,11 @@
 
                 </table>
 
-                <button (click)="cambiarDesde(-5)" class="btn btn-secondary">
+                <button (click)="cargarPropiedades(-1)" class="btn btn-secondary">
                     Anteriores
                 </button>
 
-                <button (click)="cambiarDesde(5)" class="btn btn-secondary">
+                <button (click)="cargarPropiedades(1)" class="btn btn-secondary">
                     Siguientes
                 </button>
 

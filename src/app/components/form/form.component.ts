@@ -11,15 +11,13 @@ import { FormData, respForm } from 'src/app/models/form.model';
 export class FormComponent implements OnInit {
 
   parsehtml = false;
+  formData: FormData;
+  formAviso: FormGroup;
   @Input() formname: string;  // recibo el ID del formulario a mostrar.
-  formData: FormData;         // guardo en este objeto la data en formato JSON del formulario a mostrar.
-  // @Output() submitForm = new EventEmitter();
   @Output() submitForm: EventEmitter<string> = new EventEmitter();
-
-  formulario: FormGroup;
   defaultForm = {
     calle: 'Mercedes',
-    altura: '2325',
+    altura: 2325,
     piso: '',
     depto: '',
     tipo_inmueble: 'Terreno',
@@ -49,19 +47,14 @@ export class FormComponent implements OnInit {
     this.formService.obtenerFormulario(this.formname).subscribe((data: respForm) => {
       this.formData = data.form[0];
       this.parsehtml = true;
-      console.log('formData: ', this.formData);
     });
-
     // this.formulario.valueChanges.subscribe(data => {
     //   console.log(this.formulario);
     // });
-
-
-
   }
 
   buildForm() {
-    this.formulario = this.formBuilder.group({
+    this.formAviso = this.formBuilder.group({
       calle: [this.defaultForm.calle, [Validators.required, Validators.minLength(5)]],
       altura: [this.defaultForm.altura, [Validators.required, Validators.pattern('[0-9]{1,5}')]],
       piso: [this.defaultForm.piso, [Validators.pattern('[0-9]{1,5}')]],
@@ -86,8 +79,8 @@ export class FormComponent implements OnInit {
   }
 
   guardarCambios() {
-    if (this.formulario.valid) {
-      this.formService.formulario = this.formulario;
+    if (this.formAviso.valid) {
+      this.formService.formAviso = this.formAviso;
       this.submitForm.emit('formularioValidado');
     }
   }

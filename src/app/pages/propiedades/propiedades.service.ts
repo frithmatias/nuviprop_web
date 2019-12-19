@@ -20,8 +20,16 @@ export class PropiedadesService {
     private usuarioService: UsuarioService
   ) { }
 
-  cargarPropiedades() {
-    const url = URL_SERVICIOS + '/propiedades';
+  cargarPropiedades(pagina: number) {
+
+    // si obtengo un salto + o -, pero caigo en un "desde" +, entonces paso de página.
+    // if ((this.pagina + avance) >= 0) { this.pagina += avance; }
+
+    let url = URL_SERVICIOS + '/propiedades';
+    url += '?pagina=' + pagina;
+
+    // console.log('URL', url);
+
     return this.http.get(url).pipe(map((propiedades: Propiedades) => {
       this.propiedades = propiedades.propiedades;
       return propiedades;
@@ -44,26 +52,33 @@ export class PropiedadesService {
   }
 
   // guardar = crear o actualizar
-  guardarPropiedad(propiedad: Propiedad) {
+  guardarPropiedad(propiedad: Propiedad, propId: string) {
     let url = URL_SERVICIOS + '/propiedades';
     const headers = new HttpHeaders({
       'x-token': this.usuarioService.token
     });
 
-    if (propiedad._id) {
+    if (propId !== 'nuevo') {
       // actualizando
-      url += '/' + propiedad._id;
+      console.log('ACTUALIZANDO0', propiedad);
+      console.log('ACTUALIZANDO1', this.propiedad);
+      url += '/' + propId;
       return this.http.put(url, propiedad, { headers }).pipe(
         map((resp: any) => {
           Swal.fire('Propiedad Actualizado', propiedad.calle, 'success');
+          this.propiedad = resp.propiedad;
           return resp.propiedad;
         })
       );
     } else {
+      console.log('INSERTANDO2', propiedad);
+      console.log('INSERTANDO3', this.propiedad);
+
       // creando
       return this.http.post(url, propiedad, { headers }).pipe(
         map((resp: any) => {
           Swal.fire('Propiedad Creada', propiedad.calle, 'success');
+          this.propiedad = resp.propiedad;
           return resp.propiedad;
         })
       );

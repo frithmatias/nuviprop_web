@@ -18,7 +18,7 @@ export class UsuariosComponent implements OnInit {
   constructor(
     public usuarioService: UsuarioService,
     public modalUploadService: ModalUploadService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cargarUsuarios();
@@ -82,10 +82,13 @@ export class UsuariosComponent implements OnInit {
       title: '¿Esta seguro?',
       text: 'Esta a punto de borrar a ' + usuario.nombre,
       icon: 'warning',
-      buttons: true,
-      dangerMode: true
-    }).then(borrar => {
-      if (borrar) {
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si, borrar usuario.'
+    }).then(result => {
+      if (result.value) {
         this.usuarioService.borrarUsuario(usuario._id).subscribe(
           resp => {
             console.log(resp);
@@ -99,6 +102,8 @@ export class UsuariosComponent implements OnInit {
             console.log('El observable esta detenido.');
           }
         );
+      } else {
+        console.log('NO BORRAR');
       }
     });
   }
@@ -107,9 +112,7 @@ export class UsuariosComponent implements OnInit {
     Swal.fire({
       title: 'Confirme',
       text: 'Esta a punto de actualizar a ' + usuario.nombre,
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      icon: 'warning'
     }).then(borrar => {
       if (borrar) {
         this.usuarioService.actualizarUsuario(usuario).subscribe(

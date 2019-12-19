@@ -15,7 +15,7 @@ export class InmobiliariaService {
     private http: HttpClient
   ) {}
 
-  cargarInmobiliarias() {
+  obtenerInmobiliarias() {
     const url = URL_SERVICIOS + '/inmobiliarias';
     return this.http.get(url).pipe(
       map((resp: any) => {

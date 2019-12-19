@@ -20,6 +20,9 @@ export class PropiedadVerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private propiedadesService: PropiedadesService, private mapaService: MapaService) { }
 
   ngOnInit() {
+    document.body.scrollTop = 0; // Safari
+    document.documentElement.scrollTop = 0; // Other
+
     this.activatedRoute.params.subscribe(async params => {
       this.id = params.id;
       console.log('id ', this.id);

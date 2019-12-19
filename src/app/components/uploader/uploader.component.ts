@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class UploaderComponent implements OnInit {
   @Input() propiedad: Propiedad;
   @Input() tipo: string;
-  @Input() id: string;
+  @Input() id: string; // cuando se carga el selector <app-uploader todavía
 
   archivos: FileUpload[] = [];
   maxupload = 30;
@@ -44,12 +44,11 @@ export class UploaderComponent implements OnInit {
       let count = 0;
       this.archivos.forEach(archivo => {
         archivo.estaSubiendo = true;
-
         this.uploaderService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
           archivo.progreso = 100;
           archivo.estaSubiendo = false;
           count++;
-          console.log('count:', count);
+          // console.log('count:', count);
           if (count === this.archivos.length) {
             resolve();
           }

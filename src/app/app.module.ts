@@ -1,37 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-// Rutas
+// RUTAS
 import { AppRoutingModule } from './app-routing.module';
 
-// Modulos
-// import { PagesModule } from './pages/pages.module';
+// MODULOS PERSONALIZADOS
+import { ServiceModule } from './services/services.module';
 import { SharedModule } from './shared/shared.module';
-
-// temporal
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PipesModule } from '../app/pipes/pipes.module';
 
-// Components
+// COMPONENTES
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { ServiceModule } from './services/services.module';
 import { PagesComponent } from './pages/pages.component';
+import { ModalUploadComponent } from './components/modal-upload/modal-upload.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, PagesComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, PagesComponent, ModalUploadComponent],
   // Si queda clavado en LOADING... es posible que este alterado el orden de la importación de módulos
   // verificar que el módulo de las páginas se importe ANTES que el módulo de las rutas.
   imports: [
     BrowserModule,
-    // PagesModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
     ServiceModule,
-    SharedModule
-
-
+    SharedModule,
+    BrowserAnimationsModule,
+    PipesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

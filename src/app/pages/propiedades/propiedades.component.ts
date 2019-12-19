@@ -21,13 +21,13 @@ export class PropiedadesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cargarPropiedades();
+    this.cargarPropiedades(0);
   }
 
-  cargarPropiedades() {
+  cargarPropiedades(n: number) {
     this.cargando = true;
     this.propiedadesService
-      .cargarPropiedades()
+      .cargarPropiedades(n)
       .subscribe((props: Propiedades) => {
         // console.log(props);
         this.propiedades = props.propiedades;
@@ -37,7 +37,6 @@ export class PropiedadesComponent implements OnInit {
 
   buscarPropiedad(termino: string) {
     if (termino.length <= 0) {
-      this.cargarPropiedades();
       return;
     }
     this.cargando = true;
@@ -51,19 +50,16 @@ export class PropiedadesComponent implements OnInit {
     Swal.fire({
       // para evitar problemas de tipo en este metodo defino al prinicio, declare var swal: any;
       title: 'Esta seguro?',
-      text:
-        'Esta a punto de borrar ' +
-        propiedad.tipo_inmueble +
-        ' en ' +
-        propiedad.calle +
-        ' ' +
-        propiedad.altura,
+      text: 'Esta a punto de borrar ' + propiedad.tipo_inmueble + ' en ' + propiedad.calle + ' ' + propiedad.altura,
       icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si, borrar propiedad.'
     }).then(result => {
-      if (result) {
-        // console.log(propiedad);
+      if (result.value) {
+        console.log(result);
         this.cargando = true;
         this.propiedadesService
           .borrarPropiedad(propiedad._id)
@@ -73,7 +69,7 @@ export class PropiedadesComponent implements OnInit {
               'La propiedad ha sido borrada con éxito.',
               'success'
             );
-            this.cargarPropiedades();
+            this.cargarPropiedades(0);
             this.cargando = false;
           });
       } else {
@@ -85,4 +81,6 @@ export class PropiedadesComponent implements OnInit {
   mostrarModal(id: string) {
     this.modalUploadService.mostrarModal('propiedades', id);
   }
+
+
 }

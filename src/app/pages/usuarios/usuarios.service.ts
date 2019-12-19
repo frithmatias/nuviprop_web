@@ -119,8 +119,7 @@ export class UsuarioService implements OnDestroy {
   }
 
   crearUsuario(usuario: Usuario) {
-    const url = URL_SERVICIOS + '/user';
-    console.log(usuario);
+    const url = URL_SERVICIOS + '/usuarios';
     return this.http.post(url, usuario).pipe(
       map((resp: any) => {
         Swal.fire('Usuario creado', usuario.email, 'success');

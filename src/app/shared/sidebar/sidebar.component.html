@@ -8,8 +8,7 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
 
-                <!-- MENU DE PERFIL DE USUSARIO -->
-
+                <!-- MENU DE PERFIL DE USUARIO -->
                 <li class="user-profile" *ngIf="userService.logueado">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img
                             src="{{ usuario.img | imagenPipe : 'usuarios' : usuario._id }}" alt="user" /><span
@@ -25,47 +24,27 @@
                     </ul>
                 </li>
 
-
-
-
                 <li class="user-profile" *ngIf="!userService.logueado">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false" routerLinkActive="active"
                         routerLink="/login"><i class="mdi mdi-power"></i>
                         <span class="hide-menu">Login</span>
                     </a>
-
                 </li>
-
-
                 <li class="nav-devider"></li>
-                <!-- <li class="nav-small-cap">MENU DE USUARIO</li> -->
-
-
-
 
                 <!-- MENU PUBLICO -->
                 <li *ngFor="let item of publicmenu">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="item.icono"></i>
-
                         <span class="hide-menu"> {{ item.titulo }}
                             <span class="label label-rouded label-themecolor pull-right">
                                 {{ item.submenu.length }}
                             </span></span></a>
                     <ul aria-expanded="false" class="collapse">
-
                         <li *ngFor="let submenu of item.submenu">
                             <a routerLinkActive="active" [routerLink]="[ submenu.url ]"> {{ submenu.titulo }} </a>
                         </li>
-
-                        <!-- <li><a href="index2.html">Analytical</a></li>
-                            <li><a href="index3.html">Demographical</a></li>
-                            <li><a href="index4.html">Modern</a></li> -->
                     </ul>
                 </li>
-
-
-
-
 
                 <!-- MENU DE USUARIO -->
                 <li *ngFor="let item of userService.menu">
@@ -75,23 +54,16 @@
                                 {{ item.submenu.length }}
                             </span></span></a>
                     <ul aria-expanded="false" class="collapse">
-
                         <li *ngFor="let submenu of item.submenu">
                             <a routerLinkActive="active" [routerLink]="[ submenu.url ]"> {{ submenu.titulo }} </a>
                         </li>
-
-                        <!-- <li><a href="index2.html">Analytical</a></li>
-                                <li><a href="index3.html">Demographical</a></li>
-                                <li><a href="index4.html">Modern</a></li> -->
                     </ul>
                 </li>
 
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
-
     </div>
-
     <!-- End Sidebar scroll-->
 </aside>
 <!-- ============================================================== -->

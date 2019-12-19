@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class FormService {
 
-  formulario: FormGroup;
+  formAviso: FormGroup;
 
   constructor(private http: HttpClient) {
 

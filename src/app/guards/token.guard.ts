@@ -45,7 +45,6 @@ export class TokenGuard implements CanActivate {
       const ahora = new Date();
       const renueva = new Date();
       renueva.setTime(ahora.getTime() + (1 * 60 * 60 * 1000));
-      console.log('TokenGuard: El token no expiro todavía.');
 
       const difRenueva = tokenExp.getTime() - renueva.getTime();
       const difExpira = tokenExp.getTime() - ahora.getTime();
@@ -62,8 +61,8 @@ export class TokenGuard implements CanActivate {
         const segRenueva = Number(minRenueva[1]) * 60 / 100;
         const segExpira = Number(minExpira[1]) * 60 / 100;
 
-        console.log('Para la renovación: ', horaRenueva[0] + ':' + minRenueva[0] + ':' + segRenueva);
-        console.log('Para la expiracion: ', horaExpira[0] + ':' + minExpira[0] + ':' + segExpira);
+        // console.log('Para la renovación: ', horaRenueva[0] + ':' + minRenueva[0] + ':' + segRenueva);
+        // console.log('Para la expiracion: ', horaExpira[0] + ':' + minExpira[0] + ':' + segExpira);
 
         resolve(true);
       } else {

@@ -17,19 +17,20 @@ export class InmobiliariasComponent implements OnInit {
   constructor(
     public inmobiliariaService: InmobiliariaService,
     public modalUploadService: ModalUploadService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.cargarInmobiliarias();
+    this.obtenerInmobiliarias();
 
     this.modalUploadService.notificacion.subscribe(() =>
-      this.cargarInmobiliarias()
+      console.log('Observable de modal Upload')
+
     );
   }
 
   buscarInmobiliaria(termino: string) {
     if (termino.length <= 0) {
-      this.cargarInmobiliarias();
+      this.obtenerInmobiliarias();
       return;
     }
 
@@ -38,9 +39,9 @@ export class InmobiliariasComponent implements OnInit {
       .subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
   }
 
-  cargarInmobiliarias() {
+  obtenerInmobiliarias() {
     this.inmobiliariaService
-      .cargarInmobiliarias()
+      .obtenerInmobiliarias()
       .subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
   }
 
@@ -52,7 +53,7 @@ export class InmobiliariasComponent implements OnInit {
     console.log(inmobiliaria);
     this.inmobiliariaService
       .borrarInmobiliaria(inmobiliaria._id)
-      .subscribe(() => this.cargarInmobiliarias());
+      .subscribe(() => this.obtenerInmobiliarias());
   }
 
   crearInmobiliaria() {
@@ -61,9 +62,7 @@ export class InmobiliariasComponent implements OnInit {
       text: 'Ingrese el nombre de la inmobiliaria',
       input: 'text',
       icon: 'info',
-      showCancelButton: true,
-      buttons: true,
-      dangerMode: true
+      showCancelButton: true
     }).then((valor: any) => {
       console.log(valor.value);
       if (!valor.value || valor.value.length === 0) {
@@ -72,7 +71,7 @@ export class InmobiliariasComponent implements OnInit {
       console.log(valor.value);
       this.inmobiliariaService
         .crearInmobiliaria(valor.value)
-        .subscribe(() => this.cargarInmobiliarias());
+        .subscribe(() => this.obtenerInmobiliarias());
     });
   }
 

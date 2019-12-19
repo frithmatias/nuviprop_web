@@ -1,6 +1,66 @@
 <div class="container animated fadeIn" *ngIf="parsetemplate">
-    <!-- FORMULARIO DL AVISO -->
-    <app-form formname="form_aviso" (submitForm)="guardarPropiedad()"></app-form>
-    <!-- UPLOADER DE IMAGENES -->
-    <app-uploader [propiedad]="propiedad" tipo="propiedades" [id]="id"></app-uploader>
+
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="formAviso">
+            <ng-template matStepLabel>Cargar Aviso</ng-template>
+
+            <!-- FORMULARIO DE PUBLICACION -->
+            <app-form formname="form_aviso" (submitForm)="guardarPropiedad()"></app-form>
+
+            <!-- EXTRA BUTTONS -->
+            <div class="row" *ngIf="propId!=='nuevo'">
+                <div class="col-12 my-1">
+                    <button class="btn btn-primary float-right" [routerLink]="['/propiedadver/', id]"><i
+                            class="fa fa-file-text-o"></i>&nbsp; Ver
+                        publicacion
+                    </button>
+                </div>
+            </div>
+
+            <!-- <div>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Back</button>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Next</button>
+            </div> -->
+        </mat-step>
+
+
+        <mat-step>
+            <ng-template matStepLabel>Cargar Fotos</ng-template>
+
+            <!-- UPLOADER DE IMAGENES -->
+            <app-uploader [propiedad]="propiedad" tipo="propiedades" [id]="propiedad._id"></app-uploader>
+
+            <div>
+                <button [routerLink]="['/propiedad', propiedad._id]" class="btn btn-primary m-2 float-right" mat-button
+                    matStepperPrevious>Atras</button>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Siguiente</button>
+            </div>
+        </mat-step>
+
+
+
+
+        <mat-step>
+            <ng-template matStepLabel>Especificaciones</ng-template>
+            You are now done.
+            <div>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Atras</button>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Siguiente</button>
+            </div>
+        </mat-step>
+
+
+        <mat-step>
+            <ng-template matStepLabel>Confirmar</ng-template>
+            You are now done.
+            <div>
+                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Atras</button>
+                <button class="btn btn-primary m-2 float-right" mat-button (click)="stepper.reset()">Finalizar</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+
+
+
+
 </div>
