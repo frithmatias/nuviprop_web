@@ -2,19 +2,15 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-
                 <input #input (keyup)="buscarPropiedad( input.value )" type="text" class="form-control"
                     placeholder="Buscar propiedad...">
-
             </div>
         </div>
     </div>
 </div>
 
 <div class="row animated fadeIn" *ngIf="cargando">
-
     <div class="col-sm-12">
-
         <div class="text-center">
             <strong>Cargando</strong>
             <br>
@@ -27,73 +23,70 @@
 
 
 <div class="row animated fadeIn" *ngIf="!cargando">
+
     <div class="col-12">
+
         <div class="card">
             <div class="card-body">
 
-                <div class="text-right">
-                    <button [routerLink]="['/propiedad','nuevo']" type="button"
-                        class="btn waves-effect waves-light btn-primary">
-                        <i class="fa fa-plus"></i>
-                        Agregar Propiedad
-                    </button>
-                </div>
-
-                <h3 class="card-title">Propiedades registradas ( <small>{{ totalRegistros }}</small> )</h3>
+                <button [routerLink]="['/propiedad','nuevo']" type="button"
+                    class="btn waves-effect waves-light btn-warning float-right">
+                    <i class="fa fa-plus"></i>
+                    Agregar Propiedad
+                </button>
+            </div>
+        </div>
 
 
-                <table class="table table-hover">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-sm">
                     <thead>
                         <tr>
-                            <th>Imagen</th>
-                            <th>Tipo Prop</th>
-                            <th>Operacion</th>
-                            <th>Barrio</th>
-                            <th>Calle</th>
-                            <th>Numero</th>
+                            <th scope="col">Img</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Barrio</th>
+                            <th scope="col">Calle</th>
+                            <th scope="col">Altura</th>
+                            <th scope="col">Accion</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <tr *ngFor="let propiedad of propiedades; index as i">
+                        <tr *ngFor="let propiedad of propiedades; index as i"
+                            [routerLink]="['/propiedad', propiedad._id ]">
 
-                            <td class="w70">
-                                <img (click)="mostrarModal( propiedad._id )"
+                            <td> <img (click)="mostrarModal( propiedad._id )"
                                     [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
-                                    class="img-50 img-circle pointer">
+                                    class="img-50 pointer">
                             </td>
-                            <td>{{ propiedad.tipopropiedad }}</td>
-                            <td>{{ propiedad.operacion }}</td>
+                            <td>{{ propiedad.tipo_inmueble }}</td>
                             <td>{{ propiedad.barrio }}</td>
                             <td>{{ propiedad.calle }}</td>
-                            <td>{{ propiedad.numero }}</td>
-                            <td>
+                            <td>{{ propiedad.altura }}</td>
+                            <td class="float-right">
                                 <button [routerLink]="['/propiedad', propiedad._id ]"
                                     class="btn btn-primary m-1 btn-sm">
-                                    <i class="fa fa-edit"></i>
+                                    <i class="fa fa-edit"></i>&nbsp; Editar
                                 </button>
 
                                 <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger m-1 btn-sm">
-                                    <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-trash-o"></i>&nbsp; Borrar
                                 </button>
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
 
-                <button (click)="cargarPropiedades(-1)" class="btn btn-secondary">
+                <button (click)="cargarPropiedades(-1)" class="btn btn-primary m-1">
                     Anteriores
                 </button>
 
-                <button (click)="cargarPropiedades(1)" class="btn btn-secondary">
+                <button (click)="cargarPropiedades(1)" class="btn btn-primary m-1">
                     Siguientes
                 </button>
-
-
-
             </div>
         </div>
+
+
+
     </div>
-</div>

@@ -3,6 +3,7 @@ import { FileUpload } from '../../models/fileupload.model';
 import { PropiedadesService, UploaderService } from 'src/app/services/services.index';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
@@ -13,14 +14,19 @@ export class UploaderComponent implements OnInit {
   @Input() propiedad: Propiedad;
   @Input() tipo: string;
   @Input() id: string; // cuando se carga el selector <app-uploader todavía
-
+  params: any;
   archivos: FileUpload[] = [];
   maxupload = 30;
   estaSobreElemento = false;
-  constructor(public uploaderService: UploaderService, private propiedadesService: PropiedadesService) { }
+  constructor(public uploaderService: UploaderService, private propiedadesService: PropiedadesService, public activatedRoute: ActivatedRoute, ) { }
 
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.activatedRoute.params.subscribe((params: any) => {
+      this.params = params;
+    });
+  }
 
 
   delay(milis) {
@@ -33,14 +39,23 @@ export class UploaderComponent implements OnInit {
 
 
   async cargarImagenes() {
-    await this.subirImagenes();
-    await this.delay(2000);
-    await this.obtenerImagenes();
+    await this.subirImagenes().then(async () => {
+      await this.delay(2000);
+      await this.obtenerImagenes();
+
+    }).catch(err => {
+      Swal.fire('Complete el primer paso.', 'Por favor, vuelva al primer paso y cargue el aviso. Una vez aceptado el aviso, podrá cargar las imagenes.', 'warning');
+    });
   }
 
 
   subirImagenes() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      if (this.params.id === 'nuevo') {
+        reject('Por favor primero cargue el aviso luego suba las imagenes.');
+        return;
+      }
+
       let count = 0;
       this.archivos.forEach(archivo => {
         archivo.estaSubiendo = true;
@@ -73,9 +88,7 @@ export class UploaderComponent implements OnInit {
 
   obtenerImagenes() {
     return new Promise((resolve) => {
-
       this.propiedadesService.obtenerPropiedad(this.id).subscribe(data => {
-        console.log(data);
         this.propiedad.imgs = data.imgs;
         this.archivos = [];
       });
@@ -94,9 +107,9 @@ export class UploaderComponent implements OnInit {
       confirmButtonText: 'Si, quiero borrarla'
     }).then((result) => {
       if (result.value) {
-        this.propiedad.imgs.forEach(imagen => {
-          this.uploaderService.borrarImagen(this.tipo, this.id, imagen);
-        });
+
+        this.uploaderService.borrarImagen(this.tipo, this.id, 'todas');
+
         this.archivos = [];
         this.propiedad.imgs = [];
         Swal.fire({

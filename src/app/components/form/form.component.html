@@ -13,7 +13,7 @@
         </div>
 
         <div class="row">
-            <div *ngFor="let control of formData.controls; let i = index" class="col-12 col-lg-6">
+            <div *ngFor="let control of formControls.controls; let i = index" class="col-12 col-lg-6">
 
                 <!-- TITLE -->
                 <label>{{control.label}}</label>
@@ -54,7 +54,7 @@
         <!-- SHOW CONTROLS VALIDITY -->
         <div class="row">
             <div class="col-12">
-                <span *ngFor="let control of formData.controls">
+                <span *ngFor="let control of formControls.controls">
                     [{{control.name}}: <b>{{formAviso.controls[control.name].valid}}</b>],
                 </span>
             </div>

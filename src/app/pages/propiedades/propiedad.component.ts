@@ -50,6 +50,8 @@ export class PropiedadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.propiedadesService.scrollTop();
+
     this.modalUploadService.notificacion.subscribe(resp => {
       // actualizo la lista de inmobiliarias
       /// this.inmobiliaria.img = resp.inmobiliaria.img;
@@ -58,23 +60,26 @@ export class PropiedadComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       this.propId = params.id;
-      if (params.id !== 'nuevo') {
-        Promise.all([
-          this.obtenerPropiedad(params.id),
-          this.obtenerInmobiliarias()
-        ]).then(() => {
-          this.parsetemplate = true;
-        });
-      } else {
-        this.obtenerInmobiliarias().then((inmobs) => {
-          // this.propiedad.inmobiliaria = inmobs[0];
-          // si se trata de de un aviso nuevo limpio el array de imagenes y hablilito el template
-        });
-        this.propiedad.imgs = [];
-        this.parsetemplate = true;
-
-      }
     });
+
+
+    if (this.propId !== 'nuevo') {
+      Promise.all([
+        this.obtenerPropiedad(this.propId),
+        this.obtenerInmobiliarias()
+      ]).then(() => {
+        this.parsetemplate = true;
+      });
+    } else {
+      this.obtenerInmobiliarias().then((inmobs) => {
+        // this.propiedad.inmobiliaria = inmobs[0];
+        // si se trata de de un aviso nuevo limpio el array de imagenes y hablilito el template
+      });
+      this.propiedad.imgs = [];
+      this.parsetemplate = true;
+
+    }
+
   }
 
   obtenerInmobiliarias() {
@@ -91,7 +96,7 @@ export class PropiedadComponent implements OnInit {
       this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
         this.propiedad = propiedad;
         // this.files = propiedad.imgs;
-        console.log('Propiedad obtenida: ', propiedad);
+        console.log('Propiedad obtenida: ', this.propiedad);
         // this.cambioInmobiliaria(this.propiedad.inmobiliaria._id);
         resolve();
       });
@@ -111,9 +116,10 @@ export class PropiedadComponent implements OnInit {
       .guardarPropiedad(this.formService.formAviso.value, this.propId) // Envío propId para saber si inserta o actualiza
       .subscribe(propiedad => {
         this.propiedad = propiedad;
-        console.log(this.propiedad);
+        console.log('Propiedad guardada: ', this.propiedad);
+
         // this.cambioInmobiliaria(propiedad.inmobiliaria);
-        // this.router.navigate(['/propiedadver', propiedad._id]);
+        this.router.navigate(['/propiedad', propiedad._id]);
       });
   }
 

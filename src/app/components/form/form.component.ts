@@ -11,43 +11,58 @@ import { FormData, respForm } from 'src/app/models/form.model';
 export class FormComponent implements OnInit {
 
   parsehtml = false;
-  formData: FormData;
+  formControls: FormData;
   formAviso: FormGroup;
-  @Input() formname: string;  // recibo el ID del formulario a mostrar.
+  defaultForm: any = {};
+  @Input() formData: any;
+  @Input() formName: string;  // recibo el ID del formulario a mostrar.
+  @Input() propId: string;
   @Output() submitForm: EventEmitter<string> = new EventEmitter();
-  defaultForm = {
-    calle: 'Mercedes',
-    altura: 2325,
-    piso: '',
-    depto: '',
-    tipo_inmueble: 'Terreno',
-    tipo_unidad: 'tipo_unidad',
-    tipo_operacion: 'Venta',
-    titulo: 'Este es el titulo del aviso',
-    descripcion: 'La descripcion tiene que ser larga debe superar los 50 caracteres para validar el control de lo contrario no se puede submitir.',
-    precio: '490000',
-    radiogroup_moneda: 'radiogroup_moneda_dolares',
-    no_publicar_precio: true,
-    apto_credito: false,
-    pais: 'Argentina',
-    provincia: 'Ciudad de Buenos Aires',
-    partido: 'Ciudad de Buenos Aires',
-    localidad: 'Comuna 10',
-    barrio: 'Floresta',
-    subbarrio: 'Monte Castro',
-    codigopostal: '1417'
-  };
+
+
+
 
   constructor(private formService: FormService, private formBuilder: FormBuilder) {
-    this.buildForm();
+
   }
 
 
   ngOnInit() {
-    this.formService.obtenerFormulario(this.formname).subscribe((data: respForm) => {
-      this.formData = data.form[0];
+
+    // OBTENGO LOS CONTROLES
+    this.formService.obtenerFormulario(this.formName).subscribe((data: respForm) => {
+      this.formControls = data.form[0];
       this.parsehtml = true;
     });
+
+    // SI ES UNA EDICION OBTENGO LA DATA
+    if (this.propId !== 'nuevo') {
+      this.defaultForm = this.formData;
+    } else {
+      this.defaultForm = {
+        calle: 'Mercedes',
+        altura: 2325,
+        piso: '',
+        depto: '',
+        tipo_inmueble: 'Terreno',
+        tipo_unidad: 'tipo_unidad',
+        tipo_operacion: 'Venta',
+        titulo: 'Este es el titulo del aviso',
+        descripcion: 'La descripcion tiene que ser larga debe superar los 50 caracteres para validar el control de lo contrario no se puede submitir.',
+        precio: '490000',
+        radiogroup_moneda: 'radiogroup_moneda_dolares',
+        no_publicar_precio: true,
+        apto_credito: false,
+        pais: 'Argentina',
+        provincia: 'Ciudad de Buenos Aires',
+        partido: 'Ciudad de Buenos Aires',
+        localidad: 'Comuna 10',
+        barrio: 'Floresta',
+        subbarrio: 'Monte Castro',
+        codigopostal: '1417'
+      };
+    }
+    this.buildForm();
     // this.formulario.valueChanges.subscribe(data => {
     //   console.log(this.formulario);
     // });
@@ -91,24 +106,24 @@ export class FormComponent implements OnInit {
     const idOption = e.target.selectedIndex;
     // tslint:disable-next-line:whitespace
     if (
-      (typeof this.formData.controls[idControl] !== 'undefined') &&
-      (typeof this.formData.controls[idControl].value[idOption] !== 'undefined')
+      (typeof this.formControls.controls[idControl] !== 'undefined') &&
+      (typeof this.formControls.controls[idControl].value[idOption] !== 'undefined')
     ) {
-      if (typeof this.formData.controls[idControl].value[idOption].fill === 'undefined') {
+      if (typeof this.formControls.controls[idControl].value[idOption].fill === 'undefined') {
         console.log('No hay controles para llenar');
       } else {
 
-        console.log('llenando del control', this.formData.controls[idControl].value[idOption].fill.fill_control);
-        console.log('con los siguientes valores: ', this.formData.controls[idControl].value[idOption].fill.value);
+        console.log('llenando del control', this.formControls.controls[idControl].value[idOption].fill.fill_control);
+        console.log('con los siguientes valores: ', this.formControls.controls[idControl].value[idOption].fill.value);
 
-        const fill = this.formData.controls[idControl].value[idOption].fill;
+        const fill = this.formControls.controls[idControl].value[idOption].fill;
         const selectToFill = document.getElementById(fill.fill_control) as HTMLSelectElement;
         const insertOption = document.createElement('option');
         // LIMPIO EL SELECT A LLENAR
         for (let x = 0; x <= selectToFill.options.length; x++) {
           selectToFill.options[x] = null;
         }
-        // lleno el select con los valores dentro de this.formData.controls[idControl].value[idOption].fill.value
+        // lleno el select con los valores dentro de this.formControls.controls[idControl].value[idOption].fill.value
         let i = 0;
         fill.value.forEach(option => {
           selectToFill.options[i] = new Option(option.label, option.label);
@@ -123,7 +138,7 @@ export class FormComponent implements OnInit {
     console.log(this);
     const form: any = this;
     if (control.value !== form.controls.password1.value) {
-      // if(control.value!==this.formData.controls['password1'].value){
+      // if(control.value!==this.formControls.controls['password1'].value){
       return {
         noiguales: true
       };

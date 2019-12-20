@@ -14,7 +14,7 @@
     <!-- Container fluid  -->
     <!-- ============================================================== -->
     <!-- <div class="container-fluid"> -->
-    <div style="margin-top: 70px">
+    <div style="margin-top: 70px; min-height: 600px;">
       <app-breadcrumbs></app-breadcrumbs>
 
       <router-outlet></router-outlet>
@@ -34,24 +34,43 @@
       <!-- ============================================================== -->
       <!-- End PAge Content -->
       <!-- ============================================================== -->
+
+
+
     </div>
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
     <!-- ============================================================== -->
+
+
     <!-- ============================================================== -->
     <!-- footer -->
     <!-- ============================================================== -->
-    <footer class="footer">
-      © 2019 | Matias Frith
+
+    <footer class="p-2 bg-light">
+      <div class="row">
+        <div class="col-md-6">
+          Matias Frith© 2019<br />
+          Buenos Aires, Argentina
+        </div>
+        <div class="col-md-6">
+          <span class="float-right" id="footer-phone"><i class="mdi mdi-whatsapp text-success"></i> +54 11
+            6490-6542</span>
+        </div>
+      </div>
     </footer>
     <!-- ============================================================== -->
     <!-- End footer -->
     <!-- ============================================================== -->
+
   </div>
   <!-- ============================================================== -->
   <!-- End Page wrapper  -->
   <!-- ============================================================== -->
+
+
 </div>
+
 
 <!-- Modal Upload -->
 <app-modal-upload></app-modal-upload>

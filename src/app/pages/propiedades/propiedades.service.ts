@@ -60,8 +60,6 @@ export class PropiedadesService {
 
     if (propId !== 'nuevo') {
       // actualizando
-      console.log('ACTUALIZANDO0', propiedad);
-      console.log('ACTUALIZANDO1', this.propiedad);
       url += '/' + propId;
       return this.http.put(url, propiedad, { headers }).pipe(
         map((resp: any) => {
@@ -71,9 +69,6 @@ export class PropiedadesService {
         })
       );
     } else {
-      console.log('INSERTANDO2', propiedad);
-      console.log('INSERTANDO3', this.propiedad);
-
       // creando
       return this.http.post(url, propiedad, { headers }).pipe(
         map((resp: any) => {
@@ -91,5 +86,11 @@ export class PropiedadesService {
       'x-token': this.usuarioService.token
     });
     return this.http.delete(url, { headers });
+  }
+
+
+  scrollTop() {
+    document.body.scrollTop = 0; // Safari
+    document.documentElement.scrollTop = 0; // Other
   }
 }

@@ -15,7 +15,6 @@ export class MapaService {
   constructor() { }
 
   inicializarMapa(mapbox) {
-    console.log('mapbox: ', mapbox);
     const latLng = this.coords.split(',');
     const lat = Number(latLng[0]);
     const lng = Number(latLng[1]);

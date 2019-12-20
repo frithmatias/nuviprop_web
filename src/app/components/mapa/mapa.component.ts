@@ -12,7 +12,6 @@ export class MapaComponent implements OnInit {
   constructor(private mapaService: MapaService) { }
 
   ngOnInit() {
-    console.log('INICIALIZANDO MAPA');
     this.mapaService.inicializarMapa(this.mapbox);
   }
 

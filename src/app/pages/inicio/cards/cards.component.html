@@ -1,21 +1,23 @@
 <div class="content p-3">
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let propiedad of inicioService.propiedades">
-            <div class="ribbon-wrapper card cardshadow">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let propiedad of inicioService.propiedades">
+            <div class="ribbon-wrapper card cardshadow border">
                 <div class="ribbon ribbon-bookmark ribbon-warning"> <i class="fa fa-check-circle"></i>
                     Destacado </div>
 
                 <div class="ribbon-content">
-                    <img class="card-img-top" [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
-                        alt="Card image cap">
+                    <img class="card-img-top rounded-top rounded-lg"
+                        [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" alt="Card image cap">
                     <div class="card-body p-2">
-                        <h5 class="card-title">{{propiedad.tipopropiedad}} en {{propiedad.operacion}}</h5>
+                        <h5 class="card-title">{{propiedad.tipo_inmueble}} en {{propiedad.tipo_operacion}}</h5>
                         Some quick example text to build on the card title and make up the bulk of the
                     </div>
                 </div>
 
-                <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-primary rounded-0 btn-block"><i
-                        class="mdi mdi-content-paste"></i> Ver
+                <button [routerLink]="['/propiedadver', propiedad._id]"
+                    class="btn btn-primary rounded-0 float-right rounded-bottom rounded-lg"><i
+                        class="mdi mdi-content-paste"></i>
+                    Ver
                     propiedad</button>
             </div>
 

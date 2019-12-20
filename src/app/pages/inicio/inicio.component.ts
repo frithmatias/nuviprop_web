@@ -21,13 +21,11 @@ export class InicioComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('NGONINIT');
     const maparef = document.getElementById('mapbox');
     maparef.setAttribute('style', 'width:100%;');
-
+    init_plugins();
     this.cambiarTab(this.inicioService.tabselected);
     this.scrollTop(); // envio el scroll hacia arriba
-    init_plugins();
   }
 
   tabSelected(n: number) {
@@ -58,7 +56,6 @@ export class InicioComponent implements OnInit {
 
 
   scrollTop() {
-    console.log('enviando hacia arriba');
     document.body.scrollTop = 0; // Safari
     document.documentElement.scrollTop = 0; // Other
   }
@@ -69,6 +66,9 @@ export class InicioComponent implements OnInit {
     if ((window.pageYOffset ||
       document.documentElement.scrollTop ||
       document.body.scrollTop) > this.showScrollHeight) {
+
+      // al hacer un scroll hacia abajo, el boton que aparece para ir hacia arriba tapa el footer.
+      // corro el telefono hacia la izquierda para que no lo tape.
       this.showGoUpButton = true;
     } else if (this.showGoUpButton &&
       (window.pageYOffset ||

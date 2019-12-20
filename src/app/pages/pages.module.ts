@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 // MODULOS DE ANGULAR MATERIAL
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
@@ -50,7 +51,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     PagesRoutingModule,
     FormsModule,
     MatStepperModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule
   ]
 })
 export class PagesModule { }

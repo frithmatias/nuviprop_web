@@ -36,14 +36,31 @@ export class PropiedadesComponent implements OnInit {
   }
 
   buscarPropiedad(termino: string) {
+    // /^[a-z0-9]+$/i
+    // ^         Start of string
+    // [a-z0-9]  a or b or c or ... z or 0 or 1 or ... 9
+    // +         one or more times (change to * to allow empty string)
+    // $         end of string
+    // /i        case-insensitive
+
+
+
+    console.log(termino.length);
     if (termino.length <= 0) {
+      this.cargarPropiedades(0);
       return;
     }
-    this.cargando = true;
-    this.propiedadesService.buscarPropiedad(termino).subscribe((resp: any) => {
-      this.propiedades = resp.propiedades;
-      this.cargando = false;
-    });
+
+    const regex = new RegExp(/^[a-z0-9]+$/i);
+    if (regex.test(termino)) {
+      this.cargando = true;
+      this.propiedadesService.buscarPropiedad(termino).subscribe((resp: any) => {
+        this.propiedades = resp.propiedades;
+        this.cargando = false;
+      });
+    } else {
+      console.log('Debe ingresar solo caracteres alfanuméricos.');
+    }
   }
 
   borrarPropiedad(propiedad: Propiedad) {

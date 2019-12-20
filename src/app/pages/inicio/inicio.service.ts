@@ -16,9 +16,6 @@ export class InicioService {
   }
 
   cargarPropiedades() {
-    console.log('cargando propiedades pagina:', this.actualPage);
-    // es importante usar el operador spread para que haga un PUSH de los elementos del array
-    // sino va a emter todo un array completo como un nuevo elemento dentro del array.
     if (this.actualPage * 10 < this.propiedadestotal) { // solo traigo mas, si quedan mas para mostrar.
       this.propiedadesService.cargarPropiedades(this.actualPage).subscribe(data => {
         this.propiedades.push(...data.propiedades);
