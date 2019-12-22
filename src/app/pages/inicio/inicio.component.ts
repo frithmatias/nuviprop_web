@@ -10,7 +10,7 @@ declare function init_plugins();
 
 
 export class InicioComponent implements OnInit {
-  private INFINITESCROLL_THRESHOLD = 90;
+  private INFINITESCROLL_THRESHOLD = 80;
   private showGoUpButton: boolean;
   private getMoreProps = false;
   showScrollHeight = 400;
@@ -82,8 +82,8 @@ export class InicioComponent implements OnInit {
     // 2. document.documentElement.clientHeight, altura del scroll
     // 3. document.documentElement.offsetHeight, altura total de la ventana
     // 1 + 2 = 3
-
-    if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / document.documentElement.offsetHeight) > this.INFINITESCROLL_THRESHOLD) {
+    const contentHeight = document.getElementById('myTabContent').offsetHeight;
+    if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
       if (this.getMoreProps === false) {
         this.inicioService.cargarPropiedades();
       }

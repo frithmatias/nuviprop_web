@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FileUpload } from '../../models/fileupload.model';
 import { PropiedadesService, UploaderService } from 'src/app/services/services.index';
 import { Propiedad } from 'src/app/models/propiedad.model';
@@ -14,15 +14,19 @@ export class UploaderComponent implements OnInit {
   @Input() propiedad: Propiedad;
   @Input() tipo: string;
   @Input() id: string; // cuando se carga el selector <app-uploader todavía
+  @Output() cargaFinalizada = new EventEmitter();
   params: any;
   archivos: FileUpload[] = [];
   maxupload = 30;
   estaSobreElemento = false;
-  constructor(public uploaderService: UploaderService, private propiedadesService: PropiedadesService, public activatedRoute: ActivatedRoute, ) { }
+
+  constructor(public uploaderService: UploaderService, private propiedadesService: PropiedadesService, public activatedRoute: ActivatedRoute) { }
 
 
   ngOnInit() {
-
+    console.log('propiedad al inicio', this.propiedad);
+    // this.propiedad.imgs = [];
+    // console.log('PROPIEDAD:', this.propiedad);
     this.activatedRoute.params.subscribe((params: any) => {
       this.params = params;
     });
@@ -40,9 +44,10 @@ export class UploaderComponent implements OnInit {
 
   async cargarImagenes() {
     await this.subirImagenes().then(async () => {
-      await this.delay(2000);
+      await this.delay(1000);
       await this.obtenerImagenes();
-
+      await this.delay(1000);
+      this.cargaFinalizada.emit('cargaImagenesOK');
     }).catch(err => {
       Swal.fire('Complete el primer paso.', 'Por favor, vuelva al primer paso y cargue el aviso. Una vez aceptado el aviso, podrá cargar las imagenes.', 'warning');
     });
@@ -89,8 +94,11 @@ export class UploaderComponent implements OnInit {
   obtenerImagenes() {
     return new Promise((resolve) => {
       this.propiedadesService.obtenerPropiedad(this.id).subscribe(data => {
+        console.log('Imagenes obtenidas:', data);
         this.propiedad.imgs = data.imgs;
+        console.log('this.propiedad:', this.propiedad);
         this.archivos = [];
+        resolve();
       });
     });
   }

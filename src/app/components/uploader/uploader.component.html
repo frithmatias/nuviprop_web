@@ -15,7 +15,7 @@
             <!-- Imagenes cargadas en el server -->
             <div *ngFor="let img of propiedad.imgs" class="gallery img-wrap">
                 <span class="close" (click)="borrarImagen(img)">&times;</span>
-                <img src="{{img | imagenPipe : 'propiedades' : propiedad._id }}">
+                <img src="{{img | imagenPipe : 'propiedades' : propiedad?._id }}">
             </div>
 
             <!-- Imagenes previsualizadas luego del drag and drop -->
@@ -27,9 +27,8 @@
             <!-- Maximo de 20 imagenes, si son menos las completo con 'no-image' Agregar -->
             <div>
                 <div class="gallery img-wrap" style="cursor: pointer;"
-                    *ngFor="let aasdf of [].constructor(maxupload - propiedad.imgs.length)">
-                    <label for="filesWindow"><img src="../../../assets/images/no-image1.png"
-                            style="cursor: pointer;"></label>
+                    *ngFor="let aasdf of [].constructor(maxupload - propiedad?.imgs?.length)">
+                    <label for="filesWindow"><img src="../../../assets/images/no-image1.png"></label>
                 </div>
             </div>
         </div>
@@ -45,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <div *ngIf="propiedad.imgs.length == 0">Arrastre aquí las imagenes</div>
+                    <div *ngIf="propiedad?.imgs?.length == 0">Arrastre aquí las imagenes</div>
                     <tr *ngFor="let archivo of archivos">
                         <th scope="row">1</th>
                         <td [ngClass]="{'text-green':archivo.progreso>=100}">

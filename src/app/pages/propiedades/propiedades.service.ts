@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Propiedades, Propiedad } from 'src/app/models/propiedad.model';
 import { UsuarioService } from '../usuarios/usuarios.service';
+import { Propiedades, Propiedad } from 'src/app/models/propiedad.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
+import { MatStepper } from '@angular/material/stepper';
+import { Detalles } from 'src/app/models/detalle.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +14,21 @@ import { map } from 'rxjs/operators';
 export class PropiedadesService {
 
 
-  propiedades: Propiedad[] = [];
-  propiedad: Propiedad;
-
   constructor(
     private http: HttpClient,
     private usuarioService: UsuarioService
   ) { }
 
+
+  obtenerFormularios(formname: string) {
+    const url = URL_SERVICIOS + '/form/' + formname;
+    return this.http.get(url);
+  }
+
   cargarPropiedades(pagina: number) {
-
-    // si obtengo un salto + o -, pero caigo en un "desde" +, entonces paso de página.
-    // if ((this.pagina + avance) >= 0) { this.pagina += avance; }
-
     let url = URL_SERVICIOS + '/propiedades';
     url += '?pagina=' + pagina;
-
-    // console.log('URL', url);
-
     return this.http.get(url).pipe(map((propiedades: Propiedades) => {
-      this.propiedades = propiedades.propiedades;
       return propiedades;
     }));
   }
@@ -40,11 +37,13 @@ export class PropiedadesService {
     const url = URL_SERVICIOS + '/propiedades/' + id;
     return this.http.get(url).pipe(
       map((resp: any) => {
-        this.propiedad = resp.propiedad;
         return resp.propiedad;
       })
     );
   }
+
+
+
 
   buscarPropiedad(termino: string) {
     const url = URL_SERVICIOS + '/buscar/propiedades/' + termino;
@@ -52,8 +51,10 @@ export class PropiedadesService {
   }
 
   // guardar = crear o actualizar
-  guardarPropiedad(propiedad: Propiedad, propId: string) {
-    let url = URL_SERVICIOS + '/propiedades';
+  guardarPropiedad(dataform: any, propId: string) {
+    let url = URL_SERVICIOS;
+    url += '/propiedades';
+    // url += '/propiedades/detalles';
     const headers = new HttpHeaders({
       'x-token': this.usuarioService.token
     });
@@ -61,20 +62,70 @@ export class PropiedadesService {
     if (propId !== 'nuevo') {
       // actualizando
       url += '/' + propId;
-      return this.http.put(url, propiedad, { headers }).pipe(
+      return this.http.put(url, dataform, { headers }).pipe(
         map((resp: any) => {
-          Swal.fire('Propiedad Actualizado', propiedad.calle, 'success');
-          this.propiedad = resp.propiedad;
-          return resp.propiedad;
+          Swal.fire({
+            title: '¡Propiedad actualizada!',
+            text: dataform.calle + ' ' + dataform.altura,
+            icon: 'success',
+            timer: 1000
+          });
+          return resp;
         })
       );
     } else {
       // creando
-      return this.http.post(url, propiedad, { headers }).pipe(
+      return this.http.post(url, dataform, { headers }).pipe(
         map((resp: any) => {
-          Swal.fire('Propiedad Creada', propiedad.calle, 'success');
-          this.propiedad = resp.propiedad;
-          return resp.propiedad;
+          Swal.fire({
+            title: '¡Propiedad creada!',
+            text: dataform.calle + ' ' + dataform.altura,
+            icon: 'success',
+            timer: 1000
+          });
+          return resp;
+        })
+      );
+    }
+  }
+
+  // al momento de guardar los detalles, yo se que tengo una propiedad guardada (this.propiedad)
+  // por lo tanto puedo pasarle el objeto como argumento donde tengo toda la data.
+  // NO puedo hacer lo mismo con guardarPropiedad porque puede ser un fromulario en blanco
+  // en ese caso sólo puedo saber si se trata de una propiedad NUEVA obteniendo los parametros
+  // de la url con activatedRoute obteniendo params.id que me trae 'nuevo' o el id de la propiedad.
+  guardarDetalles(dataform: any, propiedad: Propiedad) {
+    let url = URL_SERVICIOS;
+
+    url += '/propiedades/detalles/' + propiedad._id;
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+
+    if (propiedad.detalles) {
+      // actualizando
+      return this.http.put(url, dataform, { headers }).pipe(
+        map((resp: any) => {
+          Swal.fire({
+            title: '¡Detalles actualizados!',
+            text: dataform.calle + ' ' + dataform.altura,
+            icon: 'success',
+            timer: 1000
+          });
+          return resp;
+        })
+      );
+    } else {
+      // creando
+      return this.http.post(url, dataform, { headers }).pipe(
+        map((resp: any) => {
+          Swal.fire({
+            title: '¡Detalles creados!',
+            text: dataform.calle + ' ' + dataform.altura,
+            icon: 'success',
+            timer: 1000
+          });
+          return resp;
         })
       );
     }
@@ -92,5 +143,13 @@ export class PropiedadesService {
   scrollTop() {
     document.body.scrollTop = 0; // Safari
     document.documentElement.scrollTop = 0; // Other
+  }
+
+  stepperGoBack(stepper: MatStepper) {
+    stepper.previous();
+  }
+  stepperGoNext(stepper: MatStepper) {
+    this.scrollTop();
+    stepper.next();
   }
 }

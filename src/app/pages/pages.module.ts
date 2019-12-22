@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PagesRoutingModule } from './pages-routing.module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // MODULOS DE ANGULAR MATERIAL
 import { MatStepperModule } from '@angular/material/stepper';
@@ -49,6 +49,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     ComponentsModule,
     CommonModule,
     PagesRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     MatStepperModule,
     MatFormFieldModule,

@@ -1,0 +1,384 @@
+{
+    "_id": ObjectId("5df3a86cab4ef555c55a24d5"),
+    "type": "form",
+    "name": "propiedad",
+    "id": "propiedad",
+    "label": "TIPO DE PROPIEDAD",
+    "controls": [
+        {
+            "type": "text",
+            "name": "calle",
+            "id": "calle",
+            "label": "Calle"
+        },
+        {
+            "type": "text",
+            "name": "altura",
+            "id": "altura",
+            "label": "Altura"
+        },
+        {
+            "type": "text",
+            "name": "piso",
+            "id": "piso",
+            "label": "Piso"
+        },
+        {
+            "type": "text",
+            "name": "depto",
+            "id": "depto",
+            "label": "Depto"
+        },
+        {
+            "type": "select",
+            "name": "tipoinmueble",
+            "id": "tipoinmueble",
+            "label": "Tipo de inmueble",
+            "position": "left",
+            "value": [
+                {
+                    "type": "option",
+                    "name": "tipoinmuebledepartamento",
+                    "id": "tipoinmuebledepartamento",
+                    "value": "tipoinmuebledepartamento",
+                    "label": "Departamento",
+                    "fill": {
+                        "fillControl": "tipounidad",
+                        "value": [
+                            {
+                                "type": "option",
+                                "name": "tipounidaddepartamento",
+                                "id": "tipounidaddepartamento",
+                                "value": "tipounidaddepartamento",
+                                "label": "Departamento"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadpiso",
+                                "id": "tipounidadpiso",
+                                "value": "tipounidadpiso",
+                                "label": "Piso"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadsemipiso",
+                                "id": "tipounidadsemipiso",
+                                "value": "tipounidadsemipiso",
+                                "label": "Semipiso"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadduplex",
+                                "id": "tipounidadduplex",
+                                "value": "tipounidadduplex",
+                                "label": "Dúplex"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadtriplex",
+                                "id": "tipounidadtriplex",
+                                "value": "tipounidadtriplex",
+                                "label": "Triplex"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadloft",
+                                "id": "tipounidadloft",
+                                "value": "tipounidadloft",
+                                "label": "Loft"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadpenthouse",
+                                "id": "tipounidadpenthouse",
+                                "value": "tipounidadpenthouse",
+                                "label": "Pent-house"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadph",
+                                "id": "tipounidadph",
+                                "value": "tipounidadph",
+                                "label": "PH"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmuebleph",
+                    "id": "tipoinmuebleph",
+                    "value": "tipoinmuebleph",
+                    "label": "Departamento tipo casa / PH"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblecasa",
+                    "id": "tipoinmueblecasa",
+                    "value": "tipoinmueblecasa",
+                    "label": "Casa",
+                    "fill": {
+                        "fillControl": "tipounidad",
+                        "value": [
+                            {
+                                "type": "option",
+                                "name": "tipounidadcasa",
+                                "id": "tipounidadcasa",
+                                "value": "tipounidadcasa",
+                                "label": "Casa"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadchalet",
+                                "id": "tipounidadchalet",
+                                "value": "tipounidadchalet",
+                                "label": "Chalet"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadduplex",
+                                "id": "tipounidadduplex",
+                                "value": "tipounidadduplex",
+                                "label": "Dúplex"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadtriplex",
+                                "id": "tipounidadtriplex",
+                                "value": "tipounidadtriplex",
+                                "label": "Triplex"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadcasaquinta",
+                                "id": "tipounidadcasaquinta",
+                                "value": "tipounidadcasaquinta",
+                                "label": "Casa Quinta"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidadcabania",
+                                "id": "tipounidadcabania",
+                                "value": "tipounidadcabania",
+                                "label": "Cabaña"
+                            },
+                            {
+                                "type": "option",
+                                "name": "tipounidaddepartamento",
+                                "id": "tipounidaddepartamento",
+                                "value": "tipounidaddepartamento",
+                                "label": "Departamento"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblequinta",
+                    "id": "tipoinmueblequinta",
+                    "value": "tipoinmueblequinta",
+                    "label": "Quinta"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblecochera",
+                    "id": "tipoinmueblecochera",
+                    "value": "tipoinmueblecochera",
+                    "label": "Cochera"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblelocal",
+                    "id": "tipoinmueblelocal",
+                    "value": "tipoinmueblelocal",
+                    "label": "Local"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblehotel",
+                    "id": "tipoinmueblehotel",
+                    "value": "tipoinmueblehotel",
+                    "label": "Hotel"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmuebleterreno",
+                    "id": "tipoinmuebleterreno",
+                    "value": "tipoinmuebleterreno",
+                    "label": "Terreno"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmuebleoficina",
+                    "id": "tipoinmuebleoficina",
+                    "value": "tipoinmuebleoficina",
+                    "label": "Oficina"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblecampo",
+                    "id": "tipoinmueblecampo",
+                    "value": "tipoinmueblecampo",
+                    "label": "Campo"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblefondocomercio",
+                    "id": "tipoinmueblefondocomercio",
+                    "value": "tipoinmueblefondocomercio",
+                    "label": "Fondo de Comercio"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblegalpon",
+                    "id": "tipoinmueblegalpon",
+                    "value": "tipoinmueblegalpon",
+                    "label": "Galpón"
+                },
+                {
+                    "type": "option",
+                    "name": "tipoinmueblenegocioespecial",
+                    "id": "tipoinmueblenegocioespecial",
+                    "value": "tipoinmueblenegocioespecial",
+                    "label": "Negocio especial"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "tipounidad",
+            "id": "tipounidad",
+            "label": "Tipo de Unidad",
+            "value": []
+        },
+        {
+            "type": "select",
+            "name": "tipooperacion",
+            "id": "tipooperacion",
+            "label": "Tipo de Operación",
+            "value": [
+                {
+                    "type": "option",
+                    "name": "tipooperacionventa",
+                    "id": "tipooperacionventa",
+                    "value": "tipooperacionventa",
+                    "label": "Venta"
+                },
+                {
+                    "type": "option",
+                    "name": "tipooperacionalquiler",
+                    "id": "tipooperacionalquiler",
+                    "value": "tipooperacionalquiler",
+                    "label": "Alquiler"
+                },
+                {
+                    "type": "option",
+                    "name": "tipooperacionalquilertemporada",
+                    "id": "tipooperacionalquilertemporada",
+                    "value": "tipooperacionalquilertemporada",
+                    "label": "Alquiler por temporada"
+                },
+                {
+                    "type": "option",
+                    "name": "tipooperaciontiempocompartido",
+                    "id": "tipooperaciontiempocompartido",
+                    "value": "tipooperaciontiempocompartido",
+                    "label": "Tiempo compartido"
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "name": "titulo",
+            "id": "titulo",
+            "label": "Título del Aviso"
+        },
+        {
+            "type": "textarea",
+            "name": "descripcion",
+            "id": "descripcion",
+            "label": "Descripción"
+        },
+        {
+            "type": "text",
+            "name": "precio",
+            "id": "precio",
+            "label": "Precio del inmueble"
+        },
+        {
+            "type": "radiogroup",
+            "name": "moneda",
+            "id": "moneda",
+            "radios": [
+                {
+                    "type": "radio",
+                    "name": "monedapesos",
+                    "id": "monedapesos",
+                    "value": "monedapesos",
+                    "label": "$"
+                },
+                {
+                    "type": "radio",
+                    "name": "monedadolares",
+                    "id": "monedadolares",
+                    "value": "monedadolares",
+                    "label": "u$d"
+                }
+            ]
+        },
+        {
+            "type": "check",
+            "name": "nopublicarprecio",
+            "id": "nopublicarprecio",
+            "label": "No publicar el precio."
+        },
+        {
+            "type": "check",
+            "name": "aptocredito",
+            "id": "aptocredito",
+            "label": "Apto crédito."
+        },
+        {
+            "type": "text",
+            "name": "pais",
+            "id": "pais",
+            "label": "País"
+        },
+        {
+            "type": "text",
+            "name": "provincia",
+            "id": "provincia",
+            "label": "Provincia"
+        },
+        {
+            "type": "text",
+            "name": "partido",
+            "id": "partido",
+            "label": "Partido"
+        },
+        {
+            "type": "text",
+            "name": "localidad",
+            "id": "localidad",
+            "label": "Localidad"
+        },
+        {
+            "type": "text",
+            "name": "barrio",
+            "id": "barrio",
+            "label": "Barrio"
+        },
+        {
+            "type": "text",
+            "name": "subbarrio",
+            "id": "subbarrio",
+            "label": "Sub Barrio"
+        },
+        {
+            "type": "text",
+            "name": "codigopostal",
+            "id": "codigopostal",
+            "label": "C.P."
+        }
+    ]
+}

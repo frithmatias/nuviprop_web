@@ -1,20 +1,8 @@
-<form ngNativeValidate [formGroup]="formAviso" (ngSubmit)="guardarCambios()" novalidate="novalidate" *ngIf="parsehtml">
-
+<form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="enviarFormulario(formName)" novalidate="novalidate"
+    *ngIf="parsetemplate" class=" animated fadeIn">
     <div class="container">
-
-        <!-- FORM HEADER         -->
         <div class="row">
-            <div class="col-12">
-                <h1 class="p-3 my-3 bg-success text-white lead bold">Propiedad:
-                    {{ formAviso.controls.calle.value }}
-                    {{formAviso.controls.altura.value}}
-                </h1>
-            </div>
-        </div>
-
-        <div class="row">
-            <div *ngFor="let control of formControls.controls; let i = index" class="col-12 col-lg-6">
-
+            <div *ngFor="let control of formControls?.controls; let i = index" class="col-12 col-lg-6">
                 <!-- TITLE -->
                 <label>{{control.label}}</label>
 
@@ -49,28 +37,26 @@
                 </div>
 
             </div>
-        </div>
+            <!-- SUBMIT BUTTON -->
+            <div class="col-12  my-5 p-0">
 
-        <!-- SHOW CONTROLS VALIDITY -->
-        <div class="row">
-            <div class="col-12">
-                <span *ngFor="let control of formControls.controls">
-                    [{{control.name}}: <b>{{formAviso.controls[control.name].valid}}</b>],
-                </span>
-            </div>
-        </div>
-
-        <!-- SUBMIT BUTTON -->
-        <div class="row">
-            <div class="col-12 my-1 p-0">
-                <button type="submit" class="btn btn-success float-right" [disabled]="formAviso.invalid" mat-button
-                    matStepperNext>
+                <button type="submit" class="btn btn-success float-right" [disabled]="formGroup.invalid">
+                    <!-- mat-button matStepperNext> -->
                     <i class="fa fa-save"></i>&nbsp;
                     Guardar
                 </button>
+
             </div>
         </div>
 
+        <!-- SHOW CONTROLS VALIDITY -->
+        <!-- <div class="row">
+            <div class="col-12">
+                <span *ngFor="let control of form.controls">
+                    [{{control.name}}: <b>{{form.controls[control.name].valid}}</b>],
+                </span>
+            </div>
+        </div> -->
 
     </div>
 </form>

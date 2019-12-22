@@ -1,67 +1,75 @@
 <div class="container animated fadeIn" *ngIf="parsetemplate">
 
-    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-horizontal-stepper [linear]=" isLinear" #stepper>
+
+
+
+        <!-- FORMULARIO DE PUBLICACION -->
         <mat-step [stepControl]="formAviso">
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-
-            <!-- FORMULARIO DE PUBLICACION -->
-            <app-form [formData]="propiedad" [propId]="propId" formName="form_aviso" (submitForm)="guardarPropiedad()">
-            </app-form>
-
-            <!-- EXTRA BUTTONS -->
-            <div class="row" *ngIf="propId!=='nuevo'">
-                <div class="col-12 my-1">
-                    <button class="btn btn-primary float-right" [routerLink]="['/propiedadver/', propId]"><i
-                            class="fa fa-file-text-o"></i>&nbsp; Ver
-                        publicacion
-                    </button>
+            <!-- FORM HEADER         -->
+            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
+                <div class="col-12">
+                    <h2 class="text-white bold"> Aviso:&nbsp;
+                        {{ formsGroups[0].value.tipoinmueble }} en
+                        {{ formsGroups[0].value.tipooperacion }} en
+                        {{ formsGroups[0].value.calle }}
+                        {{ formsGroups[0].value.altura }}
+                    </h2>
                 </div>
             </div>
-
-            <!-- <div>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Back</button>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Next</button>
-            </div> -->
+            <app-form [formControls]="forms[0]" [formGroup]="formsGroups[0]" [propId]="propId"
+                (submitForm)="guardarFormulario(forms[0].name, $event, stepper)">
+            </app-form>
         </mat-step>
 
-
+        <!-- UPLOADER DE IMAGENES -->
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-camera h5"></i>&nbsp; Fotos</ng-template>
-
-            <!-- UPLOADER DE IMAGENES -->
-            <app-uploader [propiedad]="propiedad" tipo="propiedades" [id]="propiedad._id"></app-uploader>
-
-            <div>
-                <button [routerLink]="['/propiedad', propiedad._id]" class="btn btn-primary m-2 float-right" mat-button
-                    matStepperPrevious>Atras</button>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Siguiente</button>
+            <!-- FORM HEADER         -->
+            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
+                <div class="col-12">
+                    <h2 class="text-white bold">
+                        Subir Imagenes
+                    </h2>
+                </div>
             </div>
+            <app-uploader [propiedad]="propiedad" tipo="propiedades" [id]="propId"
+                (cargaFinalizada)="propiedadesService.stepperGoNext(stepper)">
+            </app-uploader>
         </mat-step>
 
-
-
-
-        <mat-step>
+        <!-- FORMULARIO DE DETALLES -->
+        <mat-step [stepControl]="formDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            You are now done.
-            <div>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Atras</button>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperNext>Siguiente</button>
+            <!-- FORM HEADER         -->
+            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
+                <div class="col-12">
+                    <h2 class="text-white bold">
+                        Detalles de la Propiedad
+                    </h2>
+                </div>
             </div>
+            <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
+                (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
+            </app-form>
         </mat-step>
-
 
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            You are now done.
-            <div>
-                <button class="btn btn-primary m-2 float-right" mat-button matStepperPrevious>Atras</button>
-                <button class="btn btn-primary m-2 float-right" mat-button (click)="stepper.reset()">Finalizar</button>
+            <!-- FORM HEADER         -->
+            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
+                <div class="col-12">
+                    <h2 class="text-white bold">
+                        ¡Eso es todo!
+                    </h2>
+                </div>
             </div>
+            <app-form-confirm [propiedad]="propiedad"></app-form-confirm>
         </mat-step>
     </mat-horizontal-stepper>
 
 
 
-
+    <div> {{ time | async }}</div>
 </div>

@@ -14,6 +14,9 @@ import Swal from 'sweetalert2';
 export class PropiedadesComponent implements OnInit {
   propiedades: Propiedad[] = [];
   cargando = false;
+  pagina = 0;
+  totalPropiedades = 0;
+
 
   constructor(
     private propiedadesService: PropiedadesService,
@@ -25,12 +28,19 @@ export class PropiedadesComponent implements OnInit {
   }
 
   cargarPropiedades(n: number) {
+    if (
+      ((this.pagina === 0) && (n < 0)) ||
+      (((this.pagina + 1) * 20 >= this.totalPropiedades) && (n > 0))
+    ) {
+      return;
+    }
+    this.pagina += n;
     this.cargando = true;
     this.propiedadesService
-      .cargarPropiedades(n)
+      .cargarPropiedades(this.pagina)
       .subscribe((props: Propiedades) => {
-        // console.log(props);
         this.propiedades = props.propiedades;
+        this.totalPropiedades = props.total;
         this.cargando = false;
       });
   }
@@ -67,7 +77,7 @@ export class PropiedadesComponent implements OnInit {
     Swal.fire({
       // para evitar problemas de tipo en este metodo defino al prinicio, declare var swal: any;
       title: 'Esta seguro?',
-      text: 'Esta a punto de borrar ' + propiedad.tipo_inmueble + ' en ' + propiedad.calle + ' ' + propiedad.altura,
+      text: 'Esta a punto de borrar ' + propiedad.tipoinmueble + ' en ' + propiedad.calle + ' ' + propiedad.altura,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

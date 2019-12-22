@@ -1,0 +1,57 @@
+<div class="container" *ngIf="propiedad">
+
+    <div class="row lead">
+        <div class="col-lg-6">
+            <b>Dirección:</b> {{ propiedad.calle}} {{ propiedad.altura}} <br />
+            <b>Piso:</b> {{ propiedad.piso}} <br />
+            <b>Depto:</b> {{ propiedad.depto}} <br />
+            <b>Tipo de inmueble:</b> {{ propiedad.tipoinmueble}} <br />
+            <b>Tipo de unidad:</b> {{ propiedad.tipounidad}} <br />
+            <b>Tipo de operación:</b> {{ propiedad.tipooperacion}} <br />
+            <b>Título:</b> {{ propiedad.titulo}} <br />
+            <b>Descripción:</b> {{ propiedad.descripcion}} <br />
+            <b>Precio:</b> {{ propiedad.precio}} <br />
+            <b>Moneda:</b> {{ propiedad.moneda}} <br />
+            <b>No publicar precio:</b> {{ propiedad.nopublicarprecio}} <br />
+            <b>Apto credito:</b> {{ propiedad.aptocredito}} <br />
+            <b>País:</b> {{ propiedad.pais}} <br />
+            <b>Provincia:</b> {{ propiedad.provincia}} <br />
+            <b>Partido:</b> {{ propiedad.partido}} <br />
+            <b>Localidad:</b> {{ propiedad.localidad}} <br />
+            <b>Barrio:</b> {{ propiedad.barrio}} <br />
+            <b>Sub barrio:</b> {{ propiedad.subbarrio}} <br />
+            <b>Código postal:</b> {{ propiedad.codigopostal}} <br />
+        </div>
+        <div class="col-lg-6">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100"
+                            [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" alt="First slide">
+                    </div>
+
+                    <div class="carousel-item" *ngFor="let img of propiedad.imgs">
+                        <img class="d-block w-100" [src]="img | imagenPipe : 'propiedades' : propiedad._id"
+                            alt="First slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="row lead">
+
+    </div>
+</div>
+
+<!-- <pre>
+    {{propiedad | json}}
+    </pre> -->

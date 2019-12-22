@@ -1,12 +1,12 @@
 export class respForm {
   constructor(
     public ok: boolean,
-    public form: FormData[],
+    public form: FormularioData[],
     public total: number
   ) { }
 }
 
-export class FormData {
+export class FormularioData {
   constructor(
     public controls: Control[],
     public _id: string,

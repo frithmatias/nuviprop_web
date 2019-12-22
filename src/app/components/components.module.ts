@@ -19,6 +19,7 @@ import { IncrementadorComponent } from '../components/incrementador/incrementado
 import { MapaComponent } from '../components/mapa/mapa.component';
 // import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 import { UploaderComponent } from '../components/uploader/uploader.component';
+import { FormConfirmComponent } from './form-confirm/form-confirm.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { UploaderComponent } from '../components/uploader/uploader.component';
     IncrementadorComponent,
     MapaComponent,
     // ModalUploadComponent, --> lo importo desde app.module.ts porque esta oculto en toda la web.
-    UploaderComponent
+    UploaderComponent,
+    FormConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { UploaderComponent } from '../components/uploader/uploader.component';
     FormComponent,
     IncrementadorComponent,
     MapaComponent,
-    UploaderComponent
+    UploaderComponent,
+    FormConfirmComponent
   ]
 })
 export class ComponentsModule { }
