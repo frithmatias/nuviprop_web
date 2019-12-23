@@ -42,9 +42,6 @@ export class PropiedadesService {
     );
   }
 
-
-
-
   buscarPropiedad(termino: string) {
     const url = URL_SERVICIOS + '/buscar/propiedades/' + termino;
     return this.http.get(url);
@@ -89,6 +86,23 @@ export class PropiedadesService {
     }
   }
 
+  activarPropiedad(id: string) {
+    let url = URL_SERVICIOS;
+    url += '/propiedades/activate/' + id;
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+    return this.http.put(url, {}, { headers }).pipe(
+      map((resp: any) => {
+        Swal.fire({
+          title: '¡Propiedad activada!',
+          icon: 'success',
+          timer: 1000
+        });
+        return resp;
+      })
+    );
+  }
   // al momento de guardar los detalles, yo se que tengo una propiedad guardada (this.propiedad)
   // por lo tanto puedo pasarle el objeto como argumento donde tengo toda la data.
   // NO puedo hacer lo mismo con guardarPropiedad porque puede ser un fromulario en blanco
@@ -139,7 +153,6 @@ export class PropiedadesService {
     return this.http.delete(url, { headers });
   }
 
-
   scrollTop() {
     document.body.scrollTop = 0; // Safari
     document.documentElement.scrollTop = 0; // Other
@@ -148,6 +161,7 @@ export class PropiedadesService {
   stepperGoBack(stepper: MatStepper) {
     stepper.previous();
   }
+
   stepperGoNext(stepper: MatStepper) {
     this.scrollTop();
     stepper.next();

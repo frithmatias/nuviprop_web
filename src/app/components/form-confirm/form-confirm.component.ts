@@ -9,7 +9,7 @@ import { PropiedadesService } from 'src/app/services/services.index';
   styleUrls: ['./form-confirm.component.scss']
 })
 export class FormConfirmComponent implements OnInit {
-@Input() propiedad: Propiedad;
+  @Input() propiedad: Propiedad;
 
   constructor(private propiedadesService: PropiedadesService) { }
 
@@ -17,6 +17,10 @@ export class FormConfirmComponent implements OnInit {
 
   }
 
-
+  activarPropiedad() {
+    this.propiedadesService.activarPropiedad(this.propiedad._id).subscribe(data => {
+      console.log(data);
+    });
+  }
 
 }

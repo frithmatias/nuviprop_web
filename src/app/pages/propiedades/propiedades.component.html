@@ -48,12 +48,12 @@
                             <th scope="col">Barrio</th>
                             <th scope="col">Calle</th>
                             <th scope="col">Altura</th>
+                            <th scope="col">Activo</th>
                             <th scope="col">Accion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let propiedad of propiedades; index as i"
-                            [routerLink]="['/propiedad', propiedad._id ]">
+                        <tr *ngFor="let propiedad of propiedades; index as i">
 
                             <td> <img (click)="mostrarModal( propiedad._id )"
                                     [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
@@ -63,7 +63,9 @@
                             <td>{{ propiedad.barrio }}</td>
                             <td>{{ propiedad.calle }}</td>
                             <td>{{ propiedad.altura }}</td>
+                            <td>agregar switch</td>
                             <td class="float-right">
+
                                 <button [routerLink]="['/propiedad', propiedad._id ]"
                                     class="btn btn-primary m-1 btn-sm">
                                     <i class="fa fa-edit"></i>&nbsp; Editar

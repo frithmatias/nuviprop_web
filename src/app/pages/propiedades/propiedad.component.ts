@@ -7,7 +7,6 @@ import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.s
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { respForm, FormularioData } from 'src/app/models/form.model';
 import { Detalles } from 'src/app/models/detalle.model';
-import { Observable, Observer } from 'rxjs';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 
 @Component({
@@ -40,9 +39,7 @@ export class PropiedadComponent implements OnInit {
   defaultDetallesData: Detalles;
 
 
-  time = new Observable<string>((observer: Observer<string>) => {
-    setInterval(() => observer.next(new Date().toString()), 1000);
-  });
+
 
 
   constructor(
