@@ -1,7 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Propiedad } from 'src/app/models/propiedad.model';
-import { Detalles } from 'src/app/models/detalle.model';
-import { PropiedadesService } from 'src/app/services/services.index';
 
 @Component({
   selector: 'app-form-confirm',
@@ -10,17 +8,14 @@ import { PropiedadesService } from 'src/app/services/services.index';
 })
 export class FormConfirmComponent implements OnInit {
   @Input() propiedad: Propiedad;
-
-  constructor(private propiedadesService: PropiedadesService) { }
+  @Output() activar = new EventEmitter();
+  constructor() { }
 
   ngOnInit() {
 
   }
 
-  activarPropiedad() {
-    this.propiedadesService.activarPropiedad(this.propiedad._id).subscribe(data => {
-      console.log(data);
-    });
+  cambiarEstado() {
+    this.activar.emit('');
   }
-
 }

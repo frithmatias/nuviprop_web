@@ -27,17 +27,17 @@ export class PropiedadesComponent implements OnInit {
     this.cargarPropiedades(0);
   }
 
-  cargarPropiedades(n: number) {
+  cargarPropiedades(page: number) {
     if (
-      ((this.pagina === 0) && (n < 0)) ||
-      (((this.pagina + 1) * 20 >= this.totalPropiedades) && (n > 0))
+      ((this.pagina === 0) && (page < 0)) ||
+      (((this.pagina + 1) * 20 >= this.totalPropiedades) && (page > 0))
     ) {
       return;
     }
-    this.pagina += n;
+    this.pagina += page;
     this.cargando = true;
     this.propiedadesService
-      .cargarPropiedades(this.pagina)
+      .cargarPropiedades('todas', this.pagina)
       .subscribe((props: Propiedades) => {
         this.propiedades = props.propiedades;
         this.totalPropiedades = props.total;
@@ -102,6 +102,14 @@ export class PropiedadesComponent implements OnInit {
       } else {
         console.log('NO BORRAR');
       }
+    });
+  }
+
+  cambiarEstado(id: string) {
+    console.log(id);
+    this.propiedadesService.cambiarEstado(id).subscribe(data => {
+      this.cargarPropiedades(0);
+      console.log(data);
     });
   }
 

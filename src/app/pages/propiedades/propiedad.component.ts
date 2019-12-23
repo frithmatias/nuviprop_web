@@ -207,6 +207,11 @@ export class PropiedadComponent implements OnInit {
     }
   }
 
+  cambiarEstado() {
+    this.propiedadesService.cambiarEstado(this.propiedad._id).subscribe(data => {
+      console.log(data);
+    });
+  }
 
 
   obtenerInmobiliarias() {

@@ -18,7 +18,7 @@ export class InicioService {
   cargarPropiedades() {
     // console.log(this.actualPage);
     if (this.actualPage * 20 < this.propiedadestotal) { // solo traigo mas, si quedan mas para mostrar.
-      this.propiedadesService.cargarPropiedades(this.actualPage).subscribe(data => {
+      this.propiedadesService.cargarPropiedades('activas', this.actualPage).subscribe(data => {
         this.propiedades.push(...data.propiedades);
         this.propiedadestotal = data.total;
       });

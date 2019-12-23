@@ -25,10 +25,24 @@ export class PropiedadesService {
     return this.http.get(url);
   }
 
-  cargarPropiedades(pagina: number) {
-    let url = URL_SERVICIOS + '/propiedades';
+  cargarPropiedades(get: string, pagina: number) {
+    let url = URL_SERVICIOS;
+    switch (get) {
+      case 'activas':
+        url += '/propiedades';
+        break;
+      case 'todas':
+        url += '/propiedades/all';
+        break;
+      default:
+        url += '/propiedades';
+        break;
+    }
     url += '?pagina=' + pagina;
-    return this.http.get(url).pipe(map((propiedades: Propiedades) => {
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+    return this.http.get(url, { headers }).pipe(map((propiedades: Propiedades) => {
       return propiedades;
     }));
   }
@@ -86,20 +100,28 @@ export class PropiedadesService {
     }
   }
 
-  activarPropiedad(id: string) {
+  cambiarEstado(id: string) {
     let url = URL_SERVICIOS;
-    url += '/propiedades/activate/' + id;
+    url += '/propiedades/changestatus/' + id;
     const headers = new HttpHeaders({
       'x-token': this.usuarioService.token
     });
     return this.http.put(url, {}, { headers }).pipe(
       map((resp: any) => {
-        Swal.fire({
-          title: '¡Propiedad activada!',
-          icon: 'success',
-          timer: 1000
-        });
-        return resp;
+        if (resp.propiedad.activo) {
+          Swal.fire({
+            title: '¡Propiedad activada!',
+            icon: 'success',
+            timer: 1000
+          });
+        } else {
+          Swal.fire({
+            title: '¡Propiedad desactivada!',
+            icon: 'success',
+            timer: 1000
+          });
+        }
+        return resp.propiedad;
       })
     );
   }

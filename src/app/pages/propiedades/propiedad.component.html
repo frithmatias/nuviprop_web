@@ -69,7 +69,7 @@
 
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            <app-form-confirm [propiedad]="propiedad"></app-form-confirm>
+            <app-form-confirm [propiedad]="propiedad" (activar)="cambiarEstado()"></app-form-confirm>
         </mat-step>
     </mat-horizontal-stepper>
 </div>
