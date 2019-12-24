@@ -20,7 +20,7 @@
                 </div>
             </div>
             <app-form [formControls]="forms[0]" [formGroup]="formsGroups[0]" [propId]="propId"
-                (submitForm)="guardarFormulario(forms[0].name, $event, stepper)">
+                (submitForm)="guardarFormulario(forms[0].name, $event, stepper)" (inputText)="buscarDatalist( $event )">
             </app-form>
         </mat-step>
 

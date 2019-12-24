@@ -22,7 +22,7 @@
     <!-- ---------------------------------- -->
 
     <div class="tab-pane fade" id="mapa">
-        <app-mapa class="inicio"></app-mapa>
+        <app-mapa class="inicio" [propiedades]="inicioService.propiedades"></app-mapa>
     </div>
 
     <!-- ---------------------------------- -->
@@ -30,7 +30,7 @@
     <!-- ---------------------------------- -->
 
     <div class="tab-pane fade" id="lista">
-        <app-list></app-list>
+        <app-list [propiedades]="inicioService.propiedades"></app-list>
     </div>
 
     <!-- ---------------------------------- -->
@@ -38,7 +38,7 @@
     <!-- ---------------------------------- -->
 
     <div class="tab-pane fade" id="cards">
-        <app-cards></app-cards>
+        <app-cards [propiedades]="inicioService.propiedades"></app-cards>
     </div>
 
 

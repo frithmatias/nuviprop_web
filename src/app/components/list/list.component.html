@@ -1,0 +1,82 @@
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="row border rounded m-3 p-2" style="align-items: center; line-height: 20px; font-weight: 300;"
+            *ngFor="let propiedad of propiedades; index as i"
+            [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
+
+            <div class="col-md-3">
+                <img (click)="mostrarModal( propiedad._id )"
+                    [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                    class="img-200 pointer rounded">
+            </div>
+
+            <div class="col-md-5 h6" style="font-weight: 300;line-height: 25px;">
+                #id: {{ propiedad._id}}<br /><br />
+                {{ propiedad.tipoinmueble }} en
+                {{ propiedad.tipooperacion }} en
+                {{ propiedad.barrio }}
+                <br />
+                <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
+                <br />
+                <span>0 vistas | 23 dias para finalizar</span>
+
+            </div>
+
+            <div class="col-md-2 h3" style="text-align: center; font-weight: 400;">
+                {{ propiedad.precio }}
+            </div>
+
+            <div class="col-md-2 h4" style="text-align-last: end;">
+
+                <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
+
+                <mat-menu #menu="matMenu">
+                    <div class="p-2">
+                        <div class="m-2">
+                            <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-dark btn-block">
+                                <i class="fa fa-eye"></i>&nbsp; Ver aviso
+                            </button>
+                        </div>
+                        <div class="m-2">
+                            <button *ngIf="propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                class="btn btn-success btn-block">
+                                <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
+                            </button>
+                        </div>
+                        <div class="m-2">
+                            <button *ngIf="!propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                class="btn btn-secondary btn-block">
+                                <i class="fa fa-circle-o"></i>&nbsp; Activar
+                            </button>
+                        </div>
+                        <div class="m-2">
+
+                            <button [routerLink]="['/propiedad', propiedad._id ]" class="btn btn-primary btn-block">
+                                <i class="fa fa-edit"></i>&nbsp; Editar
+                            </button>
+
+                        </div>
+                        <div class="m-2">
+                            <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger btn-block">
+                                <i class="fa fa-trash-o"></i>&nbsp; Borrar
+                            </button>
+
+                        </div>
+                    </div>
+                </mat-menu>
+            </div>
+
+        </div>
+
+        <div>
+            <button (click)="cargarPropiedades(-1)" class="btn btn-primary m-1">
+                Anteriores
+            </button>
+
+            <button (click)="cargarPropiedades(1)" class="btn btn-primary m-1">
+                Siguientes
+            </button>
+        </div>
+
+    </div>
+</div>

@@ -17,6 +17,20 @@
                 <input [formControlName]="control.name" type="text" class="form-control form-control-success"
                     *ngIf="control.type==='text'">
 
+                <!-- INPUT AUTOCOMPLETE -->
+                <div *ngIf="control.type==='autocomplete'">
+                    <input type="text" placeholder="Ingrese una localidad" aria-label="Number" matInput
+                        [formControl]="myControl" [matAutocomplete]="auto" #input (keyup)="buscarDatalist( $event )"
+                        class="form-control form-control-success">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                </div>
+
+
                 <!-- TEXTAREA -->
                 <textarea [formControlName]="control.name" rows="5" class="form-control col-12"
                     *ngIf="control.type==='textarea'"></textarea>

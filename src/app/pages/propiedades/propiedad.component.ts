@@ -128,12 +128,10 @@ export class PropiedadComponent implements OnInit {
           moneda: 'monedadolares',
           nopublicarprecio: true,
           aptocredito: false,
-          pais: 'Argentina',
           provincia: 'Ciudad de Buenos Aires',
-          partido: 'Ciudad de Buenos Aires',
-          localidad: 'Comuna 10',
-          barrio: 'Floresta',
-          subbarrio: 'Monte Castro',
+          departamento: 'Comuna 10',
+          localidad: '',
+          coords: '-58.5034848793052,-34.5821104495703',
           codigopostal: '1417',
         };
 
@@ -163,12 +161,10 @@ export class PropiedadComponent implements OnInit {
         moneda: [this.defaultData.moneda, Validators.required],
         nopublicarprecio: [this.defaultData.nopublicarprecio, Validators.required],
         aptocredito: [this.defaultData.aptocredito, Validators.required],
-        pais: [this.defaultData.pais, [Validators.required, Validators.minLength(3)]],
         provincia: [this.defaultData.provincia, [Validators.required, Validators.minLength(5)]],
-        partido: [this.defaultData.partido, [Validators.required, Validators.minLength(5)]],
+        departamento: [this.defaultData.departamento, [Validators.required, Validators.minLength(5)]],
         localidad: [this.defaultData.localidad, [Validators.required, Validators.minLength(5)]],
-        barrio: [this.defaultData.barrio, [Validators.required, Validators.minLength(5)]],
-        subbarrio: [this.defaultData.subbarrio, [Validators.required, Validators.minLength(5)]],
+        coords: [this.defaultData.coords, [Validators.required, Validators.minLength(5)]],
         codigopostal: [this.defaultData.codigopostal, [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]]
       });
 

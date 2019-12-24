@@ -3,6 +3,8 @@ import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { FormService } from './form.service';
 import { FormularioData, respForm } from 'src/app/models/form.model';
 import { parse } from 'querystring';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form',
@@ -13,6 +15,10 @@ export class FormComponent implements OnInit {
 
   parsetemplate = false;
   formsGroups: FormGroup[] = [];
+
+  myControl = new FormControl();
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
 
 
   @Input() formGroup: FormGroup; // recibo la configuración del formulario
@@ -31,10 +37,38 @@ export class FormComponent implements OnInit {
     //   console.log(this.formulario);
     // });
 
-
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
 
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  buscarDatalist(event) {
+    if (event.target.value.length === 3) {
+      // Con el fin de evitar sobrecargar al server con peticiones de datos duplicados, le pido al backend
+      // que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
+      // el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.options.
+
+
+      console.log('buscando ', event.target.value);
+      this.formService.buscarLocalidad(event.target.value).subscribe((localidades: Localidades) => {
+        console.log(localidades);
+        if (localidades.ok) {
+          this.options = [];
+          localidades.localidades.forEach(localidad => {
+            this.options.push(localidad.properties.nombre + ', ' + localidad.properties.departamento.nombre + ', ' + localidad.properties.provincia.nombre);
+          });
+        }
+      });
+    }
+  }
 
   enviarFormulario(formName) {
     if (this.formGroup.valid) {
@@ -91,5 +125,8 @@ export class FormComponent implements OnInit {
     }
     return null;
   }
+
+
+
 
 }

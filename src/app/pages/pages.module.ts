@@ -17,8 +17,6 @@ import { PipesModule } from '../pipes/pipes.module';
 import { BuscarComponent } from './buscar/buscar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { CardsComponent } from './inicio/cards/cards.component';
-import { ListComponent } from './inicio/list/list.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -40,9 +38,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     InmobiliariasComponent,
     BuscarComponent,
     InicioComponent,
-    PropiedadVerComponent,
-    CardsComponent,
-    ListComponent
+    PropiedadVerComponent
   ],
   exports: [DashboardComponent],
   imports: [
