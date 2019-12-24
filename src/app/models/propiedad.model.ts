@@ -35,6 +35,7 @@ export class Propiedad {
     public codigopostal?: string,
     public usuario?: Usuario,
     public detalles?: Detalles,
+    public activo?: boolean,
     // el usuario se adjunta en el controlador de propiedades en el backend,
     // lo obtiene el middleware auth cuando verifica el token
     // public inmobiliaria?: Inmobiliaria,

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Propiedad } from 'src/app/models/propiedad.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-confirm',
@@ -9,7 +10,7 @@ import { Propiedad } from 'src/app/models/propiedad.model';
 export class FormConfirmComponent implements OnInit {
   @Input() propiedad: Propiedad;
   @Output() activar = new EventEmitter();
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
 
@@ -17,5 +18,6 @@ export class FormConfirmComponent implements OnInit {
 
   cambiarEstado() {
     this.activar.emit('');
+    this.router.navigateByUrl('/propiedades');
   }
 }

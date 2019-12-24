@@ -1,5 +1,4 @@
 <div class="container animated fadeIn" *ngIf="parsetemplate">
-
     <mat-horizontal-stepper [linear]=" isLinear" #stepper>
 
 
@@ -67,7 +66,7 @@
         <!-- CONFIRMACION DE PUBLICACION -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step>
+        <mat-step *ngIf="!propiedad.activo">
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
             <app-form-confirm [propiedad]="propiedad" (activar)="cambiarEstado()"></app-form-confirm>
         </mat-step>

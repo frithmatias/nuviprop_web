@@ -9,7 +9,20 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-propiedades',
   templateUrl: './propiedades.component.html',
-  styles: []
+  styles: [`
+  .propiedad-activa {
+    background-color: #deefde;
+}
+  .propiedad-inactiva {
+    opacity: 0.5;
+      background-color: #eeeeee;
+  }
+
+
+.img-200 {
+  width: 200px;
+}
+  `]
 })
 export class PropiedadesComponent implements OnInit {
   propiedades: Propiedad[] = [];

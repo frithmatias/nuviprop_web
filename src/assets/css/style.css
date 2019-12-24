@@ -1287,9 +1287,9 @@ File         : scss
 }
 
 .page-wrapper {
-  background    : #f4f6f9;
-  /* padding-bottom: 60px;*/ 
-  position      : relative;
+  background       : #f4f6f9;
+  /* padding-bottom: 60px;*/
+  position         : relative;
 }
 
 .container-fluid {
@@ -2545,9 +2545,9 @@ Buttons
   -webkit-transition: 0.2s ease-in;
   -o-transition     : 0.2s ease-in;
   transition        : 0.2s ease-in;
-  background-color  : #ffffff;
-  color             : #67757c;
-  border-color      : #cccccc;
+  background-color  : #67757c;
+  color             : #ffffff;
+  border-color      : #67757c;
 }
 
 .btn-secondary:hover,
@@ -2575,7 +2575,7 @@ Buttons
 .btn-secondary.disabled:active {
   color           : #67757c !important;
   background-color: #ffffff;
-  border-color    : #cccccc;
+  border-color    : #67757c;
   cursor          : default;
 }
 
@@ -2635,8 +2635,8 @@ Buttons
 
 .btn-success,
 .btn-success.disabled {
-  background        : #06d79c;
-  border            : 1px solid #06d79c;
+  background        : #28a745;
+  border            : 1px solid #28a745;
   -webkit-box-shadow: 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
   box-shadow        : 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
   -webkit-transition: 0.2s ease-in;
@@ -2646,10 +2646,10 @@ Buttons
 
 .btn-success:hover,
 .btn-success.disabled:hover {
-  background        : #06d79c;
+  background        : #28a745;
   -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
   box-shadow        : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  border            : 1px solid #06d79c;
+  border            : 1px solid #28a745;
 }
 
 .btn-success.active,

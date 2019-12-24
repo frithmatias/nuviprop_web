@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
@@ -53,7 +54,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     FormsModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ]
 })
 export class PagesModule { }

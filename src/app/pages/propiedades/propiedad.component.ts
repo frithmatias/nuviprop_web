@@ -9,6 +9,8 @@ import { respForm, FormularioData } from 'src/app/models/form.model';
 import { Detalles } from 'src/app/models/detalle.model';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 
+
+
 @Component({
   selector: 'app-propiedad',
   templateUrl: './propiedad.component.html',
@@ -29,7 +31,7 @@ export class PropiedadComponent implements OnInit {
   parsetemplate = false;
   propId: string; // esta propiedad la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
   formValid = false;
-  isLinear = true; // material stepper
+  isLinear = false; // material stepper
   formsGroups: FormGroup[] = [];
   propiedad: Propiedad = new Propiedad();
   inmobiliaria: Inmobiliaria;
@@ -67,7 +69,9 @@ export class PropiedadComponent implements OnInit {
     this.obtenerPropiedad(this.propId).then(() => {
       this.obtenerFormularios(['propiedad', 'detalle']).then(() => {
         this.buildForms().then(() => {
-          this.parsetemplate = true;
+          if (this.propiedad && this.formsGroups) {
+            this.parsetemplate = true;
+          }
         });
       });
     });
@@ -139,6 +143,7 @@ export class PropiedadComponent implements OnInit {
       } else {
         console.log(this.propiedad);
         this.defaultData = this.propiedad;
+        this.defaultDetallesData = this.propiedad.detalles || {};
 
       }
 
@@ -168,7 +173,7 @@ export class PropiedadComponent implements OnInit {
       });
 
       this.formsGroups[1] = this.formBuilder.group({
-        terraza: ['', [Validators.required, Validators.minLength(5)]],
+        terraza: [this.defaultDetallesData.terraza, [Validators.required, Validators.minLength(2)]],
       });
 
       resolve();
@@ -200,9 +205,17 @@ export class PropiedadComponent implements OnInit {
         .guardarDetalles(event.value, this.propiedad) // Envío propId para saber si inserta ('nuevo') o actualiza ('id')
         .subscribe(resp => {
           console.log('Guardado:', resp);
-          this.propiedad = resp.propiedad;
-          this.propiedadesService.stepperGoNext(stepper);
-          this.router.navigate(['/propiedad', resp.propiedad._id]);
+          this.propiedad.detalles = resp.detalles;
+          if (this.propiedad.activo) {
+            console.log('ACTIVO SE DIRECCIONA A VER PROP');
+            // this.router.navigate(['/propiedadver', this.propiedad._id]);
+            this.router.navigate(['/propiedades']);
+
+          } else {
+            console.log('ACTIVO SE DIRECCIONA A NEXT STEP');
+
+            this.propiedadesService.stepperGoNext(stepper);
+          }
         });
     }
   }
