@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FormService } from './form.service';
-import { FormularioData, respForm } from 'src/app/models/form.model';
-import { parse } from 'querystring';
+import { FormularioData } from 'src/app/models/form.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs/operators';
 
@@ -13,18 +12,19 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class FormComponent implements OnInit {
 
-  parsetemplate = false;
-  formsGroups: FormGroup[] = [];
-
-  myControl = new FormControl();
-  options: string[] = [];
-  filteredOptions: Observable<string[]>;
-
-
   @Input() formGroup: FormGroup; // recibo la configuración del formulario
   @Input() formControls: FormularioData;
   @Input() propId: string;
   @Output() submitForm: EventEmitter<FormGroup> = new EventEmitter();
+
+  parsetemplate = false;
+
+  // Control Autocomplete
+  myControl = new FormControl();
+  options: any[] = [];
+  filteredOptions: Observable<string[]>;
+
+
 
   constructor(private formService: FormService) {
   }
@@ -47,10 +47,27 @@ export class FormComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter((option: any) => {
+
+      return option.properties.nombre.toLowerCase().includes(filterValue);
+
+    });
   }
 
-  buscarDatalist(event) {
+  seleccionLocalidad(event) {
+    console.log('Selecciono Localidad: ', event);
+    console.log('Nuevo FormGroup: ', this.formGroup);
+
+    this.formGroup.patchValue({
+      localidad: event.properties.nombre,
+      departamento: event.properties.departamento.nombre,
+      provincia: event.properties.provincia.nombre,
+      coords: [event.geometry.coordinates[0], event.geometry.coordinates[1]]
+    });
+  }
+
+
+  buscarLocalidad(event) {
     if (event.target.value.length === 3) {
       // Con el fin de evitar sobrecargar al server con peticiones de datos duplicados, le pido al backend
       // que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
@@ -63,7 +80,7 @@ export class FormComponent implements OnInit {
         if (localidades.ok) {
           this.options = [];
           localidades.localidades.forEach(localidad => {
-            this.options.push(localidad.properties.nombre + ', ' + localidad.properties.departamento.nombre + ', ' + localidad.properties.provincia.nombre);
+            this.options.push(localidad);
           });
         }
       });

@@ -25,6 +25,7 @@ import { PropiedadComponent } from './propiedades/propiedad.component';
 import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { FindpropComponent } from './findprop/findprop.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     InmobiliariasComponent,
     BuscarComponent,
     InicioComponent,
-    PropiedadVerComponent
+    PropiedadVerComponent,
+    FindpropComponent
   ],
   exports: [DashboardComponent],
   imports: [

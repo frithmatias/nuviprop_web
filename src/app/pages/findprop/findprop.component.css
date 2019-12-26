@@ -1,0 +1,16 @@
+.bg {
+  /* The image used */
+  background-image: url("../../../assets/images/background/findprop-background.jpeg");
+
+  /* Half height */
+  height : 500px;
+  opacity: 0.9;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat  : no-repeat;
+  background-size    : cover;
+  display            : flex;
+  justify-content    : center;
+  align-items        : center;
+}

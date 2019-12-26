@@ -14,13 +14,16 @@ import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
 import { InicioComponent } from './inicio/inicio.component';
 import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
+import { FindpropComponent } from './findprop/findprop.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
   // todos los comonentes de adminsitración juntos con canLoad.
 
   // PUBLIC PAGES
+  { path: 'find', component: FindpropComponent },
   { path: 'inicio', component: InicioComponent },
+
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
   { path: 'propiedadver/:id', component: PropiedadVerComponent },
 
@@ -34,7 +37,7 @@ const pagesRoutes: Routes = [
   { path: 'propiedades', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadesComponent, data: { titulo: 'Administracion de Propiedades' } },
   { path: 'propiedad/:id', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadComponent, data: { titulo: 'Actualizar Propiedad' } },
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
-  { path: '', redirectTo: '/inicio', pathMatch: 'full' }
+  { path: '', redirectTo: '/find', pathMatch: 'full' }
 ];
 
 // export const PAGES_ROUTES = RouterModule.forChild( pagesRoutes );

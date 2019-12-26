@@ -20,11 +20,13 @@
                 <!-- INPUT AUTOCOMPLETE -->
                 <div *ngIf="control.type==='autocomplete'">
                     <input type="text" placeholder="Ingrese una localidad" aria-label="Number" matInput
-                        [formControl]="myControl" [matAutocomplete]="auto" #input (keyup)="buscarDatalist( $event )"
+                        [formControl]="myControl" [matAutocomplete]="auto" #input (keyup)="buscarLocalidad( $event )"
                         class="form-control form-control-success">
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                            {{option}}
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.properties.nombre"
+                            (click)="seleccionLocalidad(option)">
+                            {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
+                            {{option.properties.provincia.nombre}}
                         </mat-option>
                     </mat-autocomplete>
 

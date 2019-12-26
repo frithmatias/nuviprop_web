@@ -15,7 +15,7 @@
     <!-- ============================================================== -->
     <!-- <div class="container-fluid"> -->
     <div style="margin-top: 70px; min-height: 600px;">
-      <app-breadcrumbs></app-breadcrumbs>
+      <app-breadcrumbs *ngIf="usuarioService.logueado"></app-breadcrumbs>
 
       <router-outlet></router-outlet>
 

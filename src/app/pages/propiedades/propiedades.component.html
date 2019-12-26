@@ -46,7 +46,7 @@
                 #id: {{ propiedad._id}}<br /><br />
                 {{ propiedad.tipoinmueble }} en
                 {{ propiedad.tipooperacion }} en
-                {{ propiedad.barrio }}
+                {{ propiedad.localidad | capitalizarPipe }}
                 <br />
                 <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
                 <br />

@@ -53,7 +53,7 @@
 
                     <h4 class="card-title m-t-10">{{ propiedad.calle }} {{ propiedad.altura }} </h4>
                     <h6 class="card-subtitle">{{ propiedad.tipo_inmueble }} en {{ propiedad.tipo_operacion }} en
-                        {{propiedad.subbarrio}} </h6>
+                        {{propiedad.localidad}} </h6>
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                     class="icon-size-fullscreen"></i>
@@ -73,10 +73,10 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Dirección</small>
-                <h6>{{propiedad.calle}} {{propiedad.altura}}, {{propiedad.subbarrio}}, {{propiedad.barrio}}</h6>
+                <h6>{{propiedad.calle}} {{propiedad.altura}}, {{propiedad.localidad}}, {{propiedad.departamento}}</h6>
 
                 <small class="text-muted p-t-30 db">Zona</small>
-                <h6>{{propiedad.localidad}}, {{propiedad.partido}} </h6>
+                <h6>{{propiedad.localidad}}, {{propiedad.departamento}} </h6>
                 <h6>{{propiedad.provincia}} </h6>
                 <h6>{{propiedad.pais}} </h6>
 

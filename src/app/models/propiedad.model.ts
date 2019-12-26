@@ -29,7 +29,7 @@ export class Propiedad {
     public provincia?: string,
     public departamento?: string,
     public localidad?: string,
-    public coords?: string,
+    public coords?: number[],
     public codigopostal?: string,
     public usuario?: Usuario,
     public detalles?: Detalles,

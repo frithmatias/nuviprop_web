@@ -131,7 +131,7 @@ export class PropiedadComponent implements OnInit {
           provincia: 'Ciudad de Buenos Aires',
           departamento: 'Comuna 10',
           localidad: '',
-          coords: '-58.5034848793052,-34.5821104495703',
+          coords: [-58.5034848793052, -34.5821104495703],
           codigopostal: '1417',
         };
 
@@ -162,9 +162,9 @@ export class PropiedadComponent implements OnInit {
         nopublicarprecio: [this.defaultData.nopublicarprecio, Validators.required],
         aptocredito: [this.defaultData.aptocredito, Validators.required],
         provincia: [this.defaultData.provincia, [Validators.required, Validators.minLength(5)]],
-        departamento: [this.defaultData.departamento, [Validators.required, Validators.minLength(5)]],
+        departamento: [this.defaultData.departamento, [Validators.required, Validators.minLength(3)]],
         localidad: [this.defaultData.localidad, [Validators.required, Validators.minLength(5)]],
-        coords: [this.defaultData.coords, [Validators.required, Validators.minLength(5)]],
+        coords: [this.defaultData.coords, [Validators.required, Validators.minLength(2)]],
         codigopostal: [this.defaultData.codigopostal, [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]]
       });
 

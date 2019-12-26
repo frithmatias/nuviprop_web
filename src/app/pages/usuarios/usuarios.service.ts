@@ -201,7 +201,7 @@ export class UsuarioService implements OnDestroy {
     localStorage.removeItem('usuario');
     localStorage.removeItem('menu');
 
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/find']);
   }
 
 
