@@ -8,6 +8,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
@@ -41,6 +42,8 @@ import { FindpropComponent } from './findprop/findprop.component';
     InicioComponent,
     PropiedadVerComponent,
     FindpropComponent
+
+
   ],
   exports: [DashboardComponent],
   imports: [
@@ -53,7 +56,8 @@ import { FindpropComponent } from './findprop/findprop.component';
     MatStepperModule,
     MatFormFieldModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule
   ]
 })
 export class PagesModule { }

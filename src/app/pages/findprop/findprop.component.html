@@ -1,36 +1,47 @@
 <div class="bg">
-    <div class="w-100 px-5 align-items-center">
-        <form ngNativeValidate (ngSubmit)="enviarFormulario()" class=" animated fadeIn">
-            <div class="row">
-                <div class="col-12 col-md-6 col-xl-3 my-1">
-                    <button class="btn btn-success btn-block btn-lg">Venta</button>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 my-1">
-                    <button class="btn btn-success btn-block btn-lg">Alquiler</button>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 my-1">
-                    <button class="btn btn-success btn-block btn-lg">Alquiler por temporada</button>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 my-1">
-                    <button class="btn btn-success btn-block btn-lg">Tiempo compartido</button>
-                </div>
-
-            </div>
-            <div class="row py-3">
-
-                <div class="col-md-3">
-                    <select class="form-control form-control-lg">
-                        <option></option>
-                    </select>
-                </div>
-                <div class="col-md-9">
-                    <input type="text" class="form-control form-control-lg">
-                </div>
-
+    <form style="opacity: 0.9;" ngNativeValidate (ngSubmit)="enviarFormulario()" class="w-75 animated fadeIn">
+        <div class="my-1">
+            <div class="d-xl-none">
+                <select class="form-control form-control-lg opacity-90">
+                    <option *ngFor="let operacion of operaciones">{{operacion.nombre}}</option>
+                </select>
             </div>
 
-        </form>
-    </div>
+            <div class="d-flex w-100">
+                <div *ngFor="let operacion of operaciones"
+                    class="btn btn-secondary btn-block btn-lg d-none d-xl-block m-1" [id]="operacion.id"
+                    (click)="setOperacion(operacion.id)">
+                    <span class="lead">{{operacion.nombre}}</span>
+                </div>
+                <!-- <button class="btn btn-secondary btn-block btn-lg d-none d-xl-block m-1">
+                    <span class="lead">Alquiler</span>
+                </button>
+                <button class="btn btn-secondary btn-block btn-lg d-none d-xl-block m-1">
+                    <span class="lead">Alquiler por temporada</span>
+                </button>
+                <button class="btn btn-secondary btn-block btn-lg d-none d-xl-block m-1">
+                    <span class="lead">Tiempo compartido</span>
+                </button> -->
+            </div>
+        </div>
+
+        <div class="w-100">
+            <select class="col-md-3 form-control form-control-lg opacity-90 my-1">
+                <option *ngFor="let inmueble of inmuebles"><small>{{inmueble.nombre}}</small></option>
+            </select>
+            <input type="text" class="float-right col-md-9 form-control form-control-lg opacity-90 my-1" matInput
+                [formControl]="myControl" [matAutocomplete]="auto" #input (keyup)="buscarLocalidad( $event )">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.properties.nombre"
+                    (click)="seleccionLocalidad(option)">
+                    {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
+                    {{option.properties.provincia.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+
+    </form>
+
 
 
 </div>
