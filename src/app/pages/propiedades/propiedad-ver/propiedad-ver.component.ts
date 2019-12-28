@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Propiedad } from 'src/app/models/propiedad.model';
-import { PropiedadesService } from './propiedades.service';
+import { PropiedadesService } from '../propiedades.service';
 import { ActivatedRoute } from '@angular/router';
 import { MapaService } from 'src/app/components/mapa/mapa.service';
 

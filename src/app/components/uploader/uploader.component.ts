@@ -24,7 +24,6 @@ export class UploaderComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('propiedad al inicio', this.propiedad);
     // this.propiedad.imgs = [];
     // console.log('PROPIEDAD:', this.propiedad);
     this.activatedRoute.params.subscribe((params: any) => {

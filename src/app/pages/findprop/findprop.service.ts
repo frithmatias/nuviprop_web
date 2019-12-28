@@ -20,7 +20,6 @@ export class FindpropService {
   }
 
   buscarLocalidad(event) {
-    console.log('EVENTO EN EL SERVICIO', event);
     const url = URL_SERVICIOS + '/buscar/localidades/' + event;
     return this.http.get(url);
   }

@@ -8,12 +8,12 @@ import { AccountSettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { PropiedadesComponent } from './propiedades/propiedades.component';
-import { PropiedadComponent } from './propiedades/propiedad.component';
+import { PropiedadCrearComponent } from './propiedades/propiedad-crear/propiedad-crear.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
 import { InicioComponent } from './inicio/inicio.component';
-import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
+import { PropiedadVerComponent } from './propiedades/propiedad-ver/propiedad-ver.component';
 import { FindpropComponent } from './findprop/findprop.component';
 
 const pagesRoutes: Routes = [
@@ -35,7 +35,7 @@ const pagesRoutes: Routes = [
   // ADMIN PAGES
   { path: 'usuarios', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: UsuariosComponent, data: { titulo: 'Administracion de Usuarios' } },
   { path: 'propiedades', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadesComponent, data: { titulo: 'Administracion de Propiedades' } },
-  { path: 'propiedad/:id', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadComponent, data: { titulo: 'Actualizar Propiedad' } },
+  { path: 'propiedad/:id', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadCrearComponent, data: { titulo: 'Actualizar Propiedad' } },
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
   { path: '', redirectTo: '/find', pathMatch: 'full' }
 ];

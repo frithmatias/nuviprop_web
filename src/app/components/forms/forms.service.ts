@@ -5,7 +5,7 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 @Injectable({
   providedIn: 'root'
 })
-export class FormService {
+export class FormsService {
 
   constructor(private http: HttpClient) {
 
@@ -15,6 +15,21 @@ export class FormService {
     //   console.log(data);
     // });
 
+  }
+
+  obtenerOperaciones() {
+    const url = URL_SERVICIOS + '/data/operaciones';
+    return this.http.get(url);
+  }
+
+  obtenerInmuebles() {
+    const url = URL_SERVICIOS + '/data/inmuebles';
+    return this.http.get(url);
+  }
+
+  obtenerUnidades(idparent: string) {
+    const url = URL_SERVICIOS + '/data/unidades/' + idparent;
+    return this.http.get(url);
   }
 
   buscarLocalidad(event) {

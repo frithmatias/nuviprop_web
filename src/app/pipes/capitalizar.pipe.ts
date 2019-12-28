@@ -18,11 +18,8 @@ export class CapitalizarPipe implements PipeTransform {
 	vienen separados por comas arg1,arg2,arg3,argN...
 	*/
 	transform(value: string, todas: boolean = true): string {
-		console.log(value); // imprime todo lo que antepone al pipe en
-
 		value = value.toLowerCase();
 		const nombres = value.split(' ');
-
 		if (todas) {
 			for (const i in nombres) {
 				nombres[i] = nombres[i][0].toUpperCase() + nombres[i].substr(1); // .substr(1) concateno desde la primera posición en adelante
@@ -30,9 +27,7 @@ export class CapitalizarPipe implements PipeTransform {
 		} else {
 			nombres[0] = nombres[0][0].toUpperCase() + nombres[0].substr(1); // .substr(1) concateno desde la primera posición en adelante
 		}
-
 		// console.log(args);
 		return nombres.join(' ');
-
 	}
 }

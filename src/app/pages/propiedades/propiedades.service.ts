@@ -175,9 +175,6 @@ export class PropiedadesService {
     return this.http.delete(url, { headers });
   }
 
-
-
-
   scrollTop() {
     document.body.scrollTop = 0; // Safari
     document.documentElement.scrollTop = 0; // Other

@@ -15,7 +15,7 @@ import {
   TokenGuard,
   InicioService,
   MapaService,
-  FormService
+  FormsService
 } from './services.index';
 
 @NgModule({
@@ -33,7 +33,7 @@ import {
     TokenGuard,
     InicioService,
     MapaService,
-    FormService
+    FormsService
   ],
   declarations: []
 })

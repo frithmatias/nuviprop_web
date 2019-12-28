@@ -1,6 +1,5 @@
-<div class="container animated fadeIn" *ngIf="parsetemplate">
+<div class="container animated fadeIn">
     <mat-horizontal-stepper [linear]=" isLinear" #stepper>
-
 
         <!-- --------------------------------------------------------------- -->
         <!-- FORMULARIO DE PUBLICACION -->
@@ -8,20 +7,8 @@
 
         <mat-step [stepControl]="formAviso">
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <!-- FORM HEADER         -->
-            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
-                <div class="col-12">
-                    <h2 class="text-white bold"> Aviso:&nbsp;
-                        {{ formsGroups[0].value.tipoinmueble }} en
-                        {{ formsGroups[0].value.tipooperacion }} en
-                        {{ formsGroups[0].value.calle }}
-                        {{ formsGroups[0].value.altura }}
-                    </h2>
-                </div>
-            </div>
-            <app-form [formControls]="forms[0]" [formGroup]="formsGroups[0]" [propId]="propId"
-                (submitForm)="guardarFormulario(forms[0].name, $event, stepper)" (inputText)="buscarDatalist( $event )">
-            </app-form>
+            <app-form-propiedad-aviso [formData]="propiedad" (outputGroup)="guardarFormulario($event, stepper)"
+                *ngIf="propiedad.titulo"></app-form-propiedad-aviso>
         </mat-step>
 
         <!-- --------------------------------------------------------------- -->
@@ -30,7 +17,6 @@
 
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-camera h5"></i>&nbsp; Fotos</ng-template>
-            <!-- FORM HEADER         -->
             <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
                 <div class="col-12">
                     <h2 class="text-white bold">
@@ -49,17 +35,10 @@
 
         <mat-step [stepControl]="formDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <!-- FORM HEADER         -->
-            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
-                <div class="col-12">
-                    <h2 class="text-white bold">
-                        Detalles de la Propiedad
-                    </h2>
-                </div>
-            </div>
-            <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
+            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
                 (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
-            </app-form>
+            </app-form> -->
+            <app-form-propiedad-detalles></app-form-propiedad-detalles>
         </mat-step>
 
         <!-- --------------------------------------------------------------- -->
@@ -68,7 +47,9 @@
 
         <mat-step *ngIf="!propiedad.activo">
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            <app-form-confirm [propiedad]="propiedad" (activar)="cambiarEstado()"></app-form-confirm>
+            <app-form-propiedad-confirm [propiedad]="propiedad" (activar)="cambiarEstado()">
+            </app-form-propiedad-confirm>
         </mat-step>
+
     </mat-horizontal-stepper>
 </div>

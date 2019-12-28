@@ -5,6 +5,7 @@ import {
 } from 'src/app/services/services.index';
 import { Propiedad, Propiedades } from 'src/app/models/propiedad.model';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-propiedades',
@@ -33,7 +34,8 @@ export class PropiedadesComponent implements OnInit {
 
   constructor(
     private propiedadesService: PropiedadesService,
-    private modalUploadService: ModalUploadService
+    private modalUploadService: ModalUploadService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -82,7 +84,9 @@ export class PropiedadesComponent implements OnInit {
         this.cargando = false;
       });
     } else {
-      console.log('Debe ingresar solo caracteres alfanuméricos.');
+      this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
+        duration: 2000,
+      });
     }
   }
 
@@ -113,16 +117,13 @@ export class PropiedadesComponent implements OnInit {
             this.cargando = false;
           });
       } else {
-        console.log('NO BORRAR');
       }
     });
   }
 
   cambiarEstado(id: string) {
-    console.log(id);
     this.propiedadesService.cambiarEstado(id).subscribe(data => {
       this.cargarPropiedades(0);
-      console.log(data);
     });
   }
 

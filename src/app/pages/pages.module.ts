@@ -22,8 +22,8 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PropiedadesComponent } from './propiedades/propiedades.component';
-import { PropiedadComponent } from './propiedades/propiedad.component';
-import { PropiedadVerComponent } from './propiedades/propiedad-ver.component';
+import { PropiedadCrearComponent } from './propiedades/propiedad-crear/propiedad-crear.component';
+import { PropiedadVerComponent } from './propiedades/propiedad-ver/propiedad-ver.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { FindpropComponent } from './findprop/findprop.component';
@@ -36,7 +36,7 @@ import { FindpropComponent } from './findprop/findprop.component';
     ProfileComponent,
     UsuariosComponent,
     PropiedadesComponent,
-    PropiedadComponent,
+    PropiedadCrearComponent,
     InmobiliariasComponent,
     BuscarComponent,
     InicioComponent,

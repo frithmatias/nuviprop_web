@@ -10,4 +10,4 @@ export { AdminGuard } from '../guards/admin.guard';
 export { TokenGuard } from '../guards/token.guard';
 export { InicioService } from '../pages/inicio/inicio.service';
 export { MapaService } from '../components/mapa/mapa.service';
-export { FormService } from '../components/form/form.service';
+export { FormsService } from '../components/forms/forms.service';
