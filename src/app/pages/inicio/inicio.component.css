@@ -3,8 +3,8 @@
   background-image: url("../../../assets/images/background/house-moutain.jpg");
 
   /* Half height */
-  height : 500px;
-  opacity: 0.9;
+  height   : 500px;
+  /*opacity: 0.9;*/
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -17,4 +17,10 @@
 
 .opacity-90 {
   opacity: 0.9;
+}
+
+
+div.mat-form-field-flex {
+  font-size       : 16px;
+  background-color: white;
 }

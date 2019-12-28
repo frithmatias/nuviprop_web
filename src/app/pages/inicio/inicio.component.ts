@@ -13,7 +13,7 @@ declare function init_plugins();
 export class InicioComponent implements OnInit {
   // Control Autocomplete
   formGroup: FormGroup;
-  myControl = new FormControl();
+  localidadesControl = new FormControl();
   options: any[] = [];
   filteredOptions: Observable<string[]>;
   operaciones: any[];
@@ -46,7 +46,7 @@ export class InicioComponent implements OnInit {
     init_plugins();
     this.obtenerOperaciones();
     this.obtenerInmuebles();
-    this.filteredOptions = this.myControl.valueChanges
+    this.filteredOptions = this.localidadesControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -76,8 +76,8 @@ export class InicioComponent implements OnInit {
 
   buscarLocalidad(event) {
 
-    const regex = new RegExp(/^[a-z0-9]+$/i);
-    if (!regex.test(event.target.value)) {
+    const regex = new RegExp(/^[a-z ñ0-9]+$/i);
+    if (!regex.test(event.target.value) && event.target.value) {
       this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
         duration: 2000,
       });
@@ -101,34 +101,55 @@ export class InicioComponent implements OnInit {
     }
   }
 
-  setInmueble() {
-    // Este metodo NO ES necesario porque como se trata de un control SELECT el dato se
-    // guarda automaticamente en el formulario (formGroup) al seleccionar una opción.
+  setInmueble(inmueble) {
+    this.valuesToSearch.tipoinmueble = inmueble._id;
+    // En este metodo NO ES necesario hacer un patchValue() porque como se trata de un control SELECT
+    // el dato se guarda automaticamente en el formulario (formGroup) al seleccionar una opción.
   }
+
+
   setLocalidad(localidad) {
+    this.valuesToSearch.localidad = localidad.properties.id;
+    this.formGroup.patchValue({
+      localidad: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`
+    });
     // Este metodo podría no ser necesario, pero tengo que enviar el nombre (string) al control
     // y el id (number) hacia un nuevo objeto que voy a enviar al backend. Esto es porque yo
     // necesito enviar el id, pero si guardo el ID en el form, en el control voy a ver el ID en lugar
     // del string localidad, departamento, provincia.
-
-    this.formGroup.patchValue({
-      localidad: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`
-    });
-    this.valuesToSearch.localidad = localidad.properties.id;
-
   }
 
-  setOperacion(operacion: any) {
+  setOperacion(operacion: any, link?) {
+    this.valuesToSearch.tipooperacion = operacion._id;
     this.formGroup.patchValue({
       tipooperacion: operacion._id
     });
+    // dejo seleccionado el boton con la clase 'active'
+
+    if (link) {
+      const botones: any = document.getElementsByName('boton_tipo_operacion');
+      // si la opcion se selecciono desde el select no existen botones
+      // (cuando la pantalla es chica los botones desaparecen y aparece un select)
+      for (const ref of botones) {
+        ref.classList.remove('active');
+      }
+      link.classList.add('active');
+    }
+
+
   }
 
   enviarFormulario() {
-    // Envío los datos obtenidos en el formulario a mi objeto con los datos a enviar al backend.
-    this.valuesToSearch.tipooperacion = this.formGroup.value.tipooperacion;
-    this.valuesToSearch.tipoinmueble = this.formGroup.value.tipoinmueble;
 
+
+    // Envío los datos obtenidos en el formulario a mi objeto con los datos a enviar al backend.
+
+
+    // this.valuesToSearch.localidad:
+    // [ esta seteado en el metodo setLocalidad() que se dispara al hacer click en una opcion del select de localidad]
+
+    console.log(this.valuesToSearch);
+    console.log(this.formGroup);
     // los valores de tipooperacion y tipoinmueble puedo sacarlos del formulario, pero la localidad no porque
     // viene de un INPUT TEXT y si yo intento guardar el valor ID en el fomulario (formGroup.value.localidad)
     // me va a mostrar el ID en el INPUT del formulario, y yo ahí quiero ver el nombre de localidad, dpto y pvcia.

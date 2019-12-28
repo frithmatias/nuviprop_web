@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // MODULOS DE ANGULAR MATERIAL
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
@@ -57,7 +59,9 @@ import { InicioComponent } from './inicio/inicio.component';
     MatFormFieldModule,
     MatIconModule,
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatInputModule,
+    MatSelectModule
   ]
 })
 export class PagesModule { }

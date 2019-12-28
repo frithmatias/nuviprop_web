@@ -10,16 +10,17 @@
 
                 <!-- MENU DE PERFIL DE USUARIO -->
                 <li class="user-profile">
-                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img
-                            src="{{ usuario.img | imagenPipe : 'usuarios' : usuario._id }}" alt="user" /><span
-                            class="hide-menu">{{usuario.nombre}}
-                        </span></a>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <img src="{{ usuario.img | imagenPipe : 'usuarios' : usuario._id }}" alt="user" />
+                        <span class="hide-menu"> {{usuario.nombre}} </span>
+                    </a>
+
                     <ul aria-expanded="false" class="collapse">
                         <li><a routerLinkActive="active" routerLink="/profile"><i class="ti-user"></i> Mi Perfil</a>
                         </li>
                         <li><a href="javascript:void()"><i class="ti-email"></i> Inbox </a></li>
-                        <li><a routerLinkActive="active" routerLink="/account-settings"><i class="ti-settings"></i> Tema
-                            </a></li>
+                        <li><a routerLinkActive="active" routerLink="/account-settings">
+                                <i class="ti-settings"></i> Tema </a></li>
                         <li class="nav-devider"></li>
                         <li><a (click)="userService.logout()"><i class="fa fa-power-off"></i> Logout</a></li>
                     </ul>
