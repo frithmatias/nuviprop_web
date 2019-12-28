@@ -32,7 +32,7 @@
 
 <div class="row animated fadeIn" *ngIf="!cargando">
     <div class="col-12">
-        <div class="row border rounded m-3 p-2" style="align-items: center; line-height: 20px; font-weight: 300;"
+        <div class="row border rounded m-3 p-2" style="align-items: center; line-height: 20px; font-weight: 300; "
             *ngFor="let propiedad of propiedades; index as i"
             [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
 
@@ -48,13 +48,14 @@
                 {{ propiedad.tipooperacion }} en
                 {{ propiedad.localidad | capitalizarPipe }}
                 <br />
-                <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
+                <span class="h5" style="font-weight: 400; color: royalblue; ">{{ propiedad.calle }}
+                    {{ propiedad.altura }}</span>
                 <br />
                 <span>0 vistas | 23 dias para finalizar</span>
 
             </div>
 
-            <div class="col-md-2 h3" style="text-align: center; font-weight: 400;">
+            <div class="col-md-2 h3" style="text-align: center; font-weight: 400; color: green;">
                 {{ propiedad.precio }}
             </div>
 

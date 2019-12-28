@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
@@ -12,17 +11,17 @@ import { PropiedadCrearComponent } from './propiedades/propiedad-crear/propiedad
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
-import { InicioComponent } from './inicio/inicio.component';
+import { ResultadosComponent } from './resultados/resultados.component';
 import { PropiedadVerComponent } from './propiedades/propiedad-ver/propiedad-ver.component';
-import { FindpropComponent } from './findprop/findprop.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
   // todos los comonentes de adminsitración juntos con canLoad.
 
   // PUBLIC PAGES
-  { path: 'find', component: FindpropComponent },
   { path: 'inicio', component: InicioComponent },
+  { path: 'resultados', component: ResultadosComponent },
 
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
   { path: 'propiedadver/:id', component: PropiedadVerComponent },
@@ -37,7 +36,7 @@ const pagesRoutes: Routes = [
   { path: 'propiedades', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadesComponent, data: { titulo: 'Administracion de Propiedades' } },
   { path: 'propiedad/:id', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: PropiedadCrearComponent, data: { titulo: 'Actualizar Propiedad' } },
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
-  { path: '', redirectTo: '/find', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 // export const PAGES_ROUTES = RouterModule.forChild( pagesRoutes );

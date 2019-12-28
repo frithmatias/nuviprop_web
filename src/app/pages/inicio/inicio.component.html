@@ -1,49 +1,60 @@
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab"
-            aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa
-        </a>
-    </li>
-    <li class="nav-item">
-        <a (click)="tabSelected(1)" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista" role="tab"
-            aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i>
-            Lista </a>
-    </li>
-    <li class="nav-item">
-        <a (click)="tabSelected(2)" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards" role="tab"
-            aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i>
-            Cards </a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-
-    <!-- ---------------------------------- -->
-    <!-- TAB MAP -->
-    <!-- ---------------------------------- -->
-
-    <div class="tab-pane fade" id="mapa">
-        <app-mapa class="inicio" [propiedades]="inicioService.propiedades"></app-mapa>
-    </div>
-
-    <!-- ---------------------------------- -->
-    <!-- TAB LIST -->
-    <!-- ---------------------------------- -->
-
-    <div class="tab-pane fade" id="lista">
-        <app-list [propiedades]="inicioService.propiedades"></app-list>
-    </div>
-
-    <!-- ---------------------------------- -->
-    <!-- TAB CARDS -->
-    <!-- ---------------------------------- -->
-
-    <div class="tab-pane fade" id="cards">
-        <app-cards [propiedades]="inicioService.propiedades"></app-cards>
-    </div>
+<div class="bg">
+    <form style="opacity: 0.9;" ngNativeValidate (ngSubmit)="enviarFormulario()" class="w-75 animated fadeIn"
+        [formGroup]="formGroup">
+        <div class="my-1">
 
 
-    <!-- BOTON PARA VOLVER ARRIBA -->
-    <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
-            class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
+            <!---------------------------------------------------------------------->
+            <!-- TIPO DE OPERACION [SELECT] -->
+            <!---------------------------------------------------------------------->
+            <div class="d-xl-none">
+                <select formControlName="tipooperacion" class="form-control form-control-lg opacity-90">
+                    <option *ngFor="let operacion of operaciones" [value]="operacion">{{operacion.nombre}}
+                    </option>
+                </select>
+            </div>
+
+            <!---------------------------------------------------------------------->
+            <!-- TIPO DE OPERACION [BOTONES]-->
+            <!---------------------------------------------------------------------->
+            <div class="d-flex w-100">
+                <button *ngFor="let operacion of operaciones"
+                    class="btn btn-success btn-block btn-lg d-none d-xl-block m-1" (click)="setOperacion(operacion)">
+                    <span class="lead">{{operacion.nombre}}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="w-100">
+
+            <!---------------------------------------------------------------------->
+            <!-- TIPO DE INMUEBLE -->
+            <!---------------------------------------------------------------------->
+            <select formControlName="tipoinmueble" class="col-md-3 form-control form-control-lg opacity-90 my-1">
+                <option *ngFor="let inmueble of inmuebles" [value]="inmueble._id"><span
+                        class="lead">{{inmueble.nombre}}</span></option>
+            </select>
+
+            <!---------------------------------------------------------------------->
+            <!-- LOCALIDAD -->
+            <!---------------------------------------------------------------------->
+            <input formControlName="localidad" type="text" value="asdf"
+                class="float-right col-md-8 form-control form-control-lg opacity-90 my-1" matInput
+                [formControl]="myControl" [matAutocomplete]="auto" #input (keyup)="buscarLocalidad( $event )">
+
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" (click)="setLocalidad(option)">
+                    {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
+                    {{option.properties.provincia.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+
+        </div>
+        <div class="my-1">
+            <button class="btn btn-dark btn-lg float-right"><i class="ti-search"></i>&nbsp; Buscar</button>
+        </div>
+    </form>
+
+
 
 </div>

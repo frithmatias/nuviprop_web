@@ -13,7 +13,7 @@ import {
   LoginGuard,
   AdminGuard,
   TokenGuard,
-  InicioService,
+  ResultadosService,
   MapaService,
   FormsService
 } from './services.index';
@@ -31,7 +31,7 @@ import {
     LoginGuard,
     AdminGuard,
     TokenGuard,
-    InicioService,
+    ResultadosService,
     MapaService,
     FormsService
   ],

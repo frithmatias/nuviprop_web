@@ -1,99 +1,138 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { InicioService, MapaService } from 'src/app/services/services.index';
-
+import { Component, OnInit } from '@angular/core';
+import { InicioService } from './inicio.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { startWith, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 declare function init_plugins();
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.scss']
+  styleUrls: ['./inicio.component.css']
 })
-
-
 export class InicioComponent implements OnInit {
-  private INFINITESCROLL_THRESHOLD = 80;
-  private showGoUpButton: boolean;
-  private getMoreProps = false;
-  showScrollHeight = 400;
-  hideScrollHeight = 200;
-  constructor(
-    private inicioService: InicioService, private mapaService: MapaService) {
-    this.showGoUpButton = false;
+  // Control Autocomplete
+  formGroup: FormGroup;
+  myControl = new FormControl();
+  options: any[] = [];
+  filteredOptions: Observable<string[]>;
+  operaciones: any[];
+  inmuebles: any[];
+
+  valuesToSearch = {
+    tipooperacion: '',
+    tipoinmueble: '',
+    localidad: ''
+  };
+
+  constructor(private inicioService: InicioService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+
+    this.formGroup = this.formBuilder.group({
+      tipoinmueble: ['', [Validators.required, Validators.minLength(5)]],
+      tipooperacion: ['', [Validators.required, Validators.minLength(5)]],
+      localidad: ['', [Validators.required, Validators.minLength(5)]]
+    });
+
   }
 
   ngOnInit() {
-    const maparef = document.getElementById('mapbox');
-    maparef.setAttribute('style', 'width:100%;');
+
+    this.formGroup = this.formBuilder.group({
+      tipooperacion: ['', [Validators.required, Validators.minLength(5)]],
+      tipoinmueble: ['', [Validators.required, Validators.minLength(5)]],
+      localidad: ['', [Validators.required, Validators.minLength(3)]],
+    });
+
     init_plugins();
-    this.cambiarTab(this.inicioService.tabselected);
-    this.scrollTop(); // envio el scroll hacia arriba
+    this.obtenerOperaciones();
+    this.obtenerInmuebles();
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
-
-  tabSelected(n: number) {
-    this.inicioService.tabselected = n;
-  }
-
-  cambiarTab(tab: number) {
-    // guardo en el servico el tab seleccionado por última vez, para que al volver de
-    // ver una propiedad, quede seleccionado el ultimo tab seleccionado.
-    const tabs: any = document.getElementsByClassName('nav-link tabs');
-    const contents: any = document.getElementsByClassName('tab-pane');
-
-    // desactivo los tabs
-    for (const ref of tabs) {
-      ref.classList.remove('active');
+  private _filter(value: string): string[] {
+    if (!value) {
+      return;
     }
-    // desactivo los contenidos
-    for (const ref of contents) {
-      ref.classList.remove('show.active');
-    }
-
-    // activo el tab correspondiente al ultimo seleccionado guardado en el servicio.
-    tabs[tab].classList.add('active');
-
-    // activo el contenedor correspondiente al tab seleccionado.
-    contents[tab].classList.add('show', 'active');
+    const filterValue = value.toLowerCase();
+    return this.options.filter((option: any) => {
+      return option.properties.nombre.toLowerCase().includes(filterValue);
+    });
   }
 
-
-  scrollTop() {
-    document.body.scrollTop = 0; // Safari
-    document.documentElement.scrollTop = 0; // Other
+  obtenerOperaciones() {
+    this.inicioService.obtenerOperaciones().subscribe((data: any) => {
+      this.operaciones = data.operaciones;
+    });
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
+  obtenerInmuebles() {
+    this.inicioService.obtenerInmuebles().subscribe((data: any) => {
+      this.inmuebles = data.inmuebles;
+    });
+  }
 
-    if ((window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop) > this.showScrollHeight) {
+  buscarLocalidad(event) {
 
-      // al hacer un scroll hacia abajo, el boton que aparece para ir hacia arriba tapa el footer.
-      // corro el telefono hacia la izquierda para que no lo tape.
-      this.showGoUpButton = true;
-    } else if (this.showGoUpButton &&
-      (window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop)
-      < this.hideScrollHeight) {
-      this.showGoUpButton = false;
+    const regex = new RegExp(/^[a-z0-9]+$/i);
+    if (!regex.test(event.target.value)) {
+      this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
+        duration: 2000,
+      });
+      return;
     }
 
-    // 1. document.documentElement.scrollTop, posicion absoulta de cota superior de scroll
-    // 2. document.documentElement.clientHeight, altura del scroll
-    // 3. document.documentElement.offsetHeight, altura total de la ventana
-    // 1 + 2 = 3
-    const contentHeight = document.getElementById('myTabContent').offsetHeight;
-    if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
-      if (this.getMoreProps === false) {
-        this.inicioService.cargarPropiedades();
-      }
-      this.getMoreProps = true;
-    } else {
-      this.getMoreProps = false;
+    if (event.target.value.length === 3) {
+      // Con el fin de evitar sobrecargar al server con peticiones de datos duplicados, le pido al backend
+      // que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
+      // el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.options.
+
+
+      this.inicioService.buscarLocalidad(event.target.value).subscribe((localidades: Localidades) => {
+        if (localidades.ok) {
+          this.options = [];
+          localidades.localidades.forEach(localidad => {
+            this.options.push(localidad);
+          });
+        }
+      });
     }
   }
 
-  getMore() {
-    console.log('GET MORE PROPS');
+  setInmueble() {
+    // Este metodo NO ES necesario porque como se trata de un control SELECT el dato se
+    // guarda automaticamente en el formulario (formGroup) al seleccionar una opción.
+  }
+  setLocalidad(localidad) {
+    // Este metodo podría no ser necesario, pero tengo que enviar el nombre (string) al control
+    // y el id (number) hacia un nuevo objeto que voy a enviar al backend. Esto es porque yo
+    // necesito enviar el id, pero si guardo el ID en el form, en el control voy a ver el ID en lugar
+    // del string localidad, departamento, provincia.
+
+    this.formGroup.patchValue({
+      localidad: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`
+    });
+    this.valuesToSearch.localidad = localidad.properties.id;
+
+  }
+
+  setOperacion(operacion: any) {
+    this.formGroup.patchValue({
+      tipooperacion: operacion._id
+    });
+  }
+
+  enviarFormulario() {
+    // Envío los datos obtenidos en el formulario a mi objeto con los datos a enviar al backend.
+    this.valuesToSearch.tipooperacion = this.formGroup.value.tipooperacion;
+    this.valuesToSearch.tipoinmueble = this.formGroup.value.tipoinmueble;
+
+    // los valores de tipooperacion y tipoinmueble puedo sacarlos del formulario, pero la localidad no porque
+    // viene de un INPUT TEXT y si yo intento guardar el valor ID en el fomulario (formGroup.value.localidad)
+    // me va a mostrar el ID en el INPUT del formulario, y yo ahí quiero ver el nombre de localidad, dpto y pvcia.
+    // Para eso creo un nuevo objeto para enviar localidad.propierties.nombre al INPUT y localidad.properties.id
+    // al objeto. De esta manera en mi objeto tengo sólo los IDs de tipooperacion, tipoinmueble, localidad.
   }
 }

@@ -14,42 +14,7 @@ export class SidebarService {
     { icono: 'mdi mdi-email', titulo: 'Contacto', url: '/contacto', class: 'nav-item' }
   ];
 
-  // SIDEBAR
-  publicSidebarMenu = [
-    {
-      titulo: 'Menu',
-      icono: 'mdi mdi-menu',
-      submenu: [
-        { titulo: 'Inicio', url: '/inicio' },
-        { titulo: 'Buscar propiedades', url: '/filtrosaplicados' },
-        { titulo: 'Filtros', url: '/filtros' },
-        { titulo: 'Emprendimientos', url: '/emprendimientos' },
-        { titulo: 'Tasaciones', url: '/tasaciones' },
-        { titulo: 'Nosotros', url: '/nosotros' },
-        { titulo: 'Contacto', url: '/tasaciones' }
-      ]
-    },
-    {
-      titulo: 'Filtros',
-      icono: 'mdi mdi-tune',
-      submenu: [
-        { titulo: 'precio', valor: 200 }
-      ]
-    }
-  ];
-
-
-
-  constructor() {
-    // this.menu = this.usuarioService.menu;
-    // console.log('MENU', this.menu);
-    // Si falla al cargar el menu tengo que llamar al metodo cargarMenu() desde el componente SIDEBAR
-    // SIDEBAR.COMPONENT.TS:
-    // ngOnInit(); {
-    //   this.usuario = this.usuarioService.usuario;
-    // ->   this.sideBar.cargarMenu();
-    // }
-  }
+  constructor() { }
 
 
 }

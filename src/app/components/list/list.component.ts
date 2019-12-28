@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { InicioService } from '../../pages/inicio/inicio.service';
+import { ResultadosService } from '../../pages/resultados/resultados.service';
 import { Propiedad } from 'src/app/models/propiedad.model';
 
 @Component({
@@ -11,7 +11,7 @@ export class ListComponent implements OnInit {
 
   @Input() propiedades: Propiedad[] = [];
 
-  constructor(private inicioService: InicioService) { }
+  constructor(private resultadosService: ResultadosService) { }
 
   ngOnInit() {
   }

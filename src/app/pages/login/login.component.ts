@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         // seccion 17 clase 222, capturo el error de throwError del observable POST en el
         // servicio usuariosService metodo login()
-        correcto => this.router.navigate(['/inicio']),
+        correcto => this.router.navigate(['/dashboard']),
         err => Swal.fire('Error', err.error.mensaje, 'error')
       );
     // this.router.navigate([ '/dashboard' ]);

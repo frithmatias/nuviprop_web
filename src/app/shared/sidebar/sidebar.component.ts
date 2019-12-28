@@ -11,8 +11,6 @@ import { Usuario } from 'src/app/models/usuario.model';
 })
 export class SidebarComponent implements OnInit {
   usuario: Usuario;
-  publicmenu: any[];
-  logged = false;
   constructor(
     private userService: UsuarioService,
     private sidebarService: SidebarService
@@ -20,9 +18,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // init_plugins();
-    this.logged = this.userService.logueado;
-    this.publicmenu = this.sidebarService.publicSidebarMenu;
-    if (this.logged) {
+
+    if (this.userService.logueado) {
       this.usuario = this.userService.usuario;
     }
   }

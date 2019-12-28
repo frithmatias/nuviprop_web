@@ -17,7 +17,7 @@ import { PipesModule } from '../pipes/pipes.module';
 // COMPONENTES
 import { BuscarComponent } from './buscar/buscar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { InicioComponent } from './inicio/inicio.component';
+import { ResultadosComponent } from './resultados/resultados.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -26,7 +26,7 @@ import { PropiedadCrearComponent } from './propiedades/propiedad-crear/propiedad
 import { PropiedadVerComponent } from './propiedades/propiedad-ver/propiedad-ver.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { FindpropComponent } from './findprop/findprop.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +39,9 @@ import { FindpropComponent } from './findprop/findprop.component';
     PropiedadCrearComponent,
     InmobiliariasComponent,
     BuscarComponent,
-    InicioComponent,
+    ResultadosComponent,
     PropiedadVerComponent,
-    FindpropComponent
+    InicioComponent
 
 
   ],

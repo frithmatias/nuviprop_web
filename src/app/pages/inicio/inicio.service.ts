@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
-import { PropiedadesService } from '../propiedades/propiedades.service';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { HttpClient } from '@angular/common/http';
+import { URL_SERVICIOS } from 'src/app/config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InicioService {
-  private propiedades: Propiedad[] = [];
-  private propiedadestotal = 1;
-  actualPage = 0;
-  tabselected = 0;
 
-  constructor(private propiedadesService: PropiedadesService) {
-    this.cargarPropiedades();
+  constructor(private http: HttpClient) { }
+
+  obtenerOperaciones() {
+    const url = URL_SERVICIOS + '/data/operaciones';
+    return this.http.get(url);
   }
 
-  cargarPropiedades() {
-    // console.log(this.actualPage);
-    if (this.actualPage * 20 < this.propiedadestotal) { // solo traigo mas, si quedan mas para mostrar.
-      this.propiedadesService.cargarPropiedades('activas', this.actualPage).subscribe(data => {
-        this.propiedades.push(...data.propiedades);
-        this.propiedadestotal = data.total;
-      });
-      this.actualPage++;
-    }
+  obtenerInmuebles() {
+    const url = URL_SERVICIOS + '/data/inmuebles';
+    return this.http.get(url);
+  }
+
+  buscarLocalidad(event) {
+    const url = URL_SERVICIOS + '/buscar/localidades/' + event;
+    return this.http.get(url);
   }
 }

@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './propiedades.component.html',
   styles: [`
   .propiedad-activa {
-    background-color: #deefde;
+    background-color: aquamarine;
 }
   .propiedad-inactiva {
     opacity: 0.5;

@@ -8,6 +8,6 @@ export { ModalUploadService } from '../components/modal-upload/modal-upload.serv
 export { LoginGuard } from '../guards/login.guard';
 export { AdminGuard } from '../guards/admin.guard';
 export { TokenGuard } from '../guards/token.guard';
-export { InicioService } from '../pages/inicio/inicio.service';
+export { ResultadosService } from '../pages/resultados/resultados.service';
 export { MapaService } from '../components/mapa/mapa.service';
 export { FormsService } from '../components/forms/forms.service';
