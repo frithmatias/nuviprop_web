@@ -18,6 +18,9 @@ export class CapitalizarPipe implements PipeTransform {
 	vienen separados por comas arg1,arg2,arg3,argN...
 	*/
 	transform(value: string, todas: boolean = true): string {
+		if (!value) {
+			return;
+		}
 		value = value.toLowerCase();
 		const nombres = value.split(' ');
 		if (todas) {

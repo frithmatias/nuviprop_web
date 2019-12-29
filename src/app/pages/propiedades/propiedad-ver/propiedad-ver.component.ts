@@ -20,27 +20,25 @@ export class PropiedadVerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private propiedadesService: PropiedadesService, private mapaService: MapaService) { }
 
   ngOnInit() {
-    document.body.scrollTop = 0; // Safari
-    document.documentElement.scrollTop = 0; // Other
+	document.body.scrollTop = 0; // Safari
+	document.documentElement.scrollTop = 0; // Other
 
-    this.activatedRoute.params.subscribe(async params => {
-      this.id = params.id;
-      console.log('id ', this.id);
-      await this.cargarPropiedad(this.id).then(() => {
-        this.parsetemplate = true;
-      });
-    });
+	this.activatedRoute.params.subscribe(async params => {
+		this.id = params.id;
+		await this.cargarPropiedad(this.id).then(() => {
+		this.parsetemplate = true;
+		});
+	});
   }
 
   cargarPropiedad(id: string) {
-    return new Promise((resolve, reject) => {
-      this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
-        this.propiedad = propiedad;
-        // this.files = propiedad.imgs;
-        console.log('Propiedad obtenida: ', propiedad);
-        resolve();
-      });
+	return new Promise((resolve, reject) => {
+		this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
+		this.propiedad = propiedad;
+		// this.files = propiedad.imgs;
+		resolve();
+		});
 
-    });
+	});
   }
 }

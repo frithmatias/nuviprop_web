@@ -44,9 +44,9 @@
 
             <div class="col-md-5 h6" style="font-weight: 300;line-height: 25px;">
                 #id: {{ propiedad._id}}<br /><br />
-                {{ propiedad.tipoinmueble }} en
-                {{ propiedad.tipooperacion }} en
-                {{ propiedad.localidad | capitalizarPipe }}
+                {{ propiedad.tipoinmueble.nombre }} en
+                {{ propiedad.tipooperacion.nombre }} en
+                {{ propiedad.localidad.nombre | capitalizarPipe }}
                 <br />
                 <span class="h5" style="font-weight: 400; color: royalblue; ">{{ propiedad.calle }}
                     {{ propiedad.altura }}</span>

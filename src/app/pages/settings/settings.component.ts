@@ -7,7 +7,7 @@ import { SettingsService } from '../../services/services.index';
   styles: []
 })
 export class AccountSettingsComponent implements OnInit {
-  constructor(public _ajustes: SettingsService) {}
+  constructor(public _ajustes: SettingsService) { }
 
   ngOnInit() {
     this.colocarCheck();
