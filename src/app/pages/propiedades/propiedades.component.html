@@ -33,16 +33,24 @@
 <div class="row animated fadeIn" *ngIf="!cargando">
     <div class="col-12">
         <div class="row border rounded m-3 p-2" style="align-items: center; line-height: 20px; font-weight: 300; "
-            *ngFor="let propiedad of propiedades; index as i"
-            [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
+            *ngFor="let propiedad of propiedades; index as i">
 
-            <div class="col-md-3">
+
+            <!---------------------------------------------------------------------->
+            <!-- IMAGEN  -->
+            <!---------------------------------------------------------------------->
+            <div class="col-md-3"
+                [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
                 <img (click)="mostrarModal( propiedad._id )"
                     [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
                     class="img-200 pointer rounded">
             </div>
 
-            <div class="col-md-5 h6" style="font-weight: 300;line-height: 25px;">
+            <!---------------------------------------------------------------------->
+            <!-- INFO -->
+            <!---------------------------------------------------------------------->
+            <div class="col-md-4 h6" style="font-weight: 300;line-height: 25px;"
+                [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
                 #id: {{ propiedad._id}}<br /><br />
                 {{ propiedad.tipoinmueble.nombre }} en
                 {{ propiedad.tipooperacion.nombre }} en
@@ -52,14 +60,30 @@
                     {{ propiedad.altura }}</span>
                 <br />
                 <span>0 vistas | 23 dias para finalizar</span>
-
             </div>
 
-            <div class="col-md-2 h3" style="text-align: center; font-weight: 400; color: green;">
+            <!---------------------------------------------------------------------->
+            <!-- PAUSADO/ACTIVO -->
+            <!---------------------------------------------------------------------->
+            <div class="col-md-2">
+                <div *ngIf="!propiedad.activo" style="text-align: -webkit-center;">
+                    <div class="aviso-pausado"><i class="mdi mdi-pause-circle"></i></div>
+                    <div class="aviso-pausado-label">Aviso pausado!</div>
+                </div>
+            </div>
+
+            <!---------------------------------------------------------------------->
+            <!-- PRECIO -->
+            <!---------------------------------------------------------------------->
+            <div class="col-md-2" class="font-precio"
+                [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
                 {{ propiedad.precio }}
             </div>
 
-            <div class="col-md-2 h4" style="text-align-last: end;">
+            <!---------------------------------------------------------------------->
+            <!-- MENU OPCIONES -->
+            <!---------------------------------------------------------------------->
+            <div class="col-md-1 h4" style="text-align-last: end;">
 
                 <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
 

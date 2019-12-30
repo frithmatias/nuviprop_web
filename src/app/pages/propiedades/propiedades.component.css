@@ -1,0 +1,35 @@
+.aviso-pausado {
+    text-align      : center;
+    background-color: white;
+    color           : tomato;
+    border-radius   : 23px;
+    height          : 46px;
+    width           : 46px;
+    font-size       : 33px;
+    align-items     : center;
+}
+
+.aviso-pausado-label {
+    text-align: center;
+    font-size : 16px;
+}
+
+.propiedad-activa {
+    background-color: lavanderblush;
+}
+
+.propiedad-inactiva {
+    opacity: 0.5;
+}
+
+
+.img-200 {
+    width: 200px;
+}
+
+.font-precio {
+    text-align : center;
+    font-weight: 400;
+    color      : green;
+    font-size  : xx-large;
+}

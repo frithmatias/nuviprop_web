@@ -29,13 +29,6 @@ export class PropiedadAvisoComponent implements OnInit {
 	localidadesControl = new FormControl();
 	filteredOptions: Observable<string[]>;
 	options: any[] = [];
-	valuesToSave = {
-		tipooperacion: '',
-		tipoinmueble: '',
-		localidad: ''
-	};
-
-
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -47,27 +40,30 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.obtenerOperaciones();
 		this.obtenerInmuebles();
 		this.buildForm().then(() => {
+			console.log(this.formData);
+			// formData contiene la data de la propiedad que envía el componente padre
 			this.formGroup.patchValue({
 				calle: this.formData.calle,
 				altura: this.formData.altura,
 				piso: this.formData.piso,
 				depto: this.formData.depto,
-				tipoinmueble: this.formData.tipoinmueble,
-				tipounidad: this.formData.tipounidad,
-				tipooperacion: this.formData.tipooperacion,
+				tipoinmueble: { nombre: this.formData.tipoinmueble.nombre, id: this.formData.tipoinmueble.id },
+				tipounidad: { nombre: this.formData.tipounidad.nombre, id: this.formData.tipounidad.id },
+				tipooperacion: { nombre: this.formData.tipooperacion.nombre, id: this.formData.tipooperacion.id },
 				titulo: this.formData.titulo,
 				descripcion: this.formData.descripcion,
 				precio: this.formData.precio,
 				moneda: this.formData.moneda,
 				nopublicarprecio: this.formData.nopublicarprecio,
 				aptocredito: this.formData.aptocredito,
-				provincia: this.formData.provincia,
-				departamento: this.formData.departamento,
-				localidad: this.formData.localidad,
-				coords: [this.formData.coords[0], this.formData.coords[1]],
-				codigopostal: this.formData.codigopostal,
+				provincia: { nombre: this.formData.provincia.nombre, id: this.formData.provincia.id },
+				departamento: { nombre: this.formData.departamento.nombre, id: this.formData.departamento.id },
+				localidad: { nombre: this.formData.localidad.nombre, id: this.formData.localidad.id },
+				coords: { lat: this.formData.coords.lat, lng: this.formData.coords.lng },
+				codigopostal: this.formData.codigopostal
 			});
 			this.parsetemplate = true;
+			console.log(this.formGroup);
 		}
 		);
 
@@ -175,6 +171,7 @@ export class PropiedadAvisoComponent implements OnInit {
 
 
 	enviarFormulario() {
+		console.log(this.formGroup.value);
 		if (this.formGroup.valid) {
 			this.outputGroup.emit(this.formGroup);
 		} else {
@@ -248,11 +245,6 @@ export class PropiedadAvisoComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
-		console.log('LOCALIDAD: ', localidad);
-		console.log('FormGroup antes del patch: ', this.formGroup);
-		console.log('valuesToSave: ', this.valuesToSave);
-
-		this.valuesToSave.localidad = localidad.properties.id;
 		this.formGroup.patchValue({
 			localidad: {
 				nombre: localidad.properties.nombre,
@@ -272,9 +264,7 @@ export class PropiedadAvisoComponent implements OnInit {
 			},
 
 		});
-
-
-		console.log('FormGroup despues del patch: ', this.formGroup);
+		console.log(this.formGroup);
 
 		// Este metodo podría no ser necesario, pero tengo que enviar el nombre (string) al control
 		// y el id (number) hacia un nuevo objeto que voy a enviar al backend. Esto es porque yo

@@ -1,16 +1,14 @@
 <div class="bg">
-    <form ngNativeValidate (ngSubmit)="enviarFormulario()" class="w-75 animated fadeIn" [formGroup]="formGroup">
-
-
+    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="enviarFormulario()" class="w-75 animated fadeIn">
         <div class="row my-2">
             <div class="col-12">
 
                 <!---------------------------------------------------------------------->
                 <!-- TIPO DE OPERACION [SELECT] -->
                 <!---------------------------------------------------------------------->
-                <mat-form-field iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
+                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
                     <mat-label>Tipo de operación</mat-label>
-                    <mat-select formControlName="tipooperacion">
+                    <mat-select>
                         <mat-option *ngFor="let operacion of operaciones" [value]="operacion._id"
                             (click)="setOperacion(operacion)">
                             {{operacion.nombre}}
@@ -25,51 +23,58 @@
                     <button #operacionseleccionada name="boton_tipo_operacion" type="button"
                         *ngFor="let operacion of operaciones"
                         class="btn btn-outline-success-inicio btn-block d-none d-lg-block my-0 mx-3 mb-4"
-                        (click)="setOperacion(operacion, operacionseleccionada)" style="height: 50px;">
+                        (click)="setOperacion(operacion, operacionseleccionada)" style="height: 60px;">
                         <span class="lead">{{operacion.nombre}}</span>
                     </button>
                 </div>
+
+
             </div>
         </div>
-
-
         <div class="row my-2 px-3">
             <div class="col-12 col-md-3 col-lg-3">
+
+
                 <!---------------------------------------------------------------------->
                 <!-- TIPO DE INMUEBLE -->
                 <!---------------------------------------------------------------------->
-                <mat-form-field iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
+                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
                     <mat-label>Tipo de inmueble</mat-label>
-                    <mat-select formControlName="tipoinmueble">
+                    <mat-select>
                         <mat-option *ngFor="let inmueble of inmuebles" [value]="inmueble._id"
                             (click)="setInmueble(inmueble)">
                             {{inmueble.nombre}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+
             </div>
-
-
             <div class=" col-12 col-md-9 col-lg-9">
+
+
                 <!---------------------------------------------------------------------->
                 <!-- LOCALIDAD -->
                 <!---------------------------------------------------------------------->
 
-                <mat-form-field iniciocss appearance="fill" class="w-100">
+                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100">
                     <mat-label>Ingrese una localidad</mat-label>
 
-                    <input formControlName="localidad" type="text" value="asdf" matInput
-                        [formControl]="localidadesControl" [matAutocomplete]="auto" #input
-                        (keyup)="buscarLocalidad( $event )">
+                    <input type="text" placeholder="Ingrese localidad" aria-label="Number" matInput
+                        [value]="formGroup.value.localidad.nombre | capitalizarPipe" [formControl]="localidadesControl"
+                        [matAutocomplete]="auto" (keyup)="buscarLocalidad( $event )">
                     <!-- <input matInput [matAutocomplete]="auto" formControlName="localidad" value="asdf"
                     (keyup)="buscarLocalidad( $event )"> -->
                 </mat-form-field>
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" (click)="setLocalidad(option)">
-                        {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
+                    <mat-option *ngFor="let option of filteredOptions | async"
+                        [value]="formGroup.controls.localidad.value.nombre" (click)="setLocalidad(option)">
+                        {{option.properties.nombre | capitalizarPipe}}, {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}
                     </mat-option>
                 </mat-autocomplete>
+
+
             </div>
         </div>
 
@@ -81,5 +86,7 @@
                 <button class="btn btn-dark btn-lg float-right"><i class="ti-search"></i>&nbsp; Buscar</button>
             </div>
         </div>
+
+
     </form>
 </div>

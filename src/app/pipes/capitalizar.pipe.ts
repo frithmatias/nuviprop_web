@@ -17,8 +17,12 @@ export class CapitalizarPipe implements PipeTransform {
 	en la ultima version de angular, los args ya no vienen en un array
 	vienen separados por comas arg1,arg2,arg3,argN...
 	*/
+
+	// VALUE: string a capitallizar
+	// TODAS: si es verdadero capitaliza todas las palabres en el string.
 	transform(value: string, todas: boolean = true): string {
-		if (!value) {
+		if (!value || typeof value !== 'string') {
+			console.log('Ingreso un valor no string al PIPE de capitalización.');
 			return;
 		}
 		value = value.toLowerCase();
