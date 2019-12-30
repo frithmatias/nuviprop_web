@@ -56,9 +56,9 @@ export class PropiedadAvisoComponent implements OnInit {
 				moneda: this.formData.moneda,
 				nopublicarprecio: this.formData.nopublicarprecio,
 				aptocredito: this.formData.aptocredito,
-				provincia: { nombre: this.formData.provincia.nombre, id: this.formData.provincia.id },
-				departamento: { nombre: this.formData.departamento.nombre, id: this.formData.departamento.id },
-				localidad: { nombre: this.formData.localidad.nombre, id: this.formData.localidad.id },
+				provincia: { nombre: this.formData.provincia.nombre, code: this.formData.provincia.code },
+				departamento: { nombre: this.formData.departamento.nombre, code: this.formData.departamento.code },
+				localidad: { nombre: this.formData.localidad.nombre, code: this.formData.localidad.code, id: this.formData.localidad.id },
 				coords: { lat: this.formData.coords.lat, lng: this.formData.coords.lng },
 				codigopostal: this.formData.codigopostal
 			});
@@ -127,18 +127,19 @@ export class PropiedadAvisoComponent implements OnInit {
 				provincia:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
+					code: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				departamento:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
+					code: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				localidad:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
+					code: ['', [Validators.required, Validators.minLength(5)]],
 					id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
@@ -247,16 +248,17 @@ export class PropiedadAvisoComponent implements OnInit {
 	setLocalidad(localidad) {
 		this.formGroup.patchValue({
 			localidad: {
-				nombre: localidad.properties.nombre,
-				id: localidad.properties.id
+				nombre: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`,
+				code: localidad.properties.id,
+				id: localidad._id
 			},
 			departamento: {
 				nombre: localidad.properties.departamento.nombre,
-				id: localidad.properties.departamento.id
+				code: localidad.properties.departamento.id,
 			},
 			provincia: {
 				nombre: localidad.properties.provincia.nombre,
-				id: localidad.properties.provincia.id
+				code: localidad.properties.provincia.id,
 			},
 			coords: {
 				lng: localidad.geometry.coordinates[0],
