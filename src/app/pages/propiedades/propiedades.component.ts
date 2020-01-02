@@ -1,121 +1,97 @@
-import { Component, OnInit } from '@angular/core';
-import {
-	PropiedadesService,
-	ModalUploadService
-} from 'src/app/services/services.index';
-import { Propiedad, Propiedades } from 'src/app/models/propiedad.model';
-import Swal from 'sweetalert2';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { PropiedadesService } from 'src/app/services/services.index';
 
+declare function init_plugins();
 @Component({
 	selector: 'app-propiedades',
 	templateUrl: './propiedades.component.html',
-	styleUrls: ['./propiedades.component.css']
+	styleUrls: ['./propiedades.component.scss']
 })
-export class PropiedadesComponent implements OnInit {
-	propiedades: Propiedad[] = [];
-	cargando = false;
-	pagina = 0;
-	totalPropiedades = 0;
 
+export class PropiedadesComponent implements OnInit {
+	private INFINITESCROLL_THRESHOLD = 80;
+	private showGoUpButton: boolean;
+	private getMoreProps = false;
+
+	showScrollHeight = 400;
+	hideScrollHeight = 200;
 
 	constructor(
-		private propiedadesService: PropiedadesService,
-		private modalUploadService: ModalUploadService,
-		private snackBar: MatSnackBar
-	) { }
+		private propiedadesService: PropiedadesService
+	) {
+		this.showGoUpButton = false;
+	}
 
 	ngOnInit() {
-		this.cargarPropiedades(0);
+		const maparef = document.getElementById('mapbox');
+		maparef.setAttribute('style', 'width:100%;');
+		init_plugins();
+		this.cambiarTab(this.propiedadesService.tabselected);
+		this.scrollTop(); // envio el scroll hacia arriba
 	}
 
-	cargarPropiedades(page: number) {
-		if (
-			((this.pagina === 0) && (page < 0)) ||
-			(((this.pagina + 1) * 20 >= this.totalPropiedades) && (page > 0))
-		) {
-			return;
-		}
-		this.pagina += page;
-		this.cargando = true;
-		this.propiedadesService
-			.cargarPropiedades('todas', this.pagina)
-			.subscribe((props: Propiedades) => {
-				this.propiedades = props.propiedades;
-				this.totalPropiedades = props.total;
-				this.cargando = false;
-			});
+	tabSelected(n: number) {
+		this.propiedadesService.tabselected = n;
 	}
 
-	buscarPropiedad(termino: string) {
-		// /^[a-z0-9]+$/i
-		// ^         Start of string
-		// [a-z0-9]  a or b or c or ... z or 0 or 1 or ... 9
-		// +         one or more times (change to * to allow empty string)
-		// $         end of string
-		// /i        case-insensitive
+	cambiarTab(tab: number) {
+		// guardo en el servico el tab seleccionado por última vez, para que al volver de
+		// ver una propiedad, quede seleccionado el ultimo tab seleccionado.
+		const tabs: any = document.getElementsByClassName('nav-link tabs');
+		const contents: any = document.getElementsByClassName('tab-pane');
 
-
-
-		console.log(termino.length);
-		if (termino.length <= 0) {
-			this.cargarPropiedades(0);
-			return;
+		// desactivo los tabs
+		for (const ref of tabs) {
+			ref.classList.remove('active');
+		}
+		// desactivo los contenidos
+		for (const ref of contents) {
+			ref.classList.remove('show.active');
 		}
 
-		const regex = new RegExp(/^[a-z0-9]+$/i);
-		if (regex.test(termino)) {
-			this.cargando = true;
-			this.propiedadesService.buscarPropiedad(termino).subscribe((resp: any) => {
-				this.propiedades = resp.propiedades;
-				this.cargando = false;
-			});
-		} else {
-			this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
-				duration: 2000,
-			});
-		}
+		// activo el tab correspondiente al ultimo seleccionado guardado en el servicio.
+		tabs[tab].classList.add('active');
+
+		// activo el contenedor correspondiente al tab seleccionado.
+		contents[tab].classList.add('show', 'active');
 	}
 
-	borrarPropiedad(propiedad: Propiedad) {
-		Swal.fire({
-			// para evitar problemas de tipo en este metodo defino al prinicio, declare var swal: any;
-			title: 'Esta seguro?',
-			text: 'Esta a punto de borrar ' + propiedad.tipoinmueble + ' en ' + propiedad.calle + ' ' + propiedad.altura,
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			cancelButtonText: 'Cancelar',
-			confirmButtonText: 'Si, borrar propiedad.'
-		}).then(result => {
-			if (result.value) {
-				console.log(result);
-				this.cargando = true;
-				this.propiedadesService
-					.borrarPropiedad(propiedad._id)
-					.subscribe((resp: any) => {
-						Swal.fire(
-							'Propiedad eliminada',
-							'La propiedad ha sido borrada con éxito.',
-							'success'
-						);
-						this.cargarPropiedades(0);
-						this.cargando = false;
-					});
-			} else {
+	scrollTop() {
+		document.body.scrollTop = 0; // Safari
+		document.documentElement.scrollTop = 0; // Other
+	}
+
+	@HostListener('window:scroll', [])
+	onWindowScroll() {
+
+		if ((window.pageYOffset ||
+			document.documentElement.scrollTop ||
+			document.body.scrollTop) > this.showScrollHeight) {
+
+			// al hacer un scroll hacia abajo, el boton que aparece para ir hacia arriba tapa el footer.
+			// corro el telefono hacia la izquierda para que no lo tape.
+			this.showGoUpButton = true;
+		} else if (this.showGoUpButton &&
+			(window.pageYOffset ||
+				document.documentElement.scrollTop ||
+				document.body.scrollTop)
+			< this.hideScrollHeight) {
+			this.showGoUpButton = false;
+		}
+
+		// 1. document.documentElement.scrollTop, posicion absoulta de cota superior de scroll
+		// 2. document.documentElement.clientHeight, altura del scroll
+		// 3. document.documentElement.offsetHeight, altura total de la ventana
+		// 1 + 2 = 3
+		const contentHeight = document.getElementById('myTabContent').offsetHeight;
+		if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
+			if (this.getMoreProps === false) {
+				this.propiedadesService.cargarPropiedades(0);
 			}
-		});
-	}
-
-	cambiarEstado(id: string) {
-		this.propiedadesService.cambiarEstado(id).subscribe(data => {
-			this.cargarPropiedades(0);
-		});
-	}
-
-	mostrarModal(id: string) {
-		this.modalUploadService.mostrarModal('propiedades', id);
+			this.getMoreProps = true;
+		} else {
+			this.getMoreProps = false;
+		}
 	}
 
 

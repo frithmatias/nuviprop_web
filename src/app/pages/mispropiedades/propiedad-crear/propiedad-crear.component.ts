@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PropiedadesService, UploaderService, FormsService } from 'src/app/services/services.index';
+import { MisPropiedadesService, UploaderService, FormsService } from 'src/app/services/services.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.service';
@@ -36,12 +36,12 @@ export class PropiedadCrearComponent implements OnInit {
 	constructor(
 		public router: Router,
 		public activatedRoute: ActivatedRoute,
-		public propiedadesService: PropiedadesService,
+		public misPropiedadesService: MisPropiedadesService,
 		public uploaderService: UploaderService
 	) { }
 
 	ngOnInit() {
-		this.propiedadesService.scrollTop();
+		this.misPropiedadesService.scrollTop();
 		this.activatedRoute.params.subscribe(params => {
 			this.propId = params.id;
 		});
@@ -83,7 +83,7 @@ export class PropiedadCrearComponent implements OnInit {
 			if (this.propId === 'nuevo') {
 				resolve('No hay data es una propiedad nueva');
 			} else {
-				this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
+				this.misPropiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
 					resolve(propiedad);
 				});
 			}
@@ -99,12 +99,12 @@ export class PropiedadCrearComponent implements OnInit {
 		}
 		// this.propiedad.inmobiliaria = f.value.inmobiliaria;
 
-		this.propiedadesService
+		this.misPropiedadesService
 			.guardarPropiedad(event.value, this.propId) // Envío propId para saber si inserta ('nuevo') o actualiza ('id')
 			.subscribe(resp => {
 				console.log('Guardado:', resp);
 				this.propiedad = resp.propiedad;
-				this.propiedadesService.stepperGoNext(stepper);
+				this.misPropiedadesService.stepperGoNext(stepper);
 				this.router.navigate(['/propiedad', resp.propiedad._id]);
 			});
 

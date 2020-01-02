@@ -19,49 +19,49 @@ import { PipesModule } from '../pipes/pipes.module';
 // COMPONENTES
 import { BuscarComponent } from './buscar/buscar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ResultadosComponent } from './resultados/resultados.component';
+import { PropiedadesComponent } from './propiedades/propiedades.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
-import { PropiedadesComponent } from './propiedades/propiedades.component';
-import { PropiedadCrearComponent } from './propiedades/propiedad-crear/propiedad-crear.component';
-import { PropiedadVerComponent } from './propiedades/propiedad-ver/propiedad-ver.component';
+import { MisPropiedadesComponent } from './mispropiedades/mispropiedades.component';
+import { PropiedadCrearComponent } from './mispropiedades/propiedad-crear/propiedad-crear.component';
+import { PropiedadVerComponent } from './mispropiedades/propiedad-ver/propiedad-ver.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
 
 @NgModule({
-  declarations: [
-	DashboardComponent,
-	ProgressComponent,
-	AccountSettingsComponent,
-	ProfileComponent,
-	UsuariosComponent,
-	PropiedadesComponent,
-	PropiedadCrearComponent,
-	InmobiliariasComponent,
-	BuscarComponent,
-	ResultadosComponent,
-	PropiedadVerComponent,
-	InicioComponent
+	declarations: [
+		DashboardComponent,
+		ProgressComponent,
+		AccountSettingsComponent,
+		ProfileComponent,
+		UsuariosComponent,
+		MisPropiedadesComponent,
+		PropiedadCrearComponent,
+		InmobiliariasComponent,
+		BuscarComponent,
+		PropiedadesComponent,
+		PropiedadVerComponent,
+		InicioComponent
 
 
-  ],
-  exports: [DashboardComponent],
-  imports: [
-	PipesModule,
-	ComponentsModule,
-	CommonModule,
-	PagesRoutingModule,
-	ReactiveFormsModule,
-	FormsModule,
-	MatStepperModule,
-	MatFormFieldModule,
-	MatIconModule,
-	MatMenuModule,
-	MatAutocompleteModule,
-	MatInputModule,
-	MatSelectModule
-  ]
+	],
+	exports: [DashboardComponent],
+	imports: [
+		PipesModule,
+		ComponentsModule,
+		CommonModule,
+		PagesRoutingModule,
+		ReactiveFormsModule,
+		FormsModule,
+		MatStepperModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatMenuModule,
+		MatAutocompleteModule,
+		MatInputModule,
+		MatSelectModule
+	]
 })
 export class PagesModule { }

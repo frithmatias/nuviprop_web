@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { Propiedades, Propiedad } from 'src/app/models/propiedad.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ResultadosService } from '../resultados/resultados.service';
+import { PropiedadesService } from '../propiedades/propiedades.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class InicioService {
 	private http: HttpClient,
 	private router: Router,
 	private snackBar: MatSnackBar,
-	private resultadosService: ResultadosService
+	private propiedadesService: PropiedadesService
   ) { }
 
   obtenerOperaciones() {
@@ -46,7 +46,7 @@ export class InicioService {
 		if (data.ok && data.propiedades.length > 0) {
 		// si se encuentran resultados se lo paso al servicio de los resultados. Si yo entro
 		// a la pagina resultados sin pasar por inicio, me va a levantar TODAS las propiedades activas.
-		this.resultadosService.propiedades = data.propiedades;
+		this.propiedadesService.propiedades = data.propiedades;
 		this.router.navigate(['/resultados']);
 		} else {
 		this.snackBar.open('No se encontraron resultados.', 'Aceptar', {

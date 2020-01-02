@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Propiedad } from 'src/app/models/propiedad.model';
 import { Router } from '@angular/router';
-import { PropiedadesService } from 'src/app/services/services.index';
+import { MisPropiedadesService } from 'src/app/services/services.index';
 
 @Component({
   selector: 'app-form-propiedad-confirm',
@@ -13,7 +13,7 @@ export class PropiedadConfirmComponent implements OnInit {
   @Output() activar = new EventEmitter();
   constructor(
 	private router: Router,
-	private propiedadesService: PropiedadesService) { }
+	private misPropiedadesService: MisPropiedadesService) { }
 
   ngOnInit() {
 
@@ -21,7 +21,7 @@ export class PropiedadConfirmComponent implements OnInit {
 
 
   cambiarEstado() {
-	this.propiedadesService.cambiarEstado(this.propiedad._id).subscribe(data => {
+	this.misPropiedadesService.cambiarEstado(this.propiedad._id).subscribe(data => {
 		this.router.navigate(['/propiedades']);
 		console.log(data);
 	});

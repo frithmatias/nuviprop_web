@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Propiedad } from 'src/app/models/propiedad.model';
-import { PropiedadesService } from '../propiedades.service';
+import { MisPropiedadesService } from '../mispropiedades.service';
 import { ActivatedRoute } from '@angular/router';
 import { MapaService } from 'src/app/components/mapa/mapa.service';
 
@@ -17,7 +17,7 @@ export class PropiedadVerComponent implements OnInit {
   parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data
   propiedad: Propiedad;
   id: string;
-  constructor(private activatedRoute: ActivatedRoute, private propiedadesService: PropiedadesService, private mapaService: MapaService) { }
+  constructor(private activatedRoute: ActivatedRoute, private misPropiedadesService: MisPropiedadesService, private mapaService: MapaService) { }
 
   ngOnInit() {
 	document.body.scrollTop = 0; // Safari
@@ -33,7 +33,7 @@ export class PropiedadVerComponent implements OnInit {
 
   cargarPropiedad(id: string) {
 	return new Promise((resolve, reject) => {
-		this.propiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
+		this.misPropiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
 		this.propiedad = propiedad;
 		// this.files = propiedad.imgs;
 		resolve();
