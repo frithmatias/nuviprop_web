@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 // MODULOS PERSONALIZADOS
 import { PipesModule } from '../pipes/pipes.module';
@@ -37,41 +38,42 @@ import { PropiedadAvisoComponent } from './forms/propiedad-aviso/propiedad-aviso
 
 @NgModule({
   declarations: [
-    NgDropFilesDirective,
-    IncrementadorComponent,
-    UploaderComponent,
-    MapaComponent,
-    ListComponent,
-    CardsComponent,
-    PropiedadConfirmComponent,
-    PropiedadDetallesComponent,
-    PropiedadAvisoComponent
+	NgDropFilesDirective,
+	IncrementadorComponent,
+	UploaderComponent,
+	MapaComponent,
+	ListComponent,
+	CardsComponent,
+	PropiedadConfirmComponent,
+	PropiedadDetallesComponent,
+	PropiedadAvisoComponent
 
   ],
   imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    FormsModule,
-    PipesModule,
-    MatStepperModule,
-    MatMenuModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatSnackBarModule
+	CommonModule,
+	RouterModule,
+	ReactiveFormsModule,
+	FormsModule,
+	PipesModule,
+	MatStepperModule,
+	MatMenuModule,
+	MatAutocompleteModule,
+	MatInputModule,
+	MatSelectModule,
+	MatTooltipModule,
+	MatSnackBarModule,
+	MatIconModule
   ],
   exports: [
-    IncrementadorComponent,
-    UploaderComponent,
-    MapaComponent,
-    ListComponent,
-    CardsComponent,
-    RouterModule,
-    PropiedadConfirmComponent,
-    PropiedadDetallesComponent,
-    PropiedadAvisoComponent
+	IncrementadorComponent,
+	UploaderComponent,
+	MapaComponent,
+	ListComponent,
+	CardsComponent,
+	RouterModule,
+	PropiedadConfirmComponent,
+	PropiedadDetallesComponent,
+	PropiedadAvisoComponent
   ]
 })
 export class ComponentsModule { }

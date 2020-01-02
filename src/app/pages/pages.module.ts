@@ -32,36 +32,36 @@ import { InicioComponent } from './inicio/inicio.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    ProgressComponent,
-    AccountSettingsComponent,
-    ProfileComponent,
-    UsuariosComponent,
-    PropiedadesComponent,
-    PropiedadCrearComponent,
-    InmobiliariasComponent,
-    BuscarComponent,
-    ResultadosComponent,
-    PropiedadVerComponent,
-    InicioComponent
+	DashboardComponent,
+	ProgressComponent,
+	AccountSettingsComponent,
+	ProfileComponent,
+	UsuariosComponent,
+	PropiedadesComponent,
+	PropiedadCrearComponent,
+	InmobiliariasComponent,
+	BuscarComponent,
+	ResultadosComponent,
+	PropiedadVerComponent,
+	InicioComponent
 
 
   ],
   exports: [DashboardComponent],
   imports: [
-    PipesModule,
-    ComponentsModule,
-    CommonModule,
-    PagesRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatMenuModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatSelectModule
+	PipesModule,
+	ComponentsModule,
+	CommonModule,
+	PagesRoutingModule,
+	ReactiveFormsModule,
+	FormsModule,
+	MatStepperModule,
+	MatFormFieldModule,
+	MatIconModule,
+	MatMenuModule,
+	MatAutocompleteModule,
+	MatInputModule,
+	MatSelectModule
   ]
 })
 export class PagesModule { }

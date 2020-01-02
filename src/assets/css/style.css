@@ -2880,7 +2880,7 @@ Buttons
   border-color      : #06d79c;
   color             : #ffffff;
   -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  box-shadow        : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+  box-shadow        : 0 14px 26px -12px rgba(255, 255, 255, 0.42)), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
 }
 
 .btn-outline-success.active,
@@ -2892,35 +2892,57 @@ Buttons
   border-color      : #007252;
 }
 
-.btn-outline-success-inicio {
+.btn-inicio-tipooperacion {
   color             : rgb(255, 255, 255);
   background-color  : crimson;
   border-color      : crimson;
-  -webkit-box-shadow: 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
-  box-shadow        : 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
   -webkit-transition: 0.2s ease-in;
   -o-transition     : 0.2s ease-in;
   transition        : 0.2s ease-in;
 }
 
-.btn-outline-success-inicio:hover,
-.btn-outline-success-inicio:focus,
-.btn-outline-success-inicio.focus {
-  background-color  : #f6355b;
-  border-color      : #f6355b;
-  color             : #ffffff;
-  -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  box-shadow        : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+.btn-inicio-tipooperacion:hover,
+.btn-inicio-tipooperacion:focus,
+.btn-inicio-tipooperacion.focus {
+  box-shadow      : 0 0 0 2px rgba(255, 255, 255, 0.15);
+  background-color: #f6355b;
+  border-color    : #f6355b;
+  color           : #ffffff;
 }
 
-.btn-outline-success-inicio.active,
-.btn-outline-success-inicio:active,
-.btn-outline-success-inicio:focus {
-  -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  box-shadow        : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  background-color  : #f6355b;
-  border-color      : #ff5174;
-  color             : #ffffff;
+.btn-inicio-tipooperacion.active,
+.btn-inicio-tipooperacion:active,
+.btn-inicio-tipooperacion:focus {
+  box-shadow      : 0 0 0 2px rgba(255, 255, 255, 0.35);
+  background-color: darkorange;
+  border-color    : darkorange;
+  color           : #ffffff;
+}
+
+
+.btn-inicio-submit {
+  color           : rgb(255, 255, 255);
+  background-color: #343a40;
+  border-color    : #485256;
+  -o-transition   : 0.2s ease-in;
+  transition      : 0.2s ease-in;
+}
+
+.btn-inicio-submit:hover,
+.btn-inicio-submit:focus,
+.btn-inicio-submit.focus {
+  background-color: #575b5f;
+  border-color    : #575b5f;
+  color           : #ffffff;
+}
+
+.btn-inicio-submit.active,
+.btn-inicio-submit:active,
+.btn-inicio-submit:focus {
+  box-shadow      : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+  background-color: #575b5f;
+  border-color    : #575b5f;
+  color           : #ffffff;
 }
 
 .btn-outline-info {

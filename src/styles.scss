@@ -104,3 +104,30 @@ body {
     background-color: rgb(255, 255, 255);
   }
 }
+
+.mat-form-field[logincss] {
+  .mat-form-field-flex>.mat-form-field-infix {
+    background-color: rgb(255, 255, 255);
+  }
+}
+
+.mat-form-field[logincss] {
+  .mat-form-field-flex {
+    background-color: rgb(255, 255, 255);
+  }
+}
+
+
+// Quita el color de background-color que el navegador pone automaticamente en los 
+// inputs cuando llena el control con un valor automáticamente con auto-fill.
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/*Change text in autofill textbox*/
+// input:-webkit-autofill {
+// -webkit-text-fill-color: yellow !important;
+// }

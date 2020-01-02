@@ -1,5 +1,6 @@
 <div class="bg">
-    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="enviarFormulario()" class="w-75 animated fadeIn">
+    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="enviarFormulario(inputLocalidad)"
+        class="w-75 animated fadeIn form-container rounded">
         <div class="row my-2">
             <div class="col-12">
 
@@ -22,8 +23,8 @@
                 <div class="d-flex">
                     <button #operacionseleccionada name="boton_tipo_operacion" type="button"
                         *ngFor="let operacion of operaciones"
-                        class="btn btn-outline-success-inicio btn-block d-none d-lg-block my-0 mx-3 mb-4"
-                        (click)="setOperacion(operacion, operacionseleccionada)" style="height: 60px;">
+                        class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
+                        (click)="setOperacion(operacion, operacionseleccionada)">
                         <span class="lead">{{operacion.nombre}}</span>
                     </button>
                 </div>
@@ -57,24 +58,30 @@
                 <!-- LOCALIDAD -->
                 <!---------------------------------------------------------------------->
 
-                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100">
-                    <mat-label>Ingrese una localidad</mat-label>
 
-                    <input type="text" placeholder="Ingrese localidad" aria-label="Number" matInput
-                        [value]="formGroup.value.localidad.nombre | capitalizarPipe" [formControl]="localidadesControl"
-                        [matAutocomplete]="auto" (keyup)="buscarLocalidad( $event )">
-                    <!-- <input matInput [matAutocomplete]="auto" formControlName="localidad" value="asdf"
-                    (keyup)="buscarLocalidad( $event )"> -->
+                <!-- 
+                El atributo [value] en <input> se utiliza para mostrar el contenido en el control cuando se carga. 
+                El artibuto [value] en <mat-option> se utiliza para ENVIAR el contenido al input al seleccionar una opción.
+                    Si yo no pongo [value] en <input> no voy a ver datos hasta que yo seleccione una opcion en 
+                    el select. Si yo no pongo [value] en <mat-select> voy a ver datos al principio, pero desaparecen
+                    cuando yo hago un click en una opcion del select.
+                -->
+
+                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
+                    <mat-label>Ingrese una localidad</mat-label>
+                    <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
+                        [formControl]="localidadesControl" [matAutocomplete]="auto"
+                        [value]="formGroup.value.localidad.nombre | capitalizarPipe">
+                    <span class="clean-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async"
-                        [value]="formGroup.controls.localidad.value.nombre" (click)="setLocalidad(option)">
-                        {{option.properties.nombre | capitalizarPipe}}, {{option.properties.departamento.nombre}},
+                    <mat-option [value]="formGroup.value.localidad.nombre | capitalizarPipe"
+                        *ngFor="let option of localidades" (click)="setLocalidad(option)">
+                        {{option.properties.nombre | capitalizarPipe}},
+                        {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}
                     </mat-option>
                 </mat-autocomplete>
-
-
             </div>
         </div>
 
@@ -83,10 +90,13 @@
         <!---------------------------------------------------------------------->
         <div class="row my-2 px-3">
             <div class="col-12">
-                <button class="btn btn-dark btn-lg float-right"><i class="ti-search"></i>&nbsp; Buscar</button>
+                <button class="btn btn-inicio-submit float-right"><i class="ti-search"></i>&nbsp;
+                    Buscar</button>
             </div>
         </div>
 
 
     </form>
+
+
 </div>

@@ -1,12 +1,6 @@
 .bg {
-  /* The image used */
-  background-image: url("../../../assets/images/background/house-moutain.jpg");
-
-  /* Half height */
-  height   : 500px;
-  /*opacity: 0.9;*/
-
-  /* Center and scale the image nicely */
+  background-image   : url("../../../assets/images/background/house-moutain.jpg");
+  height             : 500px;
   background-position: center;
   background-repeat  : no-repeat;
   background-size    : cover;
@@ -15,12 +9,23 @@
   align-items        : center;
 }
 
-.opacity-90 {
-  opacity: 0.9;
+.form-container {
+  background-color: rgba(100, 28, 28, 0.3);
+  width           : 90%;
+  padding         : 5%;
 }
 
-
-div.mat-form-field-flex {
-  font-size       : 16px;
-  background-color: white;
+.clean-icon {
+  position        : absolute;
+  top             : -7px;
+  right           : 4px;
+  font-size       : 19px;
+  cursor          : pointer;
+  background-color: #ffffff;
+  width           : 25px;
+  height          : 25px;
+  border-radius   : 11px;
+  text-align      : center;
+  padding         : 3px;
+  color           : green;
 }

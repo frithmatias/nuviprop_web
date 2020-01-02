@@ -6,23 +6,23 @@ import { Usuario } from 'src/app/models/usuario.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styles: []
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   usuario: Usuario;
   publicmenu: any[];
 
   constructor(
-    private router: Router,
-    private userService: UsuarioService,
-    private sidebarService: SidebarService
+	private router: Router,
+	private userService: UsuarioService,
+	private sidebarService: SidebarService
   ) { }
 
   ngOnInit() {
-    this.publicmenu = this.sidebarService.publicHeaderMenu;
+	this.publicmenu = this.sidebarService.publicHeaderMenu;
   }
 
   buscar(termino: string) {
-    this.router.navigate(['/buscar', termino]);
+	this.router.navigate(['/buscar', termino]);
   }
 }

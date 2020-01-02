@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/internal/Observable';
 export class PropiedadAvisoComponent implements OnInit {
 	@Input() formData: Propiedad;
 	@Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
-
+	value = 'Clear me';
 	parsetemplate = false;
 	propId: string;
 	formGroup: FormGroup = new FormGroup({});

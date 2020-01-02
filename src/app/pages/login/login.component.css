@@ -1,51 +1,37 @@
-/*
-Template Name: Admin pro Admin
-Author: Wrappixel
-Email: niravjoshi87@gmail.com
-File: scss
-*/
-/*
-Template Name: Admin Pro Admin
-Author: Wrappixel
-Email: niravjoshi87@gmail.com
-File: scss
-*/
-/*Theme Colors*/
-/*bootstrap Color*/
-/*Light colors*/
-/*Normal Color*/
-/*Extra Variable*/
-/*******************
-Login register and recover password Page
-******************/
-.login-register {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 100%;
-    width: 100%;
-    padding: 10% 0;
-    position: fixed; }
-  
-  .login-box {
-    width: 400px;
-    margin: 0 auto; }
-    .login-box .footer {
-      width: 100%;
-      left: 0px;
-      right: 0px; }
-    .login-box .social {
-      display: block;
-      margin-bottom: 30px; }
-  
-  #recoverform {
-    display: none; }
-  
-  .login-sidebar {
-    padding: 0px;
-    margin-top: 0px; }
-    .login-sidebar .login-box {
-      right: 0px;
-      position: absolute;
-      height: 100%; }
-  
+.bg {
+  background-image   : url("../../../assets/images/background/house-moutain.jpg");
+  height             : 100%;
+  background-position: center;
+  background-repeat  : no-repeat;
+  background-size    : cover;
+  display            : flex;
+  justify-content    : center;
+  align-items        : center;
+}
+
+.form-container {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding         : 5%;
+}
+
+.inputs-container {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding         : 5%;
+  color           : #313131;
+
+}
+
+.reveal-icon {
+  position        : absolute;
+  top             : -7px;
+  right           : 4px;
+  font-size       : 19px;
+  cursor          : pointer;
+  background-color: #ffffff;
+  width           : 25px;
+  height          : 25px;
+  border-radius   : 11px;
+  text-align      : center;
+  padding         : 3px;
+  color           : green;
+}
