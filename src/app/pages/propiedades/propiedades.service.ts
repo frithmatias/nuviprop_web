@@ -26,22 +26,16 @@ export class PropiedadesService {
 
 	cargarPropiedades(pagina: number) {
 		// Sola trae las proiedades activas.
-
 		if (this.actualPage * 20 < this.propiedadestotal) { // solo traigo mas, si quedan mas para mostrar.
 
 			let url = URL_SERVICIOS;
 			url += '/propiedades';
 			url += '?pagina=' + pagina;
 
-			const headers = new HttpHeaders({
-				'x-token': this.usuarioService.token
-			});
-
-			this.http.get(url, { headers }).pipe(map((data: Propiedades) => {
+			this.http.get(url).subscribe((data: Propiedades) => {
 				this.propiedades.push(...data.propiedades);
 				this.propiedadestotal = data.total;
-
-			}));
+			});
 		}
 
 		this.actualPage++;

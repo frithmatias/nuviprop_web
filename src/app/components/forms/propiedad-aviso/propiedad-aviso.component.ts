@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { Propiedad } from 'src/app/models/propiedad.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService } from '../forms.service';
-import { TiposOperaciones, TipoOperacion } from 'src/app/models/tipos_operacion.model';
-import { TiposInmuebles, TipoInmueble } from 'src/app/models/tipos_inmueble.model';
+import { TipoInmueble } from 'src/app/models/tipos_inmueble.model';
 import { TipoUnidad, TiposUnidades } from 'src/app/models/tipos_unidad.model';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
@@ -21,8 +20,12 @@ export class PropiedadAvisoComponent implements OnInit {
 	parsetemplate = false;
 	propId: string;
 	formGroup: FormGroup = new FormGroup({});
-	operaciones: TipoOperacion[] = [];
-	inmuebles: TipoInmueble[] = [];
+
+	// operaciones e inmuebles no cambian, son siempre los mismos en todo el scope de la web por lo tanto 
+	// las obtengo una única vez al iniciar el servicio FORMS. Desde las vistas las obtengo llamando directamente 
+	// al servicio formsService.operaciones y formsService.inmuebles.
+	// operaciones:
+	// inmuebles:
 	unidades: TipoUnidad[] = [];
 
 	// Localidades
@@ -37,8 +40,6 @@ export class PropiedadAvisoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.obtenerOperaciones();
-		this.obtenerInmuebles();
 		this.buildForm().then(() => {
 			console.log(this.formData);
 			// formData contiene la data de la propiedad que envía el componente padre
@@ -47,18 +48,18 @@ export class PropiedadAvisoComponent implements OnInit {
 				altura: this.formData.altura,
 				piso: this.formData.piso,
 				depto: this.formData.depto,
-				tipoinmueble: { nombre: this.formData.tipoinmueble.nombre, id: this.formData.tipoinmueble.id },
-				tipounidad: { nombre: this.formData.tipounidad.nombre, id: this.formData.tipounidad.id },
-				tipooperacion: { nombre: this.formData.tipooperacion.nombre, id: this.formData.tipooperacion.id },
+				tipoinmueble: { nombre: this.formData.tipoinmueble.nombre, _id: this.formData.tipoinmueble._id },
+				tipounidad: { nombre: this.formData.tipounidad.nombre, _id: this.formData.tipounidad._id },
+				tipooperacion: { nombre: this.formData.tipooperacion.nombre, _id: this.formData.tipooperacion._id },
 				titulo: this.formData.titulo,
 				descripcion: this.formData.descripcion,
 				precio: this.formData.precio,
 				moneda: this.formData.moneda,
 				nopublicarprecio: this.formData.nopublicarprecio,
 				aptocredito: this.formData.aptocredito,
-				provincia: { nombre: this.formData.provincia.nombre, code: this.formData.provincia.code },
-				departamento: { nombre: this.formData.departamento.nombre, code: this.formData.departamento.code },
-				localidad: { nombre: this.formData.localidad.nombre, code: this.formData.localidad.code, id: this.formData.localidad.id },
+				provincia: { nombre: this.formData.provincia.nombre, id: this.formData.provincia.id },
+				departamento: { nombre: this.formData.departamento.nombre, id: this.formData.departamento.id },
+				localidad: { nombre: this.formData.localidad.nombre, id: this.formData.localidad.id, _id: this.formData.localidad._id },
 				coords: { lat: this.formData.coords.lat, lng: this.formData.coords.lng },
 				codigopostal: this.formData.codigopostal
 			});
@@ -105,18 +106,18 @@ export class PropiedadAvisoComponent implements OnInit {
 				tipoinmueble:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
+					_id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				tipounidad:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
+					_id: ['', [Validators.required, Validators.minLength(5)]],
 				},
 				tipooperacion:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
+					_id: ['', [Validators.required, Validators.minLength(5)]],
 				},
 				titulo: ['', [Validators.required, Validators.minLength(10)]],
 				descripcion: ['', [Validators.required, Validators.minLength(100)]],
@@ -127,20 +128,20 @@ export class PropiedadAvisoComponent implements OnInit {
 				provincia:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					code: ['', [Validators.required, Validators.minLength(5)]],
+					id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				departamento:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					code: ['', [Validators.required, Validators.minLength(5)]],
+					id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				localidad:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					code: ['', [Validators.required, Validators.minLength(5)]],
 					id: ['', [Validators.required, Validators.minLength(5)]],
+					_id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				coords:
@@ -156,18 +157,6 @@ export class PropiedadAvisoComponent implements OnInit {
 	}
 
 
-
-	obtenerOperaciones() {
-		this.formsService.obtenerOperaciones().subscribe((data: TiposOperaciones) => {
-			this.operaciones = data.operaciones;
-		});
-	}
-
-	obtenerInmuebles() {
-		this.formsService.obtenerInmuebles().subscribe((data: TiposInmuebles) => {
-			this.inmuebles = data.inmuebles;
-		});
-	}
 
 
 
@@ -192,11 +181,11 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipoinmueble: {
 				nombre: inmueble.nombre,
-				id: inmueble._id
+				_id: inmueble._id
 			}
 		});
 
-		this.formsService.obtenerUnidades(inmueble.id).subscribe((data: TiposUnidades) => {
+		this.formsService.obtenerUnidades(inmueble._id).subscribe((data: TiposUnidades) => {
 			this.unidades = data.unidades;
 		});
 	}
@@ -205,7 +194,7 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipooperacion: {
 				nombre: operacion.nombre,
-				id: operacion._id
+				_id: operacion._id
 			}
 		});
 	}
@@ -214,7 +203,7 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipounidad: {
 				nombre: unidad.nombre,
-				id: unidad._id
+				_id: unidad._id
 			}
 		});
 	}
@@ -248,17 +237,17 @@ export class PropiedadAvisoComponent implements OnInit {
 	setLocalidad(localidad) {
 		this.formGroup.patchValue({
 			localidad: {
-				nombre: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`,
-				code: localidad.properties.id,
-				id: localidad._id
+				nombre: localidad.properties.nombre,
+				id: localidad.properties.id,
+				_id: localidad._id
 			},
 			departamento: {
 				nombre: localidad.properties.departamento.nombre,
-				code: localidad.properties.departamento.id,
+				id: localidad.properties.departamento.id,
 			},
 			provincia: {
 				nombre: localidad.properties.provincia.nombre,
-				code: localidad.properties.provincia.id,
+				id: localidad.properties.provincia.id,
 			},
 			coords: {
 				lng: localidad.geometry.coordinates[0],

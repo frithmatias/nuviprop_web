@@ -52,7 +52,7 @@
                     <!-- EN UN CONTROL CON MATERIAL MAT-OPTION NO USAR NUNCA LA PROPIEDAD FORMCONTROLNAME DE FORMULARIOS 
                     REACTIVOS NGFORM, Y USAR SIEMPRE LA PROPIEDAD [VALUE]  -->
                     <mat-option *ngFor="let
-                        inmueble of inmuebles" (click)="checkForFills(inmueble)"
+                        inmueble of formsService.tiposInmuebles" (click)="checkForFills(inmueble)"
                         [value]="formGroup.controls.tipoinmueble.value.nombre">
                         {{ inmueble.nombre }}
                     </mat-option>
@@ -62,7 +62,9 @@
             <!---------------------------------------------------------------------->
             <!-- SELECT UNIDAD -->
             <!---------------------------------------------------------------------->
-
+            <!-- Este dato SI lo traigo desde el componente y no desde el servicio formsService debido a que 
+            es un valor de scope en el componente, varía segun el campo inmueble. Los inmuebles tienen scope 
+            en la web por lo tanto no cambian y lo obtengo desde el servicio para consumir en toda la web. -->
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de unidad</mat-label>
                 <mat-select>
@@ -82,7 +84,7 @@
                 <mat-label>Tipo de operación</mat-label>
                 <mat-select>
                     <mat-option *ngFor="let
-                        operacion of operaciones" (click)="setOperacion(operacion)"
+                        operacion of formsService.tiposOperaciones" (click)="setOperacion(operacion)"
                         [value]="formGroup.controls.tipooperacion.value.nombre">
                         {{ operacion.nombre }}
                     </mat-option>

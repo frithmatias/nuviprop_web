@@ -36,18 +36,18 @@ export class InicioComponent implements OnInit {
 			tipoinmueble:
 			{
 				nombre: '',
-				id: ''
+				_id: ''
 			},
 			tipooperacion:
 			{
 				nombre: '',
-				id: ''
+				_id: ''
 			},
 			localidad:
 			{
 				nombre: '',
-				code: '',
-				id: ''
+				id: '',
+				_id: ''
 			}
 		});
 
@@ -119,7 +119,7 @@ export class InicioComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipooperacion: {
 				nombre: operacion.nombre,
-				id: operacion._id
+				_id: operacion._id
 			}
 		});
 		// dejo seleccionado el boton con la clase 'active'
@@ -139,7 +139,7 @@ export class InicioComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipoinmueble: {
 				nombre: inmueble.nombre,
-				id: inmueble._id
+				_id: inmueble._id
 			}
 		});
 	}
@@ -148,9 +148,9 @@ export class InicioComponent implements OnInit {
 		console.log(localidad);
 		this.formGroup.patchValue({
 			localidad: {
-				nombre: `${localidad.properties.nombre}, ${localidad.properties.departamento.nombre}, ${localidad.properties.provincia.nombre}`,
-				code: localidad.properties.id,
-				id: localidad._id
+				nombre: localidad.properties.nombre,
+				id: localidad.properties.id,
+				_id: localidad._id
 			}
 		});
 	}
@@ -165,7 +165,7 @@ export class InicioComponent implements OnInit {
 		this.localidades = [];
 		console.log(this.formGroup);
 
-		if (this.formGroup.value.tipooperacion.id === '' || this.formGroup.value.tipoinmueble.id === '' || this.formGroup.value.localidad.id === '') {
+		if (this.formGroup.value.tipooperacion._id === '' || this.formGroup.value.tipoinmueble._id === '' || this.formGroup.value.localidad._id === '') {
 			this.snackBar.open('Faltan datos, por favor verifique.', 'Aceptar', {
 				duration: 2000,
 			});

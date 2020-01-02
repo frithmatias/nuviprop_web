@@ -46,28 +46,28 @@ export class Propiedad {
 }
 interface Localidad {
 	nombre: string;
-	code: string;
 	id: string;
+	_id: string;
 }
 interface Departamento {
 	nombre: string;
-	code: string;
+	id: string;
 }
 interface Provincia {
 	nombre: string;
-	code: string;
+	id: string;
 }
 interface Operacion {
 	nombre: string;
-	id: string;
+	_id: string;
 }
 interface Inmueble {
 	nombre: string;
-	id: string;
+	_id: string;
 }
 interface Unidad {
 	nombre: string;
-	id: string;
+	_id: string;
 }
 interface Coords {
 	lat: string;

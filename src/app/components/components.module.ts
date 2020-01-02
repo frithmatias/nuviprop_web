@@ -34,46 +34,49 @@ import { CardsComponent } from './cards/cards.component';
 import { PropiedadConfirmComponent } from './forms/propiedad-confirm/propiedad-confirm.component';
 import { PropiedadDetallesComponent } from './forms/propiedad-detalles/propiedad-detalles.component';
 import { PropiedadAvisoComponent } from './forms/propiedad-aviso/propiedad-aviso.component';
+import { FiltrosComponent } from './forms/filtros/filtros.component';
 
 
 @NgModule({
-  declarations: [
-	NgDropFilesDirective,
-	IncrementadorComponent,
-	UploaderComponent,
-	MapaComponent,
-	ListComponent,
-	CardsComponent,
-	PropiedadConfirmComponent,
-	PropiedadDetallesComponent,
-	PropiedadAvisoComponent
+	declarations: [
+		NgDropFilesDirective,
+		IncrementadorComponent,
+		UploaderComponent,
+		MapaComponent,
+		ListComponent,
+		CardsComponent,
+		PropiedadConfirmComponent,
+		PropiedadDetallesComponent,
+		PropiedadAvisoComponent,
+		FiltrosComponent
 
-  ],
-  imports: [
-	CommonModule,
-	RouterModule,
-	ReactiveFormsModule,
-	FormsModule,
-	PipesModule,
-	MatStepperModule,
-	MatMenuModule,
-	MatAutocompleteModule,
-	MatInputModule,
-	MatSelectModule,
-	MatTooltipModule,
-	MatSnackBarModule,
-	MatIconModule
-  ],
-  exports: [
-	IncrementadorComponent,
-	UploaderComponent,
-	MapaComponent,
-	ListComponent,
-	CardsComponent,
-	RouterModule,
-	PropiedadConfirmComponent,
-	PropiedadDetallesComponent,
-	PropiedadAvisoComponent
-  ]
+	],
+	imports: [
+		CommonModule,
+		RouterModule,
+		ReactiveFormsModule,
+		FormsModule,
+		PipesModule,
+		MatStepperModule,
+		MatMenuModule,
+		MatAutocompleteModule,
+		MatInputModule,
+		MatSelectModule,
+		MatTooltipModule,
+		MatSnackBarModule,
+		MatIconModule
+	],
+	exports: [
+		IncrementadorComponent,
+		UploaderComponent,
+		MapaComponent,
+		ListComponent,
+		CardsComponent,
+		RouterModule,
+		PropiedadConfirmComponent,
+		PropiedadDetallesComponent,
+		PropiedadAvisoComponent,
+		FiltrosComponent
+	]
 })
 export class ComponentsModule { }

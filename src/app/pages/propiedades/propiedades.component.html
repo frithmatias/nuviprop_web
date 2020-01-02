@@ -1,49 +1,70 @@
-<ul class="nav nav-tabs animated fadeIn" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa" role="tab"
-            aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa
-        </a>
-    </li>
-    <li class="nav-item">
-        <a (click)="tabSelected(1)" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista" role="tab"
-            aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i>
-            Lista </a>
-    </li>
-    <li class="nav-item">
-        <a (click)="tabSelected(2)" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards" role="tab"
-            aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i>
-            Cards </a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-
-    <!-- ---------------------------------- -->
-    <!-- TAB MAP -->
-    <!-- ---------------------------------- -->
-
-    <div class="tab-pane fade" id="mapa">
-        <app-mapa class="resultados" [propiedades]="propiedadesService.propiedades"></app-mapa>
+<div class="row">
+    <div class="col-12 col-sm-3">
+        <ul class="nav nav-tabs animated fadeIn" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#filtros"
+                    role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-tune-vertical"></i> Filtros
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="filtros">
+                <app-filtros class="propiedades"></app-filtros>
+            </div>
+        </div>
     </div>
+    <div class="col-12 col-sm-9">
 
-    <!-- ---------------------------------- -->
-    <!-- TAB LIST -->
-    <!-- ---------------------------------- -->
 
-    <div class="tab-pane fade" id="lista">
-        <app-list [propiedades]="propiedadesService.propiedades"></app-list>
+        <ul class="nav nav-tabs animated fadeIn" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa"
+                    role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="tabSelected(1)" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista"
+                    role="tab" aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i>
+                    Lista </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="tabSelected(2)" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards"
+                    role="tab" aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i>
+                    Cards </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+
+
+
+            <!-- ---------------------------------- -->
+            <!-- TAB MAP -->
+            <!-- ---------------------------------- -->
+
+            <div class="tab-pane fade" id="mapa">
+                <app-mapa class="propiedades" [propiedades]="propiedadesService.propiedades"></app-mapa>
+            </div>
+
+            <!-- ---------------------------------- -->
+            <!-- TAB LIST -->
+            <!-- ---------------------------------- -->
+
+            <div class="tab-pane fade" id="lista">
+                <app-list [propiedades]="propiedadesService.propiedades"></app-list>
+            </div>
+
+            <!-- ---------------------------------- -->
+            <!-- TAB CARDS -->
+            <!-- ---------------------------------- -->
+
+            <div class="tab-pane fade" id="cards">
+                <app-cards [propiedades]="propiedadesService.propiedades"></app-cards>
+            </div>
+
+
+            <!-- BOTON PARA VOLVER ARRIBA -->
+            <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
+                    class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
+        </div>
     </div>
-
-    <!-- ---------------------------------- -->
-    <!-- TAB CARDS -->
-    <!-- ---------------------------------- -->
-
-    <div class="tab-pane fade" id="cards">
-        <app-cards [propiedades]="propiedadesService.propiedades"></app-cards>
-    </div>
-
-
-    <!-- BOTON PARA VOLVER ARRIBA -->
-    <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
-            class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
-
 </div>
