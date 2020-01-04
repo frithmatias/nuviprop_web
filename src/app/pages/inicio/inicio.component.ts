@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InicioService } from './inicio.service';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormsService } from 'src/app/services/services.index';
 
 declare function init_plugins();
 
@@ -28,6 +29,7 @@ export class InicioComponent implements OnInit {
 
 	constructor(
 		private inicioService: InicioService,
+		private formsService: FormsService,
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar
 	) {
@@ -77,13 +79,13 @@ export class InicioComponent implements OnInit {
 	}
 
 	obtenerOperaciones() {
-		this.inicioService.obtenerOperaciones().subscribe((data: any) => {
+		this.formsService.obtenerOperaciones().subscribe((data: any) => {
 			this.operaciones = data.operaciones;
 		});
 	}
 
 	obtenerInmuebles() {
-		this.inicioService.obtenerInmuebles().subscribe((data: any) => {
+		this.formsService.obtenerInmuebles().subscribe((data: any) => {
 			this.inmuebles = data.inmuebles;
 		});
 	}
@@ -104,7 +106,7 @@ export class InicioComponent implements OnInit {
 			// que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
 			// el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.localidades.
 
-			this.inicioService.buscarLocalidad(pattern).subscribe((resp: Localidades) => {
+			this.formsService.buscarLocalidad(pattern).subscribe((resp: Localidades) => {
 				if (resp.ok) {
 					resolve(resp);
 					return resp;
@@ -145,7 +147,7 @@ export class InicioComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
-		console.log(localidad);
+		console.log('Localidad seleccionada: ', localidad);
 		this.formGroup.patchValue({
 			localidad: {
 				nombre: localidad.properties.nombre,
@@ -163,7 +165,7 @@ export class InicioComponent implements OnInit {
 	enviarFormulario(element) {
 		element.value = null;
 		this.localidades = [];
-		console.log(this.formGroup);
+		console.log('Enviando formulario: ', this.formGroup);
 
 		if (this.formGroup.value.tipooperacion._id === '' || this.formGroup.value.tipoinmueble._id === '' || this.formGroup.value.localidad._id === '') {
 			this.snackBar.open('Faltan datos, por favor verifique.', 'Aceptar', {
@@ -172,7 +174,7 @@ export class InicioComponent implements OnInit {
 			return;
 		}
 
-		this.inicioService.buscarPropiedades(this.formGroup);
+		this.formsService.obtenerPropiedades(this.formGroup);
 
 	}
 

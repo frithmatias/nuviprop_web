@@ -92,12 +92,20 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* Los controles de angular material son transparentes, les defino un color de fondo.*/
-.mat-form-field[iniciocss] {
-  .mat-form-field-flex>.mat-form-field-infix {
-    background-color: rgb(255, 255, 255);
-  }
-}
+// /* Los controles de angular material son transparentes, les defino un color de fondo.*/
+// .mat-form-field[iniciocss] {
+//   .mat-form-field-flex>.mat-form-field-infix {
+//     background-color: rgb(255, 255, 255);
+//   }
+// }
+
+
+
+// .mat-form-field[logincss] {
+//   .mat-form-field-flex>.mat-form-field-infix {
+//     background-color: rgb(255, 255, 255);
+//   }
+// }
 
 .mat-form-field[iniciocss] {
   .mat-form-field-flex {
@@ -106,17 +114,46 @@ body {
 }
 
 .mat-form-field[logincss] {
-  .mat-form-field-flex>.mat-form-field-infix {
-    background-color: rgb(255, 255, 255);
-  }
-}
-
-.mat-form-field[logincss] {
   .mat-form-field-flex {
     background-color: rgb(255, 255, 255);
   }
 }
 
+// FORM FILTROS: MAT-SELECTION-LIST espaciado de cada MAT-LIST-OPTION
+.mat-list-option {
+  .mat-list-item-content {
+    padding: 2px !important;
+
+    .mat-list-text {
+      padding: 2px !important;
+    }
+
+  }
+}
+
+.mat-list-option[formfiltros-operaciones] {
+  .mat-list-item-content {
+    .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+      background-color: darkorange;
+    }
+  }
+}
+
+.mat-list-option[formfiltros-inmuebles] {
+  .mat-list-item-content {
+    .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+      background-color: green;
+    }
+  }
+}
+
+.mat-list-option[formfiltros-localidades] {
+  .mat-list-item-content {
+    .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+      background-color: blue;
+    }
+  }
+}
 
 // Quita el color de background-color que el navegador pone automaticamente en los 
 // inputs cuando llena el control con un valor automáticamente con auto-fill.
@@ -131,3 +168,5 @@ input:-webkit-autofill:active {
 // input:-webkit-autofill {
 // -webkit-text-fill-color: yellow !important;
 // }
+
+// PSEUDO CHECKBOX COLOR: MAT-SELECTION-LIST MAT-LIST-OPTION 

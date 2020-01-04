@@ -22,7 +22,7 @@
                 <!---------------------------------------------------------------------->
                 <div class="d-flex">
                     <button #operacionseleccionada name="boton_tipo_operacion" type="button"
-                        *ngFor="let operacion of operaciones"
+                        *ngFor="let operacion of formsService.tiposOperaciones"
                         class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
                         (click)="setOperacion(operacion, operacionseleccionada)">
                         <span class="lead">{{operacion.nombre}}</span>
@@ -42,7 +42,7 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
                     <mat-label>Tipo de inmueble</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let inmueble of inmuebles" [value]="inmueble._id"
+                        <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
                             (click)="setInmueble(inmueble)">
                             {{inmueble.nombre}}
                         </mat-option>

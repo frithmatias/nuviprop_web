@@ -1,5 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
+
+// A partir de Angular6+ los pipes deben tener el decorador @Injectable para poder inyectarlos en una clase.
+// Este pipe ademas de ser utilizado en los templates, lo utilizo en clases (lado componente.ts) como filtros.
+@Injectable({
+	providedIn: 'root' // Only available with angular 6+, else add it to providers
+})
 @Pipe({
 	name: 'capitalizarPipe'
 })

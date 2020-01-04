@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 // MODULOS PERSONALIZADOS
 import { PipesModule } from '../pipes/pipes.module';
@@ -52,11 +53,11 @@ import { FiltrosComponent } from './forms/filtros/filtros.component';
 
 	],
 	imports: [
+		PipesModule,
 		CommonModule,
 		RouterModule,
 		ReactiveFormsModule,
 		FormsModule,
-		PipesModule,
 		MatStepperModule,
 		MatMenuModule,
 		MatAutocompleteModule,
@@ -64,7 +65,8 @@ import { FiltrosComponent } from './forms/filtros/filtros.component';
 		MatSelectModule,
 		MatTooltipModule,
 		MatSnackBarModule,
-		MatIconModule
+		MatIconModule,
+		MatListModule
 	],
 	exports: [
 		IncrementadorComponent,
