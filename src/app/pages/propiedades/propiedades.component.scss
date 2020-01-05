@@ -1,23 +1,36 @@
+.bg-warning-opacity05 {
+    background-color: rgba(255, 176, 41, 0.2);
+}
+
+.bg-success-opacity05 {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.bg-primary-opacity05 {
+    background-color: rgba(115, 90, 242, 0.2);
+}
+
+
 #mapa {
-    width: 120%;
+    width : 120%;
     height: 600px;
 }
 
 #menu {
-    position: relative;
-    padding: 10px;
+    position   : relative;
+    padding    : 10px;
     font-family: 'Open Sans', sans-serif;
-    }
+}
 
 .cardshadow {
     box-shadow: 2px;
 }
 
 
-.no-hidden{
-    position: fixed;
-    bottom: 5px;
-    right: 5px;
+.no-hidden {
+    position  : fixed;
+    bottom    : 5px;
+    right     : 5px;
     visibility: visible;
-    z-index: 9999;
-  }
+    z-index   : 9999;
+}

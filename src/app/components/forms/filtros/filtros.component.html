@@ -1,16 +1,23 @@
 <div class="row p-2">
 
-    <div class="col-12">
+    <div class="col-12" (click)="enviarFiltros()">
         <!---------------------------------------------------------------------->
         <!-- TIPO DE OPERACION -->
         <!---------------------------------------------------------------------->
 
         <div class="bg-warning-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-warning" *ngFor="let operacion of seleccionOperaciones">
-                {{operacion}}
+            <span class="badge mr-1 badge-warning">
+                Tipo de operación
+            </span>
+            <span class="float-right" (click)="divfiltersoperaciones = !divfiltersoperaciones"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfiltersoperaciones">
+                <i class="mdi {{divfiltersoperaciones ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-        <mat-selection-list [(ngModel)]="seleccionOperaciones" dense #listaOperaciones>
+
+
+        <mat-selection-list *ngIf="divfiltersoperaciones" class="animated fadeIn" [(ngModel)]="seleccionOperaciones"
+            dense #listaOperaciones>
             <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
                 [value]="operacion.nombre">
                 {{operacion.nombre}}
@@ -22,11 +29,17 @@
         <!---------------------------------------------------------------------->
 
         <div class="bg-success-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-success" *ngFor="let inmueble of seleccionInmuebles">
-                {{inmueble}}
+            <span class="badge mr-1 badge-success">
+                Tipo de inmueble
+            </span>
+            <span class="float-right" (click)="divfiltersinmuebles = !divfiltersinmuebles"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfiltersinmuebles">
+                <i class="mdi {{divfiltersinmuebles ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-        <mat-selection-list [(ngModel)]="seleccionInmuebles" dense #listaInmuebles>
+
+
+        <mat-selection-list *ngIf="divfiltersinmuebles" [(ngModel)]="seleccionInmuebles" dense #listaInmuebles>
             <mat-list-option formfiltros-inmuebles formfiltros *ngFor="let inmueble of formsService.tiposInmuebles"
                 [value]="inmueble.nombre">
                 {{inmueble.nombre}}
@@ -38,94 +51,21 @@
         <!---------------------------------------------------------------------->
 
         <div class="bg-primary-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-primary" *ngFor="let localidad of seleccionLocalidades">
-                {{localidad}}
+            <span class="badge mr-1 badge-primary">
+                Localidades
+            </span>
+            <span class="float-right" (click)="divfilterslocalidades = !divfilterslocalidades"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfilterslocalidades">
+                <i class="mdi {{divfilterslocalidades ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-        <mat-selection-list [(ngModel)]="seleccionLocalidades" dense #listaLocalidades>
-            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas"
+
+        <mat-selection-list *ngIf="divfilterslocalidades" [(ngModel)]="seleccionLocalidades" dense #listaLocalidades>
+            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas.localidades"
                 [value]="localidad.properties.nombre">
                 {{localidad.properties.nombre}}
             </mat-list-option>
         </mat-selection-list>
-
-
-        <!-- 
-        <div *ngIf="seleccionInmuebles" class="bg-success-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-success" *ngFor="let inmueble of seleccionInmuebles">
-                {{ inmueble }}
-            </span>
-        </div>
-        <div *ngIf="seleccionLocalidades" class="bg-primary-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-primary" *ngFor="let localidad of seleccionLocalidades">
-                {{ localidad }}
-            </span>
-        </div> -->
-
-        <!---------------------------------------------------------------------->
-        <!-- TIPO DE OPERACION -->
-        <!---------------------------------------------------------------------->
-        <!-- <mat-form-field color="warn" class="w-100">
-            <mat-select placeholder="Tipo de operación" [formControl]="controlOperaciones" multiple>
-                <mat-select-trigger>
-                    {{controlOperaciones.value ? controlOperaciones.value[0] : ''}}
-                    <span *ngIf="controlOperaciones.value?.length > 1" class="example-additional-selection">
-                        (y {{controlOperaciones.value.length - 1}}+)
-                    </span>
-                </mat-select-trigger>
-                <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion.nombre">
-                    {{operacion.nombre}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
-
-        <!---------------------------------------------------------------------->
-        <!-- TIPO DE INMUEBLE -->
-        <!---------------------------------------------------------------------->
-        <!-- <mat-form-field color="warn" class="w-100">
-            <mat-select placeholder="Tipo de inmueble" [formControl]="controlInmuebles" multiple>
-                <mat-select-trigger>
-                    {{controlInmuebles.value ? controlInmuebles.value[0] : ''}}
-                    <span *ngIf="controlInmuebles.value?.length > 1" class="example-additional-selection">
-                        (y {{controlInmuebles.value.length - 1}}+)
-                    </span>
-                </mat-select-trigger>
-                <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble.nombre">
-                    {{inmueble.nombre}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
-
-
-        <!---------------------------------------------------------------------->
-        <!-- LOCALIDADES -->
-        <!---------------------------------------------------------------------->
-        <!-- <mat-form-field color="warn" class="w-100">
-            <mat-select placeholder="Localidades" [formControl]="controlLocalidades" multiple>
-                <mat-select-trigger>
-                    {{controlLocalidades.value ? controlLocalidades.value[0] : ''}}
-                    <span *ngIf="controlLocalidades.value?.length > 1" class="example-additional-selection">
-                        (y {{controlLocalidades.value.length - 1}}+)
-                    </span>
-                </mat-select-trigger>
-                <mat-option *ngFor="let localidad of localidadesCercanas"
-                    [value]="localidad.properties.nombre | capitalizarPipe">
-                    {{localidad.properties.nombre | capitalizarPipe}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
-
-        <!-- <mat-form-field>
-            <mat-select placeholder="Toppings" [formControl]="toppings" multiple>
-                <mat-select-trigger>
-                    {{toppings.value ? toppings.value[0] : ''}}
-                    <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
-                        (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
-                    </span>
-                </mat-select-trigger>
-                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-            </mat-select>
-        </mat-form-field> -->
 
     </div>
 </div>

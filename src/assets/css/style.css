@@ -1,38 +1,3 @@
-/*
-Template Name: Admin Pro Admin
-Author       : Wrappixel
-Email        : niravjoshi87@gmail.com
-File         : scss
-*/
-/**
- * Table Of Content
- *
- * 	1. Globals
- *	2. Headers
- *	3. Navigations
- *	4. Banners
- *	5. Footers
- *	6. app
- *	7. Widgets
- *	8. Custom Templates
- */
-/*
-Template Name: Admin Pro Admin
-Author       : Wrappixel
-Email        : niravjoshi87@gmail.com
-File         : scss
-*/
-/*Theme Colors*/
-/*bootstrap Color*/
-/*Light colors*/
-/*Normal Color*/
-/*Extra Variable*/
-/*
-Template Name: Admin Pro Admin
-Author       : Wrappixel
-Email        : niravjoshi87@gmail.com
-File         : scss
-*/
 /**
  * Table Of Content
  *
@@ -2904,7 +2869,7 @@ Buttons
 .btn-inicio-tipooperacion:hover,
 .btn-inicio-tipooperacion:focus,
 .btn-inicio-tipooperacion.focus {
-  box-shadow      : 0 0 0 2px rgba(255, 255, 255, 0.15);
+  box-shadow      : 0 0 0 1px rgba(255, 255, 255, 0.15);
   background-color: #f6355b;
   border-color    : #f6355b;
   color           : #ffffff;
@@ -2913,7 +2878,7 @@ Buttons
 .btn-inicio-tipooperacion.active,
 .btn-inicio-tipooperacion:active,
 .btn-inicio-tipooperacion:focus {
-  box-shadow      : 0 0 0 2px rgba(255, 255, 255, 0.35);
+  box-shadow      : 0 0 0 1px rgba(255, 255, 255, 0.35);
   background-color: darkorange;
   border-color    : darkorange;
   color           : #ffffff;

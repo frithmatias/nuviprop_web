@@ -72,7 +72,7 @@
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                         [formControl]="localidadesControl" [matAutocomplete]="auto"
                         [value]="formGroup.value.localidad.nombre | capitalizarPipe">
-                    <span class="clean-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
+                    <span class="input-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
                     <mat-option [value]="formGroup.value.localidad.nombre | capitalizarPipe"

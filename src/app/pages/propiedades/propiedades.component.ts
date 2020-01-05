@@ -9,6 +9,13 @@ declare function init_plugins();
 })
 
 export class PropiedadesComponent implements OnInit {
+
+
+
+	filtrosOperaciones: string[] = [];
+	filtrosInmuebles: string[] = [];
+	filtrosLocalidades: string[] = [];
+
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
 	private getMoreProps = false;
@@ -94,5 +101,10 @@ export class PropiedadesComponent implements OnInit {
 		}
 	}
 
+	filterSelected(event) {
+		this.filtrosOperaciones = event.operaciones;
+		this.filtrosInmuebles = event.inmuebles;
+		this.filtrosLocalidades = event.localidades;
+	}
 
 }

@@ -1,21 +1,42 @@
 <div class="row">
-    <div class="col-12 col-sm-3">
-        <ul class="nav nav-tabs animated fadeIn" id="myTab" role="tablist">
+
+
+    <!---------------------------------------------------------------------->
+    <!-- COLUMNA FILTROS -->
+    <!---------------------------------------------------------------------->
+    <div class="col-12 col-sm-3 pr-0">
+
+        <!---------------------------------------------------------------------->
+        <!-- TAB FILTROS -->
+        <!---------------------------------------------------------------------->
+        <ul class="nav nav-tabs animated fadeInDown" id="myTab" role="tablist">
             <li class="nav-item">
                 <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#filtros"
                     role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-tune-vertical"></i> Filtros
                 </a>
             </li>
         </ul>
+
+        <!---------------------------------------------------------------------->
+        <!-- FILTROS -->
+        <!---------------------------------------------------------------------->
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="filtros">
-                <app-filtros class="propiedades"></app-filtros>
+                <app-filtros class="propiedades" (optionSelected)="filterSelected($event)"></app-filtros>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-9">
+
+    <!---------------------------------------------------------------------->
+    <!-- COLUMNA PROPIEDADES -->
+    <!---------------------------------------------------------------------->
 
 
+    <div class="col-12 col-sm-9 pl-0">
+
+        <!---------------------------------------------------------------------->
+        <!-- COLUMNA TABS PROPIEDADES -->
+        <!---------------------------------------------------------------------->
         <ul class="nav nav-tabs animated fadeIn" id="myTab" role="tablist">
             <li class="nav-item">
                 <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa"
@@ -36,7 +57,34 @@
         <div class="tab-content" id="myTabContent">
 
 
+            <!---------------------------------------------------------------------->
+            <!-- FILTROS APLICADOS -->
+            <!---------------------------------------------------------------------->
+            <div class="row px-3 mt-1">
+                <div class="col-4 p-1">
+                    <div *ngIf="filtrosOperaciones" class="bg-warning-opacity05 rounded">
+                        <span class="badge m-1 badge-warning" *ngFor="let filtro of filtrosOperaciones">
+                            {{filtro}}
+                        </span>
+                    </div>
 
+                </div>
+                <div class="col-4 p-1">
+                    <div *ngIf="filtrosInmuebles" class="bg-success-opacity05 rounded">
+                        <span class="badge m-1 badge-success" *ngFor="let filtro of filtrosInmuebles">
+                            {{filtro}}
+                        </span>
+                    </div>
+
+                </div>
+                <div class="col-4 p-1">
+                    <div *ngIf="filtrosLocalidades" class="bg-primary-opacity05 rounded">
+                        <span class="badge m-1 badge-primary" *ngFor="let filtro of filtrosLocalidades">
+                            {{filtro}}
+                        </span>
+                    </div>
+                </div>
+            </div>
             <!-- ---------------------------------- -->
             <!-- TAB MAP -->
             <!-- ---------------------------------- -->
@@ -57,7 +105,7 @@
             <!-- TAB CARDS -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade" id="cards">
+            <div class="tab-pane fade animated fadeInDown" id="cards">
                 <app-cards [propiedades]="propiedadesService.propiedades"></app-cards>
             </div>
 

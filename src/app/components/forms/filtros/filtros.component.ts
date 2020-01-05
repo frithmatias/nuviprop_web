@@ -1,10 +1,8 @@
-import { Component, OnInit, Inject, LOCALE_ID, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter } from '@angular/core';
 import { FormsService } from '../forms.service';
-import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { formatDate } from '@angular/common';
-import { MatSelectionList, MatListOption, MatList } from '@angular/material/list';
-import { SelectionModel } from '@angular/cdk/collections/typings/selection';
+import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
+
 
 @Component({
   selector: 'app-filtros',
@@ -12,25 +10,40 @@ import { SelectionModel } from '@angular/cdk/collections/typings/selection';
   styleUrls: ['./filtros.component.scss']
 })
 export class FiltrosComponent implements OnInit {
+  divfiltersoperaciones = false;
+  divfiltersinmuebles = false;
+  divfilterslocalidades = false;
+
+
 
   // @ViewChild(MatSelectionList, { static: true }) private listaOperaciones: MatSelectionList;
 
   // OPCIONES TOTALES
   // OPERACIONES e INMUEBLES son datos de scope global los tengo en el servicio formsService
-  localidadesCercanas: Localidad[] = [];
+
+
 
   // OPCIONES SELECCIONADAS
+
+  // dataBusqueda va a guardar los filtros almacenados en la localStorage
   dataBusqueda: any;
+
+  // localidadesCercanas va a guardar las localidades en el departamento de una localidad proveída en dataBusqueda.
+  localidadesCercanas: Localidades;
 
   // Arrays donde voy a guardar las opciones seleccionadas en los filtros
   seleccionOperaciones: string[] = [];
   seleccionInmuebles: string[] = [];
   seleccionLocalidades: string[] = [];
 
+  // Cada vez que se hace un click en el filtro voy a enviar los valores de todos los checks 
+  // guardados en un objeto allChecks para mostrarlos en el componente padre (propiedades)
+  @Output() optionSelected: EventEmitter<object> = new EventEmitter()
+
   constructor(
     private formsService: FormsService,
-    private capitalizarPipe: CapitalizarPipe,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private capitalizarPipe: CapitalizarPipe
   ) {
     console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
 
@@ -42,21 +55,38 @@ export class FiltrosComponent implements OnInit {
     this.dataBusqueda = JSON.parse(localStorage.getItem('filtros'));
     console.log('filtros aplicados:', this.dataBusqueda);
 
-    // Guardo los datos por defecto
+    // Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
     this.seleccionOperaciones.push(this.dataBusqueda.tipooperacion.nombre);
     this.seleccionInmuebles.push(this.dataBusqueda.tipoinmueble.nombre);
     this.seleccionLocalidades.push(this.dataBusqueda.localidad.nombre);
 
-    // Obtego sugerencias de localidades vecinas
+    // Obtego sugerencias de localidades vecinas a la localidad provista en la localStorage.
     this.obtenerLocalidadesEnDepartamento(this.dataBusqueda.localidad._id);
 
+    // Envio los checks seleccionados al padre para mostrar los filtros.
+    this.enviarFiltros();
   }
 
   obtenerLocalidadesEnDepartamento(id: string) {
     this.formsService.obtenerLocalidadesEnDepartamento(id).subscribe((data: Localidades) => {
-      this.localidadesCercanas = data.localidades;
+      console.log('localidades cercanas respuesta del servicio:', data);
+
+
+      data.localidades.forEach(localidad => {
+        localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
+      })
+      this.localidadesCercanas = data;
       console.log('Localidades cercanas: ', this.localidadesCercanas)
     })
   }
 
+  enviarFiltros() {
+    let allChecks = {
+      operaciones: this.seleccionOperaciones,
+      inmuebles: this.seleccionInmuebles,
+      localidades: this.seleccionLocalidades
+    }
+    this.optionSelected.emit(allChecks);
+    console.log('se hizo click en filtros');
+  }
 }

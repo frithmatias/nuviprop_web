@@ -20,18 +20,3 @@
   color           : #313131;
 
 }
-
-.reveal-icon {
-  position        : absolute;
-  top             : -7px;
-  right           : 4px;
-  font-size       : 19px;
-  cursor          : pointer;
-  background-color: #ffffff;
-  width           : 25px;
-  height          : 25px;
-  border-radius   : 11px;
-  text-align      : center;
-  padding         : 3px;
-  color           : green;
-}

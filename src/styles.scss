@@ -39,6 +39,36 @@
   display: none;
 }
 
+.input-icon {
+  position        : absolute;
+  top             : -7px;
+  right           : 4px;
+  font-size       : 19px;
+  cursor          : pointer;
+  background-color: #ffffff;
+  width           : 25px;
+  height          : 25px;
+  border-radius   : 11px;
+  text-align      : center;
+  padding         : 3px;
+  color           : green;
+}
+
+.menu-filter {
+  position           : relative;
+  top                : -32px;
+  right              : -170px;
+  font-size          : 19px;
+  cursor             : pointer;
+  /* background-color: #ffffff; */
+  width              : 25px;
+  height             : 25px;
+  border-radius      : 11px;
+  text-align         : center;
+  padding            : 3px;
+  color              : green;
+}
+
 .fondo-negro {
   background-color: rgba(0, 0, 0, 0.4);
   position        : fixed;
