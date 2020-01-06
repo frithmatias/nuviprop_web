@@ -3,6 +3,7 @@ import { InicioService } from './inicio.service';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService } from 'src/app/services/services.index';
+import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
 declare function init_plugins();
 
@@ -31,7 +32,8 @@ export class InicioComponent implements OnInit {
 		private inicioService: InicioService,
 		private formsService: FormsService,
 		private formBuilder: FormBuilder,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private capitalizarPipe: CapitalizarPipe
 	) {
 
 		this.formGroup = this.formBuilder.group({
@@ -108,6 +110,9 @@ export class InicioComponent implements OnInit {
 
 			this.formsService.buscarLocalidad(pattern).subscribe((resp: Localidades) => {
 				if (resp.ok) {
+					resp.localidades.forEach(localidad => {
+						localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
+					})
 					resolve(resp);
 					return resp;
 				}
@@ -117,12 +122,9 @@ export class InicioComponent implements OnInit {
 
 	}
 
-	setOperacion(operacion: any, link?) {
+	setOperacion(tipooperacion: any, link?) {
 		this.formGroup.patchValue({
-			tipooperacion: {
-				nombre: operacion.nombre,
-				_id: operacion._id
-			}
+			tipooperacion
 		});
 		// dejo seleccionado el boton con la clase 'active'
 
@@ -137,23 +139,16 @@ export class InicioComponent implements OnInit {
 		}
 	}
 
-	setInmueble(inmueble) {
+	setInmueble(tipoinmueble) {
 		this.formGroup.patchValue({
-			tipoinmueble: {
-				nombre: inmueble.nombre,
-				_id: inmueble._id
-			}
+			tipoinmueble
 		});
 	}
 
 	setLocalidad(localidad) {
 		console.log('Localidad seleccionada: ', localidad);
 		this.formGroup.patchValue({
-			localidad: {
-				nombre: localidad.properties.nombre,
-				id: localidad.properties.id,
-				_id: localidad._id
-			}
+			localidad
 		});
 	}
 

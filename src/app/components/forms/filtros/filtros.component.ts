@@ -45,7 +45,7 @@ export class FiltrosComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     private capitalizarPipe: CapitalizarPipe
   ) {
-    console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
+    // console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
 
   }
 
@@ -56,15 +56,23 @@ export class FiltrosComponent implements OnInit {
     console.log('filtros aplicados:', this.dataBusqueda);
 
     // Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
-    this.seleccionOperaciones.push(this.dataBusqueda.tipooperacion.nombre);
-    this.seleccionInmuebles.push(this.dataBusqueda.tipoinmueble.nombre);
-    this.seleccionLocalidades.push(this.dataBusqueda.localidad.nombre);
+    this.dataBusqueda.tipooperacion.forEach(operacion => {
+      this.seleccionOperaciones.push(operacion);
+    })
+
+    this.dataBusqueda.tipoinmueble.forEach(inmueble => {
+      this.seleccionInmuebles.push(inmueble);
+    })
+
+    this.dataBusqueda.localidad.forEach(localidad => {
+      this.seleccionLocalidades.push(localidad);
+    })
 
     // Obtego sugerencias de localidades vecinas a la localidad provista en la localStorage.
-    this.obtenerLocalidadesEnDepartamento(this.dataBusqueda.localidad._id);
+    this.obtenerLocalidadesEnDepartamento(this.dataBusqueda.localidad[0]._id);
 
     // Envio los checks seleccionados al padre para mostrar los filtros.
-    this.enviarFiltros();
+    this.clickFiltros();
   }
 
   obtenerLocalidadesEnDepartamento(id: string) {
@@ -80,13 +88,36 @@ export class FiltrosComponent implements OnInit {
     })
   }
 
-  enviarFiltros() {
+  clickFiltros() {
+    // en el atributo value de cada check envio todo el objeto entero porque en el padre necesito no solo el 
+    // nombre sino también el _id para hacer match en la bd. Al momento de mostrar el nombre puedo hacer 
+    // objeto.nombre en el componente padre.
+
+    // Este objeto allChecks queda como un objetos que contiene varios array de objetos, uno por cada filtro.
+
+    //     {operaciones: Array(3), inmuebles: Array(1), localidades: Array(1)}
+    //        operaciones: Array(3)
+    //            0: {_id: "5e04b4bd3cb7d5a2401c9895", nombre: "Venta", id: "venta"}
+    //            1: {_id: "5e04b4ce3cb7d5a2401c98a5", nombre: "Alquiler", id: "alquiler"}
+    //            2: {_id: "5e04b4e73cb7d5a2401c98ae", nombre: "Alquiler por temporada", id: "alquilerportemporada"}
+    //            length: 3
+    //        
+    //        inmuebles: Array(1)
+    //            0: {_id: "5e04bf7a3cb7d5a2401c9b15", nombre: "Departamento", id: "tipoinmueble_departamento"}
+    //            length: 1
+    //        
+    //        localidades: Array(1)
+    //            0: {properties: {…}, geometry: {…}, _id: "5df2eb1e64b1fc02b5e1f50a", type: "Feature"}
+    //            length: 1
+    //        
     let allChecks = {
-      operaciones: this.seleccionOperaciones,
-      inmuebles: this.seleccionInmuebles,
-      localidades: this.seleccionLocalidades
+      tipooperacion: this.seleccionOperaciones,
+      tipoinmueble: this.seleccionInmuebles,
+      localidad: this.seleccionLocalidades
     }
+
+    localStorage.setItem('filtros', JSON.stringify(allChecks));
+    console.log('se hizo click en filtros', allChecks);
     this.optionSelected.emit(allChecks);
-    console.log('se hizo click en filtros');
   }
 }

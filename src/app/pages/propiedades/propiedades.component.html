@@ -63,24 +63,23 @@
             <div class="row px-3 mt-1">
                 <div class="col-4 p-1">
                     <div *ngIf="filtrosOperaciones" class="bg-warning-opacity05 rounded">
-                        <span class="badge m-1 badge-warning" *ngFor="let filtro of filtrosOperaciones">
-                            {{filtro}}
+                        <span class="badge mx-1 badge-warning" *ngFor="let filtro of filtrosOperaciones">
+                            {{filtro.nombre}}
                         </span>
                     </div>
 
                 </div>
                 <div class="col-4 p-1">
                     <div *ngIf="filtrosInmuebles" class="bg-success-opacity05 rounded">
-                        <span class="badge m-1 badge-success" *ngFor="let filtro of filtrosInmuebles">
-                            {{filtro}}
+                        <span class="badge mx-1 badge-success" *ngFor="let filtro of filtrosInmuebles">
+                            {{filtro.nombre}}
                         </span>
                     </div>
-
                 </div>
                 <div class="col-4 p-1">
                     <div *ngIf="filtrosLocalidades" class="bg-primary-opacity05 rounded">
-                        <span class="badge m-1 badge-primary" *ngFor="let filtro of filtrosLocalidades">
-                            {{filtro}}
+                        <span class="badge mx-1 badge-primary" *ngFor="let filtro of filtrosLocalidades">
+                            {{filtro.properties.nombre}}
                         </span>
                     </div>
                 </div>
@@ -105,7 +104,7 @@
             <!-- TAB CARDS -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeInDown" id="cards">
+            <div class="tab-pane fade animated fadeIn" id="cards">
                 <app-cards [propiedades]="propiedadesService.propiedades"></app-cards>
             </div>
 

@@ -34,15 +34,12 @@ export class FormsService {
 	getGlobalControls() {
 		this.obtenerOperaciones().subscribe((data: TiposOperaciones) => {
 			this.tiposOperaciones = data.operaciones;
-			console.log('Tipos de operaciones: ', data.operaciones);
 		})
 		this.obtenerInmuebles().subscribe((data: TiposInmuebles) => {
 			this.tiposInmuebles = data.inmuebles;
-			console.log('Tipos de inmuebles: ', data.inmuebles);
 		})
 		this.obtenerProvincias().subscribe((data: RespProvincias) => {
 			this.provincias = data.provincias;
-			console.log('Provincias: ', data.provincias);
 		})
 	}
 
@@ -87,11 +84,25 @@ export class FormsService {
 
 	// Obtiene propiedades según criterios de busqueda (inicio)
 	obtenerPropiedades(formulario: FormGroup) {
+		console.log('FORMULARIO', formulario);
 		const tipooperacion = formulario.value.tipooperacion._id;
 		const tipoinmueble = formulario.value.tipoinmueble._id;
 		const localidad = formulario.value.localidad._id;
-
 		const url = `${URL_SERVICIOS}/inicio/propiedades/${tipooperacion}/${tipoinmueble}/${localidad}/0`;
+		console.log('TRAYENDO PROPIEDADES:', url);
+
+
+		// el formato de los filtros en la localstorage es un gran objeto de arrays de objetos
+		// cada array representa un filtro, y cada objeto dentro del array representa un check 
+		// por lo tanto tengo que enviar los datos de busqueda con el formato que va a entender 
+		// el componente Propiedades.
+
+
+		localStorage.setItem('filtros', JSON.stringify({
+			tipooperacion: [formulario.value.tipooperacion],
+			tipoinmueble: [formulario.value.tipoinmueble],
+			localidad: [formulario.value.localidad]
+		}));
 
 		this.http.get(url).subscribe((data: Propiedades) => {
 
@@ -99,7 +110,6 @@ export class FormsService {
 				// si se encuentran propiedades se lo paso al servicio de propiedades. Si yo entro
 				// a la pagina propiedades sin pasar por inicio, me va a levantar TODAS las propiedades activas.
 				this.propiedadesService.propiedades = data.propiedades;
-				localStorage.setItem('filtros', JSON.stringify(formulario.value));
 				this.router.navigate(['/propiedades']);
 			} else {
 				this.snackBar.open('No se encontraron resultados.', 'Aceptar', {

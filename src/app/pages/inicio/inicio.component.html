@@ -75,8 +75,8 @@
                     <span class="input-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option [value]="formGroup.value.localidad.nombre | capitalizarPipe"
-                        *ngFor="let option of localidades" (click)="setLocalidad(option)">
+                    <mat-option [value]="formGroup.value.localidad" *ngFor="let option of localidades"
+                        (click)="setLocalidad(option)">
                         {{option.properties.nombre | capitalizarPipe}},
                         {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}

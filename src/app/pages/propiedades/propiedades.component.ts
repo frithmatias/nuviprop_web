@@ -102,9 +102,14 @@ export class PropiedadesComponent implements OnInit {
 	}
 
 	filterSelected(event) {
-		this.filtrosOperaciones = event.operaciones;
-		this.filtrosInmuebles = event.inmuebles;
-		this.filtrosLocalidades = event.localidades;
+		// en event me llega del componente hijo, un objeto que contiene un array de objetos, 
+		// un array por cada filtro y dentro del array, un objeto por cada check con nombre y _id.
+
+		console.log('al componente padre llego: ', event)
+		this.filtrosOperaciones = event.tipooperacion;
+		this.filtrosInmuebles = event.tipoinmueble;
+		this.filtrosLocalidades = event.localidad;
+
 	}
 
 }

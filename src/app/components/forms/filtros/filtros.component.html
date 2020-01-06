@@ -1,6 +1,6 @@
 <div class="row p-2">
 
-    <div class="col-12" (click)="enviarFiltros()">
+    <div class="col-12" (click)="clickFiltros()">
         <!---------------------------------------------------------------------->
         <!-- TIPO DE OPERACION -->
         <!---------------------------------------------------------------------->
@@ -19,7 +19,7 @@
         <mat-selection-list *ngIf="divfiltersoperaciones" class="animated fadeIn" [(ngModel)]="seleccionOperaciones"
             dense #listaOperaciones>
             <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
-                [value]="operacion.nombre">
+                [value]="operacion">
                 {{operacion.nombre}}
             </mat-list-option>
         </mat-selection-list>
@@ -41,7 +41,7 @@
 
         <mat-selection-list *ngIf="divfiltersinmuebles" [(ngModel)]="seleccionInmuebles" dense #listaInmuebles>
             <mat-list-option formfiltros-inmuebles formfiltros *ngFor="let inmueble of formsService.tiposInmuebles"
-                [value]="inmueble.nombre">
+                [value]="inmueble">
                 {{inmueble.nombre}}
             </mat-list-option>
         </mat-selection-list>
@@ -62,7 +62,7 @@
 
         <mat-selection-list *ngIf="divfilterslocalidades" [(ngModel)]="seleccionLocalidades" dense #listaLocalidades>
             <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas.localidades"
-                [value]="localidad.properties.nombre">
+                [value]="localidad">
                 {{localidad.properties.nombre}}
             </mat-list-option>
         </mat-selection-list>
