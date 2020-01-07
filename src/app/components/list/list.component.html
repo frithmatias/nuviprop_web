@@ -6,7 +6,7 @@
 
             <div class="col-md-3">
                 <img (click)="mostrarModal( propiedad._id )"
-                    [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                    [src]="propiedad?.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
                     class="img-200 pointer rounded">
             </div>
 

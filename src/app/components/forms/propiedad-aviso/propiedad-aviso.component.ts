@@ -106,17 +106,20 @@ export class PropiedadAvisoComponent implements OnInit {
 				tipoinmueble:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
+					id: ['', [Validators.required, Validators.minLength(5)]],
 					_id: ['', [Validators.required, Validators.minLength(5)]],
 
 				},
 				tipounidad:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
+					id: ['', [Validators.required, Validators.minLength(5)]],
 					_id: ['', [Validators.required, Validators.minLength(5)]],
 				},
 				tipooperacion:
 				{
 					nombre: ['', [Validators.required, Validators.minLength(5)]],
+					id: ['', [Validators.required, Validators.minLength(5)]],
 					_id: ['', [Validators.required, Validators.minLength(5)]],
 				},
 				titulo: ['', [Validators.required, Validators.minLength(10)]],
@@ -181,6 +184,7 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipoinmueble: {
 				nombre: inmueble.nombre,
+				id: inmueble.id,
 				_id: inmueble._id
 			}
 		});
@@ -194,6 +198,7 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipooperacion: {
 				nombre: operacion.nombre,
+				id: operacion.id,
 				_id: operacion._id
 			}
 		});
@@ -203,6 +208,7 @@ export class PropiedadAvisoComponent implements OnInit {
 		this.formGroup.patchValue({
 			tipounidad: {
 				nombre: unidad.nombre,
+				id: unidad.id,
 				_id: unidad._id
 			}
 		});

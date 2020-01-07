@@ -59,14 +59,17 @@ interface Provincia {
 }
 interface Operacion {
 	nombre: string;
+	id: string;
 	_id: string;
 }
 interface Inmueble {
 	nombre: string;
+	id: string;
 	_id: string;
 }
 interface Unidad {
 	nombre: string;
+	id: string;
 	_id: string;
 }
 interface Coords {

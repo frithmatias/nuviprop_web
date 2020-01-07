@@ -2,7 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -10,7 +9,10 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
+    "outDir": "./dist/out-tsc",
     "target": "es2015",
+    // "outDir": "../dist/app", // descomentar para Ivy
+    // "target": "es2016", // descomentar para Ivy
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -20,6 +22,7 @@
     ]
   },
   "angularCompilerOptions": {
+    "enableIvy": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }

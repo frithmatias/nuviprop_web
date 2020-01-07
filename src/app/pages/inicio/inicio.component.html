@@ -1,22 +1,36 @@
 <div class="bg">
-    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="enviarFormulario(inputLocalidad)"
+
+
+    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="buscarPropiedades(inputLocalidad)"
         class="w-75 animated fadeIn form-container rounded">
         <div class="row my-2">
-            <div class="col-12">
+            <!---------------------------------------------------------------------->
+            <!-- IF LOADING -->
+            <!---------------------------------------------------------------------->
+            <div *ngIf="!formsService.loading.tipooperacion" class="spinner-container">
+                <div>
+                    <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="20"
+                        diameter="25">
+                    </mat-progress-spinner>
+                </div>
+                <div>
+                    Cargando...
+                </div>
+            </div>
 
+            <div *ngIf="formsService.loading.tipooperacion" class="col-12">
                 <!---------------------------------------------------------------------->
                 <!-- TIPO DE OPERACION [SELECT] -->
                 <!---------------------------------------------------------------------->
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
                     <mat-label>Tipo de operación</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let operacion of operaciones" [value]="operacion._id"
+                        <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
                             (click)="setOperacion(operacion)">
                             {{operacion.nombre}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
                 <!---------------------------------------------------------------------->
                 <!-- TIPO DE OPERACION [BOTONES]-->
                 <!---------------------------------------------------------------------->
@@ -28,14 +42,26 @@
                         <span class="lead">{{operacion.nombre}}</span>
                     </button>
                 </div>
-
-
             </div>
+
         </div>
         <div class="row my-2 px-3">
-            <div class="col-12 col-md-3 col-lg-3">
 
+            <!---------------------------------------------------------------------->
+            <!-- IF LOADING -->
+            <!---------------------------------------------------------------------->
+            <div *ngIf="!formsService.loading.tipoinmueble" class="col-12 col-md-3 col-lg-3 spinner-container">
+                <div>
+                    <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="20"
+                        diameter="25">
+                    </mat-progress-spinner>
+                </div>
+                <div>
+                    Cargando...
+                </div>
+            </div>
 
+            <div *ngIf="formsService.loading.tipoinmueble" class="col-12 col-md-3 col-lg-3">
                 <!---------------------------------------------------------------------->
                 <!-- TIPO DE INMUEBLE -->
                 <!---------------------------------------------------------------------->
@@ -48,17 +74,12 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-
             </div>
+
             <div class=" col-12 col-md-9 col-lg-9">
-
-
                 <!---------------------------------------------------------------------->
                 <!-- LOCALIDAD -->
                 <!---------------------------------------------------------------------->
-
-
                 <!-- 
                 El atributo [value] en <input> se utiliza para mostrar el contenido en el control cuando se carga. 
                 El artibuto [value] en <mat-option> se utiliza para ENVIAR el contenido al input al seleccionar una opción.
@@ -71,18 +92,19 @@
                     <mat-label>Ingrese una localidad</mat-label>
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                         [formControl]="localidadesControl" [matAutocomplete]="auto"
-                        [value]="formGroup.value.localidad.nombre | capitalizarPipe">
+                        [value]="formGroup.value.localidad.properties?.nombre + ', ' + formGroup.value.localidad.properties?.departamento.nombre + ', ' + formGroup.value.localidad.properties?.provincia.nombre">
                     <span class="input-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
+
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option [value]="formGroup.value.localidad" *ngFor="let option of localidades"
-                        (click)="setLocalidad(option)">
+                    <mat-option [value]="option" *ngFor="let option of localidades" (click)="setLocalidad(option)">
                         {{option.properties.nombre | capitalizarPipe}},
                         {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}
                     </mat-option>
                 </mat-autocomplete>
             </div>
+
         </div>
 
         <!---------------------------------------------------------------------->

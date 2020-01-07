@@ -15,8 +15,6 @@ declare function init_plugins();
 export class InicioComponent implements OnInit {
 	// Control Autocomplete
 	formGroup: FormGroup = new FormGroup({});
-	operaciones: any[];
-	inmuebles: any[];
 
 
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
@@ -37,30 +35,15 @@ export class InicioComponent implements OnInit {
 	) {
 
 		this.formGroup = this.formBuilder.group({
-			tipoinmueble:
-			{
-				nombre: '',
-				_id: ''
-			},
-			tipooperacion:
-			{
-				nombre: '',
-				_id: ''
-			},
-			localidad:
-			{
-				nombre: '',
-				id: '',
-				_id: ''
-			}
+			tipoinmueble: {},
+			tipooperacion: {},
+			localidad: {}
 		});
 
 	}
 
 	ngOnInit() {
 		init_plugins();
-		this.obtenerOperaciones();
-		this.obtenerInmuebles();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
@@ -80,17 +63,6 @@ export class InicioComponent implements OnInit {
 		});
 	}
 
-	obtenerOperaciones() {
-		this.formsService.obtenerOperaciones().subscribe((data: any) => {
-			this.operaciones = data.operaciones;
-		});
-	}
-
-	obtenerInmuebles() {
-		this.formsService.obtenerInmuebles().subscribe((data: any) => {
-			this.inmuebles = data.inmuebles;
-		});
-	}
 
 	buscarLocalidad(pattern) {
 		return new Promise((resolve, reject) => {
@@ -150,6 +122,7 @@ export class InicioComponent implements OnInit {
 		this.formGroup.patchValue({
 			localidad
 		});
+		console.log('formGroup', this.formGroup);
 	}
 
 	cleanInput(element) {
@@ -157,19 +130,26 @@ export class InicioComponent implements OnInit {
 		this.localidades = [];
 	}
 
-	enviarFormulario(element) {
+	buscarPropiedades(element) {
 		element.value = null;
 		this.localidades = [];
-		console.log('Enviando formulario: ', this.formGroup);
 
-		if (this.formGroup.value.tipooperacion._id === '' || this.formGroup.value.tipoinmueble._id === '' || this.formGroup.value.localidad._id === '') {
-			this.snackBar.open('Faltan datos, por favor verifique.', 'Aceptar', {
+		if (this.formGroup.value.localidad._id === '') {
+			this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
 				duration: 2000,
 			});
 			return;
 		}
 
-		this.formsService.obtenerPropiedades(this.formGroup);
+		localStorage.setItem('filtros', JSON.stringify({
+			tipooperacion: [this.formGroup.value.tipooperacion],
+			tipoinmueble: [this.formGroup.value.tipoinmueble],
+			localidad: [this.formGroup.value.localidad]
+		}));
+
+		// obtenerPropiedades obtiene los filtros de la localStorage
+		this.formsService.obtenerPropiedades();
+
 
 	}
 

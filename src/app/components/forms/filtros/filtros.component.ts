@@ -53,7 +53,6 @@ export class FiltrosComponent implements OnInit {
 
     // Obtengo los datos del formulario guardados en la localstorage
     this.dataBusqueda = JSON.parse(localStorage.getItem('filtros'));
-    console.log('filtros aplicados:', this.dataBusqueda);
 
     // Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
     this.dataBusqueda.tipooperacion.forEach(operacion => {
@@ -77,14 +76,10 @@ export class FiltrosComponent implements OnInit {
 
   obtenerLocalidadesEnDepartamento(id: string) {
     this.formsService.obtenerLocalidadesEnDepartamento(id).subscribe((data: Localidades) => {
-      console.log('localidades cercanas respuesta del servicio:', data);
-
-
       data.localidades.forEach(localidad => {
         localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
       })
       this.localidadesCercanas = data;
-      console.log('Localidades cercanas: ', this.localidadesCercanas)
     })
   }
 
@@ -117,7 +112,6 @@ export class FiltrosComponent implements OnInit {
     }
 
     localStorage.setItem('filtros', JSON.stringify(allChecks));
-    console.log('se hizo click en filtros', allChecks);
-    this.optionSelected.emit(allChecks);
+    this.optionSelected.emit();
   }
 }

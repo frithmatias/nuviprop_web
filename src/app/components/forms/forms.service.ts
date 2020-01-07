@@ -17,6 +17,11 @@ export class FormsService {
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
 	provincias: Provincia[] = [];
+	loading = {
+		tipooperacion: false,
+		tipoinmueble: false,
+		provincias: false
+	};
 
 	constructor(
 		private http: HttpClient,
@@ -33,12 +38,15 @@ export class FormsService {
 	// Este metodo invoca todos los metodos de scope global y lo inicializa el servicio de formularios
 	getGlobalControls() {
 		this.obtenerOperaciones().subscribe((data: TiposOperaciones) => {
+			if (data.ok) this.loading.tipooperacion = true;
 			this.tiposOperaciones = data.operaciones;
 		})
 		this.obtenerInmuebles().subscribe((data: TiposInmuebles) => {
+			if (data.ok) this.loading.tipoinmueble = true;
 			this.tiposInmuebles = data.inmuebles;
 		})
 		this.obtenerProvincias().subscribe((data: RespProvincias) => {
+			if (data.ok) this.loading.provincias = true;
 			this.provincias = data.provincias;
 		})
 	}
@@ -83,13 +91,61 @@ export class FormsService {
 	}
 
 	// Obtiene propiedades según criterios de busqueda (inicio)
-	obtenerPropiedades(formulario: FormGroup) {
-		console.log('FORMULARIO', formulario);
-		const tipooperacion = formulario.value.tipooperacion._id;
-		const tipoinmueble = formulario.value.tipoinmueble._id;
-		const localidad = formulario.value.localidad._id;
-		const url = `${URL_SERVICIOS}/inicio/propiedades/${tipooperacion}/${tipoinmueble}/${localidad}/0`;
+	obtenerPropiedades() {
+
+
+
+		// CONSTRUYO EL MODELO DEL QUERY
+		// El modelo del query es cada filtro separado por guión - y cada tipo de filtro 
+		// separado por slash / 
+		// localhost:3000/inicio/propiedades/alquiler-venta/ph-casa-departamento/
+
+		let filtros = JSON.parse(localStorage.getItem('filtros'))
+		console.log('localStorage: ', filtros);
+
+		const tipooperacion: any[] = filtros.tipooperacion;
+		const tipoinmueble: any[] = filtros.tipoinmueble;
+		const localidad: any[] = filtros.localidad;
+
+		let operaciones: string;
+		let inmuebles: string;
+		let localidades: string;
+
+
+		tipooperacion.forEach(operacion => {
+			if (operaciones) {
+				operaciones = operaciones + '-' + operacion.id;
+			} else {
+				operaciones = operacion.id;
+
+			}
+		})
+
+		tipoinmueble.forEach(inmueble => {
+			if (inmuebles) {
+				inmuebles = inmuebles + '-' + inmueble.id;
+			} else {
+				inmuebles = inmueble.id;
+
+			}
+		})
+
+		localidad.forEach(localidad => {
+			let nombre = localidad.properties.nombre.toLowerCase().replace(/ /g, '_');
+			if (localidades) {
+				localidades = localidades + '-' + nombre;
+			} else {
+				localidades = nombre;
+			}
+		})
+
+		console.log(operaciones);
+		console.log(inmuebles);
+		console.log(localidades);
+
+		const url = `${URL_SERVICIOS}/inicio/propiedades/${operaciones}/${inmuebles}/${localidades}/0`;
 		console.log('TRAYENDO PROPIEDADES:', url);
+
 
 
 		// el formato de los filtros en la localstorage es un gran objeto de arrays de objetos
@@ -98,11 +154,7 @@ export class FormsService {
 		// el componente Propiedades.
 
 
-		localStorage.setItem('filtros', JSON.stringify({
-			tipooperacion: [formulario.value.tipooperacion],
-			tipoinmueble: [formulario.value.tipoinmueble],
-			localidad: [formulario.value.localidad]
-		}));
+
 
 		this.http.get(url).subscribe((data: Propiedades) => {
 

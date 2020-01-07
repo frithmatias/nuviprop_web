@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { PropiedadesService } from 'src/app/services/services.index';
+import { PropiedadesService, FormsService } from 'src/app/services/services.index';
 
 declare function init_plugins();
 @Component({
@@ -24,7 +24,8 @@ export class PropiedadesComponent implements OnInit {
 	hideScrollHeight = 200;
 
 	constructor(
-		private propiedadesService: PropiedadesService
+		private propiedadesService: PropiedadesService,
+		private formsService: FormsService
 	) {
 		this.showGoUpButton = false;
 	}
@@ -101,15 +102,15 @@ export class PropiedadesComponent implements OnInit {
 		}
 	}
 
-	filterSelected(event) {
-		// en event me llega del componente hijo, un objeto que contiene un array de objetos, 
-		// un array por cada filtro y dentro del array, un objeto por cada check con nombre y _id.
+	filterSelected() {
+		this.formsService.obtenerPropiedades();
+		// en event me llega del componente hijo al hacer click en un flitro en formulario filtros, 
+		// un objeto que contiene un array de objetos, que es un array por cada filtro y dentro del array, 
+		// un objeto por cada check con nombre y _id de la opción seleccionada.
 
-		console.log('al componente padre llego: ', event)
-		this.filtrosOperaciones = event.tipooperacion;
-		this.filtrosInmuebles = event.tipoinmueble;
-		this.filtrosLocalidades = event.localidad;
 
+		// TODO: Aca tengo que llamar a obtenerPropiedades() en formsService.service.ts para 
+		// hacer match con la db y obtener nuevos resultados en un cambio de filtros. 
 	}
 
 }
