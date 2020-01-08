@@ -1,25 +1,44 @@
 <div class="row p-2">
 
-    <div class="col-12" (click)="clickFiltros()">
+    <div class="col-12">
+        <!---------------------------------------------------------------------->
+        <!-- LOCALIDAD -->
+        <!---------------------------------------------------------------------->
+        <div class="bg-primary p-1 pl-2 my-1 rounded text-white">
+            <span>
+                Ubicación
+            </span>
+            <span class="float-right" (click)="divfilterslocalidades = !divfilterslocalidades">
+                <i class="mdi {{divfilterslocalidades ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
+            </span>
+        </div>
+        <mat-selection-list class="animated fadeIn" *ngIf="divfilterslocalidades" [(ngModel)]="seleccionLocalidades"
+            dense (ngModelChange)="clickCheck($event)">
+            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas"
+                [value]="JSON.stringify(localidad)">
+                {{localidad.nombre}}
+            </mat-list-option>
+        </mat-selection-list>
         <!---------------------------------------------------------------------->
         <!-- TIPO DE OPERACION -->
         <!---------------------------------------------------------------------->
+        <!-- 
+            En formsService tengo TODOS los items 
+            En la localStorage tengo los seleccionados 
+        -->
 
-        <div class="bg-warning-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-warning">
+        <div class="bg-warning p-1 pl-2 my-1 rounded text-white">
+            <span>
                 Tipo de operación
             </span>
-            <span class="float-right" (click)="divfiltersoperaciones = !divfiltersoperaciones"
-                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfiltersoperaciones">
+            <span class="float-right" (click)="divfiltersoperaciones = !divfiltersoperaciones">
                 <i class="mdi {{divfiltersoperaciones ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-
-
-        <mat-selection-list *ngIf="divfiltersoperaciones" class="animated fadeIn" [(ngModel)]="seleccionOperaciones"
-            dense #listaOperaciones>
+        <mat-selection-list class="animated fadeIn" *ngIf="divfiltersoperaciones" class="animated fadeIn"
+            [(ngModel)]="seleccionOperaciones" (ngModelChange)="clickCheck($event)" dense>
             <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
-                [value]="operacion">
+                [value]="JSON.stringify(operacion)">
                 {{operacion.nombre}}
             </mat-list-option>
         </mat-selection-list>
@@ -27,45 +46,24 @@
         <!---------------------------------------------------------------------->
         <!-- TIPO DE INMUEBLE -->
         <!---------------------------------------------------------------------->
-
-        <div class="bg-success-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-success">
+        <div class="bg-success p-1 pl-2 my-1 rounded text-white">
+            <span>
                 Tipo de inmueble
             </span>
-            <span class="float-right" (click)="divfiltersinmuebles = !divfiltersinmuebles"
-                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfiltersinmuebles">
+            <span class="float-right" (click)="divfiltersinmuebles = !divfiltersinmuebles">
                 <i class="mdi {{divfiltersinmuebles ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-
-
-        <mat-selection-list *ngIf="divfiltersinmuebles" [(ngModel)]="seleccionInmuebles" dense #listaInmuebles>
-            <mat-list-option formfiltros-inmuebles formfiltros *ngFor="let inmueble of formsService.tiposInmuebles"
-                [value]="inmueble">
+        <mat-selection-list *ngIf="divfiltersinmuebles" class="animated fadeIn" [(ngModel)]="seleccionInmuebles"
+            (ngModelChange)="clickCheck($event)" dense>
+            <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
+                [value]="JSON.stringify(inmueble)">
                 {{inmueble.nombre}}
             </mat-list-option>
         </mat-selection-list>
 
-        <!---------------------------------------------------------------------->
-        <!-- LOCALIDAD -->
-        <!---------------------------------------------------------------------->
 
-        <div class="bg-primary-opacity05 mb-1 p-1 rounded">
-            <span class="badge mr-1 badge-primary">
-                Localidades
-            </span>
-            <span class="float-right" (click)="divfilterslocalidades = !divfilterslocalidades"
-                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="divfilterslocalidades">
-                <i class="mdi {{divfilterslocalidades ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
-            </span>
-        </div>
 
-        <mat-selection-list *ngIf="divfilterslocalidades" [(ngModel)]="seleccionLocalidades" dense #listaLocalidades>
-            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas.localidades"
-                [value]="localidad">
-                {{localidad.properties.nombre}}
-            </mat-list-option>
-        </mat-selection-list>
 
     </div>
 </div>

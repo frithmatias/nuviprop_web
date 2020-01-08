@@ -10,6 +10,7 @@ export class CardsComponent implements OnInit {
   @Input() propiedades: Propiedad[] = [];
 
   constructor() { }
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

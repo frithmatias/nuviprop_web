@@ -91,9 +91,8 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
                     <mat-label>Ingrese una localidad</mat-label>
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
-                        [formControl]="localidadesControl" [matAutocomplete]="auto"
-                        [value]="formGroup.value.localidad.properties?.nombre + ', ' + formGroup.value.localidad.properties?.departamento.nombre + ', ' + formGroup.value.localidad.properties?.provincia.nombre">
-                    <span class="input-icon" (click)="cleanInput(inputLocalidad)"><i class="mdi mdi-close"></i></span>
+                        [formControl]="localidadesControl" [matAutocomplete]="auto" [value]="nombreLocalidad">
+                    <span class="input-icon" (click)="cleanInput()"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
 
                 <mat-autocomplete iniciocss #auto="matAutocomplete">

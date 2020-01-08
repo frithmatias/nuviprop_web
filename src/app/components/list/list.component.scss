@@ -1,12 +1,23 @@
 .propiedad-activa {
-    background-color: #deefde;
+  background-color: #ffffff;
 }
 
 .propiedad-inactiva {
-    opacity: 0.5;
-    background-color: #eeeeee;
+  opacity         : 0.5;
+  background-color: #eeeeee;
 }
 
 .img-200 {
   width: 200px;
+}
+
+.propiedad-precio {
+  font-weight     : 400;
+  color           : white;
+  position        : relative;
+  top             : -26px;
+  left            : 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding         : 5px 9px 5px 8px;
+  border-radius   : 0px 5px 0px 5px;
 }

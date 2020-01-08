@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InicioService } from './inicio.service';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsService } from 'src/app/services/services.index';
+import { FormsService, PropiedadesService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
 declare function init_plugins();
@@ -15,7 +15,7 @@ declare function init_plugins();
 export class InicioComponent implements OnInit {
 	// Control Autocomplete
 	formGroup: FormGroup = new FormGroup({});
-
+	nombreLocalidad: string = '';
 
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
 	localidadesControl = new FormControl();
@@ -31,7 +31,8 @@ export class InicioComponent implements OnInit {
 		private formsService: FormsService,
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
-		private capitalizarPipe: CapitalizarPipe
+		private capitalizarPipe: CapitalizarPipe,
+		private propiedadesService: PropiedadesService
 	) {
 
 		this.formGroup = this.formBuilder.group({
@@ -118,21 +119,29 @@ export class InicioComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
+		this.nombreLocalidad = this.localidadesControl.value.properties.nombre + ', ' + this.localidadesControl.value.properties.departamento.nombre + ', ' + this.localidadesControl.value.properties.provincia.nombre;
+
 		console.log('Localidad seleccionada: ', localidad);
+		console.log(this.localidadesControl);
 		this.formGroup.patchValue({
-			localidad
+			localidad: {
+				_id: localidad._id,
+				nombre: localidad.properties.nombre,
+				id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
+			}
 		});
 		console.log('formGroup', this.formGroup);
 	}
 
-	cleanInput(element) {
-		element.value = null;
+	cleanInput() {
+		this.nombreLocalidad = '';
+		this.localidadesControl.reset();
 		this.localidades = [];
 	}
 
 	buscarPropiedades(element) {
-		element.value = null;
-		this.localidades = [];
+
+		this.cleanInput();
 
 		if (this.formGroup.value.localidad._id === '') {
 			this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
@@ -141,18 +150,17 @@ export class InicioComponent implements OnInit {
 			return;
 		}
 
+		// No necesito el objeto tal cual como lo recibo de la BD, solo extraigo de el una estructura 
+		// básica igual a la del resto de los filtros. Esto tengo que hacerlo también cuando obtengo las 
+		// localidades cercanas en el componente filtros.
+
 		localStorage.setItem('filtros', JSON.stringify({
-			tipooperacion: [this.formGroup.value.tipooperacion],
-			tipoinmueble: [this.formGroup.value.tipoinmueble],
-			localidad: [this.formGroup.value.localidad]
+			tipooperacion: [JSON.stringify(this.formGroup.value.tipooperacion)],
+			tipoinmueble: [JSON.stringify(this.formGroup.value.tipoinmueble)],
+			localidad: [JSON.stringify(this.formGroup.value.localidad)]
 		}));
 
 		// obtenerPropiedades obtiene los filtros de la localStorage
-		this.formsService.obtenerPropiedades();
-
-
+		this.propiedadesService.obtenerPropiedades();
 	}
-
-
-
 }

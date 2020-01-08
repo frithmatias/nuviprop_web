@@ -16,8 +16,5 @@
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts"
-  ],
-  "scripts": {
-    "ngc": "ngc -p src/tsconfig.app.json"
-  }
+  ]
 }

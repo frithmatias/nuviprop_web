@@ -9,13 +9,6 @@ declare function init_plugins();
 })
 
 export class PropiedadesComponent implements OnInit {
-
-
-
-	filtrosOperaciones: string[] = [];
-	filtrosInmuebles: string[] = [];
-	filtrosLocalidades: string[] = [];
-
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
 	private getMoreProps = false;
@@ -24,8 +17,7 @@ export class PropiedadesComponent implements OnInit {
 	hideScrollHeight = 200;
 
 	constructor(
-		private propiedadesService: PropiedadesService,
-		private formsService: FormsService
+		private propiedadesService: PropiedadesService
 	) {
 		this.showGoUpButton = false;
 	}
@@ -34,34 +26,59 @@ export class PropiedadesComponent implements OnInit {
 		const maparef = document.getElementById('mapbox');
 		maparef.setAttribute('style', 'width:100%;');
 		init_plugins();
-		this.cambiarTab(this.propiedadesService.tabselected);
+		this.cambiarTab(Number(localStorage.getItem('viewtab')) || 0);
 		this.scrollTop(); // envio el scroll hacia arriba
 	}
 
-	tabSelected(n: number) {
-		this.propiedadesService.tabselected = n;
+	tabSelected(tab: number) {
+		localStorage.setItem('viewtab', String(tab));
 	}
 
 	cambiarTab(tab: number) {
 		// guardo en el servico el tab seleccionado por última vez, para que al volver de
 		// ver una propiedad, quede seleccionado el ultimo tab seleccionado.
-		const tabs: any = document.getElementsByClassName('nav-link tabs');
-		const contents: any = document.getElementsByClassName('tab-pane');
+		const tabMapa: any = document.getElementById('mapa-tab');
+		const tabLista: any = document.getElementById('lista-tab');
+		const tabCards: any = document.getElementById('cards-tab');
+
+		const contentMapa: any = document.getElementById('mapa');
+		const contentLista: any = document.getElementById('lista');
+		const contentCards: any = document.getElementById('cards');
 
 		// desactivo los tabs
-		for (const ref of tabs) {
-			ref.classList.remove('active');
-		}
+		tabMapa.classList.remove('active');
+		tabLista.classList.remove('active');
+		tabCards.classList.remove('active');
+
 		// desactivo los contenidos
-		for (const ref of contents) {
-			ref.classList.remove('show.active');
-		}
+		contentMapa.classList.remove('show.active');
+		contentLista.classList.remove('show.active');
+		contentCards.classList.remove('show.active');
+
+
+		const contents: any = document.getElementsByClassName('tab-pane');
 
 		// activo el tab correspondiente al ultimo seleccionado guardado en el servicio.
-		tabs[tab].classList.add('active');
+		switch (tab) {
+			case 0:
+				tabMapa.classList.add('active');
+				contentMapa.classList.add('show', 'active');
+				break;
+			case 1:
+				tabLista.classList.add('active');
+				contentLista.classList.add('show', 'active');
+				break;
+			case 2:
+				tabCards.classList.add('active');
+				contentCards.classList.add('show', 'active');
+				break;
+			default:
+				tabMapa.classList.add('active');
+				contentMapa.classList.add('show', 'active');
+				break
+		}
 
 		// activo el contenedor correspondiente al tab seleccionado.
-		contents[tab].classList.add('show', 'active');
 	}
 
 	scrollTop() {
@@ -94,7 +111,7 @@ export class PropiedadesComponent implements OnInit {
 		const contentHeight = document.getElementById('myTabContent').offsetHeight;
 		if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
 			if (this.getMoreProps === false) {
-				this.propiedadesService.cargarPropiedades(0);
+				this.propiedadesService.obtenerPropiedades();
 			}
 			this.getMoreProps = true;
 		} else {
@@ -103,14 +120,7 @@ export class PropiedadesComponent implements OnInit {
 	}
 
 	filterSelected() {
-		this.formsService.obtenerPropiedades();
-		// en event me llega del componente hijo al hacer click en un flitro en formulario filtros, 
-		// un objeto que contiene un array de objetos, que es un array por cada filtro y dentro del array, 
-		// un objeto por cada check con nombre y _id de la opción seleccionada.
-
-
-		// TODO: Aca tengo que llamar a obtenerPropiedades() en formsService.service.ts para 
-		// hacer match con la db y obtener nuevos resultados en un cambio de filtros. 
+		this.propiedadesService.obtenerPropiedades();
 	}
 
 }

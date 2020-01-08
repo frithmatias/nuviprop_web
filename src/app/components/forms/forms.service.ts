@@ -4,11 +4,6 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/tipos_operacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/tipos_inmueble.model';
 import { RespProvincias, Provincia } from 'src/app/models/tipos_provincia.model';
-import { FormGroup } from '@angular/forms';
-import { Propiedades } from 'src/app/models/propiedad.model';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PropiedadesService } from 'src/app/pages/propiedades/propiedades.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,14 +19,9 @@ export class FormsService {
 	};
 
 	constructor(
-		private http: HttpClient,
-		private router: Router,
-		private snackBar: MatSnackBar,
-		private propiedadesService: PropiedadesService
+		private http: HttpClient
 	) {
-
 		this.getGlobalControls();
-
 	}
 
 
@@ -90,85 +80,5 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
-	// Obtiene propiedades según criterios de busqueda (inicio)
-	obtenerPropiedades() {
 
-
-
-		// CONSTRUYO EL MODELO DEL QUERY
-		// El modelo del query es cada filtro separado por guión - y cada tipo de filtro 
-		// separado por slash / 
-		// localhost:3000/inicio/propiedades/alquiler-venta/ph-casa-departamento/
-
-		let filtros = JSON.parse(localStorage.getItem('filtros'))
-		console.log('localStorage: ', filtros);
-
-		const tipooperacion: any[] = filtros.tipooperacion;
-		const tipoinmueble: any[] = filtros.tipoinmueble;
-		const localidad: any[] = filtros.localidad;
-
-		let operaciones: string;
-		let inmuebles: string;
-		let localidades: string;
-
-
-		tipooperacion.forEach(operacion => {
-			if (operaciones) {
-				operaciones = operaciones + '-' + operacion.id;
-			} else {
-				operaciones = operacion.id;
-
-			}
-		})
-
-		tipoinmueble.forEach(inmueble => {
-			if (inmuebles) {
-				inmuebles = inmuebles + '-' + inmueble.id;
-			} else {
-				inmuebles = inmueble.id;
-
-			}
-		})
-
-		localidad.forEach(localidad => {
-			let nombre = localidad.properties.nombre.toLowerCase().replace(/ /g, '_');
-			if (localidades) {
-				localidades = localidades + '-' + nombre;
-			} else {
-				localidades = nombre;
-			}
-		})
-
-		console.log(operaciones);
-		console.log(inmuebles);
-		console.log(localidades);
-
-		const url = `${URL_SERVICIOS}/inicio/propiedades/${operaciones}/${inmuebles}/${localidades}/0`;
-		console.log('TRAYENDO PROPIEDADES:', url);
-
-
-
-		// el formato de los filtros en la localstorage es un gran objeto de arrays de objetos
-		// cada array representa un filtro, y cada objeto dentro del array representa un check 
-		// por lo tanto tengo que enviar los datos de busqueda con el formato que va a entender 
-		// el componente Propiedades.
-
-
-
-
-		this.http.get(url).subscribe((data: Propiedades) => {
-
-			if (data.ok && data.propiedades.length > 0) {
-				// si se encuentran propiedades se lo paso al servicio de propiedades. Si yo entro
-				// a la pagina propiedades sin pasar por inicio, me va a levantar TODAS las propiedades activas.
-				this.propiedadesService.propiedades = data.propiedades;
-				this.router.navigate(['/propiedades']);
-			} else {
-				this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
-					duration: 5000,
-				});
-			}
-
-		});
-	}
 }
