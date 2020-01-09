@@ -12,13 +12,32 @@
                 <i class="mdi {{divfilterslocalidades ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
             </span>
         </div>
-        <mat-selection-list class="animated fadeIn" *ngIf="divfilterslocalidades" [(ngModel)]="seleccionLocalidades"
-            dense (ngModelChange)="clickCheck($event)">
-            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas"
-                [value]="JSON.stringify(localidad)">
-                {{localidad.nombre}}
-            </mat-list-option>
-        </mat-selection-list>
+        <div *ngIf="divfilterslocalidades">
+            <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
+                <mat-label>Ingrese localidad</mat-label>
+                <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
+                    [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
+                    [value]="formsService.nombreLocalidad">
+                <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
+            </mat-form-field>
+
+            <mat-autocomplete iniciocss #auto="matAutocomplete">
+                <mat-option [value]="option" *ngFor="let option of formsService.localidades"
+                    (click)="setLocalidad(option)">
+                    {{option.properties.nombre | capitalizarPipe}},
+                    {{option.properties.departamento.nombre}},
+                    {{option.properties.provincia.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense
+                (ngModelChange)="clickCheck($event)">
+                <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas"
+                    [value]="JSON.stringify(localidad)">
+                    {{localidad.nombre}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
         <!---------------------------------------------------------------------->
         <!-- TIPO DE OPERACION -->
         <!---------------------------------------------------------------------->

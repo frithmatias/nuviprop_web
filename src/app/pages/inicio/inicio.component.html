@@ -1,8 +1,7 @@
 <div class="bg">
 
 
-    <form ngNativeValidate [formGroup]="formGroup" (ngSubmit)="buscarPropiedades(inputLocalidad)"
-        class="w-75 animated fadeIn form-container rounded">
+    <form ngNativeValidate (ngSubmit)="submitForm()" class="animated fadeIn form-container rounded">
         <div class="row my-2">
             <!---------------------------------------------------------------------->
             <!-- IF LOADING -->
@@ -89,14 +88,16 @@
                 -->
 
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
-                    <mat-label>Ingrese una localidad</mat-label>
+                    <mat-label>Ingrese localidad</mat-label>
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
-                        [formControl]="localidadesControl" [matAutocomplete]="auto" [value]="nombreLocalidad">
-                    <span class="input-icon" (click)="cleanInput()"><i class="mdi mdi-close"></i></span>
+                        [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
+                        [value]="formsService.nombreLocalidad">
+                    <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
 
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option [value]="option" *ngFor="let option of localidades" (click)="setLocalidad(option)">
+                    <mat-option [value]="option" *ngFor="let option of formsService.localidades"
+                        (click)="formsService.setLocalidad(option)">
                         {{option.properties.nombre | capitalizarPipe}},
                         {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}

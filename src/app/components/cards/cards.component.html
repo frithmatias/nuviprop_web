@@ -6,11 +6,31 @@
                     Destacado </div>
 
                 <div class="ribbon-content">
+                    <!---------------------------------------------------------------------->
+                    <!-- IMAGEN -->
+                    <!---------------------------------------------------------------------->
                     <img class="card-img-top rounded-top rounded-lg"
                         [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" alt="Card image cap">
+                    <span class="propiedad-precio">
+                        {{ propiedad.precio }}
+                    </span>
+                    <!---------------------------------------------------------------------->
+                    <!-- DIRECCION -->
+                    <!---------------------------------------------------------------------->
                     <div class="card-body p-2">
-                        <h5 class="card-title">{{propiedad.tipo_inmueble}} en {{propiedad.tipo_operacion}}</h5>
-                        Some quick example text to build on the card title and make up the bulk of the
+                        <div class="propiedad-direccion">
+                            {{propiedad.calle}} {{propiedad.altura}}, {{propiedad.localidad.nombre | capitalizarPipe}}
+                        </div>
+                        <div class="propiedad-operacion mb-2">
+                            {{propiedad.tipoinmueble.nombre}} en {{propiedad.tipooperacion.nombre}}
+                        </div>
+
+                        <!---------------------------------------------------------------------->
+                        <!-- TITULO Y DESCRIPCION -->
+                        <!---------------------------------------------------------------------->
+
+                        <h5 class="card-title">{{propiedad.titulo}}</h5>
+                        <p>{{propiedad.descripcion}}</p>
                     </div>
                 </div>
 
