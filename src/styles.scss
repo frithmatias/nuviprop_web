@@ -42,7 +42,7 @@
 .input-icon {
   position        : absolute;
   top             : -7px;
-  right           : 4px;
+  right           : -5px;
   font-size       : 19px;
   cursor          : pointer;
   background-color: #ffffff;
@@ -51,7 +51,7 @@
   border-radius   : 11px;
   text-align      : center;
   padding         : 3px;
-  color           : green;
+  color           : #3e3e3e;
 }
 
 .menu-filter {
@@ -200,3 +200,8 @@ input:-webkit-autofill:active {
 // }
 
 // PSEUDO CHECKBOX COLOR: MAT-SELECTION-LIST MAT-LIST-OPTION 
+
+
+.cdk-overlay-pane {
+  width: auto !important;
+}

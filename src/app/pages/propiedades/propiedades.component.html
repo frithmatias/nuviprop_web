@@ -102,9 +102,16 @@
                 </div>
 
             </div>
+
             <!-- ---------------------------------- -->
             <!-- TAB MAP -->
             <!-- ---------------------------------- -->
+
+            <div *ngIf="propiedadesService.propiedades.length === 0">
+                <div class="text-center m-5">
+                    No se encuentran propiedades para los filtros aplicados.
+                </div>
+            </div>
 
             <div class="tab-pane fade" id="mapa">
                 <app-mapa class="propiedades" [propiedades]="propiedadesService.propiedades"></app-mapa>
@@ -130,6 +137,7 @@
             <!-- BOTON PARA VOLVER ARRIBA -->
             <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
                     class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
+
         </div>
     </div>
 </div>

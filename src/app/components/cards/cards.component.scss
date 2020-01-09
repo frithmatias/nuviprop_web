@@ -1,5 +1,30 @@
 img {
-    // width: 200px; /* You can set the dimensions to whatever you want */
-    height: 250px;
+    // width  : 200px; /* You can set the dimensions to whatever you want */
+    height    : 250px;
     object-fit: cover;
+}
+
+
+.propiedad-direccion {
+    font-size  : 14px;
+    font-weight: 500;
+    color      : green;
+}
+
+.propiedad-operacion {
+    font-size  : 12px;
+    font-weight: 300;
+    color      : green;
+}
+
+.propiedad-precio {
+    font-size       : 26px;
+    font-weight     : 400;
+    color           : white;
+    position        : absolute;
+    top             : 201px;
+    left            : 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding         : 5px 15px 5px 10px;
+    border-radius   : 0px 15px 0px 0px;
 }

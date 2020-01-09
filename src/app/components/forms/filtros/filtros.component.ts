@@ -2,6 +2,8 @@ import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter } from '@ang
 import { FormsService } from '../forms.service';
 import { formatDate } from '@angular/common';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
+import { PropiedadesService } from 'src/app/services/services.index';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -37,7 +39,9 @@ export class FiltrosComponent implements OnInit {
   constructor(
     private formsService: FormsService,
     @Inject(LOCALE_ID) private locale: string,
-    private capitalizarPipe: CapitalizarPipe
+    private capitalizarPipe: CapitalizarPipe,
+    private propiedadesService: PropiedadesService,
+    private snackBar: MatSnackBar
   ) {
     // console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
   }
@@ -57,36 +61,57 @@ export class FiltrosComponent implements OnInit {
 
     // Obtengo los datos del formulario guardados en la localstorage
     this.dataBusqueda = JSON.parse(localStorage.getItem('filtros'));
-
+    console.log(this.dataBusqueda);
+    if (!this.dataBusqueda) {
+      return;
+    }
     // Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
     this.dataBusqueda.tipooperacion.forEach(operacion => {
       this.seleccionOperaciones.push(operacion); // operacion es un string.
     })
+
     this.dataBusqueda.tipoinmueble.forEach(inmueble => {
       this.seleccionInmuebles.push(inmueble);
     })
+
+
     this.dataBusqueda.localidad.forEach(localidad => {
       this.seleccionLocalidades.push(localidad);
     })
 
+    /*
+    En la localStorage tengo un array de objetos de localidades convertidos a Strings. Tengo que
+    parsear cada objeto para obtener las localidades vecinas de cada localidad (dentro de su departamento). 
+    
+    localidad: Array(3)
+        0: "{"_id":"5df2eb5664b1fc02b5e1fdef","nombre":"Villa Devoto","id":"villa_devoto"}"
+        1: "{"_id":"5df2eb5664b1fc02b5e1fdf0","nombre":"Villa General Mitre","id":"villa_general_mitre"}"
+        2: "{"_id":"5df2eb5664b1fc02b5e1fdf1","nombre":"Villa Santa Rita","id":"villa_santa_rita"}"
+        length: 3
+    */
 
-    // Obtego sugerencias de localidades vecinas a la localidad provista en la localStorage.
-    // Convierto a objeto el primer elemento del array 'localidad' en la localStorage guardado como string .
-    let localidadObj = JSON.parse(this.dataBusqueda.localidad[0]);
-    this.obtenerLocalidadesEnDepartamento(localidadObj._id);
+    // En el formulario de inicio SOLO OBTENGO UNA localidad, por lo tanto en el array hay un solo elemento 
+    // que es el que voy a enviarle al metodo para completar el resto de las localidades en el mismo departamento.
+    // this.dataBusqueda.localidad[0]
+    if (this.dataBusqueda.localidad && this.dataBusqueda.localidad.length > 0) {
+      let localidadObj = JSON.parse(this.dataBusqueda.localidad[0]);
+      this.obtenerLocalidadesEnDepartamento(localidadObj);
+    }
+
   }
 
-  obtenerLocalidadesEnDepartamento(id: string) {
-    this.formsService.obtenerLocalidadesEnDepartamento(id).subscribe((data: Localidades) => {
-      console.log(data);
+  obtenerLocalidadesEnDepartamento(localidadObj) {
+    this.formsService.obtenerLocalidadesEnDepartamento(localidadObj._id).subscribe((data: Localidades) => {
+
+      this.localidadesCercanas = []
       data.localidades.forEach(localidad => {
         localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
-        let localidadResumida = {
+        let localidadesVecinas = {
           _id: localidad._id,
           nombre: localidad.properties.nombre,
           id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
         }
-        this.localidadesCercanas.push(localidadResumida);
+        this.localidadesCercanas.push(localidadesVecinas);
       })
     })
   }
@@ -103,5 +128,32 @@ export class FiltrosComponent implements OnInit {
   }
 
 
+  setLocalidad(localidad) {
+    this.obtenerLocalidadesEnDepartamento(localidad);
+    // No puedo llamar al metodo setLocalidad de formsService porque necesito submitirlo y para submitirlo 
+    // necesito inyectar el servicio propiedadesService y me da un problema de Dependencia circular.
+
+    this.formsService.nombreLocalidad = this.formsService.localidadesControl.value.properties.nombre + ', ' + this.formsService.localidadesControl.value.properties.departamento.nombre + ', ' + this.formsService.localidadesControl.value.properties.provincia.nombre;
+    let localidadObj = {
+      _id: localidad._id,
+      nombre: localidad.properties.nombre,
+      id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
+    }
+    let storage: any = {};
+    storage = JSON.parse(localStorage.getItem('filtros')) || {};
+    storage['localidad'] = [];
+    storage['localidad'].push(JSON.stringify(localidadObj));
+    localStorage.setItem('filtros', JSON.stringify(storage));
+
+    if (storage && storage.localidad.length > 0) {
+      this.formsService.cleanInput();
+      this.propiedadesService.obtenerPropiedades();
+    } else {
+      this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
+        duration: 2000,
+      });
+      return;
+    }
+  }
 
 }

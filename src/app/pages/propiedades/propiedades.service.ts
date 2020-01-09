@@ -32,36 +32,32 @@ export class PropiedadesService {
 		if (!localStorage.getItem('filtros')) {
 			return;
 		}
+
+
 		let filtros = JSON.parse(localStorage.getItem('filtros'))
 		console.log('localStorage: ', filtros);
+
+		// Obtengo los objetos stringificados de las operaciones en la localstorage
 		this.filtrosOperaciones = [];
-		this.filtrosInmuebles = [];
-		this.filtrosLocalidades = [];
 		filtros.tipooperacion.forEach(operacion => {
 			this.filtrosOperaciones.push(JSON.parse(operacion));
 		})
-		filtros.tipoinmueble.forEach(inmueble => {
-			this.filtrosInmuebles.push(JSON.parse(inmueble));
-		})
-		filtros.localidad.forEach(localidad => {
-			this.filtrosLocalidades.push(JSON.parse(localidad));
-		})
-
-
-
-
-		let operaciones: string;
-		let inmuebles: string;
-		let localidades: string;
+		// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones 
+		let operaciones: string; // venta-compra-alquiler
 		this.filtrosOperaciones.forEach(operacion => {
 			if (operaciones) {
 				operaciones = operaciones + '-' + operacion.id;
 			} else {
 				operaciones = operacion.id;
-
 			}
 		})
 
+		// INMUEBLES
+		this.filtrosInmuebles = [];
+		filtros.tipoinmueble.forEach(inmueble => {
+			this.filtrosInmuebles.push(JSON.parse(inmueble));
+		})
+		let inmuebles: string;
 		this.filtrosInmuebles.forEach(inmueble => {
 			if (inmuebles) {
 				inmuebles = inmuebles + '-' + inmueble.id;
@@ -71,6 +67,12 @@ export class PropiedadesService {
 			}
 		})
 
+		// LOCALIDADES
+		this.filtrosLocalidades = [];
+		filtros.localidad.forEach(localidad => {
+			this.filtrosLocalidades.push(JSON.parse(localidad));
+		})
+		let localidades: string;
 		this.filtrosLocalidades.forEach(localidad => {
 			if (localidades) {
 				localidades = localidades + '-' + localidad.id;
@@ -78,6 +80,7 @@ export class PropiedadesService {
 				localidades = localidad.id;
 			}
 		})
+
 		const url = `${URL_SERVICIOS}/inicio/propiedades/${operaciones}/${inmuebles}/${localidades}/0`;
 		this.http.get(url).subscribe((data: Propiedades) => {
 			if (data.ok && data.propiedades.length > 0) {

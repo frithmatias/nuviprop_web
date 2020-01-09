@@ -229,7 +229,7 @@ export class PropiedadAvisoComponent implements OnInit {
 			// el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.options.
 
 
-			this.formsService.buscarLocalidad(event.target.value).subscribe((localidades: Localidades) => {
+			this.formsService.obtenerLocalidad(event.target.value).subscribe((localidades: Localidades) => {
 				if (localidades.ok) {
 					this.options = [];
 					localidades.localidades.forEach(localidad => {

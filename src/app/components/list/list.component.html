@@ -8,81 +8,102 @@
             <!-- AVISO HEADER -->
             <!---------------------------------------------------------------------->
             <div class="col-12">
+                <div class="row">
+                    <div class="col">
+                        <!---------------------------------------------------------------------->
+                        <!-- AVISO ID-->
+                        <!---------------------------------------------------------------------->
+                        <span class="float-left">
+                            <small>#id: {{ propiedad._id}}</small>
+                        </span>
+                        <!---------------------------------------------------------------------->
+                        <!-- AVISO MENU -->
+                        <!---------------------------------------------------------------------->
+                        <span class="float-right">
+
+                            <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
+                            <mat-menu #menu="matMenu">
+                                <div class="p-2">
+                                    <div class="m-2">
+                                        <button [routerLink]="['/propiedadver', propiedad._id]"
+                                            class="btn btn-dark btn-block">
+                                            <i class="fa fa-eye"></i>&nbsp; Ver aviso
+                                        </button>
+                                    </div>
+                                    <div class="m-2">
+                                        <button *ngIf="propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                            class="btn btn-success btn-block">
+                                            <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
+                                        </button>
+                                    </div>
+                                    <div class="m-2">
+                                        <button *ngIf="!propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                            class="btn btn-secondary btn-block">
+                                            <i class="fa fa-circle-o"></i>&nbsp; Activar
+                                        </button>
+                                    </div>
+                                    <div class="m-2">
+
+                                        <button [routerLink]="['/propiedad', propiedad._id ]"
+                                            class="btn btn-primary btn-block">
+                                            <i class="fa fa-edit"></i>&nbsp; Editar
+                                        </button>
+
+                                    </div>
+                                    <div class="m-2">
+                                        <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger btn-block">
+                                            <i class="fa fa-trash-o"></i>&nbsp; Borrar
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </mat-menu>
+
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        {{ propiedad.tipoinmueble.nombre }} en
+                        {{ propiedad.tipooperacion.nombre }} en
+                        {{ propiedad.localidad.nombre | capitalizarPipe}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
+                    </div>
+                </div>
+
                 <!---------------------------------------------------------------------->
-                <!-- AVISO ID-->
+                <!-- AVISO IMAGEN -->
                 <!---------------------------------------------------------------------->
-                <span class="float-left">
-                    <small>#id: {{ propiedad._id}}</small>
-                </span>
-                <!---------------------------------------------------------------------->
-                <!-- AVISO MENU -->
-                <!---------------------------------------------------------------------->
-                <span class="float-right">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 p-0 pr-2">
+                        <img (click)="mostrarModal( propiedad._id )"
+                            [src]="propiedad?.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                            class="img-fluid pointer rounded">
+                        <span class="propiedad-precio">
+                            {{ propiedad.precio }}
+                        </span>
+                    </div>
 
-                    <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
-                    <mat-menu #menu="matMenu">
-                        <div class="p-2">
-                            <div class="m-2">
-                                <button [routerLink]="['/propiedadver', propiedad._id]" class="btn btn-dark btn-block">
-                                    <i class="fa fa-eye"></i>&nbsp; Ver aviso
-                                </button>
-                            </div>
-                            <div class="m-2">
-                                <button *ngIf="propiedad.activo" (click)="cambiarEstado(propiedad._id)"
-                                    class="btn btn-success btn-block">
-                                    <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
-                                </button>
-                            </div>
-                            <div class="m-2">
-                                <button *ngIf="!propiedad.activo" (click)="cambiarEstado(propiedad._id)"
-                                    class="btn btn-secondary btn-block">
-                                    <i class="fa fa-circle-o"></i>&nbsp; Activar
-                                </button>
-                            </div>
-                            <div class="m-2">
-
-                                <button [routerLink]="['/propiedad', propiedad._id ]" class="btn btn-primary btn-block">
-                                    <i class="fa fa-edit"></i>&nbsp; Editar
-                                </button>
-
-                            </div>
-                            <div class="m-2">
-                                <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger btn-block">
-                                    <i class="fa fa-trash-o"></i>&nbsp; Borrar
-                                </button>
-
-                            </div>
-                        </div>
-                    </mat-menu>
-
-
-                </span>
-
-            </div>
-
-            <!---------------------------------------------------------------------->
-            <!-- AVISO IMAGEN -->
-            <!---------------------------------------------------------------------->
-            <div class="col-sm-12 col-md-6 p-0 pr-2">
-                <img (click)="mostrarModal( propiedad._id )"
-                    [src]="propiedad?.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
-                    class="img-fluid pointer rounded">
-                <span class="propiedad-precio">
-                    {{ propiedad.precio }}
-                </span>
-            </div>
-
-            <!---------------------------------------------------------------------->
-            <!-- AVISO DESCRIPCION -->
-            <!---------------------------------------------------------------------->
-            <div class="col-sm-12 col-md-6 p-0" style="font-weight: 300;line-height: 25px;">
-                {{ propiedad.tipoinmueble.nombre }} en
-                {{ propiedad.tipooperacion.nombre }} en
-                {{ propiedad.localidad.nombre | capitalizarPipe}}
-                <br />
-                <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
-                <br />
-                <span>0 vistas | 23 dias para finalizar</span>
+                    <!---------------------------------------------------------------------->
+                    <!-- AVISO DESCRIPCION -->
+                    <!---------------------------------------------------------------------->
+                    <div class="col-sm-12 col-md-6 p-0 pr-2">
+                        {{ propiedad.titulo}} <br>
+                        <p>
+                            {{ propiedad.descripcion}}
+                        </p>
+                        <span>0 vistas | 23 dias para finalizar</span>
+                    </div>
+                </div>
             </div>
         </div>
 
