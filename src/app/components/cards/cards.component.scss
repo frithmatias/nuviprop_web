@@ -28,3 +28,27 @@ img {
     padding         : 5px 15px 5px 10px;
     border-radius   : 0px 15px 0px 0px;
 }
+
+.propiedad-favorito-no {
+    cursor     : pointer;
+    font-size  : 26px;
+    font-weight: 400;
+    color      : rgba(51, 51, 51, 0.5);
+    position   : absolute;
+    top        : 0px;
+    right      : 0px;
+    padding    : 5px 15px 5px 10px;
+    text-shadow: -1px 0 rgba(255, 255, 255, 0.1), 0px 1px rgba(255, 255, 255, 0.1), 0px -1px rgba(255, 255, 255, 0.1), 1px 0 rgba(255, 255, 255, 0.1)
+}
+
+.propiedad-favorito-si {
+    cursor     : pointer;
+    font-size  : 26px;
+    font-weight: 400;
+    color      : rgb(255, 0, 0);
+    position   : absolute;
+    top        : 0px;
+    right      : 0px;
+    padding    : 5px 15px 5px 10px;
+    text-shadow: -1px 0 rgb(255, 255, 255), 0px 1px rgb(255, 255, 255), 0px -1px rgb(255, 255, 255), 1px 0 rgb(255, 255, 255)
+}

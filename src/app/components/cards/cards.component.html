@@ -1,6 +1,6 @@
 <div class="content p-3">
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let propiedad of propiedades">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-4" *ngFor="let propiedad of propiedades">
             <div class="ribbon-wrapper card cardshadow border">
                 <div class="ribbon ribbon-bookmark ribbon-warning"> <i class="fa fa-check-circle"></i>
                     Destacado </div>
@@ -11,9 +11,30 @@
                     <!---------------------------------------------------------------------->
                     <img class="card-img-top rounded-top rounded-lg"
                         [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" alt="Card image cap">
-                    <span class="propiedad-precio">
-                        {{ propiedad.precio }}
+                    <!---------------------------------------------------------------------->
+                    <!-- PRECIO -->
+                    <!---------------------------------------------------------------------->
+                    <span class="propiedad-precio">{{ propiedad.precio }}</span>
+                    <!---------------------------------------------------------------------->
+                    <!-- FAVORITOS -->
+                    <!---------------------------------------------------------------------->
+                    <span *ngIf="!usuarioService.logueado" routerLink="/login"> <i
+                            class="mdi mdi-heart propiedad-favorito-no"></i></span>
+
+                    <span *ngIf="usuarioService.logueado" (click)="agregarFavorito(propiedad)">
+                        <span *ngIf="propFavoritas.includes(propiedad._id)">
+                            <i class="mdi mdi-heart propiedad-favorito-si"></i>
+                        </span>
+                        <span *ngIf="!propFavoritas.includes(propiedad._id)">
+                            <i class=" mdi mdi-heart propiedad-favorito-no"></i>
+                        </span>
                     </span>
+                    <!-- 
+                    <div *ngIf="!estaEnFavoritos(propiedad._id)">
+                        <i class="mdi mdi-heart propiedad-favorito-si"></i>
+                    </div> -->
+                    <!-- <span *ngIf="usuarioService.logueado"></span> -->
+
                     <!---------------------------------------------------------------------->
                     <!-- DIRECCION -->
                     <!---------------------------------------------------------------------->

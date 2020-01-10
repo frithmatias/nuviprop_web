@@ -8,6 +8,7 @@ export class Usuario {
     public img?: string, // luego de un parámetro opcional, todos los demás parámetros también son opcionales.
     public role?: string,
     public google?: boolean,
+    public favoritos?: string[],
     public _id?: string
-  ) {}
+  ) { }
 }

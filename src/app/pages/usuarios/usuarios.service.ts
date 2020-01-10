@@ -15,7 +15,7 @@ export class UsuarioService implements OnDestroy {
   usuario: Usuario;
   menu: any[] = [];
   logueado = false;
-
+  favoritos = []
   constructor(public http: HttpClient, public router: Router) {
     //
     this.cargarStorage();
@@ -38,6 +38,7 @@ export class UsuarioService implements OnDestroy {
       map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         this.logueado = true;
+        this.favoritos = resp.usuario.favoritos;
         return true;
       }),
       // clase 222 seccion 17, manejo de errores
@@ -54,6 +55,8 @@ export class UsuarioService implements OnDestroy {
       map((resp: any) => {
         this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         this.logueado = true;
+        this.favoritos = resp.usuario.favoritos;
+
         return true;
       })
     );
@@ -79,6 +82,7 @@ export class UsuarioService implements OnDestroy {
 
   // metodo usado por el loginguard
   estaLogueado() {
+    console.log('Verificando si esta logueado.');
     // si no hay token el usuario no esta logueado
     if ((this.token.length < 5) || (typeof this.token === 'undefined') || (this.token === 'undefined')) {
       return false;
@@ -153,6 +157,28 @@ export class UsuarioService implements OnDestroy {
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
 
         return true;
+      }),
+      // seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
+  agregarFavorito(propid: string) {
+    const url = URL_SERVICIOS + '/usuarios/addfavourite/' + this.usuario._id;
+
+    // url += '?token=' + this.token;
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+
+    return this.http.put(url, { propid }, { headers }).pipe(
+      map((resp: any) => {
+        // this.usuario = resp.usuario;
+        const usuarioDB: Usuario = resp.usuario;
+        console.log('favorito agreagado')
+        return usuarioDB;
       }),
       // seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
       catchError(err => {

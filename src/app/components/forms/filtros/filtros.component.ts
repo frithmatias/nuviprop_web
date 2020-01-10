@@ -27,6 +27,7 @@ export class FiltrosComponent implements OnInit {
   seleccionInmuebles = [];
   seleccionLocalidades = [];
 
+
   // Cada vez que se hace un click en el filtro le pido al componente padre que actualice las propiedades.
   @Output() optionSelected: EventEmitter<object> = new EventEmitter()
 
@@ -79,39 +80,89 @@ export class FiltrosComponent implements OnInit {
       this.seleccionLocalidades.push(localidad);
     })
 
-    /*
-    En la localStorage tengo un array de objetos de localidades convertidos a Strings. Tengo que
-    parsear cada objeto para obtener las localidades vecinas de cada localidad (dentro de su departamento). 
-    
-    localidad: Array(3)
-        0: "{"_id":"5df2eb5664b1fc02b5e1fdef","nombre":"Villa Devoto","id":"villa_devoto"}"
-        1: "{"_id":"5df2eb5664b1fc02b5e1fdf0","nombre":"Villa General Mitre","id":"villa_general_mitre"}"
-        2: "{"_id":"5df2eb5664b1fc02b5e1fdf1","nombre":"Villa Santa Rita","id":"villa_santa_rita"}"
-        length: 3
-    */
+
+    console.log(this.seleccionOperaciones);
+    console.log(this.seleccionInmuebles);
+    console.log(this.seleccionLocalidades);
+
+
+    // Obtengo un valor inicial para las opciones de las localidades 
+
+    // El controls LOCALIDADES itera sobre localidadesCercanas, pero el ngModel sincroniza con seleccionLocalidades 
+    // porque tiene que ser un array de strings para que angular pueda decidir si la opcion tiene que estar "checked" 
+    // Por eso tengo que hacerlo por separado. Al iniciar la página de propiedades sin pasar por el inicio tengo 
+    // tengo que cargarle los valores en la localStorage de 'localidades'.
+    this.seleccionLocalidades.forEach(localidad => {
+      this.localidadesCercanas.push(JSON.parse(localidad));
+    })
 
     // En el formulario de inicio SOLO OBTENGO UNA localidad, por lo tanto en el array hay un solo elemento 
     // que es el que voy a enviarle al metodo para completar el resto de las localidades en el mismo departamento.
     // this.dataBusqueda.localidad[0]
-    if (this.dataBusqueda.localidad && this.dataBusqueda.localidad.length > 0) {
-      let localidadObj = JSON.parse(this.dataBusqueda.localidad[0]);
-      this.obtenerLocalidadesEnDepartamento(localidadObj);
-    }
+    // if (this.dataBusqueda.localidad && this.dataBusqueda.localidad.length > 0) {
+    //   let localidadObj = JSON.parse(this.dataBusqueda.localidad[0]);
+    //   this.obtenerLocalidadesEnDepartamento(localidadObj);
+    // }
 
   }
 
   obtenerLocalidadesEnDepartamento(localidadObj) {
-    this.formsService.obtenerLocalidadesEnDepartamento(localidadObj._id).subscribe((data: Localidades) => {
+    //console.log('buscando vecinos de: ', localidadObj);
+    /*
+    Este método hace básicamente dos cosas 
+    1. Quita de la lista actual de localidades cercanas las que no fueron seleccionadas 
+    2. Quita de la lista nueva de localidades cercanas si existe una localidad que ya esta en la lista de localidades seleccionadas.
 
-      this.localidadesCercanas = []
+    Al buscar una nueva localidad:
+    Lista actual
+    [_] A - la quito 
+    [_] B - la quito
+    [x] C - seleccionada, la dejo 
+    [x] D - seleccionada, la dejo
+
+    Lista nueva
+    [_] X - la agrego
+    [_] Y - la agrego
+    [_] C - ya existe, la quito
+    */
+
+    // 1. DEJO EN LOCALIDADESCERCANAS SOLO LAS LOCALIDADES SELECCIONADAS CONVERTIDAS A OBJETOS.
+    let localidadesCercanasSeleccionadas = [];
+    this.seleccionLocalidades.forEach(localidadSeleccionada => {
+      localidadesCercanasSeleccionadas.push(JSON.parse(localidadSeleccionada));
+    });
+    this.localidadesCercanas = localidadesCercanasSeleccionadas;
+
+
+    // 2. Obtengo un array de localidades seleccionadas para saber luego si existen las localidades
+    // que voy a agregar luego.
+    let arrLocalidadesSeleccionadas = [];
+    localidadesCercanasSeleccionadas.forEach(localidad => {
+      arrLocalidadesSeleccionadas.push(localidad._id);
+    })
+
+    if (arrLocalidadesSeleccionadas.includes(localidadObj._id)) {
+      this.snackBar.open(localidadObj.nombre + ' ya esta en la lista.', 'Aceptar', {
+        duration: 2000,
+      });
+    }
+
+    // 3. OBTENGO UNA NUEVA LISTA DE LOCALIDADES CERCANAS
+    this.formsService.obtenerLocalidadesEnDepartamento(localidadObj._id).subscribe((data: Localidades) => {
       data.localidades.forEach(localidad => {
-        localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
-        let localidadesVecinas = {
+        let nombreCapitalizado = this.capitalizarPipe.transform(localidad.properties.nombre);
+        // if (localidad.properties.nombre.length > 25) nombreCapitalizado = nombreCapitalizado.substr(0, 25) + '...';
+
+        let localidadVecina = {
           _id: localidad._id,
-          nombre: localidad.properties.nombre,
-          id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
+          nombre: nombreCapitalizado,
+          id: nombreCapitalizado.toLowerCase().replace(/ /g, '_')
         }
-        this.localidadesCercanas.push(localidadesVecinas);
+        // 4. SI NO ESTA EN LA LISTA DE LOCALIDADES SELECCIONADAS (2), LA AGREGO
+        if (arrLocalidadesSeleccionadas.includes(localidadVecina._id)) {
+        } else {
+          this.localidadesCercanas.unshift(localidadVecina);
+        }
       })
     })
   }
@@ -127,18 +178,17 @@ export class FiltrosComponent implements OnInit {
     this.optionSelected.emit();
   }
 
-
+  // setLocalidad es un metodo que debería estar sólo en el servicio formsService pero no puedo llamar 
+  // a este metodo en formsService porque necesito inyectar el servicio propiedadesService y me da un 
+  // problema de Dependencia circular.
   setLocalidad(localidad) {
-    this.obtenerLocalidadesEnDepartamento(localidad);
-    // No puedo llamar al metodo setLocalidad de formsService porque necesito submitirlo y para submitirlo 
-    // necesito inyectar el servicio propiedadesService y me da un problema de Dependencia circular.
-
     this.formsService.nombreLocalidad = this.formsService.localidadesControl.value.properties.nombre + ', ' + this.formsService.localidadesControl.value.properties.departamento.nombre + ', ' + this.formsService.localidadesControl.value.properties.provincia.nombre;
     let localidadObj = {
       _id: localidad._id,
       nombre: localidad.properties.nombre,
       id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
     }
+    this.obtenerLocalidadesEnDepartamento(localidadObj);
     let storage: any = {};
     storage = JSON.parse(localStorage.getItem('filtros')) || {};
     storage['localidad'] = [];

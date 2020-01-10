@@ -91,9 +91,9 @@ export class PropiedadesService {
 				this.router.navigate(['/propiedades']);
 			} else {
 				this.propiedades = [];
-				this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
-					duration: 1000,
-				});
+				// this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
+				// 	duration: 1000,
+				// });
 			}
 		},
 			(err) => {

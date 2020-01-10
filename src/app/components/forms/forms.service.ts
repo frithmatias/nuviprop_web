@@ -12,8 +12,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 	providedIn: 'root'
 })
 export class FormsService {
+
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
+
 	provincias: Provincia[] = [];
 	loading = {
 		tipooperacion: false,
@@ -105,7 +107,6 @@ export class FormsService {
 		storage['localidad'].push(JSON.stringify(localidadObj));
 		localStorage.setItem('filtros', JSON.stringify(storage));
 	}
-
 
 
 
