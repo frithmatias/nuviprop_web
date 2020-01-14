@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from 'src/app/models/usuario.model';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { Aviso } from 'src/app/models/aviso.model';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class BuscarComponent implements OnInit {
 
   usuarios: Usuario[] = [];
-  propiedades: Propiedad[] = [];
+  avisos: Aviso[] = [];
   inmobiliarias: Inmobiliaria[] = [];
 
   constructor(
@@ -35,7 +35,7 @@ export class BuscarComponent implements OnInit {
     this.http.get(url).subscribe((resp: any) => {
       console.log(resp);
       this.usuarios = resp.usuarios;
-      this.propiedades = resp.propiedades;
+      this.avisos = resp.avisos;
       this.inmobiliarias = resp.inmobiliarias;
     });
   }

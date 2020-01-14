@@ -2,7 +2,7 @@
 
     <div class="col-12"> -->
 <!---------------------------------------------------------------------->
-<!-- TABS PROPIEDADES -->
+<!-- TABS AVISOS -->
 <!---------------------------------------------------------------------->
 
 
@@ -40,10 +40,10 @@
     <!---------------------------------------------------------------------->
 
     <div class="my-3">
-        <div *ngIf="propiedadesService.propiedades.length === 0">
+        <div *ngIf="avisosService.avisos.length === 0">
             <div class="text-center m-2">
                 <h6>
-                    No se encuentran propiedades para los filtros aplicados.
+                    No se encuentran avisos para los filtros aplicados.
                 </h6>
             </div>
         </div>
@@ -52,22 +52,22 @@
             <!---------------------------------------------------------------------->
             <!-- LOCALIDAD -->
             <!---------------------------------------------------------------------->
-            <!-- <div class="my-3" *ngIf="propiedadesService.filtrosLocalidades.length > 0"> -->
-            <span class="badge badge-primary m-1 p-1" *ngFor="let filtro of propiedadesService.filtrosLocalidades">
+            <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
+            <span class="badge badge-primary m-1 p-1" *ngFor="let filtro of avisosService.filtrosLocalidades">
                 {{filtro.nombre}}
             </span>
 
             <!---------------------------------------------------------------------->
             <!-- TIPO DE OPERACION -->
             <!---------------------------------------------------------------------->
-            <span class="badge badge-warning m-1 p-1" *ngFor="let filtro of propiedadesService.filtrosOperaciones">
+            <span class="badge badge-warning m-1 p-1" *ngFor="let filtro of avisosService.filtrosOperaciones">
                 {{filtro.nombre}}
             </span>
 
             <!---------------------------------------------------------------------->
             <!-- TIPO DE INMUEBLE -->
             <!---------------------------------------------------------------------->
-            <span class="badge badge-success m-1 p-1" *ngFor="let filtro of propiedadesService.filtrosInmuebles">
+            <span class="badge badge-success m-1 p-1" *ngFor="let filtro of avisosService.filtrosInmuebles">
                 {{filtro.nombre}}
             </span>
 

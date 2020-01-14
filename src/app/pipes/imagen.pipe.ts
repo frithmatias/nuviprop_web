@@ -18,11 +18,11 @@ export class ImagenPipe implements PipeTransform {
     }
     switch (tipo) {
       case 'usuarios':
-      case 'propiedades':
+      case 'avisos':
       case 'inmobiliarias':
 
         url += '/' + tipo + '/' + id + '/' + img;
-        // console.log('Tipo coleccion ok: ', url);
+        console.log('Tipo coleccion ok: ', url);
         break;
 
       default:

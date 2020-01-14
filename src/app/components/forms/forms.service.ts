@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
-import { TiposOperaciones, TipoOperacion } from 'src/app/models/tipos_operacion.model';
-import { TipoInmueble, TiposInmuebles } from 'src/app/models/tipos_inmueble.model';
-import { RespProvincias, Provincia } from 'src/app/models/tipos_provincia.model';
+import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
+import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
+import { RespProvincias, Provincia } from 'src/app/models/aviso_provincia.model';
 import { FormControl } from '@angular/forms';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +23,6 @@ export class FormsService {
 		provincias: false
 	};
 
-	// Propiedades del contros de búsqueda de localidades
 	// Control Autocomplete
 	nombreLocalidad: string = '';
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
@@ -151,7 +150,7 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
-	// Busca localidades según patrón (inicio y propiedad-crear)
+	// Busca localidades según patrón (inicio y aviso-crear)
 	obtenerLocalidad(event) {
 		// le paso un patter con tres caracteres y me devuelve las localidades coincidentes.
 		const url = URL_SERVICIOS + '/buscar/localidades/' + event;

@@ -2,14 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService } from '../forms.service';
-import { Detalles } from 'src/app/models/detalle.model';
+import { Detalles } from 'src/app/models/detalles.model';
 
 @Component({
-  selector: 'app-form-propiedad-detalles',
-  templateUrl: './propiedad-detalles.component.html',
-  styleUrls: ['./propiedad-detalles.component.scss']
+  selector: 'app-form-detalles',
+  templateUrl: './detalles.component.html',
+  styleUrls: ['./detalles.component.scss']
 })
-export class PropiedadDetallesComponent implements OnInit {
+export class DetallesComponent implements OnInit {
   @Input() formData: Detalles;
   @Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
 
@@ -25,7 +25,7 @@ export class PropiedadDetallesComponent implements OnInit {
   ngOnInit() {
     this.buildForm().then(() => {
       console.log(this.formData);
-      // formData contiene la data de la propiedad que envía el componente padre
+      // formData contiene la data de la aviso que envía el componente padre
       this.propDetalles.patchValue({
         superficietotal: this.formData.superficietotal,
         superficieconstruible: this.formData.superficieconstruible,

@@ -165,7 +165,7 @@ export class UsuarioService implements OnDestroy {
     );
   }
 
-  agregarFavorito(propid: string) {
+  agregarFavorito(avisoid: string) {
     const url = URL_SERVICIOS + '/usuarios/addfavourite/' + this.usuario._id;
 
     // url += '?token=' + this.token;
@@ -173,7 +173,7 @@ export class UsuarioService implements OnDestroy {
       'x-token': this.token
     });
 
-    return this.http.put(url, { propid }, { headers }).pipe(
+    return this.http.put(url, { avisoid }, { headers }).pipe(
       map((resp: any) => {
         // this.usuario = resp.usuario;
         const usuarioDB: Usuario = resp.usuario;

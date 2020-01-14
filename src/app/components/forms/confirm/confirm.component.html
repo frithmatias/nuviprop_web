@@ -1,0 +1,87 @@
+<div class="container" *ngIf="aviso">
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron">
+                <h1 class="display-4">¡Tu aviso esta listo!</h1>
+                <p class="lead">
+                    Tu aviso fue cargado con éxito, sin embargo, para que aparezca en la lista de avisos activos y las
+                    personas puedan ver tu publicación debes activarla. Por favor tomate unos segundos para
+                    revisar los datos en la ficha de tu aviso. Si deseas corregir algun dato puedes volver atras
+                    y corregirlo ahora.
+                </p>
+                <hr class="my-5">
+                <p>Recuerda que siempre puedes desactivar o eliminar tus avisos desde 'Mis avisos'.</p>
+                <p class="lead">
+                    <a class="btn btn-success btn-lg" href="#" role="button" (click)="cambiarEstado()">¡Activar
+                        Publicación!</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">Ficha del aviso</h4>
+                    <p class="card-text">
+                        <b>Dirección:</b> {{ aviso.calle}} {{ aviso.altura}} <br />
+                        <b>Piso:</b> {{ aviso.piso}} <br />
+                        <b>Depto:</b> {{ aviso.depto}} <br />
+                        <b>Tipo de inmueble:</b> {{ aviso.tipoinmueble}} <br />
+                        <b>Tipo de unidad:</b> {{ aviso.tipounidad}} <br />
+                        <b>Tipo de operación:</b> {{ aviso.tipooperacion}} <br />
+                        <b>Título:</b> {{ aviso.titulo}} <br />
+                        <b>Descripción:</b> {{ aviso.descripcion}} <br />
+                        <b>Precio:</b> {{ aviso.precio}} <br />
+                        <b>Moneda:</b> {{ aviso.moneda}} <br />
+                        <b>No publicar precio:</b> {{ aviso.nopublicarprecio}} <br />
+                        <b>Apto credito:</b> {{ aviso.aptocredito}} <br />
+                        <b>País:</b> {{ aviso.pais}} <br />
+                        <b>Provincia:</b> {{ aviso.provincia}} <br />
+                        <b>Partido:</b> {{ aviso.partido}} <br />
+                        <b>Localidad:</b> {{ aviso.localidad}} <br />
+                        <b>Barrio:</b> {{ aviso.barrio}} <br />
+                        <b>Sub barrio:</b> {{ aviso.subbarrio}} <br />
+                        <b>Código postal:</b> {{ aviso.codigopostal}} <br />
+                    </p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">Ficha de la aviso</h4>
+                    <p class="card-text">
+                        <b>Dirección:</b> {{ aviso.calle}} {{ aviso.altura}} <br />
+                        <b>Piso:</b> {{ aviso.piso}} <br />
+                        <b>Depto:</b> {{ aviso.depto}} <br />
+                        <b>Tipo de inmueble:</b> {{ aviso.tipoinmueble}} <br />
+                        <b>Tipo de unidad:</b> {{ aviso.tipounidad}} <br />
+                        <b>Tipo de operación:</b> {{ aviso.tipooperacion}} <br />
+                        <b>Título:</b> {{ aviso.titulo}} <br />
+                        <b>Descripción:</b> {{ aviso.descripcion}} <br />
+                        <b>Precio:</b> {{ aviso.precio}} <br />
+                        <b>Moneda:</b> {{ aviso.moneda}} <br />
+                        <b>No publicar precio:</b> {{ aviso.nopublicarprecio}} <br />
+                        <b>Apto credito:</b> {{ aviso.aptocredito}} <br />
+                        <b>País:</b> {{ aviso.pais}} <br />
+                        <b>Provincia:</b> {{ aviso.provincia}} <br />
+                        <b>Partido:</b> {{ aviso.partido}} <br />
+                        <b>Localidad:</b> {{ aviso.localidad}} <br />
+                        <b>Barrio:</b> {{ aviso.barrio}} <br />
+                        <b>Sub barrio:</b> {{ aviso.subbarrio}} <br />
+                        <b>Código postal:</b> {{ aviso.codigopostal}} <br />
+                    </p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <pre>
+    {{aviso | json}}
+    </pre> -->

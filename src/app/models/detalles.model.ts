@@ -31,7 +31,7 @@ export class Detalles {
     public lateralderechoirregular?: boolean,
     public instalaciones?: string,
     public servicios?: string,
-    // el usuario se adjunta en el controlador de propiedades en el backend,
+    // el usuario se adjunta en el controlador de avisos en el backend,
     // lo obtiene el middleware auth cuando verifica el token
     // public inmobiliaria?: Inmobiliaria,
     public _id?: string,

@@ -5,19 +5,19 @@ img {
 }
 
 
-.propiedad-direccion {
+.aviso-direccion {
     font-size  : 14px;
     font-weight: 500;
     color      : green;
 }
 
-.propiedad-operacion {
+.aviso-operacion {
     font-size  : 12px;
     font-weight: 300;
     color      : green;
 }
 
-.propiedad-precio {
+.aviso-precio {
     font-size       : 26px;
     font-weight     : 400;
     color           : white;
@@ -29,7 +29,7 @@ img {
     border-radius   : 0px 15px 0px 0px;
 }
 
-.propiedad-favorito-no {
+.aviso-favorito-no {
     cursor     : pointer;
     font-size  : 26px;
     font-weight: 400;
@@ -41,7 +41,7 @@ img {
     text-shadow: -1px 0 rgba(255, 255, 255, 0.1), 0px 1px rgba(255, 255, 255, 0.1), 0px -1px rgba(255, 255, 255, 0.1), 1px 0 rgba(255, 255, 255, 0.1)
 }
 
-.propiedad-favorito-si {
+.aviso-favorito-si {
     cursor     : pointer;
     font-size  : 26px;
     font-weight: 400;

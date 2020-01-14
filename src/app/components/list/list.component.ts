@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PropiedadesService } from '../../pages/propiedades/propiedades.service';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { AvisosService } from '../../pages/avisos/avisos.service';
+import { Aviso } from 'src/app/models/aviso.model';
 
 @Component({
   selector: 'app-list',
@@ -9,9 +9,9 @@ import { Propiedad } from 'src/app/models/propiedad.model';
 })
 export class ListComponent implements OnInit {
 
-  @Input() propiedades: Propiedad[] = [];
+  @Input() avisos: Aviso[] = [];
 
-  constructor(private propiedadesService: PropiedadesService) { }
+  constructor(private avisosService: AvisosService) { }
 
   ngOnInit() {
   }

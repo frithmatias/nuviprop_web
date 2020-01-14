@@ -1,23 +1,23 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { PropiedadesService, FormsService } from 'src/app/services/services.index';
+import { AvisosService, FormsService } from 'src/app/services/services.index';
 
 declare function init_plugins();
 @Component({
-	selector: 'app-propiedades',
-	templateUrl: './propiedades.component.html',
-	styleUrls: ['./propiedades.component.scss']
+	selector: 'app-avisos',
+	templateUrl: './avisos.component.html',
+	styleUrls: ['./avisos.component.scss']
 })
 
-export class PropiedadesComponent implements OnInit {
+export class AvisosComponent implements OnInit {
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
-	private getMoreProps = false;
+	private getMoreAvisos = false;
 
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
 
 	constructor(
-		private propiedadesService: PropiedadesService
+		private avisosService: AvisosService
 	) {
 		this.showGoUpButton = false;
 	}
@@ -34,7 +34,7 @@ export class PropiedadesComponent implements OnInit {
 
 	cambiarTab(tab: number) {
 		// guardo en el servico el tab seleccionado por última vez, para que al volver de
-		// ver una propiedad, quede seleccionado el ultimo tab seleccionado.
+		// ver un aviso, quede seleccionado el ultimo tab seleccionado.
 		const tabMapa: any = document.getElementById('mapa-tab');
 		const tabLista: any = document.getElementById('lista-tab');
 		const tabCards: any = document.getElementById('cards-tab');
@@ -108,17 +108,17 @@ export class PropiedadesComponent implements OnInit {
 		// 1 + 2 = 3
 		const contentHeight = document.getElementById('myTabContent').offsetHeight;
 		if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
-			if (this.getMoreProps === false) {
-				this.propiedadesService.obtenerPropiedades();
+			if (this.getMoreAvisos === false) {
+				this.avisosService.obtenerAvisos();
 			}
-			this.getMoreProps = true;
+			this.getMoreAvisos = true;
 		} else {
-			this.getMoreProps = false;
+			this.getMoreAvisos = false;
 		}
 	}
 
 	filterSelected() {
-		this.propiedadesService.obtenerPropiedades();
+		this.avisosService.obtenerAvisos();
 	}
 
 }

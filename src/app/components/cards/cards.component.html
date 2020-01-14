@@ -1,6 +1,6 @@
 <div class="content p-3">
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-4" *ngFor="let propiedad of propiedades">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-4" *ngFor="let aviso of avisos">
             <div class="ribbon-wrapper card cardshadow border">
                 <div class="ribbon ribbon-bookmark ribbon-warning"> <i class="fa fa-check-circle"></i>
                     Destacado </div>
@@ -10,28 +10,28 @@
                     <!-- IMAGEN -->
                     <!---------------------------------------------------------------------->
                     <img class="card-img-top rounded-top rounded-lg"
-                        [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" alt="Card image cap">
+                        [src]="aviso.imgs[0] | imagenPipe : 'avisos' : aviso._id" alt="Card image cap">
                     <!---------------------------------------------------------------------->
                     <!-- PRECIO -->
                     <!---------------------------------------------------------------------->
-                    <span class="propiedad-precio">{{ propiedad.precio }}</span>
+                    <span class="aviso-precio">{{ aviso.precio }}</span>
                     <!---------------------------------------------------------------------->
                     <!-- FAVORITOS -->
                     <!---------------------------------------------------------------------->
                     <span *ngIf="!usuarioService.logueado" routerLink="/login"> <i
-                            class="mdi mdi-heart propiedad-favorito-no"></i></span>
+                            class="mdi mdi-heart aviso-favorito-no"></i></span>
 
-                    <span *ngIf="usuarioService.logueado" (click)="agregarFavorito(propiedad)">
-                        <span *ngIf="propFavoritas.includes(propiedad._id)">
-                            <i class="mdi mdi-heart propiedad-favorito-si"></i>
+                    <span *ngIf="usuarioService.logueado" (click)="agregarFavorito(aviso)">
+                        <span *ngIf="propFavoritas.includes(aviso._id)">
+                            <i class="mdi mdi-heart aviso-favorito-si"></i>
                         </span>
-                        <span *ngIf="!propFavoritas.includes(propiedad._id)">
-                            <i class=" mdi mdi-heart propiedad-favorito-no"></i>
+                        <span *ngIf="!propFavoritas.includes(aviso._id)">
+                            <i class=" mdi mdi-heart aviso-favorito-no"></i>
                         </span>
                     </span>
                     <!-- 
-                    <div *ngIf="!estaEnFavoritos(propiedad._id)">
-                        <i class="mdi mdi-heart propiedad-favorito-si"></i>
+                    <div *ngIf="!estaEnFavoritos(aviso._id)">
+                        <i class="mdi mdi-heart aviso-favorito-si"></i>
                     </div> -->
                     <!-- <span *ngIf="usuarioService.logueado"></span> -->
 
@@ -39,27 +39,27 @@
                     <!-- DIRECCION -->
                     <!---------------------------------------------------------------------->
                     <div class="card-body p-2">
-                        <div class="propiedad-direccion">
-                            {{propiedad.calle}} {{propiedad.altura}}, {{propiedad.localidad.nombre | capitalizarPipe}}
+                        <div class="aviso-direccion">
+                            {{aviso.calle}} {{aviso.altura}}, {{aviso.localidad.nombre | capitalizarPipe}}
                         </div>
-                        <div class="propiedad-operacion mb-2">
-                            {{propiedad.tipoinmueble.nombre}} en {{propiedad.tipooperacion.nombre}}
+                        <div class="aviso-operacion mb-2">
+                            {{aviso.tipoinmueble.nombre}} en {{aviso.tipooperacion.nombre}}
                         </div>
 
                         <!---------------------------------------------------------------------->
                         <!-- TITULO Y DESCRIPCION -->
                         <!---------------------------------------------------------------------->
 
-                        <h5 class="card-title">{{propiedad.titulo}}</h5>
-                        <p>{{propiedad.descripcion}}</p>
+                        <h5 class="card-title">{{aviso.titulo}}</h5>
+                        <p>{{aviso.descripcion}}</p>
                     </div>
                 </div>
 
-                <button [routerLink]="['/propiedadver', propiedad._id]"
+                <button [routerLink]="['/avisover', aviso._id]"
                     class="btn btn-primary rounded-0 float-right rounded-bottom rounded-lg"><i
                         class="mdi mdi-content-paste"></i>
                     Ver
-                    propiedad</button>
+                    aviso</button>
             </div>
 
         </div>

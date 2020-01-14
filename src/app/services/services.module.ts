@@ -8,12 +8,12 @@ import {
   UsuarioService,
   UploaderService,
   ModalUploadService,
-  MisPropiedadesService,
+  MisAvisosService,
   InmobiliariaService,
   LoginGuard,
   AdminGuard,
   TokenGuard,
-  PropiedadesService,
+  AvisosService,
   MapaService,
   FormsService
 } from './services.index';
@@ -21,19 +21,19 @@ import {
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-	SettingsService,
-	SidebarService,
-	UsuarioService,
-	UploaderService,
-	ModalUploadService,
-	MisPropiedadesService,
-	InmobiliariaService,
-	LoginGuard,
-	AdminGuard,
-	TokenGuard,
-	PropiedadesService,
-	MapaService,
-	FormsService
+    SettingsService,
+    SidebarService,
+    UsuarioService,
+    UploaderService,
+    ModalUploadService,
+    MisAvisosService,
+    InmobiliariaService,
+    LoginGuard,
+    AdminGuard,
+    TokenGuard,
+    AvisosService,
+    MapaService,
+    FormsService
   ],
   declarations: []
 })

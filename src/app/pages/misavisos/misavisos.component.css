@@ -14,11 +14,11 @@
     font-size : 16px;
 }
 
-.propiedad-activa {
+.aviso-activo {
     background-color: lavanderblush;
 }
 
-.propiedad-inactiva {
+.aviso-inactivo {
     opacity: 0.5;
 }
 

@@ -7,8 +7,8 @@
 
         <mat-step [stepControl]="formAviso">
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <app-form-propiedad-aviso [formData]="propiedad" (outputGroup)="guardarPropiedad($event, stepper)"
-                *ngIf="propiedad.titulo"></app-form-propiedad-aviso>
+            <app-form-aviso [formData]="aviso" (outputGroup)="guardarAviso($event, stepper)" *ngIf="aviso.titulo">
+            </app-form-aviso>
         </mat-step>
 
 
@@ -19,11 +19,11 @@
 
         <mat-step [stepControl]="formDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
+            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [avisoId]="avisoId"
                 (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
             </app-form> -->
-            <app-form-propiedad-detalles [formData]="propiedad" (outputGroup)="guardarDetalles($event, stepper)">
-            </app-form-propiedad-detalles>
+            <app-form-detalles [formData]="aviso" (outputGroup)="guardarDetalles($event, stepper)">
+            </app-form-detalles>
         </mat-step>
 
         <!-- --------------------------------------------------------------- -->
@@ -39,8 +39,8 @@
                     </h2>
                 </div>
             </div>
-            <app-uploader [propiedad]="propiedad" tipo="propiedades" [id]="propId"
-                (cargaFinalizada)="misPropiedadesService.stepperGoNext(stepper)">
+            <app-uploader [aviso]="aviso" tipo="avisos" [id]="avisoId"
+                (cargaFinalizada)="misAvisosService.stepperGoNext(stepper)">
             </app-uploader>
         </mat-step>
 
@@ -49,10 +49,10 @@
         <!-- CONFIRMACION DE PUBLICACION -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step *ngIf="!propiedad.activo">
+        <mat-step *ngIf="!aviso.activo">
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            <app-form-propiedad-confirm [propiedad]="propiedad" (activar)="cambiarEstado()">
-            </app-form-propiedad-confirm>
+            <app-form-confirm [aviso]="aviso" (activar)="cambiarEstado()">
+            </app-form-confirm>
         </mat-step>
 
     </mat-horizontal-stepper>

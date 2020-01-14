@@ -1,21 +1,21 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { Aviso } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService } from '../forms.service';
-import { TipoInmueble } from 'src/app/models/tipos_inmueble.model';
-import { TipoUnidad, TiposUnidades } from 'src/app/models/tipos_unidad.model';
+import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
+import { TipoUnidad, TiposUnidades } from 'src/app/models/aviso_tipounidad.model';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
-	selector: 'app-form-propiedad-aviso',
-	templateUrl: './propiedad-aviso.component.html',
-	styleUrls: ['./propiedad-aviso.component.scss']
+	selector: 'app-form-aviso',
+	templateUrl: './aviso.component.html',
+	styleUrls: ['./aviso.component.scss']
 })
-export class PropiedadAvisoComponent implements OnInit {
-	// Si estoy editando una propiedad obtengo los datos en formData
-	@Input() formData: Propiedad;
+export class AvisoComponent implements OnInit {
+	// Si estoy editando una aviso obtengo los datos en formData
+	@Input() formData: Aviso;
 	@Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
 	value = 'Clear me';
 	parsetemplate = false;
@@ -43,7 +43,7 @@ export class PropiedadAvisoComponent implements OnInit {
 	ngOnInit() {
 		this.buildForm().then(() => {
 			console.log(this.formData);
-			// formData contiene la data de la propiedad que envía el componente padre
+			// formData contiene la data de la aviso que envía el componente padre
 			this.formGroup.patchValue({
 				calle: this.formData.calle,
 				altura: this.formData.altura,
@@ -90,12 +90,12 @@ export class PropiedadAvisoComponent implements OnInit {
 	buildForm() {
 		return new Promise(resolve => {
 			// El valor por defecto '' en este caso NO es necesario, porque yo no estoy trabajando
-			// con un objeto 'propiedad', estoy trabajando DIRECTAMENTE con el objeto formGroup.value
-			// en donde yo guardo la data de la propiedad, y desde donde los controles en el formulario
+			// con un objeto 'aviso', estoy trabajando DIRECTAMENTE con el objeto formGroup.value
+			// en donde yo guardo la data de la aviso, y desde donde los controles en el formulario
 			// van a buscar la data.
 
 			// En general la configuración sería
-			// [value]="propiedad.titulo" -> propiedad.titulo <- formGroup.value.titulo
+			// [value]="aviso.titulo" -> aviso.titulo <- formGroup.value.titulo
 
 			// En este caso utilizo el metodo patchValue({...}) para guardar la data en mi formGroup
 			// [value]="formGroup.value.titulo" <-> formGroup.value.titulo

@@ -16,22 +16,20 @@
                     </tbody>
                 </table>
 
-                <table class="table table-hover" *ngIf="propiedades?.length > 0">
+                <table class="table table-hover" *ngIf="avisos?.length > 0">
                     <tbody>
-                        <p>Propiedades</p>
-                        <tr *ngFor=" let propiedad of propiedades" [routerLink]="['/propiedad', propiedad._id]"
-                            class="pointer">
+                        <p>Avisos</p>
+                        <tr *ngFor="let aviso of avisos" [routerLink]="['/aviso', aviso._id]" class="pointer">
                             <td>
-                                <img [src]="propiedad.imgs[0] | imagenPipe:'propiedades':propiedad._id"
-                                    class="img-50 img-circle">
+                                <img [src]="aviso.imgs[0] | imagenPipe:'avisos':aviso._id" class="img-50 img-circle">
                             </td>
-                            <td>{{ propiedad.calle }} {{ propiedad.numero}}</td>
+                            <td>{{ aviso.calle }} {{ aviso.numero}}</td>
                         </tr>
                     </tbody>
                 </table>
 
 
-                <div *ngIf="usuarios.length === 0 && propiedades.length === 0 ">
+                <div *ngIf="usuarios.length === 0 && avisos.length === 0 ">
                     No se encontraron resultados
                 </div>
 

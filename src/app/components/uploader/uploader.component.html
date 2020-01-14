@@ -1,6 +1,6 @@
 <div appNgDropFiles [archivos]="archivos" [tipo]="tipo" [id]="id" (mouseSobre)="estaSobreElemento = $event"
     (sendDropFiles)="queueFilesDrop($event)" [ngClass]="{'file-over':estaSobreElemento}"
-    class="col-md-12 well drop-zone file-over" *ngIf="propiedad">
+    class="col-md-12 well drop-zone file-over" *ngIf="aviso">
     <div class="row pb-3">
         <div class="col-md-12 mt-2">
             <div>
@@ -13,9 +13,9 @@
     <div class="row">
         <div class="col-lg-7" id="slide">
             <!-- Imagenes cargadas en el server -->
-            <div *ngFor="let img of propiedad.imgs" class="gallery img-wrap">
+            <div *ngFor="let img of aviso.imgs" class="gallery img-wrap">
                 <span class="close" (click)="borrarImagen(img)">&times;</span>
-                <img src="{{img | imagenPipe : 'propiedades' : propiedad?._id }}">
+                <img src="{{img | imagenPipe : 'avisos' : aviso?._id }}">
             </div>
 
             <!-- Imagenes previsualizadas luego del drag and drop -->
@@ -27,7 +27,7 @@
             <!-- Maximo de 20 imagenes, si son menos las completo con 'no-image' Agregar -->
             <div>
                 <div class="gallery img-wrap" style="cursor: pointer;"
-                    *ngFor="let aasdf of [].constructor(maxupload - propiedad?.imgs?.length)">
+                    *ngFor="let aasdf of [].constructor(maxupload - aviso?.imgs?.length)">
                     <label for="filesWindow"><img src="../../../assets/images/no-image1.png"></label>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <div *ngIf="propiedad?.imgs?.length == 0">Arrastre aquí las imagenes</div>
+                    <div *ngIf="aviso?.imgs?.length == 0">Arrastre aquí las imagenes</div>
                     <tr *ngFor="let archivo of archivos">
                         <th scope="row">1</th>
                         <td [ngClass]="{'text-green':archivo.progreso>=100}">

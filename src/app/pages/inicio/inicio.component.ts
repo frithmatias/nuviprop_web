@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsService, PropiedadesService } from 'src/app/services/services.index';
+import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
 declare function init_plugins();
@@ -17,7 +17,7 @@ export class InicioComponent implements OnInit {
 		private formsService: FormsService,
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe,
-		private propiedadesService: PropiedadesService
+		private avisosService: AvisosService
 	) { }
 
 	ngOnInit() {
@@ -58,7 +58,7 @@ export class InicioComponent implements OnInit {
 		console.log(storage);
 		if (storage && storage.localidad.length > 0) {
 			this.formsService.cleanInput();
-			this.propiedadesService.obtenerPropiedades();
+			this.avisosService.obtenerAvisos();
 		} else {
 			this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
 				duration: 2000,

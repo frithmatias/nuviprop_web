@@ -21,7 +21,7 @@ export class ModalUploadComponent implements OnInit {
 
   cerrarModal() {
     // si yo vuelvo a abrir el modal para cambiar la imagen de otro usuario,
-    // voy a ver la imagen del usuario anterior, para evitarlo limpio las propiedades
+    // voy a ver la imagen del usuario anterior, para evitarlo limpio los avisos
     this.imagenTemp = null;
     this.imagenSubir = null;
     this.modalUploadService.ocultarModal();

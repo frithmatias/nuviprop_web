@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MapaService } from './mapa.service';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { Aviso } from 'src/app/models/aviso.model';
 
 @Component({
   selector: 'app-mapa',
@@ -9,7 +9,7 @@ import { Propiedad } from 'src/app/models/propiedad.model';
 })
 export class MapaComponent implements OnInit {
   @ViewChild('mapbox', { static: true }) mapbox;
-  @Input() propiedades: Propiedad[] = [];
+  @Input() avisos: Aviso[] = [];
   constructor(private mapaService: MapaService) { }
 
   ngOnInit() {

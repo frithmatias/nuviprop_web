@@ -1,8 +1,8 @@
 <div class="row animated fadeIn" *ngIf="!cargando">
     <div class="col-12">
         <!-- TODO: quitar m-3 on-focus -->
-        <div class="row border rounded m-3 p-2 shadow" *ngFor="let propiedad of propiedades; index as i"
-            [ngClass]="{'propiedad-inactiva': !propiedad.activo, 'propiedad-activa': propiedad.activo}">
+        <div class="row border rounded m-3 p-2 shadow" *ngFor="let aviso of avisos; index as i"
+            [ngClass]="{'aviso-inactiva': !aviso.activo, 'aviso-activa': aviso.activo}">
 
             <!---------------------------------------------------------------------->
             <!-- AVISO HEADER -->
@@ -14,7 +14,7 @@
                         <!-- AVISO ID-->
                         <!---------------------------------------------------------------------->
                         <span class="float-left">
-                            <small>#id: {{ propiedad._id}}</small>
+                            <small>#id: {{ aviso._id}}</small>
                         </span>
                         <!---------------------------------------------------------------------->
                         <!-- AVISO MENU -->
@@ -25,33 +25,31 @@
                             <mat-menu #menu="matMenu">
                                 <div class="p-2">
                                     <div class="m-2">
-                                        <button [routerLink]="['/propiedadver', propiedad._id]"
-                                            class="btn btn-dark btn-block">
+                                        <button [routerLink]="['/avisover', aviso._id]" class="btn btn-dark btn-block">
                                             <i class="fa fa-eye"></i>&nbsp; Ver aviso
                                         </button>
                                     </div>
                                     <div class="m-2">
-                                        <button *ngIf="propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                        <button *ngIf="aviso.activo" (click)="cambiarEstado(aviso._id)"
                                             class="btn btn-success btn-block">
                                             <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
                                         </button>
                                     </div>
                                     <div class="m-2">
-                                        <button *ngIf="!propiedad.activo" (click)="cambiarEstado(propiedad._id)"
+                                        <button *ngIf="!aviso.activo" (click)="cambiarEstado(aviso._id)"
                                             class="btn btn-secondary btn-block">
                                             <i class="fa fa-circle-o"></i>&nbsp; Activar
                                         </button>
                                     </div>
                                     <div class="m-2">
 
-                                        <button [routerLink]="['/propiedad', propiedad._id ]"
-                                            class="btn btn-primary btn-block">
+                                        <button [routerLink]="['/aviso', aviso._id ]" class="btn btn-primary btn-block">
                                             <i class="fa fa-edit"></i>&nbsp; Editar
                                         </button>
 
                                     </div>
                                     <div class="m-2">
-                                        <button (click)="borrarPropiedad( propiedad )" class="btn btn-danger btn-block">
+                                        <button (click)="borrarAviso( aviso )" class="btn btn-danger btn-block">
                                             <i class="fa fa-trash-o"></i>&nbsp; Borrar
                                         </button>
 
@@ -68,15 +66,15 @@
 
                 <div class="row">
                     <div class="col">
-                        {{ propiedad.tipoinmueble.nombre }} en
-                        {{ propiedad.tipooperacion.nombre }} en
-                        {{ propiedad.localidad.nombre | capitalizarPipe}}
+                        {{ aviso.tipoinmueble.nombre }} en
+                        {{ aviso.tipooperacion.nombre }} en
+                        {{ aviso.localidad.nombre | capitalizarPipe}}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <span class="h5" style="font-weight: 400; ">{{ propiedad.calle }} {{ propiedad.altura }}</span>
+                        <span class="h5" style="font-weight: 400; ">{{ aviso.calle }} {{ aviso.altura }}</span>
                     </div>
                 </div>
 
@@ -85,11 +83,11 @@
                 <!---------------------------------------------------------------------->
                 <div class="row">
                     <div class="col-sm-12 col-md-6 p-0 pr-2">
-                        <img (click)="mostrarModal( propiedad._id )"
-                            [src]="propiedad?.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                        <img (click)="mostrarModal( aviso._id )"
+                            [src]="aviso?.imgs[0] | imagenPipe : 'avisos' : aviso._id"
                             class="img-fluid pointer rounded">
-                        <span class="propiedad-precio">
-                            {{ propiedad.precio }}
+                        <span class="aviso-precio">
+                            {{ aviso.precio }}
                         </span>
                     </div>
 
@@ -97,9 +95,9 @@
                     <!-- AVISO DESCRIPCION -->
                     <!---------------------------------------------------------------------->
                     <div class="col-sm-12 col-md-6 p-0 pr-2">
-                        {{ propiedad.titulo}} <br>
+                        {{ aviso.titulo}} <br>
                         <p>
-                            {{ propiedad.descripcion}}
+                            {{ aviso.descripcion}}
                         </p>
                         <span>0 vistas | 23 dias para finalizar</span>
                     </div>
@@ -108,11 +106,11 @@
         </div>
 
         <div>
-            <button (click)="cargarPropiedades(-1)" class="btn btn-primary m-1">
+            <button (click)="cargarAvisos(-1)" class="btn btn-primary m-1">
                 Anteriores
             </button>
 
-            <button (click)="cargarPropiedades(1)" class="btn btn-primary m-1">
+            <button (click)="cargarAvisos(1)" class="btn btn-primary m-1">
                 Siguientes
             </button>
         </div>

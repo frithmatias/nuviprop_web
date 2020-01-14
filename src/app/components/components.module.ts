@@ -32,9 +32,9 @@ import { ListComponent } from './list/list.component';
 import { CardsComponent } from './cards/cards.component';
 
 // FORMULARIOS
-import { PropiedadConfirmComponent } from './forms/propiedad-confirm/propiedad-confirm.component';
-import { PropiedadDetallesComponent } from './forms/propiedad-detalles/propiedad-detalles.component';
-import { PropiedadAvisoComponent } from './forms/propiedad-aviso/propiedad-aviso.component';
+import { ConfirmComponent } from './forms/confirm/confirm.component';
+import { DetallesComponent } from './forms/detalles/detalles.component';
+import { AvisoComponent } from './forms/aviso/aviso.component';
 import { FiltrosComponent } from './forms/filtros/filtros.component';
 
 
@@ -46,9 +46,9 @@ import { FiltrosComponent } from './forms/filtros/filtros.component';
 		MapaComponent,
 		ListComponent,
 		CardsComponent,
-		PropiedadConfirmComponent,
-		PropiedadDetallesComponent,
-		PropiedadAvisoComponent,
+		ConfirmComponent,
+		DetallesComponent,
+		AvisoComponent,
 		FiltrosComponent
 
 	],
@@ -75,9 +75,9 @@ import { FiltrosComponent } from './forms/filtros/filtros.component';
 		ListComponent,
 		CardsComponent,
 		RouterModule,
-		PropiedadConfirmComponent,
-		PropiedadDetallesComponent,
-		PropiedadAvisoComponent,
+		ConfirmComponent,
+		DetallesComponent,
+		AvisoComponent,
 		FiltrosComponent
 	]
 })

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { MisPropiedadesService, UploaderService, FormsService } from 'src/app/services/services.index';
+import { MisAvisosService, UploaderService, FormsService } from 'src/app/services/services.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.service';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { Aviso } from 'src/app/models/aviso.model';
 import { Observable } from 'rxjs/internal/Observable';
 
 
 
 
 @Component({
-	selector: 'app-propiedad-crear',
-	templateUrl: './propiedad-crear.component.html',
+	selector: 'app-aviso-crear',
+	templateUrl: './aviso-crear.component.html',
 	styles: [`
   .custom-dropzone{
     width: 100%;
@@ -24,35 +24,35 @@ import { Observable } from 'rxjs/internal/Observable';
   }
   `]
 })
-export class PropiedadCrearComponent implements OnInit {
+export class AvisoCrearComponent implements OnInit {
 
 	parsetemplate = false;
 	formValid = false;
 	isLinear = false; // material stepper
-	propId: string; // esta propiedad la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
-	propiedad: Propiedad = new Propiedad();
+	avisoId: string; // esta aviso la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
+	aviso: Aviso = new Aviso();
 
 
 	constructor(
 		public router: Router,
 		public activatedRoute: ActivatedRoute,
-		public misPropiedadesService: MisPropiedadesService,
+		public misAvisosService: MisAvisosService,
 		public uploaderService: UploaderService
 	) { }
 
 	ngOnInit() {
-		this.misPropiedadesService.scrollTop();
+		this.misAvisosService.scrollTop();
 		this.activatedRoute.params.subscribe(params => {
-			this.propId = params.id;
+			this.avisoId = params.id;
 		});
-		if (this.propId) {
-			if (this.propId !== 'nuevo') {
-				this.obtenerPropiedad(this.propId).then((data: Propiedad) => {
-					this.propiedad = data;
+		if (this.avisoId) {
+			if (this.avisoId !== 'nuevo') {
+				this.obtenerAviso(this.avisoId).then((data: Aviso) => {
+					this.aviso = data;
 				});
 			} else {
 
-				this.propiedad = {
+				this.aviso = {
 					calle: 'Mercedes',
 					altura: 2325,
 					piso: 0,
@@ -78,34 +78,34 @@ export class PropiedadCrearComponent implements OnInit {
 		}
 	}
 
-	obtenerPropiedad(id: string) {
+	obtenerAviso(id: string) {
 		return new Promise(resolve => {
-			if (this.propId === 'nuevo') {
-				resolve('No hay data es una propiedad nueva');
+			if (this.avisoId === 'nuevo') {
+				resolve('No hay data es una aviso nueva');
 			} else {
-				this.misPropiedadesService.obtenerPropiedad(id).subscribe((propiedad: Propiedad) => {
-					resolve(propiedad);
+				this.misAvisosService.obtenerAviso(id).subscribe((aviso: Aviso) => {
+					resolve(aviso);
 				});
 			}
 		});
 	}
 
-	guardarPropiedad(event, stepper) {
+	guardarAviso(event, stepper) {
 		console.log(event, stepper);
 		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
 		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
 		if (event.invalid) {
 			return;
 		}
-		// this.propiedad.inmobiliaria = f.value.inmobiliaria;
+		// this.aviso.inmobiliaria = f.value.inmobiliaria;
 
-		this.misPropiedadesService
-			.guardarPropiedad(event.value, this.propId) // Envío propId para saber si inserta ('nuevo') o actualiza ('id')
+		this.misAvisosService
+			.guardarAviso(event.value, this.avisoId) // Envío avisoId para saber si inserta ('nuevo') o actualiza ('id')
 			.subscribe(resp => {
 				console.log('Guardado:', resp);
-				this.propiedad = resp.propiedad;
-				this.misPropiedadesService.stepperGoNext(stepper);
-				this.router.navigate(['/propiedad', resp.propiedad._id]);
+				this.aviso = resp.aviso;
+				this.misAvisosService.stepperGoNext(stepper);
+				this.router.navigate(['/aviso', resp.aviso._id]);
 			});
 
 	}
@@ -117,16 +117,16 @@ export class PropiedadCrearComponent implements OnInit {
 		if (event.invalid) {
 			return;
 		}
-		// this.propiedad.inmobiliaria = f.value.inmobiliaria;
+		// this.aviso.inmobiliaria = f.value.inmobiliaria;
 
-		this.misPropiedadesService
-			// envío el formulario y la propiedad obtenida del formulario AVISO
-			.guardarDetalles(event.value, this.propiedad)
+		this.misAvisosService
+			// envío el formulario y la aviso obtenida del formulario AVISO
+			.guardarDetalles(event.value, this.aviso)
 			.subscribe(resp => {
 				console.log('Guardado:', resp);
-				this.propiedad = resp.propiedad;
-				this.misPropiedadesService.stepperGoNext(stepper);
-				this.router.navigate(['/propiedad', resp.propiedad._id]);
+				this.aviso = resp.aviso;
+				this.misAvisosService.stepperGoNext(stepper);
+				this.router.navigate(['/aviso', resp.aviso._id]);
 			});
 
 	}

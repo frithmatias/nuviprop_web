@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FileUpload } from '../../models/fileupload.model';
-import { MisPropiedadesService, UploaderService } from 'src/app/services/services.index';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { MisAvisosService, UploaderService } from 'src/app/services/services.index';
+import { Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 @Component({
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 
 })
 export class UploaderComponent implements OnInit {
-	@Input() propiedad: Propiedad;
+	@Input() aviso: Aviso;
 	@Input() tipo: string;
 	@Input() id: string; // cuando se carga el selector <app-uploader todavía
 	@Output() cargaFinalizada = new EventEmitter();
@@ -22,13 +22,12 @@ export class UploaderComponent implements OnInit {
 
 	constructor(
 		public uploaderService: UploaderService,
-		private misPropiedadesService: MisPropiedadesService,
+		private misAvisosService: MisAvisosService,
 		public activatedRoute: ActivatedRoute) { }
 
 
 	ngOnInit() {
-		// this.propiedad.imgs = [];
-		// console.log('PROPIEDAD:', this.propiedad);
+		// this.aviso.imgs = [];
 		this.activatedRoute.params.subscribe((params: any) => {
 			this.params = params;
 		});
@@ -76,16 +75,16 @@ export class UploaderComponent implements OnInit {
 					}
 					// actualizo las imagenes en cola quitando la que recién acaba de subirse.
 					// this.archivos = this.archivos.filter(file => file.nombreArchivo !== archivo.nombreArchivo);
-					// console.log(data.propiedad.imgs);
+					// console.log(data.aviso.imgs);
 
 					// actualizo las imagenes subidas al server, pero tengo que obtener la ULTIMA respuesta y
 					// no es fácil, pueden venir en distinto orden porque la subida de archivos es un proceso
 					// asíncrono, puede devolverme último el resultado "data" correspondiente al primer archivo
 					// subido. Para evitar esto voy a caputrar en el arreglo donde guardo las imagenes que ya
-					// estan en el servidor (this.propiedad.imgs) la respuesta que mas fotos trajo, por lo tanto
+					// estan en el servidor (this.aviso.imgs) la respuesta que mas fotos trajo, por lo tanto
 					// yo se, que esa respuesta fué la última.
 
-					// this.propiedad.imgs = data.propiedad.imgs;
+					// this.aviso.imgs = data.aviso.imgs;
 
 
 				});
@@ -95,10 +94,10 @@ export class UploaderComponent implements OnInit {
 
 	obtenerImagenes() {
 		return new Promise((resolve) => {
-			this.misPropiedadesService.obtenerPropiedad(this.id).subscribe(data => {
+			this.misAvisosService.obtenerAviso(this.id).subscribe(data => {
 				console.log('Imagenes obtenidas:', data);
-				this.propiedad.imgs = data.imgs;
-				console.log('this.propiedad:', this.propiedad);
+				this.aviso.imgs = data.imgs;
+				console.log('this.aviso:', this.aviso);
 				this.archivos = [];
 				resolve();
 			});
@@ -108,7 +107,7 @@ export class UploaderComponent implements OnInit {
 	borrarImagenes() {
 		Swal.fire({
 			title: '¿Está seguro?',
-			text: 'Esta por borrar todas las imagenes de esta propiedad en el servidor',
+			text: 'Esta por borrar todas las imagenes de este aviso en el servidor',
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -121,7 +120,7 @@ export class UploaderComponent implements OnInit {
 				this.uploaderService.borrarImagen(this.tipo, this.id, 'todas');
 
 				this.archivos = [];
-				this.propiedad.imgs = [];
+				this.aviso.imgs = [];
 				Swal.fire({
 					position: 'center',
 					icon: 'success',
@@ -150,7 +149,7 @@ export class UploaderComponent implements OnInit {
 		}).then((result) => {
 			if (result.value) {
 				this.uploaderService.borrarImagen(this.tipo, this.id, id).then((data: any) => {
-					this.propiedad.imgs = data.propiedad.imgs;
+					this.aviso.imgs = data.aviso.imgs;
 				});
 				Swal.fire({
 					position: 'center',
@@ -194,7 +193,7 @@ export class UploaderComponent implements OnInit {
 		// archivosLista: FileList <- OBJETO, LO CONVIERTO A UN ARRAY
 		/*Ya puedo recibir UN OBJETO con la información de los archivos soltados, pero ES UN OBJETO y no me sirve tengo
 		que extraer la información y devolverla como array. A la función getOwnPropertyNames le mando como argumento el
-		objeto que quiero separar. El ciclo for barre cada una de las propiedades del objeto archivosLista.
+		objeto que quiero separar. El ciclo for barre cada una de los avisos del objeto archivosLista.
 		*/
 
 		// tslint:disable-next-line:forin

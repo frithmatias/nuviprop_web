@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UsuarioService } from '../usuarios/usuarios.service';
-import { Propiedades, Propiedad } from 'src/app/models/propiedad.model';
+import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
 import { MatStepper } from '@angular/material/stepper';
-import { Detalles } from 'src/app/models/detalle.model';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class MisPropiedadesService {
+export class MisAvisosService {
 
 
 	constructor(
@@ -25,60 +24,60 @@ export class MisPropiedadesService {
 		return this.http.get(url);
 	}
 
-	cargarPropiedades(get: string, pagina: number) {
+	cargarAvisos(get: string, pagina: number) {
 		let url = URL_SERVICIOS;
 		switch (get) {
 			case 'activas':
-				url += '/propiedades';
+				url += '/avisos';
 				break;
 			case 'todas':
-				url += '/propiedades/all';
+				url += '/avisos/all';
 				break;
 			default:
-				url += '/propiedades';
+				url += '/avisos';
 				break;
 		}
 		url += '?pagina=' + pagina;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
-		return this.http.get(url, { headers }).pipe(map((propiedades: Propiedades) => {
-			return propiedades;
+		return this.http.get(url, { headers }).pipe(map((avisos: Avisos) => {
+			return avisos;
 		}));
 	}
 
-	obtenerPropiedad(id: string) {
-		const url = URL_SERVICIOS + '/propiedades/' + id;
+	obtenerAviso(id: string) {
+		const url = URL_SERVICIOS + '/avisos/' + id;
 		return this.http.get(url).pipe(
 			map((resp: any) => {
-				return resp.propiedad;
+				return resp.aviso;
 			})
 		);
 	}
 
-	buscarPropiedad(termino: string) {
-		const url = URL_SERVICIOS + '/buscar/propiedades/' + termino;
+	buscarAviso(termino: string) {
+		const url = URL_SERVICIOS + '/buscar/avisos/' + termino;
 		return this.http.get(url);
 	}
 
 	// guardar = crear o actualizar
-	guardarPropiedad(dataform: any, propId: string) {
+	guardarAviso(dataform: any, avisoId: string) {
 		let url = URL_SERVICIOS;
-		url += '/propiedades';
-		// url += '/propiedades/detalles';
+		url += '/avisos';
+		// url += '/avisos/detalles';
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
 
-		if (propId !== 'nuevo') {
+		if (avisoId !== 'nuevo') {
 			//----------------------------------------------------------------------
 			// ACTUALIZAR 
 			//----------------------------------------------------------------------
-			url += '/' + propId;
+			url += '/' + avisoId;
 			return this.http.put(url, dataform, { headers }).pipe(
 				map((resp: any) => {
 					Swal.fire({
-						title: '¡Propiedad actualizada!',
+						title: '¡Aviso actualizada!',
 						text: dataform.calle + ' ' + dataform.altura,
 						icon: 'success',
 						timer: 1000
@@ -93,7 +92,7 @@ export class MisPropiedadesService {
 			return this.http.post(url, dataform, { headers }).pipe(
 				map((resp: any) => {
 					Swal.fire({
-						title: '¡Propiedad creada!',
+						title: '¡Aviso creada!',
 						text: dataform.calle + ' ' + dataform.altura,
 						icon: 'success',
 						timer: 1000
@@ -109,43 +108,43 @@ export class MisPropiedadesService {
 
 	cambiarEstado(id: string) {
 		let url = URL_SERVICIOS;
-		url += '/propiedades/pause/' + id;
+		url += '/avisos/pause/' + id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
 		return this.http.put(url, {}, { headers }).pipe(
 			map((resp: any) => {
-				if (resp.propiedad.activo) {
+				if (resp.aviso.activo) {
 					Swal.fire({
-						title: '¡Propiedad activada!',
+						title: '¡Aviso activado!',
 						icon: 'success',
 						timer: 1000
 					});
 				} else {
 					Swal.fire({
-						title: '¡Propiedad desactivada!',
+						title: '¡Aviso desactivado!',
 						icon: 'success',
 						timer: 1000
 					});
 				}
-				return resp.propiedad;
+				return resp.aviso;
 			})
 		);
 	}
-	// al momento de guardar los detalles, yo se que tengo una propiedad guardada (this.propiedad)
+	// al momento de guardar los detalles, yo se que tengo una aviso guardada (this.aviso)
 	// por lo tanto puedo pasarle el objeto como argumento donde tengo toda la data.
-	// NO puedo hacer lo mismo con guardarPropiedad porque puede ser un fromulario en blanco
-	// en ese caso sólo puedo saber si se trata de una propiedad NUEVA obteniendo los parametros
-	// de la url con activatedRoute obteniendo params.id que me trae 'nuevo' o el id de la propiedad.
-	guardarDetalles(dataform: any, propiedad: Propiedad) {
+	// NO puedo hacer lo mismo con guardarAviso porque puede ser un fromulario en blanco
+	// en ese caso sólo puedo saber si se trata de una aviso NUEVA obteniendo los parametros
+	// de la url con activatedRoute obteniendo params.id que me trae 'nuevo' o el id de la aviso.
+	guardarDetalles(dataform: any, aviso: Aviso) {
 		let url = URL_SERVICIOS;
 
-		url += '/propiedades/detalles/' + propiedad._id;
+		url += '/avisos/detalles/' + aviso._id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
 
-		if (propiedad.detalles) {
+		if (aviso.detalles) {
 			// actualizando
 			return this.http.put(url, dataform, { headers }).pipe(
 				map((resp: any) => {
@@ -174,8 +173,8 @@ export class MisPropiedadesService {
 		}
 	}
 
-	borrarPropiedad(id: string) {
-		const url = URL_SERVICIOS + '/propiedades/' + id;
+	borrarAviso(id: string) {
+		const url = URL_SERVICIOS + '/avisos/' + id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});

@@ -4,11 +4,11 @@
     <!-- COLUMNA FILTROS -->
     <!---------------------------------------------------------------------->
     <div class="col-12 pr-sm-0 col-xs-6 col-sm-4 col-md-3 col-xl-2" style="height: 500px;">
-        <app-filtros class="propiedades" (optionSelected)="filterSelected($event)"></app-filtros>
+        <app-filtros class="avisos" (optionSelected)="filterSelected($event)"></app-filtros>
     </div>
 
     <!---------------------------------------------------------------------->
-    <!-- COLUMNA PROPIEDADES -->
+    <!-- COLUMNA AVISOS -->
     <!---------------------------------------------------------------------->
     <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10 p-0">
         <div class="tab-content" id="myTabContent">
@@ -18,7 +18,7 @@
             <!-- ---------------------------------- -->
 
             <div class="tab-pane fade animated fadeIn" id="mapa">
-                <app-mapa class="propiedades" [propiedades]="propiedadesService.propiedades"></app-mapa>
+                <app-mapa class="avisos" [avisos]="avisosService.avisos"></app-mapa>
             </div>
 
             <!-- ---------------------------------- -->
@@ -26,7 +26,7 @@
             <!-- ---------------------------------- -->
 
             <div class="tab-pane fade animated fadeIn" id="lista">
-                <app-list [propiedades]="propiedadesService.propiedades"></app-list>
+                <app-list [avisos]="avisosService.avisos"></app-list>
             </div>
 
             <!-- ---------------------------------- -->
@@ -34,7 +34,7 @@
             <!-- ---------------------------------- -->
 
             <div class="tab-pane fade animated fadeIn" id="cards">
-                <app-cards [propiedades]="propiedadesService.propiedades"></app-cards>
+                <app-cards [avisos]="avisosService.avisos"></app-cards>
             </div>
 
 

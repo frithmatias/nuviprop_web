@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter } from '@ang
 import { FormsService } from '../forms.service';
 import { formatDate } from '@angular/common';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
-import { PropiedadesService } from 'src/app/services/services.index';
+import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -28,10 +28,10 @@ export class FiltrosComponent implements OnInit {
   seleccionInmuebles = [];
   seleccionLocalidades = [];
 
-  // Cada vez que se hace un click en el filtro le pido al componente padre que actualice las propiedades.
+  // Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
   @Output() optionSelected: EventEmitter<object> = new EventEmitter()
 
-  // Declaro una nueva propiedad de tipo JSON para poder utilizar sus metodos en el template. De esta manera 
+  // Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera 
   // puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
   // [value]="JSON.stringify(inmueble)"
 
@@ -42,7 +42,7 @@ export class FiltrosComponent implements OnInit {
     private formsService: FormsService,
     @Inject(LOCALE_ID) private locale: string,
     private capitalizarPipe: CapitalizarPipe,
-    private propiedadesService: PropiedadesService,
+    private avisosService: AvisosService,
     private snackBar: MatSnackBar
   ) {
     // console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
@@ -84,7 +84,7 @@ export class FiltrosComponent implements OnInit {
 
     // El controls LOCALIDADES itera sobre localidadesCercanas, pero el ngModel sincroniza con seleccionLocalidades 
     // porque tiene que ser un array de strings para que angular pueda decidir si la opcion tiene que estar "checked" 
-    // Por eso tengo que hacerlo por separado. Al iniciar la página de propiedades sin pasar por el inicio tengo 
+    // Por eso tengo que hacerlo por separado. Al iniciar la página de avisos sin pasar por el inicio tengo 
     // tengo que cargarle los valores en la localStorage de 'localidades'.
     this.seleccionLocalidades.forEach(localidad => {
       this.localidadesCercanas.push(JSON.parse(localidad));
@@ -100,7 +100,7 @@ export class FiltrosComponent implements OnInit {
 
   }
 
-  // Setea el modo de vista seleccionado para que lo levante la page 'propiedades'
+  // Setea el modo de vista seleccionado para que lo levante la page 'avisos'
   tabSelected(tab: number) {
     localStorage.setItem('viewtab', String(tab));
   }
@@ -174,12 +174,12 @@ export class FiltrosComponent implements OnInit {
     }
     localStorage.setItem('filtros', JSON.stringify(allChecks));
 
-    // Le aviso al padre que hice cambios en los filtors, que busque nuevas propiedades.
+    // Le aviso al padre que hice cambios en los filtors, que busque nuevas avisos.
     this.optionSelected.emit();
   }
 
   // setLocalidad es un metodo que debería estar sólo en el servicio formsService pero no puedo llamar 
-  // a este metodo en formsService porque necesito inyectar el servicio propiedadesService y me da un 
+  // a este metodo en formsService porque necesito inyectar el servicio avisosService y me da un 
   // problema de Dependencia circular.
   setLocalidad(localidad) {
     this.formsService.nombreLocalidad = this.formsService.localidadesControl.value.properties.nombre + ', ' + this.formsService.localidadesControl.value.properties.departamento.nombre + ', ' + this.formsService.localidadesControl.value.properties.provincia.nombre;
@@ -197,7 +197,7 @@ export class FiltrosComponent implements OnInit {
 
     if (storage && storage.localidad.length > 0) {
       this.formsService.cleanInput();
-      this.propiedadesService.obtenerPropiedades();
+      this.avisosService.obtenerAvisos();
     } else {
       this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
         duration: 2000,

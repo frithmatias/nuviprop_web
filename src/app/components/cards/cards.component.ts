@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Propiedad } from 'src/app/models/propiedad.model';
+import { Aviso } from 'src/app/models/aviso.model';
 import { UsuarioService, FormsService } from 'src/app/services/services.index';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent implements OnInit {
-  @Input() propiedades: Propiedad[] = [];
+  @Input() avisos: Aviso[] = [];
   propFavoritas = [];
   constructor(
     private router: Router,
@@ -26,9 +26,10 @@ export class CardsComponent implements OnInit {
   }
 
 
-  agregarFavorito(propiedad: Propiedad) {
-    this.usuarioService.agregarFavorito(propiedad._id).subscribe(
+  agregarFavorito(aviso: Aviso) {
+    this.usuarioService.agregarFavorito(aviso._id).subscribe(
       (data) => {
+        console.log('favoritos: ', data);
         this.propFavoritas = data.favoritos;
         localStorage.setItem('favoritos', data.favoritos.toString());
       },

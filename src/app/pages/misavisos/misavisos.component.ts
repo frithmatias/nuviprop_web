@@ -1,50 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { MisPropiedadesService, ModalUploadService } from 'src/app/services/services.index';
-import { Propiedad, Propiedades } from 'src/app/models/propiedad.model';
+import { MisAvisosService, ModalUploadService } from 'src/app/services/services.index';
+import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-	selector: 'app-mispropiedades',
-	templateUrl: './mispropiedades.component.html',
-	styleUrls: ['./mispropiedades.component.css']
+	selector: 'app-misavisos',
+	templateUrl: './misavisos.component.html',
+	styleUrls: ['./misavisos.component.css']
 })
-export class MisPropiedadesComponent implements OnInit {
-	propiedades: Propiedad[] = [];
+export class MisAvisosComponent implements OnInit {
+	avisos: Aviso[] = [];
 	cargando = false;
 	pagina = 0;
-	totalPropiedades = 0;
+	totalAvisos = 0;
 
 
 	constructor(
-		private misPropiedadesService: MisPropiedadesService,
+		private misAvisosService: MisAvisosService,
 		private modalUploadService: ModalUploadService,
 		private snackBar: MatSnackBar
 	) { }
 
 	ngOnInit() {
-		this.cargarPropiedades(0);
+		this.cargarAvisos(0);
 	}
 
-	cargarPropiedades(page: number) {
+	cargarAvisos(page: number) {
 		if (
 			((this.pagina === 0) && (page < 0)) ||
-			(((this.pagina + 1) * 20 >= this.totalPropiedades) && (page > 0))
+			(((this.pagina + 1) * 20 >= this.totalAvisos) && (page > 0))
 		) {
 			return;
 		}
 		this.pagina += page;
 		this.cargando = true;
-		this.misPropiedadesService
-			.cargarPropiedades('todas', this.pagina)
-			.subscribe((props: Propiedades) => {
-				this.propiedades = props.propiedades;
-				this.totalPropiedades = props.total;
+		this.misAvisosService
+			.cargarAvisos('todas', this.pagina)
+			.subscribe((avisos: Avisos) => {
+				this.avisos = avisos.avisos;
+				this.totalAvisos = avisos.total;
 				this.cargando = false;
 			});
 	}
 
-	buscarPropiedad(termino: string) {
+	buscarAviso(termino: string) {
 		// /^[a-z0-9]+$/i
 		// ^         Start of string
 		// [a-z0-9]  a or b or c or ... z or 0 or 1 or ... 9
@@ -56,15 +56,15 @@ export class MisPropiedadesComponent implements OnInit {
 
 		console.log(termino.length);
 		if (termino.length <= 0) {
-			this.cargarPropiedades(0);
+			this.cargarAvisos(0);
 			return;
 		}
 
 		const regex = new RegExp(/^[a-z0-9]+$/i);
 		if (regex.test(termino)) {
 			this.cargando = true;
-			this.misPropiedadesService.buscarPropiedad(termino).subscribe((resp: any) => {
-				this.propiedades = resp.propiedades;
+			this.misAvisosService.buscarAviso(termino).subscribe((resp: any) => {
+				this.avisos = resp.avisos;
 				this.cargando = false;
 			});
 		} else {
@@ -74,30 +74,30 @@ export class MisPropiedadesComponent implements OnInit {
 		}
 	}
 
-	borrarPropiedad(propiedad: Propiedad) {
+	borrarAviso(aviso: Aviso) {
 		Swal.fire({
 			// para evitar problemas de tipo en este metodo defino al prinicio, declare var swal: any;
 			title: 'Esta seguro?',
-			text: 'Esta a punto de borrar ' + propiedad.tipoinmueble + ' en ' + propiedad.calle + ' ' + propiedad.altura,
+			text: 'Esta a punto de borrar ' + aviso.tipoinmueble + ' en ' + aviso.calle + ' ' + aviso.altura,
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
 			cancelButtonText: 'Cancelar',
-			confirmButtonText: 'Si, borrar propiedad.'
+			confirmButtonText: 'Si, borrar aviso.'
 		}).then(result => {
 			if (result.value) {
 				console.log(result);
 				this.cargando = true;
-				this.misPropiedadesService
-					.borrarPropiedad(propiedad._id)
+				this.misAvisosService
+					.borrarAviso(aviso._id)
 					.subscribe((resp: any) => {
 						Swal.fire(
-							'Propiedad eliminada',
-							'La propiedad ha sido borrada con éxito.',
+							'Aviso eliminada',
+							'La aviso ha sido borrada con éxito.',
 							'success'
 						);
-						this.cargarPropiedades(0);
+						this.cargarAvisos(0);
 						this.cargando = false;
 					});
 			} else {
@@ -106,13 +106,13 @@ export class MisPropiedadesComponent implements OnInit {
 	}
 
 	cambiarEstado(id: string) {
-		this.misPropiedadesService.cambiarEstado(id).subscribe(data => {
-			this.cargarPropiedades(0);
+		this.misAvisosService.cambiarEstado(id).subscribe(data => {
+			this.cargarAvisos(0);
 		});
 	}
 
 	mostrarModal(id: string) {
-		this.modalUploadService.mostrarModal('propiedades', id);
+		this.modalUploadService.mostrarModal('avisos', id);
 	}
 
 

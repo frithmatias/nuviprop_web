@@ -6,13 +6,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { MisPropiedadesComponent } from './mispropiedades/mispropiedades.component';
-import { PropiedadCrearComponent } from './mispropiedades/propiedad-crear/propiedad-crear.component';
+import { MisAvisosComponent } from './misavisos/misavisos.component';
+import { AvisoCrearComponent } from './misavisos/aviso-crear/aviso-crear.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
-import { PropiedadesComponent } from './propiedades/propiedades.component';
-import { PropiedadVerComponent } from './mispropiedades/propiedad-ver/propiedad-ver.component';
+import { AvisosComponent } from './avisos/avisos.component';
+import { AvisoVerComponent } from './misavisos/aviso-ver/aviso-ver.component';
 import { InicioComponent } from './inicio/inicio.component';
 
 const pagesRoutes: Routes = [
@@ -21,16 +21,16 @@ const pagesRoutes: Routes = [
 
   // PUBLIC PAGES
   { path: 'inicio', component: InicioComponent },
-  { path: 'propiedades', component: PropiedadesComponent },
+  { path: 'avisos', component: AvisosComponent },
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
-  { path: 'propiedadver/:id', component: PropiedadVerComponent },
+  { path: 'avisover/:id', component: AvisoVerComponent },
 
   // USER PAGES
   { path: 'account-settings', canActivate: [LoginGuard, TokenGuard], component: AccountSettingsComponent },
   { path: 'dashboard', canActivate: [LoginGuard, TokenGuard], component: DashboardComponent },
   { path: 'profile', canActivate: [LoginGuard, TokenGuard], component: ProfileComponent },
-  { path: 'propiedad/:id', canActivate: [LoginGuard, TokenGuard], component: PropiedadCrearComponent, data: { titulo: 'Agragar / Actualizar Propiedad' } },
-  { path: 'mispropiedades', canActivate: [LoginGuard, TokenGuard], component: MisPropiedadesComponent, data: { titulo: 'Listado de Mis Propiedades' } },
+  { path: 'aviso/:id', canActivate: [LoginGuard, TokenGuard], component: AvisoCrearComponent, data: { titulo: 'Agragar / Actualizar Aviso' } },
+  { path: 'misavisos', canActivate: [LoginGuard, TokenGuard], component: MisAvisosComponent, data: { titulo: 'Listado de Mis Avisos' } },
 
   // ADMIN PAGES
   { path: 'usuarios', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: UsuariosComponent, data: { titulo: 'Administracion de Usuarios' } },

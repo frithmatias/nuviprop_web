@@ -18,13 +18,12 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100"
-                                    [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id"
+                                <img class="d-block w-100" [src]="aviso.imgs[0] | imagenPipe : 'avisos' : aviso._id"
                                     alt="First slide">
                             </div>
 
-                            <div class="carousel-item" *ngFor="let img of propiedad.imgs">
-                                <img class="d-block w-100" [src]="img | imagenPipe : 'propiedades' : propiedad._id"
+                            <div class="carousel-item" *ngFor="let img of aviso.imgs">
+                                <img class="d-block w-100" [src]="img | imagenPipe : 'avisos' : aviso._id"
                                     alt="First slide">
                             </div>
                         </div>
@@ -42,7 +41,7 @@
 
 
                     <!-- <img
-                        [src]="propiedad.imgs[0] | imagenPipe : 'propiedades' : propiedad._id" class="img-circle"
+                        [src]="aviso.imgs[0] | imagenPipe : 'avisos' : aviso._id" class="img-circle"
                         width="150" /> -->
 
 
@@ -51,19 +50,19 @@
 
 
 
-                    <h4 class="card-title m-t-10">{{ propiedad.calle }} {{ propiedad.altura }} </h4>
-                    <h6 class="card-subtitle">{{ propiedad.tipo_inmueble }} en {{ propiedad.tipo_operacion }} en
-                        {{propiedad.localidad}} </h6>
+                    <h4 class="card-title m-t-10">{{ aviso.calle }} {{ aviso.altura }} </h4>
+                    <h6 class="card-subtitle">{{ aviso.tipo_inmueble }} en {{ aviso.tipo_operacion }} en
+                        {{aviso.localidad}} </h6>
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                     class="icon-size-fullscreen"></i>
                                 <div class="font-medium text-muted">76 m²</div>
                             </a></div>
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i>
-                                <div class="font-medium text-muted">{{ propiedad.imgs.length }}</div>
+                                <div class="font-medium text-muted">{{ aviso.imgs.length }}</div>
                             </a></div>
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-money"></i>
-                                <div class="font-medium text-muted">{{ propiedad.precio }}</div>
+                                <div class="font-medium text-muted">{{ aviso.precio }}</div>
                             </a></div>
                     </div>
                 </div>
@@ -73,19 +72,19 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Dirección</small>
-                <h6>{{propiedad.calle}} {{propiedad.altura}}, {{propiedad.localidad}}, {{propiedad.departamento}}</h6>
+                <h6>{{aviso.calle}} {{aviso.altura}}, {{aviso.localidad}}, {{aviso.departamento}}</h6>
 
                 <small class="text-muted p-t-30 db">Zona</small>
-                <h6>{{propiedad.localidad}}, {{propiedad.departamento}} </h6>
-                <h6>{{propiedad.provincia}} </h6>
-                <h6>{{propiedad.pais}} </h6>
+                <h6>{{aviso.localidad}}, {{aviso.departamento}} </h6>
+                <h6>{{aviso.provincia}} </h6>
+                <h6>{{aviso.pais}} </h6>
 
                 <small class="text-muted p-t-30 db">Código Postal</small>
-                <h6>{{propiedad.codigopostal}}</h6>
+                <h6>{{aviso.codigopostal}}</h6>
 
 
                 <div class="mapbox">
-                    <app-mapa class="verpropiedad"></app-mapa>
+                    <app-mapa class="veraviso"></app-mapa>
                 </div>
 
                 <small class="text-muted p-t-30 db">Social Profile</small>
@@ -125,10 +124,10 @@
                 <!-- DESCRIPCION -->
                 <div class="tab-pane active" id="descripcion" role="tabpanel">
                     <div class="card-title">
-                        {{propiedad.titulo}}
+                        {{aviso.titulo}}
                     </div>
                     <div class="card-body">
-                        {{propiedad.descripcion}}
+                        {{aviso.descripcion}}
                     </div>
                 </div>
 

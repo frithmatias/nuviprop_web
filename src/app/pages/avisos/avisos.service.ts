@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Propiedad, Propiedades } from 'src/app/models/propiedad.model';
+import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -8,10 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
 	providedIn: 'root'
 })
-export class PropiedadesService {
+export class AvisosService {
 
-	propiedades: Propiedad[] = [];
-	propiedadestotal = 1;
+	avisos: Aviso[] = [];
+	avisostotal = 1;
 	actualPage = 0;
 
 	filtrosOperaciones: any[] = [];
@@ -23,12 +23,12 @@ export class PropiedadesService {
 		private router: Router,
 		private snackBar: MatSnackBar,
 	) {
-		// this.cargarPropiedades(0);
-		this.obtenerPropiedades();
+		// this.cargarAvisos(0);
+		this.obtenerAvisos();
 	}
-	// Obtiene propiedades según criterios de busqueda (inicio)
+	// Obtiene avisos según criterios de busqueda (inicio)
 
-	obtenerPropiedades() {
+	obtenerAvisos() {
 		if (!localStorage.getItem('filtros')) {
 			return;
 		}
@@ -81,35 +81,36 @@ export class PropiedadesService {
 			}
 		})
 
-		const url = `${URL_SERVICIOS}/inicio/propiedades/${operaciones}/${inmuebles}/${localidades}/0`;
-		this.http.get(url).subscribe((data: Propiedades) => {
-			if (data.ok && data.propiedades.length > 0) {
-				// si se encuentran propiedades se lo paso al servicio de propiedades. Si yo entro
-				// a la pagina propiedades sin pasar por inicio, me va a levantar TODAS las propiedades activas.
-				this.propiedades = data.propiedades;
+		const url = `${URL_SERVICIOS}/inicio/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
+		this.http.get(url).subscribe((data: Avisos) => {
+			console.log('Avisos: ', data.avisos);
+			if (data.ok && data.avisos.length > 0) {
+				// si se encuentran avisos se lo paso al servicio de avisos. Si yo entro
+				// a la pagina avisos sin pasar por inicio, me va a levantar TODAS las avisos activas.
+				this.avisos = data.avisos;
 				// console.log('DATA: ', data)
-				this.router.navigate(['/propiedades']);
+				this.router.navigate(['/avisos']);
 			} else {
-				this.propiedades = [];
+				this.avisos = [];
 				// this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
 				// 	duration: 1000,
 				// });
 			}
 		},
 			(err) => {
-				this.propiedades = [];
+				this.avisos = [];
 			}
 		);
 	}
-	// cargarPropiedades(pagina: number) {
+	// cargarAvisos(pagina: number) {
 	// 	// Sola trae las proiedades activas.
-	// 	if (this.actualPage * 20 < this.propiedadestotal) { // solo traigo mas, si quedan mas para mostrar.
+	// 	if (this.actualPage * 20 < this.avisostotal) { // solo traigo mas, si quedan mas para mostrar.
 	// 		let url = URL_SERVICIOS;
-	// 		url += '/propiedades';
+	// 		url += '/avisos';
 	// 		url += '?pagina=' + pagina;
-	// 		this.http.get(url).subscribe((data: Propiedades) => {
-	// 			this.propiedades = data.propiedades;
-	// 			this.propiedadestotal = data.total;
+	// 		this.http.get(url).subscribe((data: Avisos) => {
+	// 			this.avisos = data.avisos;
+	// 			this.avisostotal = data.total;
 	// 		});
 	// 	}
 	// 	this.actualPage++;
