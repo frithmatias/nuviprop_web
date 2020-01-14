@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./filtros.component.scss']
 })
 export class FiltrosComponent implements OnInit {
+
   divfiltersoperaciones = true;
   divfiltersinmuebles = true;
   divfilterslocalidades = true;
@@ -27,13 +28,13 @@ export class FiltrosComponent implements OnInit {
   seleccionInmuebles = [];
   seleccionLocalidades = [];
 
-
   // Cada vez que se hace un click en el filtro le pido al componente padre que actualice las propiedades.
   @Output() optionSelected: EventEmitter<object> = new EventEmitter()
 
   // Declaro una nueva propiedad de tipo JSON para poder utilizar sus metodos en el template. De esta manera 
   // puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
   // [value]="JSON.stringify(inmueble)"
+
   JSON: JSON = JSON;
 
 
@@ -62,7 +63,6 @@ export class FiltrosComponent implements OnInit {
 
     // Obtengo los datos del formulario guardados en la localstorage
     this.dataBusqueda = JSON.parse(localStorage.getItem('filtros'));
-    console.log(this.dataBusqueda);
     if (!this.dataBusqueda) {
       return;
     }
@@ -75,15 +75,9 @@ export class FiltrosComponent implements OnInit {
       this.seleccionInmuebles.push(inmueble);
     })
 
-
     this.dataBusqueda.localidad.forEach(localidad => {
       this.seleccionLocalidades.push(localidad);
     })
-
-
-    console.log(this.seleccionOperaciones);
-    console.log(this.seleccionInmuebles);
-    console.log(this.seleccionLocalidades);
 
 
     // Obtengo un valor inicial para las opciones de las localidades 
@@ -104,6 +98,11 @@ export class FiltrosComponent implements OnInit {
     //   this.obtenerLocalidadesEnDepartamento(localidadObj);
     // }
 
+  }
+
+  // Setea el modo de vista seleccionado para que lo levante la page 'propiedades'
+  tabSelected(tab: number) {
+    localStorage.setItem('viewtab', String(tab));
   }
 
   obtenerLocalidadesEnDepartamento(localidadObj) {
@@ -174,6 +173,7 @@ export class FiltrosComponent implements OnInit {
       localidad: this.seleccionLocalidades
     }
     localStorage.setItem('filtros', JSON.stringify(allChecks));
+
     // Le aviso al padre que hice cambios en los filtors, que busque nuevas propiedades.
     this.optionSelected.emit();
   }

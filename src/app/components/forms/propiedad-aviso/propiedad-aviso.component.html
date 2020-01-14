@@ -51,9 +51,9 @@
                 <mat-select>
                     <!-- EN UN CONTROL CON MATERIAL MAT-OPTION NO USAR NUNCA LA PROPIEDAD FORMCONTROLNAME DE FORMULARIOS 
                     REACTIVOS NGFORM, Y USAR SIEMPRE LA PROPIEDAD [VALUE]  -->
-                    <mat-option *ngFor="let
-                        inmueble of formsService.tiposInmuebles" (click)="checkForFills(inmueble)"
+                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" (click)="checkForFills(inmueble)"
                         [value]="formGroup.controls.tipoinmueble.value.nombre">
+
                         {{ inmueble.nombre }}
                     </mat-option>
                 </mat-select>

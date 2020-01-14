@@ -1281,8 +1281,8 @@ File         : scss
 .fix-header .topbar {
   position          : fixed;
   width             : 100%;
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  box-shadow        : 0 1px 5px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 3px 7px rgba(150, 150, 150, 0.5);
+  box-shadow        : 0 3px 7px rgba(150, 150, 150, 0.5);
 }
 
 .fix-header .page-wrapper {
@@ -1352,7 +1352,7 @@ File         : scss
 }
 
 .topbar .profile-pic {
-  width        : 30px;
+  width        : 40px;
   border-radius: 100%;
 }
 
@@ -1426,9 +1426,10 @@ File         : scss
 }
 
 .topbar ul.dropdown-user li a {
-  padding: 9px 15px;
-  display: block;
-  color  : #67757c;
+  padding  : 2px 12px;
+  display  : block;
+  color    : #67757c;
+  font-size: small;
 }
 
 .topbar ul.dropdown-user li a:hover {

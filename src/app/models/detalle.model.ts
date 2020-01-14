@@ -11,8 +11,26 @@ export class DetallesResp {
 
 export class Detalles {
   constructor(
-    public terraza?: string,
-
+    public superficietotal?: number,
+    public superficieconstruible?: number,
+    public zonificacion?: string,
+    public longitudfondo?: number,
+    public longitudfrente?: number,
+    public tipoterreno?: string,
+    public fot?: string,
+    public fos?: string,
+    public tipopendiente?: string,
+    public tipovista?: string,
+    public tipocosta?: string,
+    public estado?: string,
+    public propiedadocupada?: boolean,
+    public fondoirregular?: boolean,
+    public frenteirregular?: boolean,
+    public demolicion?: boolean,
+    public lateralizquierdoirregular?: boolean,
+    public lateralderechoirregular?: boolean,
+    public instalaciones?: string,
+    public servicios?: string,
     // el usuario se adjunta en el controlador de propiedades en el backend,
     // lo obtiene el middleware auth cuando verifica el token
     // public inmobiliaria?: Inmobiliaria,

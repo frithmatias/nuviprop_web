@@ -30,9 +30,7 @@ export class PropiedadesComponent implements OnInit {
 		this.scrollTop(); // envio el scroll hacia arriba
 	}
 
-	tabSelected(tab: number) {
-		localStorage.setItem('viewtab', String(tab));
-	}
+
 
 	cambiarTab(tab: number) {
 		// guardo en el servico el tab seleccionado por última vez, para que al volver de

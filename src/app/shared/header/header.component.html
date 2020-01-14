@@ -1,7 +1,7 @@
 <!-- ============================================================== -->
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->
-<header class="topbar">
+<header class="topbar box-shadow">
     <nav class="navbar top-navbar navbar-expand-sm navbar-light">
 
         <!-- ============================================================== -->
@@ -40,14 +40,14 @@
                 <!-- ============================================================== -->
                 <!-- toggle sidebar -->
                 <!-- ============================================================== -->
-                <li class="nav-item" *ngIf="userService.logueado">
+                <!-- <li class="nav-item" *ngIf="userService.logueado">
                     <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i
                             class="ti-menu"></i></a>
                 </li>
                 <li class="nav-item" *ngIf="userService.logueado">
                     <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark"
                         href="javascript:void(0)"><i class="ti-menu"></i></a>
-                </li>
+                </li> -->
                 <!-- ============================================================== -->
                 <!-- end toggle sidebar -->
                 <!-- ============================================================== -->
@@ -205,6 +205,11 @@
                             alt="user" class="profile-pic" /></a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <ul class="dropdown-user">
+
+
+                            <!---------------------------------------------------------------------->
+                            <!-- HEDADER (FOTO EMAIL Y PERFIL) -->
+                            <!---------------------------------------------------------------------->
                             <li>
                                 <div class="dw-user-box">
                                     <div class="u-img">
@@ -215,25 +220,34 @@
                                     <div class="u-text">
                                         <h4>{{ userService.usuario.nombre }}</h4>
                                         <p class="text-muted">{{ userService.usuario.email }}</p>
-                                        <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">Ver
+                                        <a routerLinkActive="active" routerLink="/profile"
+                                            class="btn btn-rounded btn-danger btn-sm">Ver
                                             perfil</a>
                                     </div>
                                 </div>
                             </li>
+
+
+                            <div *ngFor="let item of userService.menu">
+                                <li class="rounded m-1" style=" background-color: lightgray;">
+                                    <a>
+                                        <i [class]="item.icono"></i>
+                                        <span> {{ item.titulo }} </span>
+                                    </a>
+                                </li>
+
+
+                                <li *ngFor="let submenu of item.submenu">
+                                    <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
+                                        <i [class]="submenu.icono"></i>
+                                        {{ submenu.titulo }}
+                                    </a>
+                                </li>
+
+                            </div>
+
                             <li role="separator" class="divider"></li>
-                            <li>
-                                <a routerLinkActive="active" routerLink="/profile"><i class="ti-user"></i> Mi Perfil</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ti-email"></i> Inbox</a>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a routerLinkActive="active" routerLink="/account-settings"><i class="ti-settings"></i>
-                                    Tema
-                                </a>
-                            </li>
-                            <li role="separator" class="divider"></li>
+
                             <li>
                                 <a (click)="userService.logout()"><i class="fa fa-power-off"></i> Logout</a>
                             </li>

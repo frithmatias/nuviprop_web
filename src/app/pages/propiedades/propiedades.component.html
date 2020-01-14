@@ -3,114 +3,21 @@
     <!---------------------------------------------------------------------->
     <!-- COLUMNA FILTROS -->
     <!---------------------------------------------------------------------->
-    <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-2">
-
-        <!---------------------------------------------------------------------->
-        <!-- TAB FILTROS -->
-        <!---------------------------------------------------------------------->
-        <ul class="nav nav-tabs animated fadeInDown" id="TabFiltros" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link tabs active" id="filtros-tab" data-toggle="tab" href="#filtros" role="tab"
-                    aria-controls="filtros" aria-selected="false"><i class="mdi mdi-tune-vertical"></i> Filtros
-                </a>
-            </li>
-        </ul>
-
-        <!---------------------------------------------------------------------->
-        <!-- FILTROS -->
-        <!---------------------------------------------------------------------->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane show active fade" id="filtros">
-                <app-filtros class="propiedades" (optionSelected)="filterSelected($event)"></app-filtros>
-            </div>
-        </div>
+    <div class="col-12 pr-sm-0 col-xs-6 col-sm-4 col-md-3 col-xl-2" style="height: 500px;">
+        <app-filtros class="propiedades" (optionSelected)="filterSelected($event)"></app-filtros>
     </div>
 
     <!---------------------------------------------------------------------->
     <!-- COLUMNA PROPIEDADES -->
     <!---------------------------------------------------------------------->
-    <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10">
-
-        <!---------------------------------------------------------------------->
-        <!-- TABS PROPIEDADES -->
-        <!---------------------------------------------------------------------->
-        <ul class="nav nav-tabs justify-content-end animated fadeIn" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a (click)="tabSelected(0)" class="nav-link tabs" id="mapa-tab" data-toggle="tab" href="#mapa"
-                    role="tab" aria-controls="mapa" aria-selected="false"><i class="mdi mdi-google-maps"></i> Mapa
-                </a>
-            </li>
-            <li class="nav-item">
-                <a (click)="tabSelected(1)" class="nav-link tabs" id="lista-tab" data-toggle="tab" href="#lista"
-                    role="tab" aria-controls="lista" aria-selected="true"><i class="mdi mdi-view-list"></i>
-                    Lista </a>
-            </li>
-            <li class="nav-item">
-                <a (click)="tabSelected(2)" class="nav-link tabs" id="cards-tab" data-toggle="tab" href="#cards"
-                    role="tab" aria-controls="cards" aria-selected="false"><i class="mdi mdi-view-grid"></i>
-                    Cards </a>
-            </li>
-        </ul>
+    <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10 p-0">
         <div class="tab-content" id="myTabContent">
-
-
-            <!---------------------------------------------------------------------->
-            <!-- FILTROS APLICADOS -->
-            <!---------------------------------------------------------------------->
-            <div class="row px-3 mt-1">
-                <!---------------------------------------------------------------------->
-                <!-- LOCALIDAD -->
-                <!---------------------------------------------------------------------->
-                <div *ngIf="propiedadesService.filtrosLocalidades.length > 0" class="col-12 col-sm-6 col-md-4 p-1">
-                    <div class="bg-primary-opacity05 p-1 rounded">
-                        <h4>
-                            <span class="badge badge-primary m-1 p-1"
-                                *ngFor="let filtro of propiedadesService.filtrosLocalidades">
-                                {{filtro.nombre}}
-                            </span>
-                        </h4>
-                    </div>
-                </div>
-                <!---------------------------------------------------------------------->
-                <!-- TIPO DE OPERACION -->
-                <!---------------------------------------------------------------------->
-                <div *ngIf="propiedadesService.filtrosOperaciones.length > 0" class="col-12 col-sm-6 col-md-4 p-1">
-                    <div class="bg-warning-opacity05 p-1 rounded">
-                        <h4>
-                            <span class="badge badge-warning m-1 p-1"
-                                *ngFor="let filtro of propiedadesService.filtrosOperaciones">
-                                {{filtro.nombre}}
-                            </span>
-                        </h4>
-                    </div>
-                </div>
-                <!---------------------------------------------------------------------->
-                <!-- TIPO DE INMUEBLE -->
-                <!---------------------------------------------------------------------->
-                <div *ngIf="propiedadesService.filtrosInmuebles.length > 0" class="col-12 col-sm-6 col-md-4 p-1">
-                    <div class="bg-success-opacity05 p-1 rounded">
-                        <h4>
-                            <span class="badge badge-success m-1 p-1"
-                                *ngFor="let filtro of propiedadesService.filtrosInmuebles">
-                                {{filtro.nombre}}
-                            </span>
-                        </h4>
-                    </div>
-                </div>
-
-            </div>
 
             <!-- ---------------------------------- -->
             <!-- TAB MAP -->
             <!-- ---------------------------------- -->
 
-            <div *ngIf="propiedadesService.propiedades.length === 0">
-                <div class="text-center m-5">
-                    No se encuentran propiedades para los filtros aplicados.
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="mapa">
+            <div class="tab-pane fade animated fadeIn" id="mapa">
                 <app-mapa class="propiedades" [propiedades]="propiedadesService.propiedades"></app-mapa>
             </div>
 
@@ -118,7 +25,7 @@
             <!-- TAB LIST -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade" id="lista">
+            <div class="tab-pane fade animated fadeIn" id="lista">
                 <app-list [propiedades]="propiedadesService.propiedades"></app-list>
             </div>
 

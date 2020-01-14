@@ -7,8 +7,23 @@
 
         <mat-step [stepControl]="formAviso">
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <app-form-propiedad-aviso [formData]="propiedad" (outputGroup)="guardarFormulario($event, stepper)"
+            <app-form-propiedad-aviso [formData]="propiedad" (outputGroup)="guardarPropiedad($event, stepper)"
                 *ngIf="propiedad.titulo"></app-form-propiedad-aviso>
+        </mat-step>
+
+
+
+        <!-- --------------------------------------------------------------- -->
+        <!-- FORMULARIO DE DETALLES -->
+        <!-- --------------------------------------------------------------- -->
+
+        <mat-step [stepControl]="formDetalles">
+            <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
+            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
+                (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
+            </app-form> -->
+            <app-form-propiedad-detalles [formData]="propiedad" (outputGroup)="guardarDetalles($event, stepper)">
+            </app-form-propiedad-detalles>
         </mat-step>
 
         <!-- --------------------------------------------------------------- -->
@@ -29,17 +44,6 @@
             </app-uploader>
         </mat-step>
 
-        <!-- --------------------------------------------------------------- -->
-        <!-- FORMULARIO DE DETALLES -->
-        <!-- --------------------------------------------------------------- -->
-
-        <mat-step [stepControl]="formDetalles">
-            <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [propId]="propId"
-                (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
-            </app-form> -->
-            <app-form-propiedad-detalles></app-form-propiedad-detalles>
-        </mat-step>
 
         <!-- --------------------------------------------------------------- -->
         <!-- CONFIRMACION DE PUBLICACION -->

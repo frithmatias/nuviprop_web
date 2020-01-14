@@ -1,1 +1,108 @@
-<p>propiedad-detalles works!</p>
+<form [formGroup]="propDetalles" (ngSubmit)="enviarFormulario()" id="formDetalles">
+    <div class="container animated fadeIn" *ngIf="formData && propDetalles">
+        <div class=" row">
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Superficie total</mat-label>
+                <input matInput type="number" formControlName="superficietotal">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Superficie construible</mat-label>
+                <input matInput type="number" formControlName="superficieconstruible">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Zonificacion</mat-label>
+                <input matInput formControlName="zonificacion">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Longitud del fondo</mat-label>
+                <input matInput type="number" formControlName="longitudfondo">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Longitud del frente</mat-label>
+                <input matInput type="number" formControlName="longitudfrente">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de Terreno</mat-label>
+                <input matInput formControlName="tipoterreno">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Factor ocupacional total (FOT)</mat-label>
+                <input matInput formControlName="fot">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Factor ocupacional del suelo (FOS)</mat-label>
+                <input matInput formControlName="fos">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de pendiente</mat-label>
+                <input matInput formControlName="tipopendiente">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de Vista</mat-label>
+                <input matInput formControlName="tipovista">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de Costa</mat-label>
+                <input matInput formControlName="tipocosta">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="estado">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Propiedad ocupada</mat-label>
+                <input matInput formControlName="propiedadocupada">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Fondo irregular</mat-label>
+                <input matInput formControlName="fondoirregular">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Frente irregular</mat-label>
+                <input matInput formControlName="frenteirregular">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Demolicion</mat-label>
+                <input matInput formControlName="demolicion">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Lateral izquierdo irregular</mat-label>
+                <input matInput formControlName="lateralizquierdoirregular">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Lateral derecho irregular</mat-label>
+                <input matInput formControlName="lateralderechoirregular">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Instalaciones del terreno</mat-label>
+                <input matInput formControlName="instalaciones">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Servicios del terreno</mat-label>
+                <input matInput formControlName="servicios">
+            </mat-form-field>
+
+        </div>
+    </div>
+    <button class="btn btn-dark">Guardar detalles</button>
+</form>

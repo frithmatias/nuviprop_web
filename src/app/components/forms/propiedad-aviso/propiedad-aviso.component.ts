@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/internal/Observable';
 	styleUrls: ['./propiedad-aviso.component.scss']
 })
 export class PropiedadAvisoComponent implements OnInit {
+	// Si estoy editando una propiedad obtengo los datos en formData
 	@Input() formData: Propiedad;
 	@Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
 	value = 'Clear me';

@@ -31,10 +31,9 @@ export class CardsComponent implements OnInit {
       (data) => {
         this.propFavoritas = data.favoritos;
         localStorage.setItem('favoritos', data.favoritos.toString());
-        console.log(data);
       },
       err => {
-        console.log(err);
+        // console.log(err);
       });
   }
 

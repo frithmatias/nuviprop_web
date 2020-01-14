@@ -90,7 +90,7 @@ export class PropiedadCrearComponent implements OnInit {
 		});
 	}
 
-	guardarFormulario(event, stepper) {
+	guardarPropiedad(event, stepper) {
 		console.log(event, stepper);
 		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
 		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
@@ -110,5 +110,24 @@ export class PropiedadCrearComponent implements OnInit {
 
 	}
 
+	guardarDetalles(event, stepper) {
+		console.log(event, stepper);
+		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
+		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
+		if (event.invalid) {
+			return;
+		}
+		// this.propiedad.inmobiliaria = f.value.inmobiliaria;
 
+		this.misPropiedadesService
+			// envío el formulario y la propiedad obtenida del formulario AVISO
+			.guardarDetalles(event.value, this.propiedad)
+			.subscribe(resp => {
+				console.log('Guardado:', resp);
+				this.propiedad = resp.propiedad;
+				this.misPropiedadesService.stepperGoNext(stepper);
+				this.router.navigate(['/propiedad', resp.propiedad._id]);
+			});
+
+	}
 }

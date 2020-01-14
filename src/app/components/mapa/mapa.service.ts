@@ -34,7 +34,7 @@ export class MapaService {
 
     // Soluciona el problema del tamaño del mapa en un nav-tabs de bootstrap
     map.on('load', () => {
-      $('a[data-toggle="tab"]').on('shown.bs.tab', () => {
+      $('[data-toggle="tab"]').on('shown.bs.tab', () => {
         map.resize();
       });
     });

@@ -104,6 +104,9 @@ export class MisPropiedadesService {
 		}
 	}
 
+
+
+
 	cambiarEstado(id: string) {
 		let url = URL_SERVICIOS;
 		url += '/propiedades/pause/' + id;
