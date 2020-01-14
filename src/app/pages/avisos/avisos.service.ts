@@ -35,7 +35,7 @@ export class AvisosService {
 
 
 		let filtros = JSON.parse(localStorage.getItem('filtros'))
-		console.log('localStorage: ', filtros);
+		// console.log('localStorage: ', filtros);
 
 		// Obtengo los objetos stringificados de las operaciones en la localstorage
 		this.filtrosOperaciones = [];
@@ -83,7 +83,6 @@ export class AvisosService {
 
 		const url = `${URL_SERVICIOS}/inicio/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
 		this.http.get(url).subscribe((data: Avisos) => {
-			console.log('Avisos: ', data.avisos);
 			if (data.ok && data.avisos.length > 0) {
 				// si se encuentran avisos se lo paso al servicio de avisos. Si yo entro
 				// a la pagina avisos sin pasar por inicio, me va a levantar TODAS las avisos activas.

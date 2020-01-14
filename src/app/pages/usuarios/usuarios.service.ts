@@ -82,7 +82,6 @@ export class UsuarioService implements OnDestroy {
 
   // metodo usado por el loginguard
   estaLogueado() {
-    console.log('Verificando si esta logueado.');
     // si no hay token el usuario no esta logueado
     if ((this.token.length < 5) || (typeof this.token === 'undefined') || (this.token === 'undefined')) {
       return false;
@@ -177,7 +176,6 @@ export class UsuarioService implements OnDestroy {
       map((resp: any) => {
         // this.usuario = resp.usuario;
         const usuarioDB: Usuario = resp.usuario;
-        console.log('favorito agreagado')
         return usuarioDB;
       }),
       // seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS

@@ -24,7 +24,6 @@ export class DetallesComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm().then(() => {
-      console.log(this.formData);
       // formData contiene la data de la aviso que envía el componente padre
       this.propDetalles.patchValue({
         superficietotal: this.formData.superficietotal,
@@ -49,7 +48,6 @@ export class DetallesComponent implements OnInit {
         servicios: this.formData.servicios,
       });
       this.parsetemplate = true;
-      console.log(this.propDetalles);
     }
     );
 

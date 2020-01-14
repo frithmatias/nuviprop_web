@@ -12,6 +12,7 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class MisAvisosService {
 
+	ingresaDetalles = false; // ingresa detalles SOLO para VENTA.
 
 	constructor(
 		private http: HttpClient,

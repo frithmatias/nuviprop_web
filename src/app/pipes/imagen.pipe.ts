@@ -22,7 +22,7 @@ export class ImagenPipe implements PipeTransform {
       case 'inmobiliarias':
 
         url += '/' + tipo + '/' + id + '/' + img;
-        console.log('Tipo coleccion ok: ', url);
+        // console.log('Tipo coleccion ok: ', url);
         break;
 
       default:

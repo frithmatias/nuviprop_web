@@ -17,6 +17,7 @@ export class AvisoComponent implements OnInit {
 	// Si estoy editando una aviso obtengo los datos en formData
 	@Input() formData: Aviso;
 	@Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
+	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter();
 	value = 'Clear me';
 	parsetemplate = false;
 	propId: string;
@@ -42,7 +43,6 @@ export class AvisoComponent implements OnInit {
 
 	ngOnInit() {
 		this.buildForm().then(() => {
-			console.log(this.formData);
 			// formData contiene la data de la aviso que envía el componente padre
 			this.formGroup.patchValue({
 				calle: this.formData.calle,
@@ -65,7 +65,6 @@ export class AvisoComponent implements OnInit {
 				codigopostal: this.formData.codigopostal
 			});
 			this.parsetemplate = true;
-			console.log(this.formGroup);
 		}
 		);
 
@@ -160,12 +159,7 @@ export class AvisoComponent implements OnInit {
 		});
 	}
 
-
-
-
-
 	enviarFormulario() {
-		console.log(this.formGroup.value);
 		if (this.formGroup.valid) {
 			this.outputGroup.emit(this.formGroup);
 		} else {
@@ -179,40 +173,22 @@ export class AvisoComponent implements OnInit {
 		});
 	}
 
-
 	checkForFills(inmueble: TipoInmueble) {
-
-		this.formGroup.patchValue({
-			tipoinmueble: {
-				nombre: inmueble.nombre,
-				id: inmueble.id,
-				_id: inmueble._id
-			}
-		});
-
-		this.formsService.obtenerUnidades(inmueble._id).subscribe((data: TiposUnidades) => {
+		console.log(inmueble);
+		//http://localhost:3000/inicio/unidades/tipoinmueble_departamento
+		this.formsService.obtenerUnidades(inmueble.id).subscribe((data: TiposUnidades) => {
 			this.unidades = data.unidades;
+			console.log(this.unidades);
 		});
 	}
 
-	setOperacion(operacion: any) {
-		this.formGroup.patchValue({
-			tipooperacion: {
-				nombre: operacion.nombre,
-				id: operacion.id,
-				_id: operacion._id
-			}
-		});
-	}
+	checkOperacion(operacion) {
+		if (operacion.id === 'venta') {
+			this.ingresaDetalles.emit(true);
+		} else {
+			this.ingresaDetalles.emit(false);
 
-	setUnidad(unidad: any) {
-		this.formGroup.patchValue({
-			tipounidad: {
-				nombre: unidad.nombre,
-				id: unidad.id,
-				_id: unidad._id
-			}
-		});
+		}
 	}
 
 	buscarLocalidad(event) {
@@ -223,13 +199,7 @@ export class AvisoComponent implements OnInit {
 			});
 			return;
 		}
-
 		if (event.target.value.length === 3) {
-			// Con el fin de evitar sobrecargar al server con peticiones de datos duplicados, le pido al backend
-			// que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
-			// el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.options.
-
-
 			this.formsService.obtenerLocalidad(event.target.value).subscribe((localidades: Localidades) => {
 				if (localidades.ok) {
 					this.options = [];
@@ -263,10 +233,5 @@ export class AvisoComponent implements OnInit {
 
 		});
 		console.log(this.formGroup);
-
-		// Este metodo podría no ser necesario, pero tengo que enviar el nombre (string) al control
-		// y el id (number) hacia un nuevo objeto que voy a enviar al backend. Esto es porque yo
-		// necesito enviar el id, pero si guardo el ID en el form, en el control voy a ver el ID en lugar
-		// del string localidad, departamento, provincia.
 	}
 }

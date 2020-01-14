@@ -15,7 +15,6 @@ export class FormsService {
 
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
-
 	provincias: Provincia[] = [];
 	loading = {
 		tipooperacion: false,
@@ -29,6 +28,7 @@ export class FormsService {
 	localidadesControl = new FormControl();
 	// en localidades guardo la lista de localidades en el AUTOCOMPLETE
 	localidades: any[] = [];
+
 
 	constructor(
 		private http: HttpClient,
@@ -146,7 +146,9 @@ export class FormsService {
 
 	// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
 	obtenerUnidades(idparent: string) {
+		//http://localhost:3000/inicio/unidades/tipoinmueble_departamento
 		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
+		console.log(url);
 		return this.http.get(url);
 	}
 

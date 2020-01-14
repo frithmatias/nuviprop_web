@@ -5,28 +5,29 @@
 <!-- TABS AVISOS -->
 <!---------------------------------------------------------------------->
 
+<div class="nav nav-pills justify-content-end animated fadeIn" id="myTab" role="tablist">
 
-<ul class="nav nav-pills justify-content-between animated fadeIn m-2" id="myTab" role="tablist">
-
-    <button (click)="tabSelected(0)" class="btn btn-light btn-sm" id="mapa-tab" data-toggle="tab" href="#mapa"
+    <button (click)="tabSelected(0)" class="btn btn-light btn-sm m-1" id="mapa-tab" data-toggle="tab" href="#mapa"
         role="tab" aria-controls="mapa" aria-selected="false">
-        <i class="mdi mdi-google-maps"></i>
-        Mapa
+        <i class="mdi mdi-google-maps"></i> Mapa
     </button>
 
-    <button (click)="tabSelected(1)" class="btn btn-light btn-sm" id="lista-tab" data-toggle="tab" href="#lista"
+    <button (click)="tabSelected(1)" class="btn btn-light btn-sm m-1" id="lista-tab" data-toggle="tab" href="#lista"
         role="tab" aria-controls="lista" aria-selected="true">
-        <i class="mdi mdi-view-list"></i>
-        Lista
+        <i class="mdi mdi-view-list"></i> Lista
     </button>
 
-    <button (click)="tabSelected(2)" class="btn btn-light btn-sm" id="cards-tab" data-toggle="tab" href="#cards"
+    <button (click)="tabSelected(2)" class="btn btn-light btn-sm m-1" id="cards-tab" data-toggle="tab" href="#cards"
         role="tab" aria-controls="cards" aria-selected="false">
-        <i class="mdi mdi-view-grid"></i>
-        Cards
+        <i class="mdi mdi-view-grid"></i> Cards
     </button>
 
-</ul>
+
+
+    <div style="width: 8px; background-color: #cecece;"></div>
+
+</div>
+
 
 <!---------------------------------------------------------------------->
 <!-- FILTROS -->

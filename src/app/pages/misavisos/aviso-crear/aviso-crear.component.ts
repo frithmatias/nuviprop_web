@@ -91,7 +91,6 @@ export class AvisoCrearComponent implements OnInit {
 	}
 
 	guardarAviso(event, stepper) {
-		console.log(event, stepper);
 		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
 		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
 		if (event.invalid) {

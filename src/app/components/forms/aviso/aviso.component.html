@@ -48,12 +48,9 @@
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de inmueble</mat-label>
-                <mat-select>
-                    <!-- EN UN CONTROL CON MATERIAL MAT-OPTION NO USAR NUNCA LA PROPIEDAD FORMCONTROLNAME DE FORMULARIOS 
-                    REACTIVOS NGFORM, Y USAR SIEMPRE LA PROPIEDAD [VALUE]  -->
-                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" (click)="checkForFills(inmueble)"
-                        [value]="formGroup.controls.tipoinmueble.value.nombre">
-
+                <mat-select formControlName="tipoinmueble">
+                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble"
+                        (click)="checkForFills(inmueble)">
                         {{ inmueble.nombre }}
                     </mat-option>
                 </mat-select>
@@ -67,10 +64,9 @@
             en la web por lo tanto no cambian y lo obtengo desde el servicio para consumir en toda la web. -->
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de unidad</mat-label>
-                <mat-select>
+                <mat-select formControlName="tipounidad">
                     <mat-option *ngFor=" let
-                        unidad of unidades" (click)="setUnidad(unidad)"
-                        [value]="formGroup.controls.tipounidad.value.nombre">
+                        unidad of unidades" [value]="unidad">
                         {{ unidad.nombre }}
                     </mat-option>
                 </mat-select>
@@ -82,40 +78,35 @@
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de operación</mat-label>
-                <mat-select>
+                <mat-select formControlName="tipooperacion">
                     <mat-option *ngFor="let
-                        operacion of formsService.tiposOperaciones" (click)="setOperacion(operacion)"
-                        [value]="formGroup.controls.tipooperacion.value.nombre">
+                        operacion of formsService.tiposOperaciones" [value]="operacion"
+                        (click)="checkOperacion(operacion)">
                         {{ operacion.nombre }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
 
-
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Precio</mat-label>
                 <input matInput formControlName="precio">
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de cambio</mat-label>
                 <input matInput formControlName="moneda">
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>No publicar el precio</mat-label>
                 <input matInput formControlName="nopublicarprecio">
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Apto Crédito</mat-label>
                 <input matInput formControlName="aptocredito">
             </mat-form-field>
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Provincia</mat-label>
-                <input matInput [value]="formGroup.controls.provincia.value.nombre">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Departamento</mat-label>
-                <input matInput [value]="formGroup.controls.departamento.value.nombre">
-            </mat-form-field>
+
 
 
             <!-- <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
@@ -139,7 +130,15 @@
                 </mat-option>
             </mat-autocomplete>
 
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Provincia</mat-label>
+                <input matInput [value]="formGroup.controls.provincia.value.nombre">
+            </mat-form-field>
 
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Departamento</mat-label>
+                <input matInput [value]="formGroup.controls.departamento.value.nombre">
+            </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Coords (Lat)</mat-label>
@@ -150,12 +149,6 @@
                 <mat-label>Coords (Lng)</mat-label>
                 <input matInput type="number" [value]="formGroup.controls.coords.value.lng">
             </mat-form-field>
-
-
-
-
-
-
 
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
