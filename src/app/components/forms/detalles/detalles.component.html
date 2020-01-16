@@ -1,5 +1,5 @@
-<form [formGroup]="propDetalles" (ngSubmit)="enviarFormulario()" id="formDetalles">
-    <div class="container animated fadeIn" *ngIf="formData && propDetalles">
+<form [formGroup]="formDetalles" (ngSubmit)="enviarFormulario()" id="formDetalles" *ngIf="formData">
+    <div class="container animated fadeIn" *ngIf="formData && formDetalles">
         <div class=" row">
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">

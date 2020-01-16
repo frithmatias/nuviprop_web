@@ -1,5 +1,5 @@
-<form [formGroup]="formGroup" (ngSubmit)="enviarFormulario()" id="formAviso">
-    <div class="container animated fadeIn" *ngIf="formData && formGroup">
+<form [formGroup]="formAviso" (ngSubmit)="enviarFormulario()" id="formAviso" *ngIf="formData">
+    <div class="container animated fadeIn">
         <div class=" row">
 
             <!-- TITULO -->
@@ -8,10 +8,10 @@
                 <input matInput formControlName="titulo" [errorStateMatcher]="matcher">
                 <!-- <mat-hint>Por favor ingrese un título lo suficientemente descriptivo.</mat-hint> 
                 <mat-error
-                    *ngIf="formGroup.controls.titulo.hasError('titulo') && !formGroup.controls.titulo.hasError('required')">
+                    *ngIf="formAviso.controls.titulo.hasError('titulo') && !formAviso.controls.titulo.hasError('required')">
                     Por favor ingrese un título válido.
                 </mat-error>-->
-                <mat-error *ngIf="formGroup.controls.titulo.hasError('required')">
+                <mat-error *ngIf="formAviso.controls.titulo.hasError('required')">
                     El título <strong>es requerido</strong>
                 </mat-error>
             </mat-form-field>
@@ -25,31 +25,32 @@
         </div>
 
         <div class="row">
+
+            <!---------------------------------------------------------------------->
+            <!-- SELECT OPERACION -->
+            <!---------------------------------------------------------------------->
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Calle</mat-label>
-                <input matInput formControlName="calle">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Altura</mat-label>
-                <input matInput formControlName="altura">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Piso</mat-label>
-                <input matInput formControlName="piso">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Depto</mat-label>
-                <input matInput formControlName="depto">
+                <mat-label>Tipo de operación</mat-label>
+                <!-- 
+                    cuando el formControlName, que es la estructura de controles del formulario definido 
+                    del lado del componente, reciba el mismo valor indicado en [value], el control tomara la opción 
+                    que tenga ese valor. 
+                -->
+                <mat-select formControlName="tipooperacion">
+                    <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+                        (click)="checkOperacion(operacion)">
+                        {{ operacion.nombre }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <!---------------------------------------------------------------------->
             <!-- SELECT INMUEBLE -->
             <!---------------------------------------------------------------------->
-
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de inmueble</mat-label>
                 <mat-select formControlName="tipoinmueble">
-                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble"
+                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
                         (click)="checkForFills(inmueble)">
                         {{ inmueble.nombre }}
                     </mat-option>
@@ -59,33 +60,56 @@
             <!---------------------------------------------------------------------->
             <!-- SELECT UNIDAD -->
             <!---------------------------------------------------------------------->
-            <!-- Este dato SI lo traigo desde el componente y no desde el servicio formsService debido a que 
-            es un valor de scope en el componente, varía segun el campo inmueble. Los inmuebles tienen scope 
-            en la web por lo tanto no cambian y lo obtengo desde el servicio para consumir en toda la web. -->
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de unidad</mat-label>
                 <mat-select formControlName="tipounidad">
-                    <mat-option *ngFor=" let
-                        unidad of unidades" [value]="unidad">
+                    <mat-option *ngFor="let unidad of unidades" [value]="unidad._id">
                         {{ unidad.nombre }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
 
+
             <!---------------------------------------------------------------------->
-            <!-- SELECT OPERACION -->
+            <!-- INPUT LOCALIDAD -->
             <!---------------------------------------------------------------------->
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Ingrese una localidad</mat-label>
+                <input type="text" placeholder="Ingrese localidad" matInput [matAutocomplete]="auto"
+                    (keyup)="buscarLocalidad( $event )" [formControl]="localidadesControl">
+                <!-- <input matInput [matAutocomplete]="auto" formControlName="localidad" value="asdf"
+                    (keyup)="buscarLocalidad( $event )"> -->
+            </mat-form-field>
+            <mat-autocomplete iniciocss #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.properties.nombre"
+                    (click)="setLocalidad(option)">
+                    {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
+                    {{option.properties.provincia.nombre}}
+                </mat-option>
+            </mat-autocomplete>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de operación</mat-label>
-                <mat-select formControlName="tipooperacion">
-                    <mat-option *ngFor="let
-                        operacion of formsService.tiposOperaciones" [value]="operacion"
-                        (click)="checkOperacion(operacion)">
-                        {{ operacion.nombre }}
-                    </mat-option>
-                </mat-select>
+                <mat-label>Calle</mat-label>
+                <input matInput formControlName="calle">
             </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Altura</mat-label>
+                <input matInput formControlName="altura">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Piso</mat-label>
+                <input matInput formControlName="piso">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Depto</mat-label>
+                <input matInput formControlName="depto">
+            </mat-form-field>
+
+
+
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Precio</mat-label>
@@ -107,52 +131,8 @@
                 <input matInput formControlName="aptocredito">
             </mat-form-field>
 
-
-
-            <!-- <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Localidad</mat-label>
-                <input matInput formControlName="localidad" [value]="formGroup.value.localidad">
-            </mat-form-field> -->
-
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Ingrese una localidad</mat-label>
-                <input type="text" placeholder="Ingrese localidad" aria-label="Number" matInput
-                    [formControl]="localidadesControl" [matAutocomplete]="auto" (keyup)="buscarLocalidad( $event )"
-                    [value]="formGroup.controls.localidad.value.nombre">
-                <!-- <input matInput [matAutocomplete]="auto" formControlName="localidad" value="asdf"
-                    (keyup)="buscarLocalidad( $event )"> -->
-            </mat-form-field>
-            <mat-autocomplete iniciocss #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async"
-                    [value]="formGroup.controls.localidad.value.nombre" (click)="setLocalidad(option)">
-                    {{option.properties.nombre}}, {{option.properties.departamento.nombre}},
-                    {{option.properties.provincia.nombre}}
-                </mat-option>
-            </mat-autocomplete>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Provincia</mat-label>
-                <input matInput [value]="formGroup.controls.provincia.value.nombre">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Departamento</mat-label>
-                <input matInput [value]="formGroup.controls.departamento.value.nombre">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Coords (Lat)</mat-label>
-                <input matInput type="number" [value]="formGroup.controls.coords.value.lat">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Coords (Lng)</mat-label>
-                <input matInput type="number" [value]="formGroup.controls.coords.value.lng">
-            </mat-form-field>
-
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Código</mat-label>
+                <mat-label>Código Postal</mat-label>
                 <input matInput formControlName="codigopostal">
             </mat-form-field>
         </div>

@@ -228,6 +228,9 @@
                             </li>
 
 
+                            <!---------------------------------------------------------------------->
+                            <!-- ITEMS DEL MENU -->
+                            <!---------------------------------------------------------------------->
                             <div *ngFor="let item of userService.menu">
                                 <li class="rounded m-1" style=" background-color: lightgray;">
                                     <a>
@@ -236,7 +239,9 @@
                                     </a>
                                 </li>
 
-
+                                <!---------------------------------------------------------------------->
+                                <!-- ITEMS DEL SUBMENU -->
+                                <!---------------------------------------------------------------------->
                                 <li *ngFor="let submenu of item.submenu">
                                     <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
                                         <i [class]="submenu.icono"></i>
@@ -249,7 +254,8 @@
                             <li role="separator" class="divider"></li>
 
                             <li>
-                                <a (click)="userService.logout()"><i class="fa fa-power-off"></i> Logout</a>
+                                <a style="cursor:pointer;" (click)="userService.logout()"><i
+                                        class="fa fa-power-off"></i> Logout</a>
                             </li>
                         </ul>
                     </div>

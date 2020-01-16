@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsService } from '../forms.service';
-import { Detalles } from 'src/app/models/detalles.model';
+import { Aviso } from 'src/app/models/aviso.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form-detalles',
@@ -10,43 +10,33 @@ import { Detalles } from 'src/app/models/detalles.model';
   styleUrls: ['./detalles.component.scss']
 })
 export class DetallesComponent implements OnInit {
-  @Input() formData: Detalles;
-  @Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
-
+  @Input() formData: Aviso;
+  @Output() formReady: EventEmitter<FormGroup> = new EventEmitter();
+  avisoId: string;
   parsetemplate = false;
-  propDetalles: FormGroup = new FormGroup({});
+  formDetalles: FormGroup = new FormGroup({});
 
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private formsService: FormsService
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+
+
+    this.activatedRoute.params.subscribe(async params => {
+      this.avisoId = params.id;
+      if (params.id) {
+        if (params.id === 'nuevo') {
+          this.formData = {};
+          this.formDetalles.reset({});
+        }
+      }
+    })
+
     this.buildForm().then(() => {
-      // formData contiene la data de la aviso que envía el componente padre
-      this.propDetalles.patchValue({
-        superficietotal: this.formData.superficietotal,
-        superficieconstruible: this.formData.superficieconstruible,
-        zonificacion: this.formData.zonificacion,
-        longitudfondo: this.formData.longitudfondo,
-        longitudfrente: this.formData.longitudfrente,
-        tipoterreno: this.formData.tipoterreno,
-        fot: this.formData.fot,
-        fos: this.formData.fos,
-        tipopendiente: this.formData.tipopendiente,
-        tipovista: this.formData.tipovista,
-        tipocosta: this.formData.tipocosta,
-        estado: this.formData.estado,
-        propiedadocupada: this.formData.propiedadocupada,
-        fondoirregular: this.formData.fondoirregular,
-        frenteirregular: this.formData.frenteirregular,
-        demolicion: this.formData.demolicion,
-        lateralizquierdoirregular: this.formData.lateralizquierdoirregular,
-        lateralderechoirregular: this.formData.lateralderechoirregular,
-        instalaciones: this.formData.instalaciones,
-        servicios: this.formData.servicios,
-      });
+      // formData contiene la data del aviso que envía el componente padre
       this.parsetemplate = true;
     }
     );
@@ -57,8 +47,8 @@ export class DetallesComponent implements OnInit {
 
   buildForm() {
     return new Promise(resolve => {
-      this.propDetalles = this.formBuilder.group({
 
+      this.formDetalles = this.formBuilder.group({
         superficietotal: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
         superficieconstruible: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
         zonificacion: ['', [Validators.required]],
@@ -79,27 +69,40 @@ export class DetallesComponent implements OnInit {
         lateralderechoirregular: ['', [Validators.required]],
         instalaciones: ['', [Validators.required]],
         servicios: ['', [Validators.required]],
-
-
-
-
-
-
-
-
-
-
-
       });
-      resolve();
-    });
+
+      if (this.avisoId !== 'nuevo') {
+        this.formDetalles.setValue({
+          superficietotal: this.formData.detalles.superficietotal,
+          superficieconstruible: this.formData.detalles.superficieconstruible,
+          zonificacion: this.formData.detalles.zonificacion,
+          longitudfondo: this.formData.detalles.longitudfondo,
+          longitudfrente: this.formData.detalles.longitudfrente,
+          tipoterreno: this.formData.detalles.tipoterreno,
+          fot: this.formData.detalles.fot,
+          fos: this.formData.detalles.fos,
+          tipopendiente: this.formData.detalles.tipopendiente,
+          tipovista: this.formData.detalles.tipovista,
+          tipocosta: this.formData.detalles.tipocosta,
+          estado: this.formData.detalles.estado,
+          propiedadocupada: this.formData.detalles.propiedadocupada,
+          fondoirregular: this.formData.detalles.fondoirregular,
+          frenteirregular: this.formData.detalles.frenteirregular,
+          demolicion: this.formData.detalles.demolicion,
+          lateralizquierdoirregular: this.formData.detalles.lateralizquierdoirregular,
+          lateralderechoirregular: this.formData.detalles.lateralderechoirregular,
+          instalaciones: this.formData.detalles.instalaciones,
+          servicios: this.formData.detalles.servicios
+        })
+      }
+      console.log('formDetalles:', this.formDetalles)
+    })
+
   }
 
-
   enviarFormulario() {
-    console.log(this.propDetalles.value);
-    if (this.propDetalles.valid) {
-      this.outputGroup.emit(this.propDetalles);
+    if (this.formDetalles.valid) {
+      this.formReady.emit(this.formDetalles);
     } else {
       this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
     }

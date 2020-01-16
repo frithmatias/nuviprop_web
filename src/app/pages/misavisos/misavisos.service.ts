@@ -12,7 +12,6 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class MisAvisosService {
 
-	ingresaDetalles = false; // ingresa detalles SOLO para VENTA.
 
 	constructor(
 		private http: HttpClient,
@@ -139,7 +138,7 @@ export class MisAvisosService {
 	// de la url con activatedRoute obteniendo params.id que me trae 'nuevo' o el id de la aviso.
 	guardarDetalles(dataform: any, aviso: Aviso) {
 		let url = URL_SERVICIOS;
-
+		console.log(aviso);
 		url += '/avisos/detalles/' + aviso._id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token

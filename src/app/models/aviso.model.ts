@@ -26,10 +26,9 @@ export class Aviso {
 		public moneda?: string,
 		public nopublicarprecio?: boolean,
 		public aptocredito?: boolean,
-		public provincia?: Provincia,
-		public departamento?: Departamento,
+
 		public localidad?: Localidad,
-		public coords?: Coords,
+
 		public codigopostal?: string,
 		public usuario?: Usuario,
 		public detalles?: Detalles,
@@ -49,14 +48,7 @@ interface Localidad {
 	id: string;
 	_id: string;
 }
-interface Departamento {
-	nombre: string;
-	id: string;
-}
-interface Provincia {
-	nombre: string;
-	id: string;
-}
+
 interface Operacion {
 	nombre: string;
 	id: string;
@@ -72,17 +64,7 @@ interface Unidad {
 	id: string;
 	_id: string;
 }
-interface Coords {
-	lat: string;
-	lng: string;
-}
-interface Inmobiliaria {
-	_id: string;
-	nombre: string;
-	usuario: string;
-	__v: number;
-	img: string;
-}
+
 
 interface Usuario {
 	img: string;

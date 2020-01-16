@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { Aviso } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,7 @@ import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 import { TipoUnidad, TiposUnidades } from 'src/app/models/aviso_tipounidad.model';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-form-aviso',
@@ -16,18 +17,11 @@ import { Observable } from 'rxjs/internal/Observable';
 export class AvisoComponent implements OnInit {
 	// Si estoy editando una aviso obtengo los datos en formData
 	@Input() formData: Aviso;
-	@Output() outputGroup: EventEmitter<FormGroup> = new EventEmitter();
-	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter();
-	value = 'Clear me';
+	@Output() formReady: EventEmitter<FormGroup> = new EventEmitter();
+	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter(); // Selecciono VENTA, muestra form detalles.
 	parsetemplate = false;
-	propId: string;
-	formGroup: FormGroup = new FormGroup({});
-
-	// operaciones e inmuebles no cambian, son siempre los mismos en todo el scope de la web por lo tanto 
-	// las obtengo una única vez al iniciar el servicio FORMS. Desde las vistas las obtengo llamando directamente 
-	// al servicio formsService.operaciones y formsService.inmuebles.
-	// operaciones:
-	// inmuebles:
+	avisoId: string;
+	formAviso: FormGroup = new FormGroup({});
 	unidades: TipoUnidad[] = [];
 
 	// Localidades
@@ -38,36 +32,21 @@ export class AvisoComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
-		private formsService: FormsService
+		private formsService: FormsService,
+		private activatedRoute: ActivatedRoute
 	) { }
 
 	ngOnInit() {
-		this.buildForm().then(() => {
-			// formData contiene la data de la aviso que envía el componente padre
-			this.formGroup.patchValue({
-				calle: this.formData.calle,
-				altura: this.formData.altura,
-				piso: this.formData.piso,
-				depto: this.formData.depto,
-				tipoinmueble: { nombre: this.formData.tipoinmueble.nombre, _id: this.formData.tipoinmueble._id },
-				tipounidad: { nombre: this.formData.tipounidad.nombre, _id: this.formData.tipounidad._id },
-				tipooperacion: { nombre: this.formData.tipooperacion.nombre, _id: this.formData.tipooperacion._id },
-				titulo: this.formData.titulo,
-				descripcion: this.formData.descripcion,
-				precio: this.formData.precio,
-				moneda: this.formData.moneda,
-				nopublicarprecio: this.formData.nopublicarprecio,
-				aptocredito: this.formData.aptocredito,
-				provincia: { nombre: this.formData.provincia.nombre, id: this.formData.provincia.id },
-				departamento: { nombre: this.formData.departamento.nombre, id: this.formData.departamento.id },
-				localidad: { nombre: this.formData.localidad.nombre, id: this.formData.localidad.id, _id: this.formData.localidad._id },
-				coords: { lat: this.formData.coords.lat, lng: this.formData.coords.lng },
-				codigopostal: this.formData.codigopostal
-			});
-			this.parsetemplate = true;
-		}
-		);
-
+		this.activatedRoute.params.subscribe(async params => {
+			this.avisoId = params.id;
+			if (params.id) {
+				if (params.id === 'nuevo') {
+					this.formData = {};
+					this.formAviso.reset({});
+				}
+			}
+		})
+		this.buildForm();
 		this.filteredOptions = this.localidadesControl.valueChanges
 			.pipe(
 				startWith(''),
@@ -75,6 +54,9 @@ export class AvisoComponent implements OnInit {
 			);
 	}
 
+	ngOnChanges(changes: SimpleChanges) {
+		// changes.prop contains the old and the new value...
+	}
 
 	private _filter(value: string): string[] {
 		if (!value) {
@@ -87,85 +69,48 @@ export class AvisoComponent implements OnInit {
 	}
 
 	buildForm() {
-		return new Promise(resolve => {
-			// El valor por defecto '' en este caso NO es necesario, porque yo no estoy trabajando
-			// con un objeto 'aviso', estoy trabajando DIRECTAMENTE con el objeto formGroup.value
-			// en donde yo guardo la data de la aviso, y desde donde los controles en el formulario
-			// van a buscar la data.
-
-			// En general la configuración sería
-			// [value]="aviso.titulo" -> aviso.titulo <- formGroup.value.titulo
-
-			// En este caso utilizo el metodo patchValue({...}) para guardar la data en mi formGroup
-			// [value]="formGroup.value.titulo" <-> formGroup.value.titulo
-			this.formGroup = this.formBuilder.group({
-				calle: ['', [Validators.required, Validators.minLength(5)]],
-				altura: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
-				piso: ['', [Validators.pattern('[0-9]{1,5}')]],
-				depto: ['', [Validators.pattern('[a-z][A-Z][0-9]{1,5}')]],
-				tipoinmueble:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-					_id: ['', [Validators.required, Validators.minLength(5)]],
-
-				},
-				tipounidad:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-					_id: ['', [Validators.required, Validators.minLength(5)]],
-				},
-				tipooperacion:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-					_id: ['', [Validators.required, Validators.minLength(5)]],
-				},
-				titulo: ['', [Validators.required, Validators.minLength(10)]],
-				descripcion: ['', [Validators.required, Validators.minLength(100)]],
-				precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
-				moneda: ['', [Validators.required]],
-				nopublicarprecio: ['', [Validators.required]],
-				aptocredito: ['', [Validators.required]],
-				provincia:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-
-				},
-				departamento:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-
-				},
-				localidad:
-				{
-					nombre: ['', [Validators.required, Validators.minLength(5)]],
-					id: ['', [Validators.required, Validators.minLength(5)]],
-					_id: ['', [Validators.required, Validators.minLength(5)]],
-
-				},
-				coords:
-				{
-					lat: ['', [Validators.required, Validators.minLength(5)]],
-					lng: ['', [Validators.required, Validators.minLength(5)]],
-
-				},
-				codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]]
-			});
-			resolve();
+		console.log('formData', this.formData);
+		this.formAviso = this.formBuilder.group({
+			calle: ['', [Validators.required, Validators.minLength(5)]],
+			altura: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
+			piso: ['', [Validators.pattern('[0-9]{1,5}')]],
+			depto: ['', [Validators.pattern('[A-Za-z0-9]{1,5}')]],
+			titulo: ['', [Validators.required, Validators.minLength(10)]],
+			descripcion: ['', [Validators.required, Validators.minLength(20)]],
+			precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
+			moneda: ['', [Validators.required]],
+			nopublicarprecio: ['', [Validators.required]],
+			aptocredito: ['', [Validators.required]],
+			codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]],
+			tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], //_id
+			tipounidad: ['', [Validators.required, Validators.minLength(5)]], //_id
+			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], //_id
+			localidad: ['', [Validators.required, Validators.minLength(5)]] //_id
 		});
+
+
+		this.formAviso.setValue({
+			calle: this.formData.calle,
+			altura: this.formData.altura,
+			piso: this.formData.piso,
+			depto: this.formData.depto,
+			titulo: this.formData.titulo,
+			descripcion: this.formData.descripcion,
+			precio: this.formData.precio,
+			moneda: this.formData.moneda,
+			nopublicarprecio: this.formData.nopublicarprecio,
+			aptocredito: this.formData.aptocredito,
+			codigopostal: this.formData.codigopostal,
+			tipoinmueble: this.formData.tipoinmueble._id,
+			tipounidad: this.formData.tipounidad._id,
+			tipooperacion: this.formData.tipooperacion._id,
+			localidad: this.formData.localidad._id
+		})
+
+		console.log('formAviso:', this.formAviso)
+
 	}
 
-	enviarFormulario() {
-		if (this.formGroup.valid) {
-			this.outputGroup.emit(this.formGroup);
-		} else {
-			this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
-		}
-	}
 
 	openSnackBar(message: string, action: string) {
 		this.snackBar.open(message, action, {
@@ -174,16 +119,19 @@ export class AvisoComponent implements OnInit {
 	}
 
 	checkForFills(inmueble: TipoInmueble) {
-		console.log(inmueble);
 		//http://localhost:3000/inicio/unidades/tipoinmueble_departamento
 		this.formsService.obtenerUnidades(inmueble.id).subscribe((data: TiposUnidades) => {
 			this.unidades = data.unidades;
-			console.log(this.unidades);
 		});
 	}
 
 	checkOperacion(operacion) {
-		if (operacion.id === 'venta') {
+		// console.log(operacion);
+		// _id: "5e04b4bd3cb7d5a2401c9895"
+		// nombre: "Venta"
+		// id: "tipooperacion_venta"
+		// Si es venta emite true al padre para mostrar el formulario de carga de detalles del inmueble
+		if (operacion.id === 'tipooperacion_venta') {
 			this.ingresaDetalles.emit(true);
 		} else {
 			this.ingresaDetalles.emit(false);
@@ -210,28 +158,18 @@ export class AvisoComponent implements OnInit {
 			});
 		}
 	}
-
 	setLocalidad(localidad) {
-		this.formGroup.patchValue({
-			localidad: {
-				nombre: localidad.properties.nombre,
-				id: localidad.properties.id,
-				_id: localidad._id
-			},
-			departamento: {
-				nombre: localidad.properties.departamento.nombre,
-				id: localidad.properties.departamento.id,
-			},
-			provincia: {
-				nombre: localidad.properties.provincia.nombre,
-				id: localidad.properties.provincia.id,
-			},
-			coords: {
-				lng: localidad.geometry.coordinates[0],
-				lat: localidad.geometry.coordinates[1]
-			},
-
+		this.formAviso.patchValue({
+			localidad: localidad._id
 		});
-		console.log(this.formGroup);
+	}
+
+	enviarFormulario() {
+		console.log(this.formAviso);
+		if (this.formAviso.valid) {
+			this.formReady.emit(this.formAviso);
+		} else {
+			this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
+		}
 	}
 }

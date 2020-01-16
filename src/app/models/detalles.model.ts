@@ -29,8 +29,8 @@ export class Detalles {
     public demolicion?: boolean,
     public lateralizquierdoirregular?: boolean,
     public lateralderechoirregular?: boolean,
-    public instalaciones?: string,
-    public servicios?: string,
+    public instalaciones?: string[],
+    public servicios?: string[],
     // el usuario se adjunta en el controlador de avisos en el backend,
     // lo obtiene el middleware auth cuando verifica el token
     // public inmobiliaria?: Inmobiliaria,

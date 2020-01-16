@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MisAvisosService, UploaderService, FormsService } from 'src/app/services/services.index';
-import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InmobiliariaService } from 'src/app/pages/inmobiliarias/inmobiliarias.service';
 import { Aviso } from 'src/app/models/aviso.model';
-import { Observable } from 'rxjs/internal/Observable';
-
-
 
 
 @Component({
@@ -31,6 +26,7 @@ export class AvisoCrearComponent implements OnInit {
 	isLinear = false; // material stepper
 	avisoId: string; // esta aviso la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
 	aviso: Aviso = new Aviso();
+	ingresaDetalles = false; // ingresa detalles SOLO para VENTA.
 
 
 	constructor(
@@ -42,46 +38,37 @@ export class AvisoCrearComponent implements OnInit {
 
 	ngOnInit() {
 		this.misAvisosService.scrollTop();
-		this.activatedRoute.params.subscribe(params => {
+		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
-		});
-		if (this.avisoId) {
-			if (this.avisoId !== 'nuevo') {
-				this.obtenerAviso(this.avisoId).then((data: Aviso) => {
-					this.aviso = data;
-				});
-			} else {
+			if (this.avisoId) {
+				if (this.avisoId !== 'nuevo') {
+					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
+						this.aviso = data;
+						console.log('Datos del aviso: ', this.aviso);
+						this.parsetemplate = true;
+						if (data.tipooperacion.id === 'tipooperacion_venta') {
+							this.ingresaDetalles = true;
+						} else {
+							this.ingresaDetalles = false;
+						}
+					});
+				} else {
+					// por defecto no se ingresan detalles a menos que al cargar una propiedad 
+					// se indique que corresponde a una VENTA.
+					this.ingresaDetalles = false;
+					this.aviso.activo = false;  //muestra la ultima etapa para activar el aviso
+					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
 
-				this.aviso = {
-					calle: 'Mercedes',
-					altura: 2325,
-					piso: 0,
-					depto: '',
-					tipoinmueble: { nombre: '', id: '', _id: '' },
-					tipounidad: { nombre: '', id: '', _id: '' },
-					tipooperacion: { nombre: '', id: '', _id: '' },
-					titulo: 'Este es el titulo del aviso',
-					descripcion: 'La descripcion tiene que ser larga debe superar los 50 caracteres para validar el control de lo contrario no se puede submitir.',
-					precio: 490000,
-					moneda: 'monedadolares',
-					nopublicarprecio: true,
-					aptocredito: false,
-					provincia: { nombre: 'Ciudad de Buenos Aires', id: '' },
-					departamento: { nombre: 'Comuna 10', id: '' },
-					localidad: { nombre: '', id: '', _id: '' },
-					coords: { lat: '', lng: '' },
-					codigopostal: '1417'
-				};
-
+					this.parsetemplate = true;
+				}
 			}
-
-		}
+		});
 	}
 
 	obtenerAviso(id: string) {
 		return new Promise(resolve => {
 			if (this.avisoId === 'nuevo') {
-				resolve('No hay data es una aviso nueva');
+				resolve('No hay data es un aviso nuevo');
 			} else {
 				this.misAvisosService.obtenerAviso(id).subscribe((aviso: Aviso) => {
 					resolve(aviso);
@@ -101,9 +88,10 @@ export class AvisoCrearComponent implements OnInit {
 		this.misAvisosService
 			.guardarAviso(event.value, this.avisoId) // Envío avisoId para saber si inserta ('nuevo') o actualiza ('id')
 			.subscribe(resp => {
-				console.log('Guardado:', resp);
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
+
+				// cambio url de /nuevo a /aviso/idaviso
 				this.router.navigate(['/aviso', resp.aviso._id]);
 			});
 
@@ -122,10 +110,8 @@ export class AvisoCrearComponent implements OnInit {
 			// envío el formulario y la aviso obtenida del formulario AVISO
 			.guardarDetalles(event.value, this.aviso)
 			.subscribe(resp => {
-				console.log('Guardado:', resp);
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
-				this.router.navigate(['/aviso', resp.aviso._id]);
 			});
 
 	}

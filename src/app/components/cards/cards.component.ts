@@ -29,7 +29,6 @@ export class CardsComponent implements OnInit {
   agregarFavorito(aviso: Aviso) {
     this.usuarioService.agregarFavorito(aviso._id).subscribe(
       (data) => {
-        console.log('favoritos: ', data);
         this.propFavoritas = data.favoritos;
         localStorage.setItem('favoritos', data.favoritos.toString());
       },

@@ -148,7 +148,6 @@ export class FormsService {
 	obtenerUnidades(idparent: string) {
 		//http://localhost:3000/inicio/unidades/tipoinmueble_departamento
 		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
-		console.log(url);
 		return this.http.get(url);
 	}
 

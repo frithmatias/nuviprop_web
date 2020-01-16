@@ -2,13 +2,13 @@
     <mat-horizontal-stepper [linear]=" isLinear" #stepper>
 
         <!-- --------------------------------------------------------------- -->
-        <!-- FORMULARIO DE PUBLICACION -->
+        <!-- FORMULARIO DE AVISO -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step [stepControl]="formAviso">
+        <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <app-form-aviso [formData]="aviso" (ingresaDetalles)="misAvisosService.ingresaDetalles=$event"
-                (outputGroup)="guardarAviso($event, stepper)" *ngIf="aviso.titulo">
+            <app-form-aviso [formData]="aviso" (ingresaDetalles)="ingresaDetalles=$event"
+                (formReady)="guardarAviso($event, stepper)" *ngIf="parsetemplate">
             </app-form-aviso>
         </mat-step>
 
@@ -18,12 +18,9 @@
         <!-- FORMULARIO DE DETALLES (SOLO PARA VENTA) -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step [stepControl]="formDetalles" *ngIf="misAvisosService.ingresaDetalles">
+        <mat-step *ngIf="ingresaDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <!-- <app-form [formControls]="forms[1]" [formGroup]="formsGroups[1]" [avisoId]="avisoId"
-                (submitForm)="guardarFormulario(forms[1].name, $event, stepper)">
-            </app-form> -->
-            <app-form-detalles [formData]="aviso" (outputGroup)="guardarDetalles($event, stepper)">
+            <app-form-detalles [formData]="aviso" (formReady)="guardarDetalles($event, stepper)" *ngIf="parsetemplate">
             </app-form-detalles>
         </mat-step>
 
@@ -50,9 +47,9 @@
         <!-- CONFIRMACION DE PUBLICACION -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step *ngIf="!aviso.activo">
+        <mat-step *ngIf="!aviso.activo || !aviso">
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            <app-form-confirm [aviso]="aviso" (activar)="cambiarEstado()">
+            <app-form-confirm [aviso]="aviso">
             </app-form-confirm>
         </mat-step>
 

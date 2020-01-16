@@ -95,9 +95,7 @@ export class UploaderComponent implements OnInit {
 	obtenerImagenes() {
 		return new Promise((resolve) => {
 			this.misAvisosService.obtenerAviso(this.id).subscribe(data => {
-				console.log('Imagenes obtenidas:', data);
 				this.aviso.imgs = data.imgs;
-				console.log('this.aviso:', this.aviso);
 				this.archivos = [];
 				resolve();
 			});
