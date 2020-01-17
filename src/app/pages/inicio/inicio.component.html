@@ -24,7 +24,7 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
                     <mat-label>Tipo de operación</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+                        <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion"
                             (click)="setOperacion(operacion)">
                             {{operacion.nombre}}
                         </mat-option>
@@ -34,10 +34,10 @@
                 <!-- TIPO DE OPERACION [BOTONES]-->
                 <!---------------------------------------------------------------------->
                 <div class="d-flex">
-                    <button #operacionseleccionada name="boton_tipo_operacion" type="button"
+                    <button #buttonOperacion name="boton_tipo_operacion" type="button"
                         *ngFor="let operacion of formsService.tiposOperaciones"
                         class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
-                        (click)="setOperacion(operacion, operacionseleccionada)">
+                        (click)="setOperacion(operacion, buttonOperacion)">
                         <span class="lead">{{operacion.nombre}}</span>
                     </button>
                 </div>
@@ -67,7 +67,7 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
                     <mat-label>Tipo de inmueble</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
+                        <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble"
                             (click)="setInmueble(inmueble)">
                             {{inmueble.nombre}}
                         </mat-option>
@@ -91,13 +91,13 @@
                     <mat-label>Ingrese localidad</mat-label>
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                         [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                        [value]="formsService.nombreLocalidad">
+                        [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()">
                     <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
 
                 <mat-autocomplete iniciocss #auto="matAutocomplete">
                     <mat-option [value]="option" *ngFor="let option of formsService.localidades"
-                        (click)="formsService.setLocalidad(option)">
+                        (click)="setLocalidad(option)">
                         {{option.properties.nombre | capitalizarPipe}},
                         {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}

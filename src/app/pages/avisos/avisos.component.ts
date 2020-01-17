@@ -106,19 +106,19 @@ export class AvisosComponent implements OnInit {
 		// 2. document.documentElement.clientHeight, altura del scroll
 		// 3. document.documentElement.offsetHeight, altura total de la ventana
 		// 1 + 2 = 3
-		const contentHeight = document.getElementById('myTabContent').offsetHeight;
-		if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
-			if (this.getMoreAvisos === false) {
-				this.avisosService.obtenerAvisos();
-			}
-			this.getMoreAvisos = true;
-		} else {
-			this.getMoreAvisos = false;
-		}
+		// const contentHeight = document.getElementById('myTabContent').offsetHeight;
+		// if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
+		// 	if (this.getMoreAvisos === false) {
+		// 		this.avisosService.obtenerAvisos();
+		// 	}
+		// 	this.getMoreAvisos = true;
+		// } else {
+		// 	this.getMoreAvisos = false;
+		// }
 	}
 
-	filterSelected() {
-		this.avisosService.obtenerAvisos();
+	filterSelected(filtros: any) {
+		this.avisosService.obtenerAvisos(filtros);
 	}
 
 }

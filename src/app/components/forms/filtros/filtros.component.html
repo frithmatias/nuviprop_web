@@ -92,25 +92,28 @@
             <mat-label>Ingrese localidad</mat-label>
             <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                 [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                [value]="formsService.nombreLocalidad">
-            <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
+                [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()">
+            <span class=" input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
         </mat-form-field>
 
         <mat-autocomplete iniciocss #auto="matAutocomplete">
-            <mat-option [value]="option" *ngFor="let option of formsService.localidades" (click)="setLocalidad(option)">
+            <mat-option [value]="option" *ngFor="let option of formsService.localidades"
+                (click)="formsService.setLocalidad(option)">
                 {{option.properties.nombre | capitalizarPipe}},
                 {{option.properties.departamento.nombre}},
                 {{option.properties.provincia.nombre}}
             </mat-option>
         </mat-autocomplete>
 
-        <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense
-            (ngModelChange)="clickCheck($event)">
-            <mat-list-option formfiltros-localidades *ngFor="let localidad of localidadesCercanas"
-                [value]="JSON.stringify(localidad)">
-                <div class="mat-select-option-nowarp">{{localidad.nombre}}</div>
-            </mat-list-option>
-        </mat-selection-list>
+        <div *ngIf="formsService.localidadesCercanas">
+            <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense>
+                <mat-list-option formfiltros-localidades *ngFor="let localidad of formsService.localidadesCercanas"
+                    [value]="localidad._id" (click)="clickCheck()">
+                    <div class="mat-select-option-nowarp">{{localidad.nombre}}</div>
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+
     </div>
     <!---------------------------------------------------------------------->
     <!-- TIPO DE OPERACION -->
@@ -129,9 +132,9 @@
         </span>
     </div>
     <mat-selection-list class="animated fadeIn" *ngIf="divfiltersoperaciones" class="animated fadeIn"
-        [(ngModel)]="seleccionOperaciones" (ngModelChange)="clickCheck($event)" dense>
+        [(ngModel)]="seleccionOperaciones" dense>
         <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
-            [value]="JSON.stringify(operacion)">
+            [value]="operacion._id" (click)="clickCheck()">
             <div class="mat-select-option-nowarp">{{operacion.nombre}}</div>
         </mat-list-option>
     </mat-selection-list>
@@ -147,10 +150,9 @@
             <i class="mdi {{divfiltersinmuebles ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
         </span>
     </div>
-    <mat-selection-list *ngIf="divfiltersinmuebles" class="animated fadeIn" [(ngModel)]="seleccionInmuebles"
-        (ngModelChange)="clickCheck($event)" dense>
+    <mat-selection-list *ngIf="divfiltersinmuebles" class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
         <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
-            [value]="JSON.stringify(inmueble)">
+            [value]="inmueble._id" (click)="clickCheck()">
             <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
         </mat-list-option>
     </mat-selection-list>

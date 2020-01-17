@@ -12,7 +12,9 @@ declare function init_plugins();
 	styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-
+	seleccionOperaciones: string[] = [];
+	seleccionInmuebles: string[] = [];
+	seleccionLocalidades: string[] = [];
 	constructor(
 		private formsService: FormsService,
 		private snackBar: MatSnackBar,
@@ -24,13 +26,9 @@ export class InicioComponent implements OnInit {
 		init_plugins();
 	}
 
-
 	setOperacion(tipooperacion: any, link?: HTMLElement) {
-		let storage = {};
-		storage = JSON.parse(localStorage.getItem('filtros')) || {};
-		storage['tipooperacion'] = [];
-		storage['tipooperacion'].push(JSON.stringify(tipooperacion));
-		localStorage.setItem('filtros', JSON.stringify(storage));
+		this.seleccionOperaciones = [];
+		this.seleccionOperaciones.push(tipooperacion._id);
 		// dejo seleccionado el boton con la clase 'active'
 
 		if (link) {
@@ -45,26 +43,34 @@ export class InicioComponent implements OnInit {
 	}
 
 	setInmueble(tipoinmueble) {
-		let storage = {};
-		storage = JSON.parse(localStorage.getItem('filtros')) || {};
-		storage['tipoinmueble'] = [];
-		storage['tipoinmueble'].push(JSON.stringify(tipoinmueble));
-		localStorage.setItem('filtros', JSON.stringify(storage));
+		this.seleccionInmuebles = [];
+		this.seleccionInmuebles.push(tipoinmueble._id);
 	}
 
+	setLocalidad(localidad) {
+		this.seleccionLocalidades = [];
+		this.seleccionLocalidades.push(localidad._id);
+		this.formsService.setLocalidad(localidad);
+	}
 
 	submitForm() {
-		let storage = JSON.parse(localStorage.getItem('filtros'));
-		console.log(storage);
-		if (storage && storage.localidad.length > 0) {
-			this.formsService.cleanInput();
-			this.avisosService.obtenerAvisos();
-		} else {
-			this.snackBar.open('Por favor ingrese una localidad.', 'Aceptar', {
-				duration: 2000,
-			});
-			return;
+
+		let filtros = {
+			tipooperacion: this.seleccionOperaciones,
+			tipoinmueble: this.seleccionInmuebles,
+			localidad: this.seleccionLocalidades
 		}
 
+		localStorage.setItem('filtros', JSON.stringify(filtros));
+		console.log(filtros);
+
+		if (filtros.localidad.length > 0 && filtros.tipoinmueble.length > 0 && filtros.tipooperacion.length > 0) {
+			this.formsService.cleanInput();
+			this.avisosService.obtenerAvisos(filtros);
+		} else {
+			this.snackBar.open('Faltan datos, por favor verifique.', 'Aceptar', {
+				duration: 2000,
+			});
+		}
 	}
 }

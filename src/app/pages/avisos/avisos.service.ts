@@ -14,70 +14,51 @@ export class AvisosService {
 	avisostotal = 1;
 	actualPage = 0;
 
-	filtrosOperaciones: any[] = [];
-	filtrosInmuebles: any[] = [];
-	filtrosLocalidades: any[] = [];
-
 	constructor(
 		private http: HttpClient,
 		private router: Router,
 		private snackBar: MatSnackBar,
 	) {
 		// this.cargarAvisos(0);
-		this.obtenerAvisos();
-	}
-	// Obtiene avisos según criterios de busqueda (inicio)
 
-	obtenerAvisos() {
-		if (!localStorage.getItem('filtros')) {
-			return;
+		if (localStorage.getItem('filtros')) {
+			let filtros = JSON.parse(localStorage.getItem('filtros'))
+			this.obtenerAvisos(filtros);
 		}
 
 
-		let filtros = JSON.parse(localStorage.getItem('filtros'))
-		// console.log('localStorage: ', filtros);
+	}
+	// Obtiene avisos según criterios de busqueda (inicio)
 
-		// Obtengo los objetos stringificados de las operaciones en la localstorage
-		this.filtrosOperaciones = [];
-		filtros.tipooperacion.forEach(operacion => {
-			this.filtrosOperaciones.push(JSON.parse(operacion));
-		})
+	obtenerAvisos(filtros: any) {
 		// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones 
 		let operaciones: string; // venta-compra-alquiler
-		this.filtrosOperaciones.forEach(operacion => {
+		filtros.tipooperacion.forEach(operacion => {
 			if (operaciones) {
-				operaciones = operaciones + '-' + operacion.id;
+				operaciones = operaciones + '-' + operacion;
 			} else {
-				operaciones = operacion.id;
+				operaciones = operacion;
 			}
 		})
 
 		// INMUEBLES
-		this.filtrosInmuebles = [];
-		filtros.tipoinmueble.forEach(inmueble => {
-			this.filtrosInmuebles.push(JSON.parse(inmueble));
-		})
 		let inmuebles: string;
-		this.filtrosInmuebles.forEach(inmueble => {
+		filtros.tipoinmueble.forEach(inmueble => {
 			if (inmuebles) {
-				inmuebles = inmuebles + '-' + inmueble.id;
+				inmuebles = inmuebles + '-' + inmueble;
 			} else {
-				inmuebles = inmueble.id;
+				inmuebles = inmueble;
 
 			}
 		})
 
 		// LOCALIDADES
-		this.filtrosLocalidades = [];
-		filtros.localidad.forEach(localidad => {
-			this.filtrosLocalidades.push(JSON.parse(localidad));
-		})
 		let localidades: string;
-		this.filtrosLocalidades.forEach(localidad => {
+		filtros.localidad.forEach(localidad => {
 			if (localidades) {
-				localidades = localidades + '-' + localidad.id;
+				localidades = localidades + '-' + localidad;
 			} else {
-				localidades = localidad.id;
+				localidades = localidad;
 			}
 		})
 
@@ -91,9 +72,9 @@ export class AvisosService {
 				this.router.navigate(['/avisos']);
 			} else {
 				this.avisos = [];
-				// this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
-				// 	duration: 1000,
-				// });
+				this.snackBar.open('No se encontraron resultados.', 'Aceptar', {
+					duration: 1000,
+				});
 			}
 		},
 			(err) => {

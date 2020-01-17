@@ -15,6 +15,9 @@ export class FormsService {
 
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
+	localidadesCercanas: any[] = [];
+
+
 	provincias: Provincia[] = [];
 	loading = {
 		tipooperacion: false,
@@ -36,6 +39,7 @@ export class FormsService {
 		private capitalizarPipe: CapitalizarPipe,
 	) {
 		this.getGlobalControls();
+		this.getUltimasLocalidades();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
@@ -86,29 +90,52 @@ export class FormsService {
 
 	}
 
+	getUltimasLocalidades() {
+		// LOCALIDADES (OBJETOS CON DATOS DE LOCALIDADES CERCANAS)
+		// Los filtros se componen de datos seleccionados de un conjuto ya definido de datos como las operaciones 
+		// En el caso de las localidades, tengo que guardar las localidades cercanas para poder mostrarlas al 
+		// recargar la página.
+		this.localidadesCercanas = JSON.parse(localStorage.getItem('localidades'));
+	}
+
 	cleanInput() {
 		this.nombreLocalidad = '';
 		this.localidadesControl.reset();
 		this.localidades = [];
 	}
 
+	// setLocalidad es un metodo que es llamado SOLO desde FILTROS ya que ademas de setear su nombre compuesto 
+	// que desde INICIO no es necesario, también obiene localidadesVecinas, que sólo es necesario en los filtros.
 	setLocalidad(localidad) {
-
 		this.nombreLocalidad = this.localidadesControl.value.properties.nombre + ', ' + this.localidadesControl.value.properties.departamento.nombre + ', ' + this.localidadesControl.value.properties.provincia.nombre;
-		let localidadObj = {
-			_id: localidad._id,
-			nombre: localidad.properties.nombre,
-			id: localidad.properties.nombre.toLowerCase().replace(/ /g, '_')
-		}
-		let storage = {};
-		storage = JSON.parse(localStorage.getItem('filtros')) || {};
-		storage['localidad'] = [];
-		storage['localidad'].push(JSON.stringify(localidadObj));
-		localStorage.setItem('filtros', JSON.stringify(storage));
+		this.localidadesVecinas(localidad);
 	}
 
+	localidadesVecinas(localidad) {
+		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
+			this.localidadesCercanas = [];
+			data.localidades.forEach(localidad => {
+				let nombreCapitalizado = this.capitalizarPipe.transform(localidad.properties.nombre);
+				let localidadVecina = {
+					_id: localidad._id,
+					nombre: nombreCapitalizado,
+					id: nombreCapitalizado.toLowerCase().replace(/ /g, '_')
+				}
+				this.localidadesCercanas.unshift(localidadVecina);
 
+			})
+			localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas))
+			console.log(this.localidadesCercanas, this.localidadesCercanas.length);
+		})
+	}
 
+	// Obtiene todas las localidades vecinas a una localidad dada (filtros)
+	obtenerLocalidadesVecinas(idLocalidad: string) {
+		// en los filtros necesito mostrar las localidades vecinas a las que estoy buscando 
+		// para ofrecerlas como opción de busqueda.
+		const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + idLocalidad;
+		return this.http.get(url);
+	}
 
 	// Este metodo invoca todos los metodos de scope global y lo inicializa el servicio de formularios
 	getGlobalControls() {
@@ -158,13 +185,7 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
-	// Obtiene todas las localidades vecinas a una localidad dada (filtros)
-	obtenerLocalidadesEnDepartamento(idLocalidad: string) {
-		// en los filtros necesito mostrar las localidades vecinas a las que estoy buscando 
-		// para ofrecerlas como opción de busqueda.
-		const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + idLocalidad;
-		return this.http.get(url);
-	}
+
 
 
 
