@@ -7,13 +7,14 @@ import { AccountSettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MisAvisosComponent } from './misavisos/misavisos.component';
-import { AvisoCrearComponent } from './misavisos/aviso-crear/aviso-crear.component';
+import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { LoginGuard, AdminGuard, TokenGuard } from '../services/services.index';
 import { AvisosComponent } from './avisos/avisos.component';
-import { AvisoVerComponent } from './misavisos/aviso-ver/aviso-ver.component';
+import { AvisoComponent } from './aviso/aviso.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { FavoritosComponent } from './favoritos/favoritos.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
@@ -23,14 +24,15 @@ const pagesRoutes: Routes = [
   { path: 'inicio', component: InicioComponent },
   { path: 'avisos', component: AvisosComponent },
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
-  { path: 'avisover/:id', component: AvisoVerComponent },
+  { path: 'aviso/:id', component: AvisoComponent },
 
   // USER PAGES
   { path: 'account-settings', canActivate: [LoginGuard, TokenGuard], component: AccountSettingsComponent },
   { path: 'dashboard', canActivate: [LoginGuard, TokenGuard], component: DashboardComponent },
   { path: 'profile', canActivate: [LoginGuard, TokenGuard], component: ProfileComponent },
-  { path: 'aviso/:id', canActivate: [LoginGuard, TokenGuard], component: AvisoCrearComponent, data: { titulo: 'Agragar / Actualizar Aviso' } },
-  { path: 'misavisos', canActivate: [LoginGuard, TokenGuard], component: MisAvisosComponent, data: { titulo: 'Listado de Mis Avisos' } },
+  { path: 'aviso-crear/:id', canActivate: [LoginGuard, TokenGuard], component: AvisoCrearComponent, data: { titulo: 'Agragar/Actualizar Aviso' } },
+  { path: 'misavisos', canActivate: [LoginGuard, TokenGuard], component: MisAvisosComponent, data: { titulo: 'Mis Avisos' } },
+  { path: 'favoritos', canActivate: [LoginGuard, TokenGuard], component: FavoritosComponent, data: { titulo: 'Favoritos' } },
 
   // ADMIN PAGES
   { path: 'usuarios', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: UsuariosComponent, data: { titulo: 'Administracion de Usuarios' } },

@@ -36,7 +36,7 @@ export class MisAvisosComponent implements OnInit {
 		this.pagina += page;
 		this.cargando = true;
 		this.misAvisosService
-			.cargarAvisos('todas', this.pagina)
+			.cargarAvisos(this.pagina)
 			.subscribe((avisos: Avisos) => {
 				this.avisos = avisos.avisos;
 				this.totalAvisos = avisos.total;
@@ -89,7 +89,7 @@ export class MisAvisosComponent implements OnInit {
 					.borrarAviso(aviso._id)
 					.subscribe((resp: any) => {
 						Swal.fire(
-							'Aviso eliminada',
+							'Aviso eliminado',
 							'La aviso ha sido borrada con éxito.',
 							'success'
 						);

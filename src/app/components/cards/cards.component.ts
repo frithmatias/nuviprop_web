@@ -12,29 +12,28 @@ export class CardsComponent implements OnInit {
   @Input() avisos: Aviso[] = [];
   propFavoritas = [];
   constructor(
-    private router: Router,
-    private usuarioService: UsuarioService,
-    private formsService: FormsService
+	private router: Router,
+	private usuarioService: UsuarioService,
+	private formsService: FormsService
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('favoritos')) {
-      this.propFavoritas = localStorage.getItem('favoritos').split(',');
-    } else {
-      this.propFavoritas = this.usuarioService.usuario.favoritos;
-    }
+	if (localStorage.getItem('favoritos')) {
+		this.propFavoritas = this.usuarioService.usuario.favoritos;
+	}
   }
 
-
+  // Los favoritos se guardan en la localstorage en 'usuario.favoritos[]'
   agregarFavorito(aviso: Aviso) {
-    this.usuarioService.agregarFavorito(aviso._id).subscribe(
-      (data) => {
-        this.propFavoritas = data.favoritos;
-        localStorage.setItem('favoritos', data.favoritos.toString());
-      },
-      err => {
-        // console.log(err);
-      });
+	this.usuarioService.agregarFavorito(aviso._id).subscribe(
+		(data) => {
+		console.log(data);
+		localStorage.setItem('usuario', JSON.stringify(data));
+		this.propFavoritas = data.favoritos;
+		},
+		err => {
+		// console.log(err);
+		});
   }
 
 

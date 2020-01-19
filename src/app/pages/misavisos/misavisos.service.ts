@@ -24,20 +24,10 @@ export class MisAvisosService {
 		return this.http.get(url);
 	}
 
-	cargarAvisos(get: string, pagina: number) {
+	cargarAvisos(pagina: number) {
+		const uid = this.usuarioService.usuario._id;
 		let url = URL_SERVICIOS;
-		switch (get) {
-			case 'activas':
-				url += '/avisos';
-				break;
-			case 'todas':
-				url += '/avisos/all';
-				break;
-			default:
-				url += '/avisos';
-				break;
-		}
-		url += '?pagina=' + pagina;
+		url += '/avisos/misavisos/' + uid + '?pagina=' + pagina;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
@@ -77,7 +67,7 @@ export class MisAvisosService {
 			return this.http.put(url, dataform, { headers }).pipe(
 				map((resp: any) => {
 					Swal.fire({
-						title: '¡Aviso actualizada!',
+						title: '¡Aviso actualizado!',
 						text: dataform.calle + ' ' + dataform.altura,
 						icon: 'success',
 						timer: 1000
@@ -92,7 +82,7 @@ export class MisAvisosService {
 			return this.http.post(url, dataform, { headers }).pipe(
 				map((resp: any) => {
 					Swal.fire({
-						title: '¡Aviso creada!',
+						title: '¡Aviso creado!',
 						text: dataform.calle + ' ' + dataform.altura,
 						icon: 'success',
 						timer: 1000

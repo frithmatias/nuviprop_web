@@ -92,7 +92,7 @@ export class AvisoCrearComponent implements OnInit {
 				this.misAvisosService.stepperGoNext(stepper);
 
 				// cambio url de /nuevo a /aviso/idaviso
-				this.router.navigate(['/aviso', resp.aviso._id]);
+				this.router.navigate(['/aviso-crear', resp.aviso._id]);
 			});
 
 	}

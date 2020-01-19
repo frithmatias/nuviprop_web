@@ -25,11 +25,12 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { MisAvisosComponent } from './misavisos/misavisos.component';
-import { AvisoCrearComponent } from './misavisos/aviso-crear/aviso-crear.component';
-import { AvisoVerComponent } from './misavisos/aviso-ver/aviso-ver.component';
+import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
+import { AvisoComponent } from './aviso/aviso.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { FavoritosComponent } from './favoritos/favoritos.component';
 
 @NgModule({
 	declarations: [
@@ -43,8 +44,9 @@ import { InicioComponent } from './inicio/inicio.component';
 		InmobiliariasComponent,
 		BuscarComponent,
 		AvisosComponent,
-		AvisoVerComponent,
-		InicioComponent
+		AvisoComponent,
+		InicioComponent,
+		FavoritosComponent
 
 
 	],
