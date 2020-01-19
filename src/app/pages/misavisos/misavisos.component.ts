@@ -52,9 +52,6 @@ export class MisAvisosComponent implements OnInit {
 		// $         end of string
 		// /i        case-insensitive
 
-
-
-		console.log(termino.length);
 		if (termino.length <= 0) {
 			this.cargarAvisos(0);
 			return;
@@ -87,7 +84,6 @@ export class MisAvisosComponent implements OnInit {
 			confirmButtonText: 'Si, borrar aviso.'
 		}).then(result => {
 			if (result.value) {
-				console.log(result);
 				this.cargando = true;
 				this.misAvisosService
 					.borrarAviso(aviso._id)

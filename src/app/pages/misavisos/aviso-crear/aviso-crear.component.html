@@ -1,4 +1,4 @@
-<div class="container animated fadeIn">
+<div class="animated fadeIn">
     <mat-horizontal-stepper [linear]=" isLinear" #stepper>
 
         <!-- --------------------------------------------------------------- -->
@@ -8,7 +8,8 @@
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
             <app-form-aviso [formData]="aviso" (ingresaDetalles)="ingresaDetalles=$event"
-                (formReady)="guardarAviso($event, stepper)" *ngIf="parsetemplate">
+                (formReady)="guardarAviso($event, stepper)" (stepperReset)="stepperReset(stepper)"
+                *ngIf="parsetemplate">
             </app-form-aviso>
         </mat-step>
 

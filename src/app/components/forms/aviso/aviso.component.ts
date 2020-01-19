@@ -19,6 +19,7 @@ export class AvisoComponent implements OnInit {
 	@Input() formData: Aviso;
 	@Output() formReady: EventEmitter<FormGroup> = new EventEmitter();
 	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter(); // Selecciono VENTA, muestra form detalles.
+	@Output() stepperReset: EventEmitter<Boolean> = new EventEmitter();
 	parsetemplate = false;
 	avisoId: string;
 	formAviso: FormGroup = new FormGroup({});
@@ -41,11 +42,10 @@ export class AvisoComponent implements OnInit {
 			this.avisoId = params.id;
 			if (params.id) {
 				if (params.id === 'nuevo') {
-					this.formData = {};
-					this.formAviso.reset({});
+					this.buildNewForm();
 				}
 			}
-		})
+		});
 		this.buildForm();
 		this.filteredOptions = this.localidadesControl.valueChanges
 			.pipe(
@@ -54,9 +54,14 @@ export class AvisoComponent implements OnInit {
 			);
 	}
 
-	ngOnChanges(changes: SimpleChanges) {
-		// changes.prop contains the old and the new value...
+	buildNewForm() {
+		this.formAviso.reset();
+		this.ingresaDetalles.emit(false);
+		this.stepperReset.emit(true);
 	}
+	// ngOnChanges(changes: SimpleChanges) {
+	// 	// changes.prop contains the old and the new value...
+	// }
 
 	private _filter(value: string): string[] {
 		if (!value) {
@@ -69,7 +74,6 @@ export class AvisoComponent implements OnInit {
 	}
 
 	buildForm() {
-		console.log('formData', this.formData);
 		this.formAviso = this.formBuilder.group({
 			calle: ['', [Validators.required, Validators.minLength(5)]],
 			altura: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
@@ -78,37 +82,41 @@ export class AvisoComponent implements OnInit {
 			titulo: ['', [Validators.required, Validators.minLength(10)]],
 			descripcion: ['', [Validators.required, Validators.minLength(20)]],
 			precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
-			moneda: ['', [Validators.required]],
+			tipocambio: ['', [Validators.required]],
 			nopublicarprecio: ['', [Validators.required]],
 			aptocredito: ['', [Validators.required]],
 			codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]],
-			tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], //_id
-			tipounidad: ['', [Validators.required, Validators.minLength(5)]], //_id
-			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], //_id
-			localidad: ['', [Validators.required, Validators.minLength(5)]] //_id
+			tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], // _id
+			tipounidad: [null, [Validators.minLength(5)]], // _id
+			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], // _id
+			localidad: ['', [Validators.required, Validators.minLength(5)]] // _id
 		});
 
+		// evita el _id of null
+		const tipooperacionValor = this.formData.tipooperacion ? this.formData.tipooperacion._id : null;
+		const tipoinmuebleValor = this.formData.tipoinmueble ? this.formData.tipoinmueble._id : null;
+		const tipounidadValor = this.formData.tipounidad ? this.formData.tipounidad._id : null;
+		const localidadValor = this.formData.localidad ? this.formData.localidad._id : null;
 
-		this.formAviso.setValue({
-			calle: this.formData.calle,
-			altura: this.formData.altura,
-			piso: this.formData.piso,
-			depto: this.formData.depto,
-			titulo: this.formData.titulo,
-			descripcion: this.formData.descripcion,
-			precio: this.formData.precio,
-			moneda: this.formData.moneda,
-			nopublicarprecio: this.formData.nopublicarprecio,
-			aptocredito: this.formData.aptocredito,
-			codigopostal: this.formData.codigopostal,
-			tipoinmueble: this.formData.tipoinmueble._id,
-			tipounidad: this.formData.tipounidad._id,
-			tipooperacion: this.formData.tipooperacion._id,
-			localidad: this.formData.localidad._id
-		})
-
-		console.log('formAviso:', this.formAviso)
-
+		if (this.avisoId !== 'nuevo') {
+			this.formAviso.setValue({
+				calle: this.formData.calle,
+				altura: this.formData.altura,
+				piso: this.formData.piso,
+				depto: this.formData.depto,
+				titulo: this.formData.titulo,
+				descripcion: this.formData.descripcion,
+				precio: this.formData.precio,
+				tipocambio: this.formData.tipocambio,
+				nopublicarprecio: this.formData.nopublicarprecio,
+				aptocredito: this.formData.aptocredito,
+				codigopostal: this.formData.codigopostal,
+				tipooperacion: tipooperacionValor,
+				tipoinmueble: tipoinmuebleValor,
+				tipounidad: tipounidadValor,
+				localidad: localidadValor
+			});
+		}
 	}
 
 
@@ -119,27 +127,26 @@ export class AvisoComponent implements OnInit {
 	}
 
 	checkForFills(inmueble: TipoInmueble) {
-		//http://localhost:3000/inicio/unidades/tipoinmueble_departamento
+
+
+		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
 		this.formsService.obtenerUnidades(inmueble.id).subscribe((data: TiposUnidades) => {
-			this.unidades = data.unidades;
+			if (data.unidades.length > 0) {
+				this.unidades = data.unidades;
+			} else {
+				this.unidades = [];
+				// Si estoy EDITANDO un aviso, y cambio de un inmueble que tenía unidades a otro que
+				// no tiene unidades, tengo que resetear y poner a null ese dato.
+				this.formAviso.patchValue({
+					tipounidad: null
+				});
+			}
 		});
 	}
 
-	checkOperacion(operacion) {
-		// console.log(operacion);
-		// _id: "5e04b4bd3cb7d5a2401c9895"
-		// nombre: "Venta"
-		// id: "tipooperacion_venta"
-		// Si es venta emite true al padre para mostrar el formulario de carga de detalles del inmueble
-		if (operacion.id === 'tipooperacion_venta') {
-			this.ingresaDetalles.emit(true);
-		} else {
-			this.ingresaDetalles.emit(false);
 
-		}
-	}
 
-	buscarLocalidad(event) {
+	buscarLocalidad(event: any) {
 		const regex = new RegExp(/^[a-z ñ0-9]+$/i);
 		if (!regex.test(event.target.value) && event.target.value) {
 			this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
@@ -158,14 +165,31 @@ export class AvisoComponent implements OnInit {
 			});
 		}
 	}
+
+	checkIngresaDetalles(operacion) {
+		// Si es venta emite true al padre para mostrar el formulario de carga de detalles del inmueble
+		if (operacion.value === '5e04b4bd3cb7d5a2401c9895') { // _id de venta
+			this.ingresaDetalles.emit(true);
+		} else {
+			this.ingresaDetalles.emit(false);
+
+		}
+	}
+
 	setLocalidad(localidad) {
+		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
+		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
+		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
+		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
+		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
+		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
+		this.formsService.setLocalidad(localidad);
 		this.formAviso.patchValue({
 			localidad: localidad._id
 		});
 	}
 
 	enviarFormulario() {
-		console.log(this.formAviso);
 		if (this.formAviso.valid) {
 			this.formReady.emit(this.formAviso);
 		} else {

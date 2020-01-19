@@ -70,9 +70,9 @@ export class MisAvisosService {
 		});
 
 		if (avisoId !== 'nuevo') {
-			//----------------------------------------------------------------------
-			// ACTUALIZAR 
-			//----------------------------------------------------------------------
+			// ----------------------------------------------------------------------
+			// ACTUALIZAR
+			// ----------------------------------------------------------------------
 			url += '/' + avisoId;
 			return this.http.put(url, dataform, { headers }).pipe(
 				map((resp: any) => {
@@ -86,9 +86,9 @@ export class MisAvisosService {
 				})
 			);
 		} else {
-			//----------------------------------------------------------------------
-			// CREAR 
-			//----------------------------------------------------------------------
+			// ----------------------------------------------------------------------
+			// CREAR
+			// ----------------------------------------------------------------------
 			return this.http.post(url, dataform, { headers }).pipe(
 				map((resp: any) => {
 					Swal.fire({
@@ -193,5 +193,9 @@ export class MisAvisosService {
 	stepperGoNext(stepper: MatStepper) {
 		this.scrollTop();
 		stepper.next();
+	}
+
+	stepperReset(stepper: MatStepper) {
+		stepper.reset();
 	}
 }

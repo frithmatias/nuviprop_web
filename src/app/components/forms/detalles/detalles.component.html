@@ -27,9 +27,14 @@
                 <input matInput type="number" formControlName="longitudfrente">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
                 <mat-label>Tipo de Terreno</mat-label>
-                <input matInput formControlName="tipoterreno">
+                <mat-select formControlName="tipoterreno">
+                    <mat-option *ngFor="let terreno of formsService.tiposTerrenos" [value]="terreno._id">
+                        {{ terreno.nombre }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
@@ -42,64 +47,114 @@
                 <input matInput formControlName="fos">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de pendiente</mat-label>
-                <input matInput formControlName="tipopendiente">
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de Pendiente</mat-label>
+                <mat-select formControlName="tipopendiente">
+                    <mat-option *ngFor="let pendiente of formsService.tiposPendientes" [value]="pendiente._id">
+                        {{ pendiente.nombre }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de Vista</mat-label>
-                <input matInput formControlName="tipovista">
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+                <mat-label>Vista</mat-label>
+                <mat-select formControlName="tipovista">
+                    <mat-option *ngFor="let vista of formsService.tiposVistas" [value]="vista._id">
+                        {{ vista.nombre }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de Costa</mat-label>
-                <input matInput formControlName="tipocosta">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
                 <mat-label>Estado</mat-label>
-                <input matInput formControlName="estado">
+                <mat-select formControlName="estado">
+                    <mat-option *ngFor="let estado of formsService.tiposEstados" [value]="estado._id">
+                        {{ estado.nombre }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Propiedad ocupada</mat-label>
-                <input matInput formControlName="propiedadocupada">
+                <mat-select formControlName="propiedadocupada" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Fondo irregular</mat-label>
-                <input matInput formControlName="fondoirregular">
+                <mat-select formControlName="fondoirregular" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Frente irregular</mat-label>
-                <input matInput formControlName="frenteirregular">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Demolicion</mat-label>
-                <input matInput formControlName="demolicion">
+                <mat-select formControlName="frenteirregular" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Lateral izquierdo irregular</mat-label>
-                <input matInput formControlName="lateralizquierdoirregular">
+                <mat-select formControlName="lateralizquierdoirregular" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
             </mat-form-field>
+
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
                 <mat-label>Lateral derecho irregular</mat-label>
-                <input matInput formControlName="lateralderechoirregular">
+                <mat-select formControlName="lateralderechoirregular" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+                <mat-label>Demolicion</mat-label>
+                <mat-select formControlName="demolicion" (click)="setInstalaciones(instalacion)">
+                    <mat-option [value]="true">Si</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Instalaciones del terreno</mat-label>
-                <input matInput formControlName="instalaciones">
+                <mat-label>Instalaciones</mat-label>
+                <mat-select formControlName="instalaciones" multiple>
+                    <!-- <mat-select-trigger>
+                        {{instalaciones.value ? instalaciones.value[0] : ''}}
+                        <span *ngIf="instalaciones.value?.length > 1" class="example-additional-selection">
+                            (+{{instalaciones.value.length - 1}}
+                            {{instalaciones.value?.length === 2 ? 'otro' : 'otros'}})
+                        </span>
+                    </mat-select-trigger> -->
+                    <mat-option *ngFor="let instalacion of formsService.tiposInstalaciones" [value]="instalacion._id"
+                        (click)="setInstalaciones(instalacion)">
+                        {{instalacion.nombre}}</mat-option>
+                </mat-select>
             </mat-form-field>
 
+
             <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Servicios del terreno</mat-label>
-                <input matInput formControlName="servicios">
+                <mat-label>Servicios</mat-label>
+                <mat-select formControlName="servicios" multiple>
+                    <!-- <mat-select-trigger>
+                        {{instalaciones.value ? instalaciones.value[0] : ''}}
+                        <span *ngIf="instalaciones.value?.length > 1" class="example-additional-selection">
+                            (+{{instalaciones.value.length - 1}}
+                            {{instalaciones.value?.length === 2 ? 'otro' : 'otros'}})
+                        </span>
+                    </mat-select-trigger> -->
+                    <mat-option *ngFor="let servicio of formsService.tiposServicios" [value]="servicio._id"
+                        (click)="setServicios(servicio)">
+                        {{servicio.nombre}}</mat-option>
+                </mat-select>
             </mat-form-field>
 
         </div>

@@ -17,6 +17,7 @@ import { Aviso } from 'src/app/models/aviso.model';
     height: 50px;
     border: 1px dashed #cccccc;
   }
+
   `]
 })
 export class AvisoCrearComponent implements OnInit {
@@ -44,7 +45,6 @@ export class AvisoCrearComponent implements OnInit {
 				if (this.avisoId !== 'nuevo') {
 					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
 						this.aviso = data;
-						console.log('Datos del aviso: ', this.aviso);
 						this.parsetemplate = true;
 						if (data.tipooperacion.id === 'tipooperacion_venta') {
 							this.ingresaDetalles = true;
@@ -53,10 +53,10 @@ export class AvisoCrearComponent implements OnInit {
 						}
 					});
 				} else {
-					// por defecto no se ingresan detalles a menos que al cargar una propiedad 
+					// por defecto no se ingresan detalles a menos que al cargar una propiedad
 					// se indique que corresponde a una VENTA.
 					this.ingresaDetalles = false;
-					this.aviso.activo = false;  //muestra la ultima etapa para activar el aviso
+					this.aviso.activo = false;  // muestra la ultima etapa para activar el aviso
 					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
 
 					this.parsetemplate = true;
@@ -95,6 +95,10 @@ export class AvisoCrearComponent implements OnInit {
 				this.router.navigate(['/aviso', resp.aviso._id]);
 			});
 
+	}
+
+	stepperReset(stepper) {
+		this.misAvisosService.stepperReset(stepper);
 	}
 
 	guardarDetalles(event, stepper) {

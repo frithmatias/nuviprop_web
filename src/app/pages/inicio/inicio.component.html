@@ -95,9 +95,9 @@
                     <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
 
-                <mat-autocomplete iniciocss #auto="matAutocomplete">
-                    <mat-option [value]="option" *ngFor="let option of formsService.localidades"
-                        (click)="setLocalidad(option)">
+                <mat-autocomplete (optionSelected)="setLocalidad($event.option.value)" iniciocss
+                    #auto="matAutocomplete">
+                    <mat-option [value]="option" *ngFor="let option of formsService.localidades">
                         {{option.properties.nombre | capitalizarPipe}},
                         {{option.properties.departamento.nombre}},
                         {{option.properties.provincia.nombre}}

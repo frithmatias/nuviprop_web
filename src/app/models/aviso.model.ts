@@ -23,7 +23,7 @@ export class Aviso {
 		public titulo?: string,
 		public descripcion?: string,
 		public precio?: number,
-		public moneda?: string,
+		public tipocambio?: string,
 		public nopublicarprecio?: boolean,
 		public aptocredito?: boolean,
 

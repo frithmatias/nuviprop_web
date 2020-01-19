@@ -80,6 +80,11 @@
 }
 
 
+// para que los controles de material en el content no tengan padding.
+.mat-horizontal-content-container {
+  // padding: 0px !important;
+}
+
 // para que las opciones en el select list de material no haga un salto de linea en textos largos.
 .mat-select-option-nowarp {
   float: left;

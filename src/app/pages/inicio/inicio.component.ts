@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
+import { Router } from '@angular/router';
 
 declare function init_plugins();
 
@@ -19,7 +20,8 @@ export class InicioComponent implements OnInit {
 		private formsService: FormsService,
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe,
-		private avisosService: AvisosService
+		private avisosService: AvisosService,
+		private router: Router
 	) { }
 
 	ngOnInit() {
@@ -48,29 +50,43 @@ export class InicioComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
+		console.log(localidad);
+		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
+		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
+		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
+		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
+		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
+		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
+		this.formsService.setLocalidad(localidad);
 		this.seleccionLocalidades = [];
 		this.seleccionLocalidades.push(localidad._id);
-		this.formsService.setLocalidad(localidad);
 	}
 
 	submitForm() {
 
-		let filtros = {
+		const filtros = {
 			tipooperacion: this.seleccionOperaciones,
 			tipoinmueble: this.seleccionInmuebles,
 			localidad: this.seleccionLocalidades
-		}
+		};
 
 		localStorage.setItem('filtros', JSON.stringify(filtros));
-		console.log(filtros);
 
-		if (filtros.localidad.length > 0 && filtros.tipoinmueble.length > 0 && filtros.tipooperacion.length > 0) {
-			this.formsService.cleanInput();
-			this.avisosService.obtenerAvisos(filtros);
-		} else {
-			this.snackBar.open('Faltan datos, por favor verifique.', 'Aceptar', {
-				duration: 2000,
-			});
-		}
+		// this.formsService.cleanInput();
+		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
+			this.snak(res, 2000);
+			this.router.navigate(['/avisos']);
+		}).catch((err) => {
+			this.snak(err, 2000);
+		});
+
+
+
+	}
+
+	snak(msg: string, time: number) {
+		this.snackBar.open(msg, 'Aceptar', {
+			duration: time,
+		});
 	}
 }

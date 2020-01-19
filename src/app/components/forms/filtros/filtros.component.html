@@ -41,14 +41,6 @@
     <!---------------------------------------------------------------------->
 
     <div class="my-3">
-        <div *ngIf="avisosService.avisos.length === 0">
-            <div class="text-center m-2">
-                <h6>
-                    No se encuentran avisos para los filtros aplicados.
-                </h6>
-            </div>
-        </div>
-
         <h4>
             <!---------------------------------------------------------------------->
             <!-- LOCALIDAD -->
@@ -96,9 +88,9 @@
             <span class=" input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
         </mat-form-field>
 
-        <mat-autocomplete iniciocss #auto="matAutocomplete">
-            <mat-option [value]="option" *ngFor="let option of formsService.localidades"
-                (click)="formsService.setLocalidad(option)">
+        <mat-autocomplete (optionSelected)="formsService.setLocalidad($event.option.value)" iniciocss
+            #auto="matAutocomplete">
+            <mat-option [value]="option" *ngFor="let option of formsService.localidades">
                 {{option.properties.nombre | capitalizarPipe}},
                 {{option.properties.departamento.nombre}},
                 {{option.properties.provincia.nombre}}

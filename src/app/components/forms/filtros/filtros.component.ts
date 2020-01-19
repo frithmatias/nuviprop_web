@@ -26,9 +26,9 @@ export class FiltrosComponent implements OnInit {
   seleccionLocalidades = [];
 
   // Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
-  @Output() optionSelected: EventEmitter<object> = new EventEmitter()
+  @Output() optionSelected: EventEmitter<object> = new EventEmitter();
 
-  // Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera 
+  // Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera
   // puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
   // [value]="JSON.stringify(inmueble)"
 
@@ -36,73 +36,73 @@ export class FiltrosComponent implements OnInit {
 
 
   constructor(
-    private formsService: FormsService,
-    @Inject(LOCALE_ID) private locale: string,
-    private capitalizarPipe: CapitalizarPipe,
-    private avisosService: AvisosService,
-    private snackBar: MatSnackBar
+	private formsService: FormsService,
+	@Inject(LOCALE_ID) private locale: string,
+	private capitalizarPipe: CapitalizarPipe,
+	private avisosService: AvisosService,
+	private snackBar: MatSnackBar
   ) {
-    // console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
+	// console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
   }
 
   ngOnInit() {
 
-    // Obtengo los datos del formulario guardados en la localstorage
-    this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
-    // Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
-    // TIPOS DE OPERACION (VALORES SELECCIONADOS)
-    this.filtrosStorage.tipooperacion.forEach(operacion => {
-      this.seleccionOperaciones.push(operacion); // operacion es un string.
-    })
+	// Obtengo los datos del formulario guardados en la localstorage
+	this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+	// Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
+	// TIPOS DE OPERACION (VALORES SELECCIONADOS)
+	this.filtrosStorage.tipooperacion.forEach(operacion => {
+		this.seleccionOperaciones.push(operacion); // operacion es un string.
+	});
 
-    // TIPOS DE INMUEBLE (VALORES SELECCIONADOS)
-    this.filtrosStorage.tipoinmueble.forEach(inmueble => {
-      this.seleccionInmuebles.push(inmueble);
-    })
+	// TIPOS DE INMUEBLE (VALORES SELECCIONADOS)
+	this.filtrosStorage.tipoinmueble.forEach(inmueble => {
+		this.seleccionInmuebles.push(inmueble);
+	});
 
-    // LOCALIDADES (VALORES SELECCIONADOS)
-    this.filtrosStorage.localidad.forEach(localidad => {
-      this.seleccionLocalidades.push(localidad);
-    })
+	// LOCALIDADES (VALORES SELECCIONADOS)
+	this.filtrosStorage.localidad.forEach(localidad => {
+		this.seleccionLocalidades.push(localidad);
+	});
 
 
   }
 
   // Setea el modo de vista seleccionado para que lo levante la page 'avisos'
   tabSelected(tab: number) {
-    localStorage.setItem('viewtab', String(tab));
+	localStorage.setItem('viewtab', String(tab));
   }
 
 
   clickCheck() {
 
-    // los filtros en seleccionOperaciones, seleccionInmuebles, seleccionLocalidades 
-    // son array de strings que van directo al metodo obtenerAvisos(filtros) desde
-    // el componente padre. 
+	// los filtros en seleccionOperaciones, seleccionInmuebles, seleccionLocalidades
+	// son array de strings que van directo al metodo obtenerAvisos(filtros) desde
+	// el componente padre.
 
-    let filtros = {
-      tipooperacion: this.seleccionOperaciones,
-      tipoinmueble: this.seleccionInmuebles,
-      localidad: this.seleccionLocalidades
-    }
+	const filtros = {
+		tipooperacion: this.seleccionOperaciones,
+		tipoinmueble: this.seleccionInmuebles,
+		localidad: this.seleccionLocalidades
+	};
 
-    // por otra vía, viajan los objetos de los filtros hacia la localstorage para recuperarlos
-    // al recargar la página. Reconstruyo los objetos a partir de los _id seleccionados en 
-    // seleccionOperaciones, seleccionInmuebles, seleccionLocalidades y obteniendo el resto de 
-    // los datos de:
-    // formsService.tiposInmuebles 
-    // formsService.tiposOperaciones
-    // formsService.localidadesCercanas
+	// por otra vía, viajan los objetos de los filtros hacia la localstorage para recuperarlos
+	// al recargar la página. Reconstruyo los objetos a partir de los _id seleccionados en
+	// seleccionOperaciones, seleccionInmuebles, seleccionLocalidades y obteniendo el resto de
+	// los datos de:
+	// formsService.tiposInmuebles
+	// formsService.tiposOperaciones
+	// formsService.localidadesCercanas
 
-    // Para las localidades, ademas guardo en la localstorage el último resultado de localidadesVecinas.
-    localStorage.setItem('filtros', JSON.stringify(filtros));
-    // let filtrosStorage = {
+	// Para las localidades, ademas guardo en la localstorage el último resultado de localidadesVecinas.
+	localStorage.setItem('filtros', JSON.stringify(filtros));
+	// let filtrosStorage = {
 
-    // }
+	// }
 
-    // Le aviso al padre que hice cambios en los filtors, que busque nuevas avisos.
+	// Le aviso al padre que hice cambios en los filtors, que busque nuevas avisos.
 
-    this.optionSelected.emit(filtros);
+	this.optionSelected.emit(filtros);
   }
 
 

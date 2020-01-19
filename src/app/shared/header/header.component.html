@@ -221,7 +221,7 @@
                                         <h4>{{ userService.usuario.nombre }}</h4>
                                         <p class="text-muted">{{ userService.usuario.email }}</p>
                                         <a routerLinkActive="active" routerLink="/profile"
-                                            class="btn btn-rounded btn-danger btn-sm">Ver
+                                            class="btn btn-block btn-danger">Ver
                                             perfil</a>
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@
 
 
                             <!---------------------------------------------------------------------->
-                            <!-- ITEMS DEL MENU -->
+                            <!-- TITULO DEL MENU -->
                             <!---------------------------------------------------------------------->
                             <div *ngFor="let item of userService.menu">
                                 <li class="rounded m-1" style=" background-color: lightgray;">
@@ -240,7 +240,7 @@
                                 </li>
 
                                 <!---------------------------------------------------------------------->
-                                <!-- ITEMS DEL SUBMENU -->
+                                <!-- ITEMS DEL MENU -->
                                 <!---------------------------------------------------------------------->
                                 <li *ngFor="let submenu of item.submenu">
                                     <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
@@ -255,7 +255,7 @@
 
                             <li>
                                 <a style="cursor:pointer;" (click)="userService.logout()"><i
-                                        class="fa fa-power-off"></i> Logout</a>
+                                        class="fa text-primary fa-power-off"></i> Logout</a>
                             </li>
                         </ul>
                     </div>

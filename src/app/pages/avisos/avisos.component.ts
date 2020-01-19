@@ -1,5 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AvisosService, FormsService } from 'src/app/services/services.index';
+import { Avisos, Aviso } from 'src/app/models/aviso.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare function init_plugins();
 @Component({
@@ -13,10 +15,12 @@ export class AvisosComponent implements OnInit {
 	private showGoUpButton: boolean;
 	private getMoreAvisos = false;
 
+	avisos: Aviso[];
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
 
 	constructor(
+		private snackBar: MatSnackBar,
 		private avisosService: AvisosService
 	) {
 		this.showGoUpButton = false;
@@ -73,7 +77,7 @@ export class AvisosComponent implements OnInit {
 			default:
 				tabMapa.classList.add('active');
 				contentMapa.classList.add('show', 'active');
-				break
+				break;
 		}
 
 		// activo el contenedor correspondiente al tab seleccionado.
@@ -118,7 +122,17 @@ export class AvisosComponent implements OnInit {
 	}
 
 	filterSelected(filtros: any) {
-		this.avisosService.obtenerAvisos(filtros);
+		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
+			this.snak(res, 2000);
+		}).catch((err) => {
+			this.snak(err, 2000);
+		});
+	}
+
+	snak(msg: string, time: number) {
+		this.snackBar.open(msg, 'Aceptar', {
+			duration: time,
+		});
 	}
 
 }
