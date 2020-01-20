@@ -23,8 +23,8 @@ const pagesRoutes: Routes = [
   // PUBLIC PAGES
   { path: 'inicio', component: InicioComponent },
   { path: 'avisos', component: AvisosComponent },
-  { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
   { path: 'aviso/:id', component: AvisoComponent },
+  { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
 
   // USER PAGES
   { path: 'account-settings', canActivate: [LoginGuard, TokenGuard], component: AccountSettingsComponent },

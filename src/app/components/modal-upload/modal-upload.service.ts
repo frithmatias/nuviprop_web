@@ -3,25 +3,25 @@ import { EventEmitter } from '@angular/core';
 
 @Injectable()
 export class ModalUploadService {
-  public tipo: string;
-  public id: string;
+  public tipo: string; // ej. 'usuarios'
+  public id: string; // ej. '_id del usuario'
   public oculto = 'oculto';
   public notificacion = new EventEmitter<any>();
 
   constructor() {
-    // console.log('Modal upload listo');
+	// console.log('Modal upload listo');
   }
 
   ocultarModal() {
-    this.oculto = 'oculto';
-    this.tipo = null;
-    this.id = null;
+	this.oculto = 'oculto';
+	this.tipo = null;
+	this.id = null;
   }
 
   // tipo: 'usuarios', 'avisos', etc.
   mostrarModal(tipo: string, id: string) {
-    this.oculto = '';
-    this.id = id;
-    this.tipo = tipo;
+	this.oculto = '';
+	this.id = id;
+	this.tipo = tipo;
   }
 }

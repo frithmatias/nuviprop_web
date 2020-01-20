@@ -4,8 +4,8 @@
     <div class="row pb-3">
         <div class="col-md-12 mt-2">
             <div>
-                <!-- <label class="btn btn-warning" for="filesWindow">Seleccionar Imagen</label> -->
-                <input (change)="queueFilesInput($event)" id="filesWindow" type="file" name="photo"
+                <!-- <label class="btn btn-warning" for="filesUpload">Seleccionar Imagen</label> -->
+                <input (change)="queueFilesInput($event)" id="filesUpload" type="file" name="photo"
                     style="display: none;" multiple>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div>
                 <div class="gallery img-wrap" style="cursor: pointer;"
                     *ngFor="let aasdf of [].constructor(maxupload - aviso?.imgs?.length)">
-                    <label for="filesWindow"><img src="../../../assets/images/no-image1.png"></label>
+                    <label for="filesUpload"><img src="../../../assets/images/no-image1.png"></label>
                 </div>
             </div>
         </div>

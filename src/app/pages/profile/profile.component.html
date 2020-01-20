@@ -41,9 +41,11 @@
                 <h4 class="card-title">Fotografía del usuario</h4>
                 <h6 class="card-subtitle"> {{usuario.nombre}} </h6>
 
-                <img (click)="mostrarModal( usuario._id )" [src]="usuario.img | imagenPipe: 'usuarios' : usuario._id"
-                    class="w150">
-
+                <!-- Si no existe imagen temporal muestro la imagen del usuario -->
+                <img *ngIf="!imagenTemp" (click)="mostrarModal( usuario._id )"
+                    [src]="usuario.img | imagenPipe: 'usuarios' : usuario._id" class="w150">
+                <!-- Una vez que el usuario selecciono una imagen en el input, muestro la imagen temporal seleccionada -->
+                <img *ngIf="imagenTemp" (click)="mostrarModal( usuario._id )" [src]="imagenTemp" class="w150">
                 <!-- <input (change)="seleccionImage($event.target.files[0])" type="file"> -->
                 <br><br>
 
@@ -51,7 +53,7 @@
                 <input type="file" (change)="seleccionImage($event.target.files[0])" name="photo" id="upload-photo" />
                 <br><br>
 
-                <button (click)="cambiarImagen()" [disabled]="!imagenSubir" type="button"
+                <button (click)="subirImagen(usuario._id)" [disabled]="!imagenSubir" type="button"
                     class="btn btn-block btn-success waves-effect waves-light m-r-10">
                     <i class="fa fa-save"></i>
                     Actualizar Foto
