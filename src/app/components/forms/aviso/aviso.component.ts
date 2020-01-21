@@ -8,6 +8,7 @@ import { TipoUnidad, TiposUnidades } from 'src/app/models/aviso_tipounidad.model
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
+import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 
 @Component({
 	selector: 'app-form-aviso',
@@ -18,11 +19,15 @@ export class AvisoComponent implements OnInit {
 	// Si estoy editando una aviso obtengo los datos en formData
 	@Input() formData: Aviso;
 	@Output() formReady: EventEmitter<FormGroup> = new EventEmitter();
-	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter(); // Selecciono VENTA, muestra form detalles.
+	@Output() setFormDetalles: EventEmitter<object> = new EventEmitter();
 	parsetemplate = false;
 	avisoId: string;
 	formAviso: FormGroup = new FormGroup({});
 	unidades: TipoUnidad[] = [];
+
+	// Para definir cual va a ser mi formulario de detalles necesito los ID de tipooperacion y tipoinmueble
+	tipooperacion: string;
+	tipoinmueble: string;
 
 	// Localidades
 	localidadesControl = new FormControl();
@@ -55,7 +60,6 @@ export class AvisoComponent implements OnInit {
 
 	buildNewForm() {
 		this.formAviso.reset();
-		this.ingresaDetalles.emit(false);
 	}
 	// ngOnChanges(changes: SimpleChanges) {
 	// 	// changes.prop contains the old and the new value...
@@ -124,7 +128,22 @@ export class AvisoComponent implements OnInit {
 		});
 	}
 
+
+	setOperacion(operacion: TipoOperacion) {
+		this.tipooperacion = operacion._id;
+		this.emitFormDetalles();
+	}
+	emitFormDetalles() {
+		if (this.tipooperacion && this.tipoinmueble) {
+			this.setFormDetalles.emit({
+				tipooperacion: this.tipooperacion,
+				tipoinmueble: this.tipoinmueble
+			});
+		}
+	}
 	checkForFills(inmueble: TipoInmueble) {
+		this.tipoinmueble = inmueble._id;
+		this.emitFormDetalles();
 
 
 		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
@@ -161,16 +180,6 @@ export class AvisoComponent implements OnInit {
 					});
 				}
 			});
-		}
-	}
-
-	checkIngresaDetalles(operacion) {
-		// Si es venta emite true al padre para mostrar el formulario de carga de detalles del inmueble
-		if (operacion.value === '5e04b4bd3cb7d5a2401c9895') { // _id de venta
-			this.ingresaDetalles.emit(true);
-		} else {
-			this.ingresaDetalles.emit(false);
-
 		}
 	}
 

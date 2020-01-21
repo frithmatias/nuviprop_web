@@ -27,8 +27,7 @@ export class AvisoCrearComponent implements OnInit {
 	isLinear = false; // material stepper
 	avisoId: string; // esta aviso la necesito para saber si tengo que mostrar el boton "Ver Publicación" en el template
 	aviso: Aviso = new Aviso();
-	ingresaDetalles = false; // ingresa detalles SOLO para VENTA.
-
+	ingresaDetalles = false;
 
 	constructor(
 		public router: Router,
@@ -39,27 +38,24 @@ export class AvisoCrearComponent implements OnInit {
 
 	ngOnInit() {
 		this.misAvisosService.scrollTop();
+
+
+		// Para los formularios dinamicos empiezo obteniendo los formularios para tipooperacion, tipoinmueble
+
+
+
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
 			if (this.avisoId) {
 				if (this.avisoId === 'nuevo') {
-					// AVISO NUEVO
-					// por defecto no se ingresan detalles a menos que al cargar una propiedad
-					// se indique que corresponde a una VENTA.
-					this.ingresaDetalles = false;
 					this.aviso.activo = false;  // muestra la ultima etapa para activar el aviso
 					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
 					this.parsetemplate = true;
 				} else {
-					// AVISO EDICION
+					// EDICION
 					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
 						this.aviso = data;
 						this.parsetemplate = true;
-						if (data.tipooperacion.id === 'tipooperacion_venta') {
-							this.ingresaDetalles = true;
-						} else {
-							this.ingresaDetalles = false;
-						}
 					});
 				}
 			}

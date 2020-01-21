@@ -35,8 +35,9 @@
                     del lado del componente, reciba el mismo valor indicado en [value], el control tomara la opción 
                     que tenga ese valor. 
                 -->
-                <mat-select formControlName="tipooperacion" (selectionChange)="checkIngresaDetalles($event)">
-                    <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id">
+                <mat-select formControlName="tipooperacion">
+                    <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+                        (click)="setOperacion(operacion)">
                         {{ operacion.nombre }}
                     </mat-option>
                 </mat-select>

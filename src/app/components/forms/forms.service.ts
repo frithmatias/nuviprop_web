@@ -15,27 +15,11 @@ export class FormsService {
 
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
-	tiposCambio: any[] = [];
 	localidadesCercanas: any[] = [];
-	tiposTerrenos: any[] = [];
-	tiposPendientes: any[] = [];
-	tiposVistas: any[] = [];
-	tiposEstados: any[] = [];
-	tiposInstalaciones: any[] = [];
-	tiposServicios: any[] = [];
 
-	provincias: Provincia[] = [];
 	loading = {
 		tipooperacion: false,
 		tipoinmueble: false,
-		tipocambio: false,
-		provincias: false,
-		tipoterrenos: false,
-		tipopendientes: false,
-		tipovistas: false,
-		tipoestados: false,
-		tipoinstalaciones: false,
-		tiposervicios: false
 	};
 
 	// Control Autocomplete
@@ -157,14 +141,6 @@ export class FormsService {
 	fillControlsData() {
 		this.obtenerOperaciones();
 		this.obtenerInmuebles();
-		this.obtenerCambio();
-		this.obtenerProvincias();
-		this.obtenerTerrenos();
-		this.obtenerPendientes();
-		this.obtenerVista();
-		this.obtenerEstados();
-		this.obtenerInstalaciones();
-		this.obtenerServicios();
 	}
 
 	// Obtiene los tipos de operaciones (scope global)
@@ -182,79 +158,6 @@ export class FormsService {
 		return this.http.get(url).subscribe((data: TiposInmuebles) => {
 			if (data.ok) { this.loading.tipoinmueble = true; }
 			this.tiposInmuebles = data.inmuebles;
-		});
-	}
-
-
-	// Obtiene los tipos de inmuebles (scope global)
-	obtenerCambio() {
-		const url = URL_SERVICIOS + '/inicio/cambio';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipocambio = true; }
-			this.tiposCambio = data.tipocambio;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerProvincias() {
-		const url = URL_SERVICIOS + '/inicio/provincias';
-		return this.http.get(url).subscribe((data: RespProvincias) => {
-			if (data.ok) { this.loading.provincias = true; }
-			this.provincias = data.provincias;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerTerrenos() {
-		const url = URL_SERVICIOS + '/inicio/terrenos';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipoterrenos = true; }
-			this.tiposTerrenos = data.terrenos;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerPendientes() {
-		const url = URL_SERVICIOS + '/inicio/pendientes';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipopendientes = true; }
-			this.tiposPendientes = data.pendientes;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerVista() {
-		const url = URL_SERVICIOS + '/inicio/vistas';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipovistas = true; }
-			this.tiposVistas = data.vistas;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerEstados() {
-		const url = URL_SERVICIOS + '/inicio/estados';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipoestados = true; }
-			this.tiposEstados = data.estados;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerInstalaciones() {
-		const url = URL_SERVICIOS + '/inicio/instalaciones';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tipoinstalaciones = true; }
-			this.tiposInstalaciones = data.instalaciones;
-		});
-	}
-
-	// Obtiene todas las provincias (scope global)
-	obtenerServicios() {
-		const url = URL_SERVICIOS + '/inicio/servicios';
-		return this.http.get(url).subscribe((data: any) => {
-			if (data.ok) { this.loading.tiposervicios = true; }
-			this.tiposServicios = data.servicios;
 		});
 	}
 

@@ -7,9 +7,8 @@
 
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <app-form-aviso [formData]="aviso" (ingresaDetalles)="ingresaDetalles=$event"
-                (formReady)="guardarAviso($event, stepper)" (stepperReset)="stepperReset(stepper)"
-                *ngIf="parsetemplate">
+            <app-form-aviso [formData]="aviso" (formReady)="guardarAviso($event, stepper)"
+                (stepperReset)="stepperReset(stepper)" *ngIf="parsetemplate">
             </app-form-aviso>
         </mat-step>
 
@@ -19,7 +18,7 @@
         <!-- FORMULARIO DE DETALLES (SOLO PARA VENTA) -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step *ngIf="ingresaDetalles">
+        <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
             <app-form-detalles [formData]="aviso" (formReady)="guardarDetalles($event, stepper)" *ngIf="parsetemplate">
             </app-form-detalles>
