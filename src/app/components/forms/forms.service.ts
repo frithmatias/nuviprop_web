@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
-import { RespProvincias, Provincia } from 'src/app/models/aviso_provincia.model';
 import { FormControl } from '@angular/forms';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
