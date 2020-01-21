@@ -70,7 +70,7 @@ export class AvisosService {
 				}
 			});
 
-			const url = `${URL_SERVICIOS}/inicio/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
+			const url = `${URL_SERVICIOS}/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
 			this.http.get(url).subscribe((data: Avisos) => {
 				if (data.ok && data.avisos.length > 0) {
 					// si se encuentran avisos se lo paso al servicio de avisos. Si yo entro

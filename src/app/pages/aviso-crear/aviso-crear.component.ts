@@ -42,7 +42,16 @@ export class AvisoCrearComponent implements OnInit {
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
 			if (this.avisoId) {
-				if (this.avisoId !== 'nuevo') {
+				if (this.avisoId === 'nuevo') {
+					// AVISO NUEVO
+					// por defecto no se ingresan detalles a menos que al cargar una propiedad
+					// se indique que corresponde a una VENTA.
+					this.ingresaDetalles = false;
+					this.aviso.activo = false;  // muestra la ultima etapa para activar el aviso
+					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
+					this.parsetemplate = true;
+				} else {
+					// AVISO EDICION
 					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
 						this.aviso = data;
 						this.parsetemplate = true;
@@ -52,14 +61,6 @@ export class AvisoCrearComponent implements OnInit {
 							this.ingresaDetalles = false;
 						}
 					});
-				} else {
-					// por defecto no se ingresan detalles a menos que al cargar una propiedad
-					// se indique que corresponde a una VENTA.
-					this.ingresaDetalles = false;
-					this.aviso.activo = false;  // muestra la ultima etapa para activar el aviso
-					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
-
-					this.parsetemplate = true;
 				}
 			}
 		});

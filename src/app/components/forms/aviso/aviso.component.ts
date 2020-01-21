@@ -19,7 +19,6 @@ export class AvisoComponent implements OnInit {
 	@Input() formData: Aviso;
 	@Output() formReady: EventEmitter<FormGroup> = new EventEmitter();
 	@Output() ingresaDetalles: EventEmitter<Boolean> = new EventEmitter(); // Selecciono VENTA, muestra form detalles.
-	@Output() stepperReset: EventEmitter<Boolean> = new EventEmitter();
 	parsetemplate = false;
 	avisoId: string;
 	formAviso: FormGroup = new FormGroup({});
@@ -57,7 +56,6 @@ export class AvisoComponent implements OnInit {
 	buildNewForm() {
 		this.formAviso.reset();
 		this.ingresaDetalles.emit(false);
-		this.stepperReset.emit(true);
 	}
 	// ngOnChanges(changes: SimpleChanges) {
 	// 	// changes.prop contains the old and the new value...
