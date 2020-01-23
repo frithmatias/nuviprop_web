@@ -36,7 +36,7 @@ import { ConfirmComponent } from './forms/confirm/confirm.component';
 import { DetallesComponent } from './forms/detalles/detalles.component';
 import { AvisoComponent } from './forms/aviso/aviso.component';
 import { FiltrosComponent } from './forms/filtros/filtros.component';
-import { NewformsComponent } from './newforms/newforms.component';
+import { NewformsComponent } from './forms/newforms/newforms.component';
 
 
 @NgModule({
@@ -80,7 +80,8 @@ import { NewformsComponent } from './newforms/newforms.component';
 		ConfirmComponent,
 		DetallesComponent,
 		AvisoComponent,
-		FiltrosComponent
+		FiltrosComponent,
+		NewformsComponent
 	]
 })
 export class ComponentsModule { }

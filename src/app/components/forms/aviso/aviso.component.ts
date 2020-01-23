@@ -47,6 +47,13 @@ export class AvisoComponent implements OnInit {
 			if (params.id) {
 				if (params.id === 'nuevo') {
 					this.buildNewForm();
+				} else {
+					// si es una EDICION tengo que enviar al padre el tipooperacion y tipoinmueble
+					// para que construya y muestre (ingresaDetalles=true) el formulario de detalles
+					// esto lo hace el metodo setFormDetalles() en el padre (aviso-crear.component.ts)
+					if (this.formData.tipooperacion && this.formData.tipoinmueble) {
+						this.emitFormDetalles(this.formData.tipooperacion._id, this.formData.tipoinmueble._id);
+					}
 				}
 			}
 		});
@@ -131,20 +138,25 @@ export class AvisoComponent implements OnInit {
 
 	setOperacion(operacion: TipoOperacion) {
 		this.tipooperacion = operacion._id;
-		this.emitFormDetalles();
-	}
-	emitFormDetalles() {
 		if (this.tipooperacion && this.tipoinmueble) {
-			this.setFormDetalles.emit({
-				tipooperacion: this.tipooperacion,
-				tipoinmueble: this.tipoinmueble
-			});
+			this.emitFormDetalles(this.tipooperacion, this.tipoinmueble);
 		}
 	}
+
+	emitFormDetalles(tipooperacion: string, tipoinmueble: string) {
+		console.log(tipooperacion, tipoinmueble);
+		// Le envío al componente padre (aviso-crear) los datos necesarios para fabricar el formulario Detalles
+		this.setFormDetalles.emit({
+			tipooperacion,
+			tipoinmueble
+		});
+	}
+
 	checkForFills(inmueble: TipoInmueble) {
 		this.tipoinmueble = inmueble._id;
-		this.emitFormDetalles();
-
+		if (this.tipooperacion && this.tipoinmueble) {
+			this.emitFormDetalles(this.tipooperacion, this.tipoinmueble);
+		}
 
 		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
 		this.formsService.obtenerUnidades(inmueble.id).subscribe((data: TiposUnidades) => {

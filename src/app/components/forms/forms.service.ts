@@ -3,9 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Control } from 'src/app/models/form.model';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,6 +17,7 @@ export class FormsService {
 
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
+	tiposCambio: any[] = [];
 	localidadesCercanas: any[] = [];
 
 	loading = {
@@ -34,7 +38,9 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe,
 	) {
-		this.fillControlsData();
+		this.obtenerOperaciones();
+		this.obtenerInmuebles();
+		this.obtenerCambios();
 		this.getUltimasLocalidades();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
@@ -136,12 +142,6 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
-	// Este metodo invoca todos los metodos de scope global y lo inicializa el servicio de formularios
-	fillControlsData() {
-		this.obtenerOperaciones();
-		this.obtenerInmuebles();
-	}
-
 	// Obtiene los tipos de operaciones (scope global)
 	obtenerOperaciones() {
 		const url = URL_SERVICIOS + '/inicio/operaciones';
@@ -167,6 +167,13 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
+	// Obtiene los tipos de cambio
+	obtenerCambios() {
+		const url = URL_SERVICIOS + '/inicio/cambio';
+		return this.http.get(url).subscribe((data: any) => {
+			this.tiposCambio = data.tipocambio;
+		});
+	}
 	// Busca localidades según patrón (inicio y aviso-crear)
 	obtenerLocalidad(event) {
 		// le paso un patter con tres caracteres y me devuelve las localidades coincidentes.
@@ -174,6 +181,30 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
+	obtenerFormControls(formulario: string, tipooperacion: string, tipoinmueble: string) {
+		const url = URL_SERVICIOS + `/forms/${formulario}/${tipooperacion}/${tipoinmueble}`;
+		return this.http.get(url).pipe(
+			map((data: any) => data),
+			catchError((err) => {
+				return throwError(err.error.mensaje); // Devuelve un error al suscriptor de mi observable.
+			})
+		);
+
+	}
+
+	// Construye el formGroup
+	toFormGroup(controls: Control[], data: any) {
+		console.log(data);
+		const group: any = {};
+		controls.forEach(control => {
+			// TODO: agregar propiedad en cada control de REQUIRED [DONE]
+
+			group[control.id] = control.required ? new FormControl(data.detalles ? data.detalles[control.id] : '', Validators.required)
+				: new FormControl(control._id || '');
+			// group[control.id] = new FormControl(control._id || '', Validators.required);
+		});
+		return new FormGroup(group);
+	}
 
 
 

@@ -1,48 +1,29 @@
-export class respForm {
-  constructor(
-    public ok: boolean,
-    public form: FormularioData[],
-    public total: number
-  ) { }
-}
-
-export class FormularioData {
-  constructor(
-    public controls: Control[],
-    public _id: string,
-    public type: string,
-    public name: string,
-    public id: string,
-    public label: string
-  ) { }
+export class Form {
+	constructor(
+		public ok: boolean,
+		public controls: Control[]
+	) { }
 }
 
 export class Control {
-  constructor(
-    public type: string,
-    public name: string,
-    public id: string,
-    public label?: string,
-    public value?: Value,
-    public selects?: Value[]
-  ) { }
+	constructor(
+		public _id: string,
+		public nombre: string,
+		public id: string,
+		public type: string,
+		public datatype: string,
+		public required: boolean,
+		public tipooperacion: string[],
+		public tipoinmueble: string[],
+		public options: Option[]
+	) { }
 }
 
-export class Value {
-  constructor(
-    public type: string,
-    public name: string,
-    public id: string,
-    public value: string,
-    public label: string,
-    public fill?: Fill
-  ) { }
+export class Option {
+	constructor(
+		public _id: string,
+		public control: string,
+		public nombre: string,
+		public id: string
+	) { }
 }
-
-export class Fill {
-  constructor(
-    public fill_control: string,
-    public value: Value[]
-  ) { }
-}
-

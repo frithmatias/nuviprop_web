@@ -129,6 +129,7 @@ export class MisAvisosService {
 	guardarDetalles(dataform: any, aviso: Aviso) {
 		let url = URL_SERVICIOS;
 		console.log(aviso);
+		console.log(dataform);
 		url += '/avisos/detalles/' + aviso._id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
