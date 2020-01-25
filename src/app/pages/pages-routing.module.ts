@@ -15,6 +15,7 @@ import { AvisosComponent } from './avisos/avisos.component';
 import { AvisoComponent } from './aviso/aviso.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
+import { FormsAdminComponent } from './admin/forms-admin/forms-admin.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
@@ -37,6 +38,8 @@ const pagesRoutes: Routes = [
   // ADMIN PAGES
   { path: 'usuarios', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: UsuariosComponent, data: { titulo: 'Administracion de Usuarios' } },
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
+  { path: 'forms', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: FormsAdminComponent, data: { titulo: 'Controles de Formularios' } },
+
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

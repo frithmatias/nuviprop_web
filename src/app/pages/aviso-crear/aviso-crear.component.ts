@@ -7,18 +7,8 @@ import { Aviso } from 'src/app/models/aviso.model';
 @Component({
 	selector: 'app-aviso-crear',
 	templateUrl: './aviso-crear.component.html',
-	styles: [`
-  .custom-dropzone{
-    width: 100%;
-    border: 1px dashed #cccccc;
+	styleUrls: ['./aviso-crear.component.scss']
 
-  }
-  .custom-dropzone-image{
-    height: 50px;
-    border: 1px dashed #cccccc;
-  }
-
-  `]
 })
 export class AvisoCrearComponent implements OnInit {
 
@@ -40,12 +30,6 @@ export class AvisoCrearComponent implements OnInit {
 
 	ngOnInit() {
 		this.misAvisosService.scrollTop();
-
-
-		// Para los formularios dinamicos empiezo obteniendo los formularios para tipooperacion, tipoinmueble
-
-
-
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
 			if (this.avisoId) {
@@ -77,20 +61,14 @@ export class AvisoCrearComponent implements OnInit {
 	}
 
 	guardarAviso(event, stepper) {
-		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
-		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
 		if (event.invalid) {
 			return;
 		}
-		// this.aviso.inmobiliaria = f.value.inmobiliaria;
-
 		this.misAvisosService
 			.guardarAviso(event.value, this.avisoId) // Envío avisoId para saber si inserta ('nuevo') o actualiza ('id')
 			.subscribe(resp => {
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
-
-				// cambio url de /aviso/nuevo a /aviso/_id
 				this.router.navigate(['/aviso-crear', resp.aviso._id]);
 			});
 
@@ -101,19 +79,13 @@ export class AvisoCrearComponent implements OnInit {
 	}
 
 	guardarDetalles(event, stepper) {
-		// Desde el componente hijo (form.component.ts) recibo con un eventemitter que me notifica que
-		// el formulario y sus datos son válidos, dejo una copia en el servicio que estalista para ser guardada.
 		if (event.invalid) {
 			return;
 		}
-		// this.aviso.inmobiliaria = f.value.inmobiliaria;
-
-		this.misAvisosService
-			// envío los valores del formulario detalles y el aviso obtenido del formulario AVISO
-			.guardarDetalles(event.value, this.aviso).subscribe(resp => {
-				this.aviso = resp.aviso;
-				this.misAvisosService.stepperGoNext(stepper);
-			});
+		this.misAvisosService.guardarDetalles(event.value, this.aviso).subscribe(resp => {
+			this.aviso = resp.aviso;
+			this.misAvisosService.stepperGoNext(stepper);
+		});
 
 	}
 

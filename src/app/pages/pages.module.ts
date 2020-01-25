@@ -31,6 +31,7 @@ import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
 	declarations: [
@@ -49,6 +50,8 @@ import { FavoritosComponent } from './favoritos/favoritos.component';
 		FavoritosComponent
 
 
+
+
 	],
 	exports: [DashboardComponent],
 	imports: [
@@ -58,6 +61,7 @@ import { FavoritosComponent } from './favoritos/favoritos.component';
 		PagesRoutingModule,
 		ReactiveFormsModule,
 		FormsModule,
+		AdminModule,
 		MatStepperModule,
 		MatFormFieldModule,
 		MatIconModule,

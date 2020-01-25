@@ -26,7 +26,7 @@ export class NewformsComponent implements OnInit {
 
 	ngOnInit() {
 		console.log(this.ingresaDetallesData);
-		this.formsService.obtenerFormControls('detalles', this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
+		this.formsService.obtenerFormControls(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
 			.subscribe((data: Form) => {
 				console.log(data);
 				this.controls = data.controls;

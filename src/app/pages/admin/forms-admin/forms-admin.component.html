@@ -1,0 +1,47 @@
+<div class="content p-2 animated fadeIn">
+    <form [formGroup]="formSettings" (ngSubmit)="enviarFormulario()" id="formSettings" *ngIf="parsetemplate">
+
+        <div class="row">
+            <!---------------------------------------------------------------------->
+            <!-- SELECT OPERACION -->
+            <!---------------------------------------------------------------------->
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de operación</mat-label>
+                <!-- 
+                    cuando el formControlName, que es la estructura de controles del formulario definido 
+                    del lado del componente, reciba el mismo valor indicado en [value], el control tomara la opción 
+                    que tenga ese valor. 
+                -->
+                <mat-select formControlName="tipooperacion">
+                    <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+                        (click)="checkOperacion(operacion)">
+                        {{ operacion.nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!---------------------------------------------------------------------->
+            <!-- SELECT INMUEBLE -->
+            <!---------------------------------------------------------------------->
+            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+                <mat-label>Tipo de inmueble</mat-label>
+                <mat-select formControlName="tipoinmueble">
+                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
+                        (click)="checkInmueble(inmueble)">
+                        {{ inmueble.nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div *ngFor="let control of controls">
+            <span>
+                <mat-slide-toggle [formControlName]="control._id" checked="false"> {{control.nombre}}</mat-slide-toggle>
+            </span>
+        </div>
+        <button class="btn btn-success">
+            <!-- [disabled]="this.formSettings.invalid"> -->
+            Guardar
+        </button>
+    </form>
+
+</div>

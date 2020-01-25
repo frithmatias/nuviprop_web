@@ -10,12 +10,12 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: '',
-    component: PagesComponent,
-    // canActivate: [LoginGuard, TokenGuard],
-    loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule)
-    // en network voy a ver ahora que solo cuando hago un LOGIN veo pages-pages-module.js
-    // loadChildren: './pages/pages.module#PagesModule'
+	path: '',
+	component: PagesComponent,
+	// canActivate: [LoginGuard, TokenGuard],
+	loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule)
+	// en network voy a ver ahora que solo cuando hago un LOGIN veo pages-pages-module.js
+	// loadChildren: './pages/pages.module#PagesModule'
   },
   { path: '**', component: NopagefoundComponent }
 ];

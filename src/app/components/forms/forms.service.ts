@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
@@ -36,7 +36,7 @@ export class FormsService {
 	constructor(
 		private http: HttpClient,
 		private snackBar: MatSnackBar,
-		private capitalizarPipe: CapitalizarPipe,
+		private capitalizarPipe: CapitalizarPipe
 	) {
 		this.obtenerOperaciones();
 		this.obtenerInmuebles();
@@ -181,9 +181,31 @@ export class FormsService {
 		return this.http.get(url);
 	}
 
-	obtenerFormControls(formulario: string, tipooperacion: string, tipoinmueble: string) {
-		const url = URL_SERVICIOS + `/forms/${formulario}/${tipooperacion}/${tipoinmueble}`;
-		return this.http.get(url).pipe(
+	obtenerFormControls(tipooperacion?: string, tipoinmueble?: string) {
+		const token = localStorage.getItem('token');
+		const headers = new HttpHeaders({
+			'x-token': token
+		});
+		const url = URL_SERVICIOS + `/forms/${tipooperacion}/${tipoinmueble}`;
+
+		return this.http.get(url, { headers })
+			.pipe(
+				map((data: any) => data.form[0]),
+				catchError((err) => {
+					return throwError(err); // Devuelve un error al suscriptor de mi observable.
+				})
+			);
+
+	}
+
+	getAllControls() {
+		const token = localStorage.getItem('token');
+		const headers = new HttpHeaders({
+			'x-token': token
+		});
+		const url = URL_SERVICIOS + `/forms/getallcontrols`; // TODoS los controles (forms-admin)
+
+		return this.http.get(url, { headers }).pipe(
 			map((data: any) => data),
 			catchError((err) => {
 				return throwError(err.error.mensaje); // Devuelve un error al suscriptor de mi observable.
@@ -192,15 +214,26 @@ export class FormsService {
 
 	}
 
+	setFormControls(controls: any) {
+		const token = localStorage.getItem('token');
+		const headers = new HttpHeaders({
+			'x-token': token
+		});
+		const url = URL_SERVICIOS + `/forms/setformcontrols`;
+		return this.http.put(url, controls, { headers });
+	}
+
 	// Construye el formGroup
-	toFormGroup(controls: Control[], data: any) {
-		console.log(data);
+	toFormGroup(controls: Control[], data?: any, defaultValue?: any) {
 		const group: any = {};
 		controls.forEach(control => {
 			// TODO: agregar propiedad en cada control de REQUIRED [DONE]
+			if (data) {
+				group[control._id] = control.required ? new FormControl(data.detalles ? data.detalles[control.id] : '', Validators.required) : new FormControl('');
+			} else {
+				group[control._id] = control.required ? new FormControl(defaultValue !== undefined ? defaultValue : '', Validators.required) : new FormControl(defaultValue !== undefined ? defaultValue : '');
+			}
 
-			group[control.id] = control.required ? new FormControl(data.detalles ? data.detalles[control.id] : '', Validators.required)
-				: new FormControl(control._id || '');
 			// group[control.id] = new FormControl(control._id || '', Validators.required);
 		});
 		return new FormGroup(group);
