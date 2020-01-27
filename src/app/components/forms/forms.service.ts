@@ -186,11 +186,28 @@ export class FormsService {
 		const headers = new HttpHeaders({
 			'x-token': token
 		});
-		const url = URL_SERVICIOS + `/forms/${tipooperacion}/${tipoinmueble}`;
+		const url = URL_SERVICIOS + `/forms/getcontrols/${tipooperacion}/${tipoinmueble}`;
 
 		return this.http.get(url, { headers })
 			.pipe(
 				map((data: any) => data.form[0]),
+				catchError((err) => {
+					return throwError(err); // Devuelve un error al suscriptor de mi observable.
+				})
+			);
+
+	}
+
+	obtenerFormControlsAndData(tipooperacion?: string, tipoinmueble?: string) {
+		const token = localStorage.getItem('token');
+		const headers = new HttpHeaders({
+			'x-token': token
+		});
+		const url = URL_SERVICIOS + `/forms/getcontrolsdata/${tipooperacion}/${tipoinmueble}`;
+
+		return this.http.get(url, { headers })
+			.pipe(
+				// map((data: any) => data),
 				catchError((err) => {
 					return throwError(err); // Devuelve un error al suscriptor de mi observable.
 				})
@@ -224,21 +241,32 @@ export class FormsService {
 	}
 
 	// Construye el formGroup
-	toFormGroup(controls: Control[], data?: any, defaultValue?: any) {
+	toFormGroup_Id(controls: Control[], data?: any, defaultValue?: any) {
+		// En el FormGroup necesito identificar los controles con el _Id del documento en la BD (FORMS-ADMIN)
 		const group: any = {};
 		controls.forEach(control => {
-			// TODO: agregar propiedad en cada control de REQUIRED [DONE]
 			if (data) {
 				group[control._id] = control.required ? new FormControl(data.detalles ? data.detalles[control.id] : '', Validators.required) : new FormControl('');
 			} else {
 				group[control._id] = control.required ? new FormControl(defaultValue !== undefined ? defaultValue : '', Validators.required) : new FormControl(defaultValue !== undefined ? defaultValue : '');
 			}
-
-			// group[control.id] = new FormControl(control._id || '', Validators.required);
 		});
 		return new FormGroup(group);
 	}
 
+	// Construye el formGroup
+	toFormGroupId(controls: Control[], data?: any, defaultValue?: any) {
+		// En el FormGroup necesito identificar los controles con el ID del control (FORMS)
+		const group: any = {};
+		controls.forEach(control => {
+			if (data) {
+				group[control.id] = control.required ? new FormControl(data.detalles ? data.detalles[control.id] : '', Validators.required) : new FormControl('');
+			} else {
+				group[control.id] = control.required ? new FormControl(defaultValue !== undefined ? defaultValue : '', Validators.required) : new FormControl(defaultValue !== undefined ? defaultValue : '');
+			}
+		});
+		return new FormGroup(group);
+	}
 
 
 

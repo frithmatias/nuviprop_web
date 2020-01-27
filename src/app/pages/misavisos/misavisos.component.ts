@@ -23,10 +23,10 @@ export class MisAvisosComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.cargarAvisos(0);
+		this.cargarMisAvisos(0);
 	}
 
-	cargarAvisos(page: number) {
+	cargarMisAvisos(page: number) {
 		if (
 			((this.pagina === 0) && (page < 0)) ||
 			(((this.pagina + 1) * 20 >= this.totalAvisos) && (page > 0))
@@ -36,7 +36,7 @@ export class MisAvisosComponent implements OnInit {
 		this.pagina += page;
 		this.cargando = true;
 		this.misAvisosService
-			.cargarAvisos(this.pagina)
+			.cargarMisAvisos(this.pagina)
 			.subscribe((avisos: Avisos) => {
 				this.avisos = avisos.avisos;
 				this.totalAvisos = avisos.total;
@@ -53,7 +53,7 @@ export class MisAvisosComponent implements OnInit {
 		// /i        case-insensitive
 
 		if (termino.length <= 0) {
-			this.cargarAvisos(0);
+			this.cargarMisAvisos(0);
 			return;
 		}
 
@@ -93,7 +93,7 @@ export class MisAvisosComponent implements OnInit {
 							'La aviso ha sido borrada con éxito.',
 							'success'
 						);
-						this.cargarAvisos(0);
+						this.cargarMisAvisos(0);
 						this.cargando = false;
 					});
 			} else {
@@ -103,7 +103,7 @@ export class MisAvisosComponent implements OnInit {
 
 	cambiarEstado(id: string) {
 		this.misAvisosService.cambiarEstado(id).subscribe(data => {
-			this.cargarAvisos(0);
+			this.cargarMisAvisos(0);
 		});
 	}
 

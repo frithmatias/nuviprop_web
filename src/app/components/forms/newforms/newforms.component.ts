@@ -26,11 +26,12 @@ export class NewformsComponent implements OnInit {
 
 	ngOnInit() {
 		console.log(this.ingresaDetallesData);
-		this.formsService.obtenerFormControls(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
+		this.formsService.obtenerFormControlsAndData(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
 			.subscribe((data: Form) => {
-				console.log(data);
 				this.controls = data.controls;
-				this.form = this.formsService.toFormGroup(this.controls, this.formData);
+				this.form = this.formsService.toFormGroupId(this.controls, this.formData);
+				console.log('this.controls:', this.controls);
+				console.log('this.form:', this.form);
 			},
 				(err) => {
 					this.ingresaDetalles.emit(false); // muestro el formulario detalles en el STEPPER

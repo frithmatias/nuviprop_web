@@ -59,7 +59,7 @@ export class FormsAdminComponent implements OnInit {
   }
 
   buildForm(tipooperacion?: string, tipoinmueble?: string) {
-    this.formSettings = this.formsService.toFormGroup(this.controls, null, false);
+    this.formSettings = this.formsService.toFormGroup_Id(this.controls, null, false);
     this.formSettings.addControl('tipooperacion', new FormControl(tipooperacion ? this.tipooperacion : '', Validators.required));
     this.formSettings.addControl('tipoinmueble', new FormControl(tipoinmueble ? this.tipoinmueble : '', Validators.required));
   }
@@ -86,16 +86,16 @@ export class FormsAdminComponent implements OnInit {
         if (this.formSettings.controls[key].value === true) {
           activatedControls.push(key);
         }
-        //this.form.get(key).markAsDirty();
-      });
+        // this.form.get(key).markAsDirty();
+		});
 
-      this.formsService.setFormControls({
-        'tipooperacion': this.tipooperacion,
-        'tipoinmueble': this.tipoinmueble,
-        controls: activatedControls
-      }).subscribe(data => {
-        console.log(data);
-      })
-    }
+		    this.formsService.setFormControls({
+		tipooperacion: this.tipooperacion,
+		tipoinmueble: this.tipoinmueble,
+		controls: activatedControls
+		}).subscribe(data => {
+		console.log(data);
+		});
+	}
   }
 }

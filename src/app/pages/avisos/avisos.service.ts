@@ -19,7 +19,6 @@ export class AvisosService {
 		private router: Router,
 		private snackBar: MatSnackBar,
 	) {
-		// this.cargarAvisos(0);
 
 		if (localStorage.getItem('filtros')) {
 			const filtros = JSON.parse(localStorage.getItem('filtros'));
@@ -91,17 +90,3 @@ export class AvisosService {
 		});
 	}
 }
-
-	// cargarAvisos(pagina: number) {
-	// 	// Sola trae las proiedades activas.
-	// 	if (this.actualPage * 20 < this.avisostotal) { // solo traigo mas, si quedan mas para mostrar.
-	// 		let url = URL_SERVICIOS;
-	// 		url += '/avisos';
-	// 		url += '?pagina=' + pagina;
-	// 		this.http.get(url).subscribe((data: Avisos) => {
-	// 			this.avisos = data.avisos;
-	// 			this.avisostotal = data.total;
-	// 		});
-	// 	}
-	// 	this.actualPage++;
-	// }

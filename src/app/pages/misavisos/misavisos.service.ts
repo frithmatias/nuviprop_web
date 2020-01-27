@@ -18,16 +18,22 @@ export class MisAvisosService {
 		private usuarioService: UsuarioService
 	) { }
 
-
-	obtenerFormularios(formname: string) {
-		const url = URL_SERVICIOS + '/form/' + formname;
-		return this.http.get(url);
-	}
-
-	cargarAvisos(pagina: number) {
+	cargarMisAvisos(pagina: number) {
 		const uid = this.usuarioService.usuario._id;
 		let url = URL_SERVICIOS;
 		url += '/avisos/misavisos/' + uid + '?pagina=' + pagina;
+		const headers = new HttpHeaders({
+			'x-token': this.usuarioService.token
+		});
+		return this.http.get(url, { headers }).pipe(map((avisos: Avisos) => {
+			return avisos;
+		}));
+	}
+
+	cargarMisFavoritos(pagina: number) {
+		const arrAvisos: string = this.usuarioService.usuario.favoritos.toString();
+		let url = URL_SERVICIOS;
+		url += '/avisos/misfavoritos/?pagina=' + pagina + '&avisos=' + arrAvisos;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});

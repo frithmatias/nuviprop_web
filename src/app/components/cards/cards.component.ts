@@ -18,9 +18,11 @@ export class CardsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-	if (localStorage.getItem('favoritos')) {
-		this.propFavoritas = this.usuarioService.usuario.favoritos;
-	}
+	  console.log(this.avisos);
+		 if (localStorage.getItem('usuario')) {
+			this.propFavoritas = this.usuarioService.usuario.favoritos;
+			console.log(this.propFavoritas);
+		}
   }
 
   // Los favoritos se guardan en la localstorage en 'usuario.favoritos[]'
