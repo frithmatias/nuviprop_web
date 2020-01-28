@@ -6,6 +6,8 @@ import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
 import { MatStepper } from '@angular/material/stepper';
+import { Usuario } from 'src/app/models/usuario.model';
+import { observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -30,10 +32,10 @@ export class MisAvisosService {
 		}));
 	}
 
-	cargarMisFavoritos(pagina: number) {
-		const arrAvisos: string = this.usuarioService.usuario.favoritos.toString();
+	cargarMisFavoritos(pagina: number, avisos: string) {
+
 		let url = URL_SERVICIOS;
-		url += '/avisos/misfavoritos/?pagina=' + pagina + '&avisos=' + arrAvisos;
+		url += '/avisos/misfavoritos/?pagina=' + pagina + '&avisos=' + avisos;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});

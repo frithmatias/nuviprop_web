@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MisAvisosService, ModalUploadService } from 'src/app/services/services.index';
+import { MisAvisosService  } from 'src/app/services/services.index';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
-import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -18,7 +17,6 @@ export class MisAvisosComponent implements OnInit {
 
 	constructor(
 		private misAvisosService: MisAvisosService,
-		private modalUploadService: ModalUploadService,
 		private snackBar: MatSnackBar
 	) { }
 
@@ -70,46 +68,5 @@ export class MisAvisosComponent implements OnInit {
 			});
 		}
 	}
-
-	borrarAviso(aviso: Aviso) {
-		Swal.fire({
-			// para evitar problemas de tipo en este metodo defino al prinicio, declare var swal: any;
-			title: 'Esta seguro?',
-			text: 'Esta a punto de borrar ' + aviso.tipoinmueble + ' en ' + aviso.calle + ' ' + aviso.altura,
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			cancelButtonText: 'Cancelar',
-			confirmButtonText: 'Si, borrar aviso.'
-		}).then(result => {
-			if (result.value) {
-				this.cargando = true;
-				this.misAvisosService
-					.borrarAviso(aviso._id)
-					.subscribe((resp: any) => {
-						Swal.fire(
-							'Aviso eliminado',
-							'La aviso ha sido borrada con éxito.',
-							'success'
-						);
-						this.cargarMisAvisos(0);
-						this.cargando = false;
-					});
-			} else {
-			}
-		});
-	}
-
-	cambiarEstado(id: string) {
-		this.misAvisosService.cambiarEstado(id).subscribe(data => {
-			this.cargarMisAvisos(0);
-		});
-	}
-
-	mostrarModal(id: string) {
-		this.modalUploadService.mostrarModal('avisos', id);
-	}
-
 
 }

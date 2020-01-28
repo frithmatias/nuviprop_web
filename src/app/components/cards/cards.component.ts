@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { UsuarioService, FormsService } from 'src/app/services/services.index';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cards',
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class CardsComponent implements OnInit {
   @Input() avisos: Aviso[] = [];
   propFavoritas = [];
+  params: string;
   constructor(
 	private router: Router,
 	private usuarioService: UsuarioService,
@@ -18,10 +19,10 @@ export class CardsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-	  console.log(this.avisos);
+	console.log(this.avisos);
 		 if (localStorage.getItem('usuario')) {
-			this.propFavoritas = this.usuarioService.usuario.favoritos;
-			console.log(this.propFavoritas);
+			const usuario = JSON.parse(localStorage.getItem('usuario'));
+			this.propFavoritas = usuario.favoritos;
 		}
   }
 
@@ -29,9 +30,17 @@ export class CardsComponent implements OnInit {
   agregarFavorito(aviso: Aviso) {
 	this.usuarioService.agregarFavorito(aviso._id).subscribe(
 		(data) => {
-		console.log(data);
 		localStorage.setItem('usuario', JSON.stringify(data));
 		this.propFavoritas = data.favoritos;
+
+		// Solo si estoy en Favoritos (no en Avisos) tengo que quitar el aviso de la lista de avisos.
+		if (this.router.url === '/favoritos') {
+			this.avisos = this.avisos.filter(avisoenlista => {
+				return avisoenlista._id !== aviso._id;
+			});
+		}
+
+
 		},
 		err => {
 		// console.log(err);
