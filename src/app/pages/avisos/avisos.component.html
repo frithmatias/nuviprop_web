@@ -10,15 +10,15 @@
     <!---------------------------------------------------------------------->
     <!-- COLUMNA AVISOS -->
     <!---------------------------------------------------------------------->
-    <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10 p-0">
-        <div class="tab-content" id="myTabContent">
+    <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10 p-0" >
+        <div class="tab-content" id="myTabContent"  style="height:100%">
 
             <!-- ---------------------------------- -->
             <!-- TAB MAP -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" id="mapa">
-                <app-mapa class="avisos" [avisos]="avisosService.avisos"></app-mapa>
+            <div class="tab-pane fade animated fadeIn" style="height:100%" id="mapa">
+                <app-mapa [avisos]="avisosService.avisos"></app-mapa>
             </div>
 
             <!-- ---------------------------------- -->

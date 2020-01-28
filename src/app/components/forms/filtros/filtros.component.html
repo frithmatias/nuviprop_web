@@ -79,6 +79,10 @@
             <i class="mdi {{divfilterslocalidades ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
         </span>
     </div>
+
+    <!---------------------------------------------------------------------->
+    <!-- INPUT LOCALIDADES CERCANAS -->
+    <!----------------------------------------------------------------------> 
     <div *ngIf="divfilterslocalidades">
         <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
             <mat-label>Ingrese localidad</mat-label>
@@ -97,6 +101,9 @@
             </mat-option>
         </mat-autocomplete>
 
+    <!---------------------------------------------------------------------->
+    <!-- CHECKS LOCALIDADES CERCANAS -->
+    <!---------------------------------------------------------------------->        
         <div *ngIf="formsService.localidadesCercanas">
             <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense>
                 <mat-list-option formfiltros-localidades *ngFor="let localidad of formsService.localidadesCercanas"
@@ -108,7 +115,7 @@
 
     </div>
     <!---------------------------------------------------------------------->
-    <!-- TIPO DE OPERACION -->
+    <!-- CHECKS TIPO DE OPERACION -->
     <!---------------------------------------------------------------------->
     <!-- 
             En formsService tengo TODOS los items 
@@ -132,7 +139,7 @@
     </mat-selection-list>
 
     <!---------------------------------------------------------------------->
-    <!-- TIPO DE INMUEBLE -->
+    <!-- CHECKS TIPO DE INMUEBLE -->
     <!---------------------------------------------------------------------->
     <div class="bg-success p-1 pl-2 my-1 rounded text-white">
         <span>

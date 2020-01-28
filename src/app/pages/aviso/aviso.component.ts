@@ -7,11 +7,8 @@ import { MapaService } from 'src/app/components/mapa/mapa.service';
 @Component({
   selector: 'app-aviso',
   templateUrl: './aviso.component.html',
-  styles: [`
-  .mapbox{
-    height: 200px;
-  }
-  `]
+  styleUrls: ['./aviso.component.scss']
+
 })
 export class AvisoComponent implements OnInit {
   parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data

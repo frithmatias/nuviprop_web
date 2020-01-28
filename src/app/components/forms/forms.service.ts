@@ -49,6 +49,7 @@ export class FormsService {
 			const filterValue = data.toLowerCase();
 			if (data.length === 3) {
 				this.buscarLocalidad(filterValue).then((resp: Localidades) => {
+					// console.log(resp); // trea localidades vecinas, objetos GEO completos
 					resp.localidades.forEach(localidad => {
 						this.localidades.push(localidad);
 					});
@@ -118,12 +119,15 @@ export class FormsService {
 	}
 
 	localidadesVecinas(localidad: Localidad) {
+		console.log(localidad);
 		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
+			console.log(data);
+
 			this.localidadesCercanas = [];
-			data.localidades.forEach(localidad => {
-				const nombreCapitalizado = this.capitalizarPipe.transform(localidad.properties.nombre);
+			data.localidades.forEach(thislocalidad => {
+				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
 				const localidadVecina = {
-					_id: localidad._id,
+					_id: thislocalidad._id,
 					nombre: nombreCapitalizado,
 					id: nombreCapitalizado.toLowerCase().replace(/ /g, '_')
 				};

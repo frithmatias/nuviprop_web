@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
-import { UsuarioService, FormsService } from 'src/app/services/services.index';
-import { Router, ActivatedRoute } from '@angular/router';
+import { UsuarioService } from 'src/app/services/services.index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cards',
@@ -14,13 +14,11 @@ export class CardsComponent implements OnInit {
   params: string;
   constructor(
 	private router: Router,
-	private usuarioService: UsuarioService,
-	private formsService: FormsService
+	private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
-	console.log(this.avisos);
-		 if (localStorage.getItem('usuario')) {
+	if (localStorage.getItem('usuario')) {
 			const usuario = JSON.parse(localStorage.getItem('usuario'));
 			this.propFavoritas = usuario.favoritos;
 		}

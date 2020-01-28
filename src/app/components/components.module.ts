@@ -33,7 +33,6 @@ import { CardsComponent } from './cards/cards.component';
 
 // FORMULARIOS
 import { ConfirmComponent } from './forms/confirm/confirm.component';
-import { DetallesComponent } from './forms/detalles/detalles.component';
 import { AvisoComponent } from './forms/aviso/aviso.component';
 import { FiltrosComponent } from './forms/filtros/filtros.component';
 import { NewformsComponent } from './forms/newforms/newforms.component';
@@ -48,7 +47,6 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		ListComponent,
 		CardsComponent,
 		ConfirmComponent,
-		DetallesComponent,
 		AvisoComponent,
 		FiltrosComponent,
 		NewformsComponent
@@ -78,7 +76,6 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		CardsComponent,
 		RouterModule,
 		ConfirmComponent,
-		DetallesComponent,
 		AvisoComponent,
 		FiltrosComponent,
 		NewformsComponent

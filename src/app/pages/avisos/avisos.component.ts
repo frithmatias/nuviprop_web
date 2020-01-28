@@ -27,11 +27,11 @@ export class AvisosComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.cambiarTab(Number(localStorage.getItem('viewtab')) || 0);
+		this.scrollTop(); // envio el scroll hacia arriba
 		const maparef = document.getElementById('mapbox');
 		maparef.setAttribute('style', 'width:100%;');
 		init_plugins();
-		this.cambiarTab(Number(localStorage.getItem('viewtab')) || 0);
-		this.scrollTop(); // envio el scroll hacia arriba
 	}
 
 

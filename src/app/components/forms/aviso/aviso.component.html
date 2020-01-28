@@ -1,160 +1,208 @@
-<form [formGroup]="formAviso" (ngSubmit)="enviarFormulario()" id="formAviso" *ngIf="formData">
-    <div class="animated fadeIn">
-        <div class=" row">
-            <!-- TITULO -->
-            <mat-form-field appearance="fill" class="col-12">
-                <mat-label>Título</mat-label>
-                <input matInput formControlName="titulo" [errorStateMatcher]="matcher">
-                <!-- <mat-hint>Por favor ingrese un título lo suficientemente descriptivo.</mat-hint> 
-                <mat-error
-                    *ngIf="formAviso.controls.titulo.hasError('titulo') && !formAviso.controls.titulo.hasError('required')">
-                    Por favor ingrese un título válido.
-                </mat-error>-->
-                <mat-error *ngIf="formAviso.controls.titulo.hasError('required')">
-                    El título <strong>es requerido</strong>
-                </mat-error>
-            </mat-form-field>
+<form
+  [formGroup]="formAviso"
+  (ngSubmit)="enviarFormulario()"
+  id="formAviso"
+  *ngIf="formData"
+>
+  <div class="animated fadeIn">
+    <div class=" row">
+      <div class="col-md-6 col-sm-12">
+        <!-- TITULO -->
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Título</mat-label>
+          <input
+            matInput
+            formControlName="titulo"
+            [errorStateMatcher]="matcher"
+          />
+          <!-- <mat-hint>Por favor ingrese un título lo suficientemente descriptivo.</mat-hint> 
+                    <mat-error
+                        *ngIf="formAviso.controls.titulo.hasError('titulo') && !formAviso.controls.titulo.hasError('required')">
+                        Por favor ingrese un título válido.
+                    </mat-error>-->
+          <mat-error *ngIf="formAviso.controls.titulo.hasError('required')">
+            El título <strong>es requerido</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- DESCRIPCION -->
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
+            formControlName="descripcion"
+            style="height: 100px;"
+          ></textarea>
+        </mat-form-field>
+
+                <!---------------------------------------------------------------------->
+        <!-- INPUT LOCALIDAD -->
+        <!---------------------------------------------------------------------->
+
+        <mat-form-field
+          color="warn"
+          iniciocss
+          appearance="fill"
+          class="col-12"
+        >
+          <mat-label>Ingrese localidad</mat-label>
+          <input
+            type="text"
+            #inputLocalidad
+            placeholder="Ingrese localidad"
+            aria-label="Number"
+            matInput
+            [formControl]="formsService.localidadesControl"
+            [matAutocomplete]="auto"
+            [value]="formsService.nombreLocalidad"
+            (click)="formsService.cleanInput()"
+          />
+          <span class=" input-icon" (click)="formsService.cleanInput()"
+            ><i class="mdi mdi-close"></i
+          ></span>
+        </mat-form-field>
+
+        <!-- $event.option.value va a tomar el valor definido en [value], debe ir siempre el objeto seleccionado en este caso "option" -->
+        <mat-autocomplete
+          (optionSelected)="setLocalidad($event.option.value)"
+          iniciocss
+          #auto="matAutocomplete"
+        >
+          <mat-option
+            [value]="option"
+            *ngFor="let option of formsService.localidades"
+          >
+            {{ option.properties.nombre | capitalizarPipe }},
+            {{ option.properties.departamento.nombre }},
+            {{ option.properties.provincia.nombre }}
+          </mat-option>
+        </mat-autocomplete>
+
+      </div>
+
+      <div class="col-md-6 col-sm-12">
 
 
-            <!-- DESCRIPCION -->
-            <mat-form-field appearance="fill" class="col-12">
-                <mat-label>Descripción</mat-label>
-                <textarea matInput formControlName="descripcion" style="height: 100px;"></textarea>
-            </mat-form-field>
-        </div>
 
-        <div class="row">
+        <!---------------------------------------------------------------------->
+        <!-- MAPBOX -->
+        <!---------------------------------------------------------------------->
 
-            <!---------------------------------------------------------------------->
-            <!-- SELECT OPERACION -->
-            <!---------------------------------------------------------------------->
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de operación</mat-label>
-                <!-- 
+        <app-mapa [(center)]="coordsLocalidad"></app-mapa>
+      </div>
+    </div>
+
+    <div class="row">
+      <!---------------------------------------------------------------------->
+      <!-- SELECT OPERACION -->
+      <!---------------------------------------------------------------------->
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Tipo de operación</mat-label>
+        <!-- 
                     cuando el formControlName, que es la estructura de controles del formulario definido 
                     del lado del componente, reciba el mismo valor indicado en [value], el control tomara la opción 
                     que tenga ese valor. 
                 -->
-                <mat-select formControlName="tipooperacion">
-                    <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
-                        (click)="setOperacion(operacion)">
-                        {{ operacion.nombre }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-select formControlName="tipooperacion">
+          <mat-option
+            *ngFor="let operacion of formsService.tiposOperaciones"
+            [value]="operacion._id"
+            (click)="setOperacion(operacion)"
+          >
+            {{ operacion.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <!---------------------------------------------------------------------->
-            <!-- SELECT INMUEBLE -->
-            <!---------------------------------------------------------------------->
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de inmueble</mat-label>
-                <mat-select formControlName="tipoinmueble">
-                    <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
-                        (click)="checkForFills(inmueble)">
-                        {{ inmueble.nombre }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+      <!---------------------------------------------------------------------->
+      <!-- SELECT INMUEBLE -->
+      <!---------------------------------------------------------------------->
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Tipo de inmueble</mat-label>
+        <mat-select formControlName="tipoinmueble">
+          <mat-option
+            *ngFor="let inmueble of formsService.tiposInmuebles"
+            [value]="inmueble._id"
+            (click)="checkForFills(inmueble)"
+          >
+            {{ inmueble.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <!---------------------------------------------------------------------->
-            <!-- SELECT UNIDAD -->
-            <!---------------------------------------------------------------------->
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de unidad</mat-label>
-                <mat-select formControlName="tipounidad">
-                    <mat-option *ngFor="let unidad of unidades" [value]="unidad._id">
-                        {{ unidad.nombre }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+      <!---------------------------------------------------------------------->
+      <!-- SELECT UNIDAD -->
+      <!---------------------------------------------------------------------->
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Tipo de unidad</mat-label>
+        <mat-select formControlName="tipounidad">
+          <mat-option *ngFor="let unidad of unidades" [value]="unidad._id">
+            {{ unidad.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Calle</mat-label>
+        <input matInput formControlName="calle" />
+      </mat-form-field>
 
-            <!---------------------------------------------------------------------->
-            <!-- INPUT LOCALIDAD -->
-            <!---------------------------------------------------------------------->
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Altura</mat-label>
+        <input matInput formControlName="altura" />
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Piso</mat-label>
+        <input matInput formControlName="piso" />
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Depto</mat-label>
+        <input matInput formControlName="depto" />
+      </mat-form-field>
 
-            <mat-form-field color="warn" iniciocss appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Ingrese localidad</mat-label>
-                <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
-                    [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                    [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()">
-                <span class=" input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
-            </mat-form-field>
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Precio</mat-label>
+        <input matInput formControlName="precio" />
+      </mat-form-field>
 
-            <!-- $event.option.value va a tomar el valor definido en [value], debe ir siempre el objeto seleccionado en este caso "option" -->
-            <mat-autocomplete (optionSelected)="setLocalidad($event.option.value)" iniciocss #auto="matAutocomplete">
-                <mat-option [value]="option" *ngFor="let option of formsService.localidades">
-                    {{option.properties.nombre | capitalizarPipe}},
-                    {{option.properties.departamento.nombre}},
-                    {{option.properties.provincia.nombre}}
-                </mat-option>
-            </mat-autocomplete>
+      <!---------------------------------------------------------------------->
+      <!-- SELECT TIPO DE CAMBIO -->
+      <!---------------------------------------------------------------------->
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Tipo de cambio</mat-label>
+        <mat-select formControlName="tipocambio">
+          <mat-option
+            *ngFor="let cambio of formsService.tiposCambio"
+            [value]="cambio._id"
+          >
+            {{ cambio.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+        <mat-label>No publicar el precio</mat-label>
+        <mat-select formControlName="nopublicarprecio">
+          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
+        <mat-label>Apto Crédito</mat-label>
+        <mat-select formControlName="aptocredito">
+          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Calle</mat-label>
-                <input matInput formControlName="calle">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Altura</mat-label>
-                <input matInput formControlName="altura">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Piso</mat-label>
-                <input matInput formControlName="piso">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Depto</mat-label>
-                <input matInput formControlName="depto">
-            </mat-form-field>
-
-
-
-
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Precio</mat-label>
-                <input matInput formControlName="precio">
-            </mat-form-field>
-
-            <!---------------------------------------------------------------------->
-            <!-- SELECT TIPO DE CAMBIO -->
-            <!---------------------------------------------------------------------->
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Tipo de cambio</mat-label>
-                <mat-select formControlName="tipocambio">
-                    <mat-option *ngFor="let cambio of formsService.tiposCambio" [value]="cambio._id">
-                        {{ cambio.nombre }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>No publicar el precio</mat-label>
-                <mat-select formControlName="nopublicarprecio">
-                    <mat-option [value]="true">Si</mat-option>
-                    <mat-option [value]="false">No</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="my-1 col-12 col-lg-4 col-md-6">
-                <mat-label>Apto Crédito</mat-label>
-                <mat-select formControlName="aptocredito">
-                    <mat-option [value]="true">Si</mat-option>
-                    <mat-option [value]="false">No</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
-                <mat-label>Código Postal</mat-label>
-                <input matInput formControlName="codigopostal">
-            </mat-form-field>
-        </div>
+      <mat-form-field appearance="fill" class="col-12 col-lg-4 col-md-6">
+        <mat-label>Código Postal</mat-label>
+        <input matInput formControlName="codigopostal" />
+      </mat-form-field>
     </div>
-    <button class="btn btn-dark">Guardar</button>
+  </div>
+  <button class="btn btn-dark">Guardar</button>
 </form>
