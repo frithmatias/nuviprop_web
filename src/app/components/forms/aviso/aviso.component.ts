@@ -95,13 +95,15 @@ export class AvisoComponent implements OnInit {
 			descripcion: ['', [Validators.required, Validators.minLength(20)]],
 			precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
 			tipocambio: ['', [Validators.required]],
-			nopublicarprecio: ['', [Validators.required]],
+			publicarprecio: ['', [Validators.required]],
 			aptocredito: ['', [Validators.required]],
 			codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]],
 			tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], // _id
 			tipounidad: [null, [Validators.minLength(5)]], // _id
 			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], // _id
-			localidad: ['', [Validators.required, Validators.minLength(5)]] // _id
+			localidad: ['', [Validators.required, Validators.minLength(5)]], // _id
+			lat: ['', [Validators.required, Validators.minLength(5)]],
+			lng: ['', [Validators.required, Validators.minLength(5)]]
 		});
 
 		// evita el _id of null
@@ -120,13 +122,15 @@ export class AvisoComponent implements OnInit {
 				descripcion: this.formData.descripcion,
 				precio: this.formData.precio,
 				tipocambio: this.formData.tipocambio,
-				nopublicarprecio: this.formData.nopublicarprecio,
+				publicarprecio: this.formData.publicarprecio,
 				aptocredito: this.formData.aptocredito,
 				codigopostal: this.formData.codigopostal,
 				tipooperacion: tipooperacionValor,
 				tipoinmueble: tipoinmuebleValor,
 				tipounidad: tipounidadValor,
-				localidad: localidadValor
+				localidad: localidadValor,
+				lat: this.formData.lat,
+				lng: this.formData.lng
 			});
 		}
 	}
@@ -215,10 +219,19 @@ export class AvisoComponent implements OnInit {
 	}
 
 	enviarFormulario() {
+		console.log(this.formAviso);
 		if (this.formAviso.valid) {
 			this.formReady.emit(this.formAviso);
 		} else {
 			this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
 		}
+	}
+
+	setCoords(e){
+		console.log(e);
+		this.formAviso.patchValue({
+			lat: String(e.lat),
+			lng: String(e.lng)
+		});
 	}
 }

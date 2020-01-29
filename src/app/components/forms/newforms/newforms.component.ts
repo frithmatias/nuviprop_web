@@ -28,6 +28,7 @@ export class NewformsComponent implements OnInit {
 		console.log(this.ingresaDetallesData);
 		this.formsService.obtenerFormControlsAndData(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
 			.subscribe((data: Form) => {
+				console.log(data);
 				this.controls = data.controls;
 				this.form = this.formsService.toFormGroupId(this.controls, this.formData);
 				console.log('this.controls:', this.controls);

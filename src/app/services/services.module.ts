@@ -14,7 +14,6 @@ import {
   AdminGuard,
   TokenGuard,
   AvisosService,
-  MapaService,
   FormsService
 } from './services.index';
 
@@ -32,7 +31,6 @@ import {
     AdminGuard,
     TokenGuard,
     AvisosService,
-    MapaService,
     FormsService
   ],
   declarations: []

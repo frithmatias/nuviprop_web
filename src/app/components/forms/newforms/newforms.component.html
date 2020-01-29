@@ -10,7 +10,7 @@
             <div *ngFor="let control of controls" class="col-12 col-lg-4 col-md-6">
 
 
-                <mat-form-field *ngIf="control.type==='select'" appearance="fill">
+                <mat-form-field *ngIf="control.type==='select'">
                     <mat-label>{{ control.nombre }}</mat-label>
                     <mat-select [formControlName]="control.id">
                         <mat-option *ngFor="let option of control.options" [value]="option._id">
@@ -19,12 +19,12 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="control.type==='input' && control.datatype==='number'" appearance="fill">
+                <mat-form-field *ngIf="control.type==='input' && control.datatype==='number'">
                     <mat-label>{{ control.nombre }}</mat-label>
                     <input matInput type="number" [formControlName]="control.id">
                 </mat-form-field>
 
-                <mat-form-field *ngIf="control.type==='input' && control.datatype!=='number'" appearance="fill">
+                <mat-form-field *ngIf="control.type==='input' && control.datatype!=='number'">
                     <mat-label>{{ control.nombre }}</mat-label>
                     <input matInput [formControlName]="control.id">
                 </mat-form-field>

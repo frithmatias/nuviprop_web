@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { MisAvisosService } from '../misavisos/misavisos.service';
 import { ActivatedRoute } from '@angular/router';
-import { MapaService } from 'src/app/components/mapa/mapa.service';
 
 @Component({
   selector: 'app-aviso',
@@ -14,7 +13,7 @@ export class AvisoComponent implements OnInit {
   parsetemplate = false; // con *ngIf cargo el templete sólo cuando ya tengo la data
   aviso: Aviso;
   id: string;
-  constructor(private activatedRoute: ActivatedRoute, private misAvisosService: MisAvisosService, private mapaService: MapaService) { }
+  constructor(private activatedRoute: ActivatedRoute, private misAvisosService: MisAvisosService) { }
 
   ngOnInit() {
 	document.body.scrollTop = 0; // Safari

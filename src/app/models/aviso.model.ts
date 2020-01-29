@@ -22,7 +22,7 @@ export class Aviso {
 		public descripcion?: string,
 		public precio?: number,
 		public tipocambio?: string,
-		public nopublicarprecio?: boolean,
+		public publicarprecio?: boolean,
 		public aptocredito?: boolean,
 		public codigopostal?: string,
 		public activo?: boolean,
@@ -31,6 +31,8 @@ export class Aviso {
 		public tipounidad?: Unidad,
 		public tipooperacion?: Operacion,
 		public localidad?: Localidad,
+		public lat?: string, 
+		public lng?: string,
 
 		public usuario?: Usuario,
 		public detalles?: Detalles,
