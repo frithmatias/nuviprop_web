@@ -28,7 +28,7 @@ export class CapitalizarPipe implements PipeTransform {
 	// TODAS: si es verdadero capitaliza todas las palabres en el string.
 	transform(value: string, todas: boolean = true): string {
 		if (!value || typeof value !== 'string') {
-			console.log('Ingreso un valor no string al PIPE de capitalización.');
+			//console.log('Ingreso un valor no string al PIPE de capitalización.');
 			return;
 		}
 		value = value.toLowerCase();

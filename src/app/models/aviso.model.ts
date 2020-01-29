@@ -31,8 +31,10 @@ export class Aviso {
 		public tipounidad?: Unidad,
 		public tipooperacion?: Operacion,
 		public localidad?: Localidad,
-		public lat?: string, 
-		public lng?: string,
+		public coords?: {
+				lat?: string, 
+			 	lng?: string
+		},
 
 		public usuario?: Usuario,
 		public detalles?: Detalles,

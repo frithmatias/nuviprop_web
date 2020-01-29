@@ -50,7 +50,6 @@ export class InicioComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
-		console.log(localidad);
 		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
 		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
 		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita

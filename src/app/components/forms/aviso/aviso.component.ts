@@ -45,6 +45,7 @@ export class AvisoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		console.log(this.formData);
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
 			if (params.id) {
@@ -129,8 +130,8 @@ export class AvisoComponent implements OnInit {
 				tipoinmueble: tipoinmuebleValor,
 				tipounidad: tipounidadValor,
 				localidad: localidadValor,
-				lat: this.formData.lat,
-				lng: this.formData.lng
+				lat: this.formData.coords.lat,
+				lng: this.formData.coords.lng
 			});
 		}
 	}

@@ -119,10 +119,7 @@ export class FormsService {
 	}
 
 	localidadesVecinas(localidad: Localidad) {
-		console.log(localidad);
 		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
-			console.log(data);
-
 			this.localidadesCercanas = [];
 			data.localidades.forEach(thislocalidad => {
 				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);

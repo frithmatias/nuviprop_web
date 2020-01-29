@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { MAPBOX_TOKEN } from "../../config/config";
+import { Router } from '@angular/router';
 
 declare var mapboxgl: any;
 @Component({
@@ -15,11 +16,12 @@ export class MapaComponent implements OnInit {
 	map: any;
 	mapCenterInit = { lng: "-58.43680066430767", lat: "-34.608870104837614" };
 	mapZoom = 14;
-	mymarker: any;
+	markersAvisos: any[] = [];
+	markerNuevoAviso: any;
 	markerInserted = false; // en crear aviso, es necesario crear solo un marker
 	@Output() newMarker: EventEmitter<{}> = new EventEmitter();
 
-	constructor() { }
+	constructor(private router: Router) { }
 
 	ngOnInit() {
 		this.inicializarMapa(this.mapbox);
@@ -30,7 +32,22 @@ export class MapaComponent implements OnInit {
 		if (changes.center) {
 			this.flyMap(changes.center.currentValue);
 		}
+
+		// Escucho los cambios en AVISOS para crear mi array de puntos en el mapa.
+		if(changes.avisos && changes.avisos.currentValue.length > 0){
+			if(this.router.url === '/avisos'){ // solo si estoy en la page AVISOS 
+			this.avisos.forEach((aviso: any) => {
+				if(aviso.coords){ // solo si tiene coordenadas
+					this.markersAvisos.push(aviso);
+					let newmarker = new mapboxgl.Marker({draggable: false}).setLngLat(aviso.coords).addTo(this.map);
+				}
+			})
+		}
+			console.log(this.markersAvisos);
+		}
+
 	}
+
 	inicializarMapa(mapbox) {
 		const lat = Number(this.mapCenterInit.lat);
 		const lng = Number(this.mapCenterInit.lng);
@@ -48,27 +65,26 @@ export class MapaComponent implements OnInit {
 			zoom: this.mapZoom
 		});
 
+
 		var nav = new mapboxgl.NavigationControl();
 		this.map.addControl(nav, "top-right");
 
 		this.map.on("click", e => {
 			if (!this.markerInserted) {
-				console.log(e.lngLat.wrap());
 				this.markerInserted = true;
-				this.mymarker = new mapboxgl.Marker({ draggable: true })
+				this.markerNuevoAviso = new mapboxgl.Marker({ draggable: true })
 					.setLngLat(e.lngLat.wrap())
 					.addTo(this.map);
+					console.log(e.lngLat.wrap());
 					this.newMarker.emit(e.lngLat.wrap());
 					// Declaro el evento dragend sólo una vez, cuando inicializo mi marker.
-					this.mymarker.on("dragend", m => {
+					this.markerNuevoAviso.on("dragend", m => {
 						// Al mover el marker haciendo DRAG
-						this.newMarker.emit( this.mymarker.getLngLat());
-						console.log('on drag:', this.mymarker.getLngLat());
+						this.newMarker.emit( this.markerNuevoAviso.getLngLat());
 					});
 
 			} else {
-				console.log('on click:', e.lngLat.wrap());
-				this.mymarker.setLngLat(e.lngLat.wrap());
+				this.markerNuevoAviso.setLngLat(e.lngLat.wrap());
 				this.newMarker.emit(e.lngLat.wrap());
 			}
 		});
@@ -84,7 +100,7 @@ export class MapaComponent implements OnInit {
 
 	flyMap(center) {
 		this.markerInserted = false;
-		if (this.mymarker) this.mymarker.remove();
+		if (this.markerNuevoAviso) this.markerNuevoAviso.remove();
 		if (this.map) this.map.flyTo({ center });
 	}
 }
