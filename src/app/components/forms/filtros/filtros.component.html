@@ -5,7 +5,7 @@
 <!-- TABS AVISOS -->
 <!---------------------------------------------------------------------->
 
-<div class="nav nav-pills justify-content-end animated fadeIn" id="myTab" role="tablist">
+<div class="nav nav-pills animated fadeIn" id="myTab" role="tablist">
 
     <button (click)="tabSelected(0)" class="btn btn-light btn-sm m-1" id="mapa-tab" data-toggle="tab" href="#mapa"
         role="tab" aria-controls="mapa" aria-selected="false">
@@ -21,11 +21,6 @@
         role="tab" aria-controls="cards" aria-selected="false">
         <i class="mdi mdi-view-grid"></i> Cards
     </button>
-
-
-
-    <div style="width: 8px; background-color: #cecece;"></div>
-
 </div>
 
 
@@ -33,7 +28,7 @@
 <!-- FILTROS -->
 <!---------------------------------------------------------------------->
 
-<div class="content px-2" style="overflow-y: scroll; height: 455px;">
+<div class="content" style="overflow-y: scroll; height: 455px;">
 
 
     <!---------------------------------------------------------------------->
@@ -71,7 +66,7 @@
     <!---------------------------------------------------------------------->
     <!-- LOCALIDAD -->
     <!---------------------------------------------------------------------->
-    <div class="bg-primary p-1 pl-2 my-1 rounded text-white">
+    <div class="bg-primary p-1 pl-2 my-1 text-white">
         <span>
             Ubicación
         </span>
@@ -81,10 +76,14 @@
     </div>
 
     <!---------------------------------------------------------------------->
-    <!-- INPUT LOCALIDADES CERCANAS -->
+    <!-- LOCALIDADES CERCANAS -->
     <!----------------------------------------------------------------------> 
-    <div *ngIf="divfilterslocalidades">
-        <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
+    <div *ngIf="divfilterslocalidades" class="px-1">
+
+        <!---------------------------------------------------------------------->
+        <!-- INPUT LOCALIDADES CERCANAS -->
+        <!----------------------------------------------------------------------> 
+        <mat-form-field color="warn" iniciocss class="w-100 example-form-field">
             <mat-label>Ingrese localidad</mat-label>
             <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                 [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
@@ -101,13 +100,13 @@
             </mat-option>
         </mat-autocomplete>
 
-    <!---------------------------------------------------------------------->
-    <!-- CHECKS LOCALIDADES CERCANAS -->
-    <!---------------------------------------------------------------------->        
+        <!---------------------------------------------------------------------->
+        <!-- CHECKS LOCALIDADES CERCANAS -->
+        <!---------------------------------------------------------------------->        
         <div *ngIf="formsService.localidadesCercanas">
             <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense>
                 <mat-list-option formfiltros-localidades *ngFor="let localidad of formsService.localidadesCercanas"
-                    [value]="localidad._id" (click)="clickCheck()">
+                    [value]="localidad._id" (click)="filterUpdate('localidad', localidad)">
                     <div class="mat-select-option-nowarp">{{localidad.nombre}}</div>
                 </mat-list-option>
             </mat-selection-list>
@@ -122,7 +121,7 @@
             En la localStorage tengo los seleccionados 
         -->
 
-    <div class="bg-warning p-1 pl-2 my-1 rounded text-white">
+    <div class="bg-warning p-1 pl-2 my-1 text-white">
         <span>
             Tipo de operación
         </span>
@@ -130,18 +129,22 @@
             <i class="mdi {{divfiltersoperaciones ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
         </span>
     </div>
-    <mat-selection-list class="animated fadeIn" *ngIf="divfiltersoperaciones" class="animated fadeIn"
+
+    <div *ngIf="divfiltersoperaciones" class="px-1">
+        <mat-selection-list class="animated fadeIn" class="animated fadeIn"
         [(ngModel)]="seleccionOperaciones" dense>
         <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
-            [value]="operacion._id" (click)="clickCheck()">
+            [value]="operacion._id" (click)="filterUpdate('operacion', operacion)">
             <div class="mat-select-option-nowarp">{{operacion.nombre}}</div>
         </mat-list-option>
     </mat-selection-list>
+    </div>
+
 
     <!---------------------------------------------------------------------->
     <!-- CHECKS TIPO DE INMUEBLE -->
     <!---------------------------------------------------------------------->
-    <div class="bg-success p-1 pl-2 my-1 rounded text-white">
+    <div class="bg-success p-1 pl-2 my-1 text-white">
         <span>
             Tipo de inmueble
         </span>
@@ -149,13 +152,16 @@
             <i class="mdi {{divfiltersinmuebles ? 'mdi-chevron-up' : 'mdi-chevron-down'}}"></i>
         </span>
     </div>
-    <mat-selection-list *ngIf="divfiltersinmuebles" class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
+
+    <div *ngIf="divfiltersinmuebles" class="px-1">
+
+    <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
         <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
-            [value]="inmueble._id" (click)="clickCheck()">
+            [value]="inmueble._id" (click)="filterUpdate('inmueble', inmueble)">
             <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
         </mat-list-option>
     </mat-selection-list>
-
+    </div>
 
 </div>
 

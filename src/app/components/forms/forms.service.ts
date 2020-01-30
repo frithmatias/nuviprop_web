@@ -19,7 +19,6 @@ export class FormsService {
 	tiposInmuebles: TipoInmueble[] = [];
 	tiposCambio: any[] = [];
 	localidadesCercanas: any[] = [];
-
 	loading = {
 		tipooperacion: false,
 		tipoinmueble: false,
@@ -120,17 +119,14 @@ export class FormsService {
 
 	localidadesVecinas(localidad: Localidad) {
 		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
-			this.localidadesCercanas = [];
-			data.localidades.forEach(thislocalidad => {
+			this.localidadesCercanas = data.localidades;
+			this.localidadesCercanas.forEach(thislocalidad => {
 				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
-				const localidadVecina = {
-					_id: thislocalidad._id,
-					nombre: nombreCapitalizado,
-					id: nombreCapitalizado.toLowerCase().replace(/ /g, '_')
-				};
-				this.localidadesCercanas.unshift(localidadVecina);
-
+				thislocalidad.nombre = nombreCapitalizado;
+				(thislocalidad._id === localidad._id) ? thislocalidad.current = true : thislocalidad.current = false;
+				
 			});
+			console.log(this.localidadesCercanas);
 			localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
 		});
 	}

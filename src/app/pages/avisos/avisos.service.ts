@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 	providedIn: 'root'
 })
 export class AvisosService {
-
+	
 	avisos: Aviso[] = [];
 	avisostotal = 1;
 	actualPage = 0;
@@ -35,10 +35,21 @@ export class AvisosService {
 		return new Promise((resolve, reject) => {
 			// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones
 
-			if (filtros.localidad.length === 0 || filtros.tipoinmueble.length === 0 && filtros.tipooperacion.length === 0) {
-				reject('Faltan datos para la busqueda.');
+			if (filtros.localidad.length === 0){
+				reject('Seleccione una Localidad.');
 				return;
 			}
+
+			else if(filtros.tipooperacion.length === 0) {
+				reject('Seleccione un tipo de Operacion.');
+				return;
+			}
+			
+			else if(filtros.tipoinmueble.length === 0) {
+				reject('Seleccione un tipo de Inmueble.');
+				return;
+			}
+			
 			let operaciones: string; // venta-compra-alquiler
 			filtros.tipooperacion.forEach(operacion => {
 				if (operaciones) {

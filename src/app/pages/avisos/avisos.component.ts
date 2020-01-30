@@ -16,6 +16,7 @@ export class AvisosComponent implements OnInit {
 	private getMoreAvisos = false;
 
 	avisos: Aviso[];
+	localidadesActivas: object[]; //viene de un emit del formulario filtros
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
 
@@ -135,4 +136,7 @@ export class AvisosComponent implements OnInit {
 		});
 	}
 
+	localidadesSeleccionadas(event:any){
+		console.log(event);
+	}
 }

@@ -9,6 +9,7 @@ interface Localidad {
     properties: Properties;
     type: string;
     geometry: Geometry;
+    current: boolean;
 }
 
 interface Geometry {

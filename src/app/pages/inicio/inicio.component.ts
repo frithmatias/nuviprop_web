@@ -70,7 +70,7 @@ export class InicioComponent implements OnInit {
 		};
 
 		localStorage.setItem('filtros', JSON.stringify(filtros));
-
+		
 		// this.formsService.cleanInput();
 		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
 			this.snak(res, 2000);
