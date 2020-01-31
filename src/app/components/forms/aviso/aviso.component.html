@@ -1,12 +1,12 @@
 <form [formGroup]="formAviso" (ngSubmit)="enviarFormulario()" id="formAviso" *ngIf="formData">
   <div class="animated fadeIn">
-    <div class=" row">
+    <div class="row row-aviso-datos-primarios">
       <div class="col-md-6 col-sm-12">
 
         <!---------------------------------------------------------------------->
         <!-- INPUT LOCALIDAD -->
         <!---------------------------------------------------------------------->
-        <mat-form-field color="warn" iniciocss class="col-12">
+        <mat-form-field class="col-12">
           <mat-label>Ingrese localidad</mat-label>
           <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
             [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row row-aviso-datos-secundarios">
 
 
       <mat-form-field class="col-12 col-lg-4 col-md-6">

@@ -2,7 +2,7 @@
 
     <div class="col-12"> -->
 <!---------------------------------------------------------------------->
-<!-- TABS AVISOS -->
+<!-- TABS MODOS DE VISTA DE AVISOS -->
 <!---------------------------------------------------------------------->
 
 <div class="nav nav-pills animated fadeIn" id="myTab" role="tablist">
@@ -41,21 +41,25 @@
             <!-- LOCALIDAD -->
             <!---------------------------------------------------------------------->
             <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
-            <span class="badge badge-primary m-1 p-1" *ngFor="let filtro of avisosService.filtrosLocalidades">
+
+            <span class="badge badge-primary m-1 p-1" *ngFor="let filtro of objectsLocalidades">
                 {{filtro.nombre}}
             </span>
+
 
             <!---------------------------------------------------------------------->
             <!-- TIPO DE OPERACION -->
             <!---------------------------------------------------------------------->
-            <span class="badge badge-warning m-1 p-1" *ngFor="let filtro of avisosService.filtrosOperaciones">
-                {{filtro.nombre}}
-            </span>
+            <div *ngIf="seleccionOperaciones">
+                <span class="badge badge-warning m-1 p-1" *ngFor="let filtro of objectsOperaciones">
+                    {{filtro.nombre}}
+                </span>
+            </div>
 
             <!---------------------------------------------------------------------->
             <!-- TIPO DE INMUEBLE -->
             <!---------------------------------------------------------------------->
-            <span class="badge badge-success m-1 p-1" *ngFor="let filtro of avisosService.filtrosInmuebles">
+            <span class="badge badge-success m-1 p-1" *ngFor="let filtro of objectsInmuebles">
                 {{filtro.nombre}}
             </span>
 
@@ -77,12 +81,12 @@
 
     <!---------------------------------------------------------------------->
     <!-- LOCALIDADES CERCANAS -->
-    <!----------------------------------------------------------------------> 
+    <!---------------------------------------------------------------------->
     <div *ngIf="divfilterslocalidades" class="px-1">
 
         <!---------------------------------------------------------------------->
         <!-- INPUT LOCALIDADES CERCANAS -->
-        <!----------------------------------------------------------------------> 
+        <!---------------------------------------------------------------------->
         <mat-form-field color="warn" iniciocss class="w-100 example-form-field">
             <mat-label>Ingrese localidad</mat-label>
             <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
@@ -102,11 +106,12 @@
 
         <!---------------------------------------------------------------------->
         <!-- CHECKS LOCALIDADES CERCANAS -->
-        <!---------------------------------------------------------------------->        
+        <!---------------------------------------------------------------------->
         <div *ngIf="formsService.localidadesCercanas">
+            <mat-label>{{formsService.localidadesCercanas[0].properties.departamento.nombre}}</mat-label>
             <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense>
                 <mat-list-option formfiltros-localidades *ngFor="let localidad of formsService.localidadesCercanas"
-                    [value]="localidad._id" (click)="filterUpdate('localidad', localidad)">
+                    [value]="localidad._id" (click)="setLastLocalidad(localidad)">
                     <div class="mat-select-option-nowarp">{{localidad.nombre}}</div>
                 </mat-list-option>
             </mat-selection-list>
@@ -131,13 +136,12 @@
     </div>
 
     <div *ngIf="divfiltersoperaciones" class="px-1">
-        <mat-selection-list class="animated fadeIn" class="animated fadeIn"
-        [(ngModel)]="seleccionOperaciones" dense>
-        <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
-            [value]="operacion._id" (click)="filterUpdate('operacion', operacion)">
-            <div class="mat-select-option-nowarp">{{operacion.nombre}}</div>
-        </mat-list-option>
-    </mat-selection-list>
+        <mat-selection-list class="animated fadeIn" class="animated fadeIn" [(ngModel)]="seleccionOperaciones" dense>
+            <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
+                [value]="operacion._id" (click)="filterUpdate()">
+                <div class="mat-select-option-nowarp">{{operacion.nombre}}</div>
+            </mat-list-option>
+        </mat-selection-list>
     </div>
 
 
@@ -155,12 +159,12 @@
 
     <div *ngIf="divfiltersinmuebles" class="px-1">
 
-    <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
-        <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
-            [value]="inmueble._id" (click)="filterUpdate('inmueble', inmueble)">
-            <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
-        </mat-list-option>
-    </mat-selection-list>
+        <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
+            <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
+                [value]="inmueble._id" (click)="filterUpdate()">
+                <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
+            </mat-list-option>
+        </mat-selection-list>
     </div>
 
 </div>

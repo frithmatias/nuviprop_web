@@ -1,34 +1,44 @@
-interface Localidades {
-    ok: boolean;
-    localidades: Localidad[];
+export class Localidades {
+    constructor (
+        public ok: boolean,
+        public localidades: Localidad[]
+    ){}
 }
 
-interface Localidad {
-    coords: any[];
-    _id: string;
-    properties: Properties;
-    type: string;
-    geometry: Geometry;
-    current: boolean;
+export class Localidad {
+    constructor(
+        public coords: any[],
+        public _id: string,
+        public properties: Properties,
+        public type: string,
+        public geometry: Geometry
+    ){}
 }
 
-interface Geometry {
-    coordinates: number[];
-    type: string;
+export class Geometry {
+    constructor(
+        public coordinates: number[],
+        public type: string
+    ){}
 }
 
-interface Properties {
-    categoria: string;
-    fuente: string;
-    municipio: Municipio;
-    departamento: Municipio;
-    nombre: string;
-    id: string;
-    provincia: Municipio;
-    localidad_censal: Municipio;
+export class Properties {
+    constructor(
+        public categoria: string,
+        public fuente: string,
+        public municipio: Municipio,
+        public departamento: Municipio,
+        public nombre: string,
+        public id: string,
+        public provincia: Municipio,
+        public localidad_censal: Municipio
+    ){}
 }
 
-interface Municipio {
-    nombre: string;
-    id: string;
+export class Municipio {
+    constructor(
+        public nombre: string,
+        public id: string
+    ){}
 }
+

@@ -30,7 +30,6 @@ export class MapaComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		console.log(changes);
 		if (!this.map) this.inicializarMapa(this.mapbox);
 		// FORM AVISO-CREAR AL HACER CLICK EN EL CONTROL LOCALIDAD 
 		if (changes.center) {
@@ -39,9 +38,8 @@ export class MapaComponent implements OnInit {
 		}
 
 		// FORM FILTROS AL HACER CLICK EN UN CHECK DE LOCALIDAD
-		if ((changes.centerLocalidades !== undefined) && (changes.centerLocalidades.currentValue !== undefined)) {
-			// Defino la posicion en el mapa dada por el formulario filtros
-			this.flyMap(changes.centerLocalidades.currentValue.geometry.coordinates);
+		if ((typeof changes.centerLocalidades !== 'undefined' && (typeof changes.centerLocalidades.currentValue !== 'undefined') && (typeof changes.centerLocalidades.currentValue[0] !== 'undefined'))) {
+			this.flyMap(changes.centerLocalidades.currentValue[0].geometry.coordinates);
 		}
 
 		// si 'center' y 'centerLocalidades' estan undefined, entonces vengo del formulario INICIO y tengo que 
@@ -62,7 +60,6 @@ export class MapaComponent implements OnInit {
 		// Escucho los cambios en AVISOS para crear mi array de puntos en el mapa.
 		if ((changes.avisos !== undefined) && (changes.avisos.currentValue !== undefined) && changes.avisos.currentValue.length > 0) {
 			if (this.router.url === '/avisos') { // solo si estoy en la page AVISOS voy a crear los puntos en el mapa
-				console.log(this.avisos);
 				this.avisos.forEach((aviso: any) => {
 					if (aviso.coords && this.map) { // solo si tiene coordenadas
 						let newmarker = new mapboxgl.Marker({ draggable: false }).setLngLat(aviso.coords).addTo(this.map);
@@ -125,15 +122,18 @@ export class MapaComponent implements OnInit {
 		// Soluciona el problema del tamaño del mapa en un nav-tabs de bootstrap
 		this.map.on("load", () => {
 			this.map.resize();
-			//   $('[data-toggle="tab"]').on("shown.bs.tab", () => {
-			// 	this.map.resize();
-			//   });
+			   $('[data-toggle="tab"]').on("shown.bs.tab", () => {
+			 	this.map.resize();
+			   });
 		});
 	}
 
 	flyMap(center) {
 		this.markerInserted = false;
 		if (this.markerNuevoAviso) this.markerNuevoAviso.remove();
-		if (this.map) this.map.flyTo({ center });
+		if (this.map) {
+			this.map.flyTo({ center });
+			//this.map.zoomTo(zoom, { duration: 9000 });
+		}
 	}
 }

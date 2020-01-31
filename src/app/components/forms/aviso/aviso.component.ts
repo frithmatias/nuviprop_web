@@ -9,6 +9,7 @@ import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
+import { Localidades } from 'src/app/models/localidad.model';
 
 @Component({
 	selector: 'app-form-aviso',

@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Control } from 'src/app/models/form.model';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Localidades, Localidad } from 'src/app/models/localidad.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,7 +19,7 @@ export class FormsService {
 	tiposOperaciones: TipoOperacion[] = [];
 	tiposInmuebles: TipoInmueble[] = [];
 	tiposCambio: any[] = [];
-	localidadesCercanas: any[] = [];
+	localidadesCercanas: any[];
 	loading = {
 		tipooperacion: false,
 		tipoinmueble: false,
@@ -37,10 +38,8 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe
 	) {
-		this.obtenerOperaciones();
-		this.obtenerInmuebles();
-		this.obtenerCambios();
-		this.getUltimasLocalidades();
+
+		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
@@ -59,6 +58,13 @@ export class FormsService {
 				});
 			}
 		});
+	}
+
+	async getControlsData(){
+		await this.obtenerOperaciones();
+		await this.obtenerInmuebles();
+		await this.obtenerCambios();
+		this.getUltimasLocalidades();
 	}
 
 	// METODOS DEL CONTROL LOCALIDAD
@@ -97,6 +103,7 @@ export class FormsService {
 		// Los filtros se componen de datos seleccionados de un conjuto ya definido de datos como las operaciones
 		// En el caso de las localidades, tengo que guardar las localidades cercanas para poder mostrarlas al
 		// recargar la página.
+		// this.localidadesCercanas = []
 		this.localidadesCercanas = JSON.parse(localStorage.getItem('localidades'));
 	}
 
@@ -141,20 +148,31 @@ export class FormsService {
 
 	// Obtiene los tipos de operaciones (scope global)
 	obtenerOperaciones() {
+		return new Promise((resolve, reject) => {
 		const url = URL_SERVICIOS + '/inicio/operaciones';
 		return this.http.get(url).subscribe((data: TiposOperaciones) => {
-			if (data.ok) { this.loading.tipooperacion = true; }
-			this.tiposOperaciones = data.operaciones;
+			if (data.ok) { 
+				this.loading.tipooperacion = true; 
+				this.tiposOperaciones = data.operaciones;
+				resolve();
+			}
 		});
+	})
 	}
 
 	// Obtiene los tipos de inmuebles (scope global)
 	obtenerInmuebles() {
-		const url = URL_SERVICIOS + '/inicio/inmuebles';
-		return this.http.get(url).subscribe((data: TiposInmuebles) => {
-			if (data.ok) { this.loading.tipoinmueble = true; }
-			this.tiposInmuebles = data.inmuebles;
-		});
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/inmuebles';
+			return this.http.get(url).subscribe((data: TiposInmuebles) => {
+				if (data.ok) { 
+					this.loading.tipoinmueble = true; 
+					this.tiposInmuebles = data.inmuebles;
+					resolve();
+				}
+			});
+		})
+
 	}
 
 	// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
@@ -166,10 +184,13 @@ export class FormsService {
 
 	// Obtiene los tipos de cambio
 	obtenerCambios() {
+		return new Promise((resolve, reject) => {
 		const url = URL_SERVICIOS + '/inicio/cambio';
 		return this.http.get(url).subscribe((data: any) => {
 			this.tiposCambio = data.tipocambio;
+			resolve();
 		});
+	})
 	}
 	// Busca localidades según patrón (inicio y aviso-crear)
 	obtenerLocalidad(event) {

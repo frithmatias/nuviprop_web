@@ -4,6 +4,7 @@ import { formatDate } from '@angular/common';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Localidad } from 'src/app/models/localidad.model';
 
 
 @Component({
@@ -20,11 +21,19 @@ export class FiltrosComponent implements OnInit {
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
 	filtrosStorage: any;
 
-	// Arrays donde voy a guardar las opciones seleccionadas en los filtros (OBJETOS CONVERTIDOS A STRING)
-	seleccionOperaciones = [];
-	seleccionInmuebles = [];
-	seleccionLocalidades = [];
+	// Arrays donde voy a mapear con [(ngModel)] las opciones seleccionadas en cada filtro 
+	// Las declaro, pero no las inicializo, las necesito UNDEFINED porque en los divs de cada grupo de 
+	// filtros va a esperar con *ngIf a que esten definidas para presentarlos.
+	seleccionOperaciones: string[]; 
+	seleccionInmuebles: string[];
+	seleccionLocalidades: string[];
 
+	// Al hacer click en un filtro, y a partir de los arrays de _ids seleccionados voy a reconstruir 
+	// los objetos para guardarlos en nuevos arrays para consumir los datos como el nombre de cada control.
+	objectsOperaciones = [];
+	objectsInmuebles = [];
+	objectsLocalidades = [];
+	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionSelected: EventEmitter<object> = new EventEmitter();
 	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter(); // para enviar al mapa
@@ -47,26 +56,8 @@ export class FiltrosComponent implements OnInit {
 	}
 
 	ngOnInit() {
-
-		// Obtengo los datos del formulario guardados en la localstorage
-		this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
-		// Guardo los datos por defecto para mostrar los CHECKS seleccionados en cada lista
-		// TIPOS DE OPERACION (VALORES SELECCIONADOS)
-		this.filtrosStorage.tipooperacion.forEach(operacion => {
-			this.seleccionOperaciones.push(operacion); // operacion es un string.
-		});
-
-		// TIPOS DE INMUEBLE (VALORES SELECCIONADOS)
-		this.filtrosStorage.tipoinmueble.forEach(inmueble => {
-			this.seleccionInmuebles.push(inmueble);
-		});
-
-		// LOCALIDADES (VALORES SELECCIONADOS)
-		this.filtrosStorage.localidad.forEach(localidad => {
-			this.seleccionLocalidades.push(localidad);
-		});
-
-
+		 this.storageToArraysIDs(); // Filters selected ID's
+		 this.filtersToObjects(); // Filter Selected
 	}
 
 	// Setea el modo de vista seleccionado para que lo levante la page 'avisos'
@@ -74,29 +65,68 @@ export class FiltrosComponent implements OnInit {
 		localStorage.setItem('viewtab', String(tab));
 	}
 
+	storageToArraysIDs(){
 
-	filterUpdate(controlname: string, object: any) {
-		let localidadesVecinas = JSON.parse(localStorage.getItem('localidades'));
-		let localidadesSeleccionadas = [];
-		if (controlname === 'localidad') { // operacion sólo para checks de localidades
-			// se hizo un click en un check de los filtros de localidad, tengo que agarrar TODAS las 
-			// localidades vecinas de la localstorage y cruzarlas con las que fueron seleccionadas. 
-			// De manera de enviarle al mapa SOLO las localidades deseadas.
-			localidadesVecinas.forEach(localidad => {
-				if(this.seleccionLocalidades.includes(localidad._id)){
-					// aca estan los OBJETOS completos de las localidades seleccionadas 
-					if(localidad._id === object._id){
-						// si ademas dentro de las localidades seleccionadas, esta la localidad 
-						// a la que yo le hice click, la pongo en la posición 0 para que sea la 
-						// localidad en la cual se va a focalizar el centro del mapa.
-						localidadesSeleccionadas.unshift(localidad);
+			this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+			this.seleccionOperaciones = [];
+			this.seleccionInmuebles = [];
+			this.seleccionLocalidades = [];
+			this.filtrosStorage.tipooperacion.forEach(operacion => {
+				this.seleccionOperaciones.push(operacion); // operacion es un string.
+			});
+			this.filtrosStorage.tipoinmueble.forEach(inmueble => {
+				this.seleccionInmuebles.push(inmueble);
+			});
+			this.filtrosStorage.localidad.forEach(localidad => {
+				this.seleccionLocalidades.push(localidad);
+			});
+
+	}
+
+	filtersToObjects() {
+		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
+		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
+		// this.formsService.localidadesCercanas -> obtiene de la localstorage
+		
+		// las operaciones y los inmuebles son opciones fijas, representan un subuniverso que no cambia
+		// las localidades en cambio no, representan un subuniverso seleccionado por el usuario y por lo tanto necesito 
+		// guardarlo en la localstorage para poder obtenerlo nuevamente en una próxima visita.
+
+		this.objectsOperaciones = [];
+		this.objectsInmuebles = [];
+		this.objectsLocalidades = [];
+
+		this.formsService.tiposOperaciones.forEach(operacion => {
+			if (this.seleccionOperaciones.includes(operacion._id)) this.objectsOperaciones.unshift(operacion);
+		})
+		this.formsService.tiposInmuebles.forEach(inmueble => {
+			if (this.seleccionInmuebles.includes(inmueble._id)) this.objectsInmuebles.unshift(inmueble);
+		})
+		if(this.formsService.localidadesCercanas !== undefined && this.objectLocalidadChecked !== undefined){
+			this.formsService.localidadesCercanas.forEach(localidad => {
+				if (this.seleccionLocalidades.includes(localidad._id)) {
+					if(localidad._id === this.objectLocalidadChecked._id){
+						this.objectsLocalidades.unshift(localidad);
 					} else {
-						localidadesSeleccionadas.push(localidad);
+						this.objectsLocalidades.push(localidad);
 					}
-				}
+				} 
 			})
 		}
-		this.localidadesActivas.emit(localidadesSeleccionadas[0]);
+		
+	}
+
+
+	setLastLocalidad(object: Localidad){
+		this.objectLocalidadChecked = object;
+		this.filterUpdate();
+	}
+
+	filterUpdate() {
+		this.filtersToObjects();
+		// al hacer un unshift() pongo arriba el ultimo elemento, de modo que al seleccionar el primer elemento 
+		// me aseguro de enviar el último elemento seleccionado.
+		this.localidadesActivas.emit(this.objectsLocalidades);
 
 		// los filtros en seleccionOperaciones, seleccionInmuebles, seleccionLocalidades
 		// son array de strings que van directo al metodo obtenerAvisos(filtros) desde
