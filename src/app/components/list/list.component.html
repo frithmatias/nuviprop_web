@@ -1,119 +1,69 @@
-<div class="row animated fadeIn" *ngIf="!cargando">
-    <div class="col-12">
-        <!-- TODO: quitar m-3 on-focus -->
-        <div class="row border rounded m-3 p-2 shadow" *ngFor="let aviso of avisos; index as i"
-            [ngClass]="{'aviso-inactiva': !aviso.activo, 'aviso-activa': aviso.activo}">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <table class="animated fadeIn table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Localidad</th>
+                        <th scope="col">Operacion</th>
+                        <th scope="col">Inmueble</th>
+                        <th scope="col">Calle</th>
+                        <th scope="col">Altura</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let aviso of avisos; index as i">
+                        <td>{{ aviso.localidad.properties.nombre | capitalizarPipe }},
+                            {{ aviso.localidad.properties.provincia.nombre | capitalizarPipe }}</td>
+                        <td>{{ aviso.tipooperacion.nombre }}</td>
+                        <td>{{ aviso.tipoinmueble.nombre }}</td>
+                        <td>{{ aviso.calle }}</td>
+                        <td>{{ aviso.altura }}</td>
+                        <td>{{ aviso.tipocambio.simbolo }} {{ aviso.precio }}</td>
+                        <td><span *ngIf="aviso.activo">Activo</span><span *ngIf="!aviso.activo">Inactivo</span></td>
+                        <td style="cursor: pointer;">
+                            <span class="float-right">
+                                <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
+                                <mat-menu #menu="matMenu">
+                                    <div class="px-2">
 
-            <!---------------------------------------------------------------------->
-            <!-- AVISO HEADER -->
-            <!---------------------------------------------------------------------->
-            <div class="col-12">
-                <div class="row">
-                    <div class="col">
-                        <!---------------------------------------------------------------------->
-                        <!-- AVISO ID-->
-                        <!---------------------------------------------------------------------->
-                        <span class="float-left">
-                            <small>#id: {{ aviso._id}}</small>
-                        </span>
-                        <!---------------------------------------------------------------------->
-                        <!-- AVISO MENU -->
-                        <!---------------------------------------------------------------------->
-                        <span class="float-right">
 
-                            <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
-                            <mat-menu #menu="matMenu">
-                                <div class="p-2">
-                                    <div class="m-2">
-                                        <button [routerLink]="['/aviso', aviso._id]" class="btn btn-dark btn-block">
+                                        <div [routerLink]="['/aviso', aviso._id]" class="btn btn-sm btn-dark btn-block">
                                             <i class="fa fa-eye"></i>&nbsp; Ver aviso
-                                        </button>
-                                    </div>
-                                    <div class="m-2">
-                                        <button *ngIf="aviso.activo" (click)="cambiarEstado(aviso._id)"
-                                            class="btn btn-success btn-block">
+                                        </div>
+                                        <div *ngIf="aviso.activo" (click)="cambiarEstado(aviso._id)"
+                                            class="btn btn-sm btn-success btn-block">
                                             <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
-                                        </button>
-                                    </div>
-                                    <div class="m-2">
-                                        <button *ngIf="!aviso.activo" (click)="cambiarEstado(aviso._id)"
-                                            class="btn btn-secondary btn-block">
+                                        </div>
+                                        <div *ngIf="!aviso.activo" (click)="cambiarEstado(aviso._id)"
+                                            class="btn btn-sm btn-secondary btn-block">
                                             <i class="fa fa-circle-o"></i>&nbsp; Activar
-                                        </button>
-                                    </div>
-                                    <div class="m-2">
-
-                                        <button [routerLink]="['/aviso-crear', aviso._id ]" class="btn btn-primary btn-block">
+                                        </div>
+                                        <div [routerLink]="['/aviso-crear', aviso._id ]"
+                                            class="btn btn-sm btn-primary btn-block">
                                             <i class="fa fa-edit"></i>&nbsp; Editar
-                                        </button>
-
-                                    </div>
-                                    <div class="m-2">
-                                        <button (click)="borrarAviso( aviso )" class="btn btn-danger btn-block">
+                                        </div>
+                                        <div (click)="borrarAviso( aviso )" class="btn btn-sm btn-danger btn-block">
                                             <i class="fa fa-trash-o"></i>&nbsp; Borrar
-                                        </button>
-
+                                        </div>
                                     </div>
-                                </div>
-                            </mat-menu>
-
-
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        {{ aviso.tipoinmueble.nombre }} en
-                        {{ aviso.tipooperacion.nombre }} en
-                        {{ aviso.localidad.nombre | capitalizarPipe}}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <span class="h5" style="font-weight: 400; ">{{ aviso.calle }} {{ aviso.altura }}</span>
-                    </div>
-                </div>
-
-                <!---------------------------------------------------------------------->
-                <!-- AVISO IMAGEN -->
-                <!---------------------------------------------------------------------->
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 p-0 pr-2">
-                        <img (click)="mostrarModal( aviso._id )"
-                            [src]="aviso?.imgs[0] | imagenPipe : 'avisos' : aviso._id"
-                            class="img-fluid pointer rounded">
-                        <span class="aviso-precio">
-                            {{ aviso.precio }}
-                        </span>
-                    </div>
-
-                    <!---------------------------------------------------------------------->
-                    <!-- AVISO DESCRIPCION -->
-                    <!---------------------------------------------------------------------->
-                    <div class="col-sm-12 col-md-6 p-0 pr-2">
-                        {{ aviso.titulo}} <br>
-                        <p>
-                            {{ aviso.descripcion}}
-                        </p>
-                        <span>0 vistas | 23 dias para finalizar</span>
-                    </div>
-                </div>
+                                </mat-menu>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <div>
+                <button (click)="cargarAvisos(-1)" class="btn btn-primary m-1">
+                    Anteriores
+                </button>
+                <button (click)="cargarAvisos(1)" class="btn btn-primary m-1">
+                    Siguientes
+                </button>
             </div>
         </div>
-
-        <div>
-            <button (click)="cargarAvisos(-1)" class="btn btn-primary m-1">
-                Anteriores
-            </button>
-
-            <button (click)="cargarAvisos(1)" class="btn btn-primary m-1">
-                Siguientes
-            </button>
-        </div>
-
     </div>
 </div>

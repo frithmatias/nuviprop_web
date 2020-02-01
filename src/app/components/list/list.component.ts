@@ -19,9 +19,11 @@ export class ListComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-
 	}
 
+	ngOnChanges(changes: any){
+		console.log(changes.avisos);
+	}
 
 	borrarAviso(aviso: Aviso) {
 		Swal.fire({

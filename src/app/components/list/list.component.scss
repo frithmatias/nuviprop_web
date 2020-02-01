@@ -1,24 +1,10 @@
-.aviso-activo {
-  background-color: #ffffff;
+// -----------------------------------------
+// MODO LISTA
+// -----------------------------------------
+
+table {
+  font-size: 12px;
+  font-weight: lighter;
 }
 
-.aviso-inactivo {
-  opacity         : 0.5;
-  background-color: #eeeeee;
-}
 
-.img-200 {
-  width: 200px;
-}
-
-.aviso-precio {
-  font-size       : 26px;
-  font-weight     : 400;
-  color           : white;
-  position        : relative;
-  top             : -40px;
-  left            : 0px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding         : 5px 9px 5px 8px;
-  border-radius   : 0px 5px 0px 5px;
-}

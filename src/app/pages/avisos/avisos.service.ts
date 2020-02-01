@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
-import { Localidad } from 'src/app/models/localidad.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,9 +13,7 @@ export class AvisosService {
 	actualPage = 0;
 
 	constructor(
-		private http: HttpClient,
-		private router: Router,
-		private snackBar: MatSnackBar,
+		private http: HttpClient
 	) {
 
 		if (localStorage.getItem('filtros')) {
