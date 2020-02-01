@@ -4,6 +4,9 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
+import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
+import { Localidad } from 'src/app/models/localidad.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -35,59 +38,26 @@ export class AvisosService {
 		return new Promise((resolve, reject) => {
 			// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones
 
-			if (filtros.localidad.length === 0){
-				reject('Seleccione una Localidad.');
-				return;
-			}
-
-			else if(filtros.tipooperacion.length === 0) {
-				reject('Seleccione un tipo de Operacion.');
-				return;
-			}
-			
-			else if(filtros.tipoinmueble.length === 0) {
-				reject('Seleccione un tipo de Inmueble.');
-				return;
-			}
+			if (filtros.localidad.length === 0) 	reject('Seleccione una Localidad.');
+			if (filtros.tipooperacion.length === 0) reject('Seleccione un tipo de Operacion.');
+			if (filtros.tipoinmueble.length === 0) 	reject('Seleccione un tipo de Inmueble.');
 			
 			let operaciones: string; // venta-compra-alquiler
-			filtros.tipooperacion.forEach(operacion => {
-				if (operaciones) {
-					operaciones = operaciones + '-' + operacion;
-				} else {
-					operaciones = operacion;
-				}
-			});
-
-			// INMUEBLES
 			let inmuebles: string;
-			filtros.tipoinmueble.forEach(inmueble => {
-				if (inmuebles) {
-					inmuebles = inmuebles + '-' + inmueble;
-				} else {
-					inmuebles = inmueble;
-
-				}
-			});
-
-			// LOCALIDADES
 			let localidades: string;
-			filtros.localidad.forEach(localidad => {
-				if (localidades) {
-					localidades = localidades + '-' + localidad;
-				} else {
-					localidades = localidad;
-				}
-			});
+			
+			filtros.tipooperacion.forEach( (operacion: string) => operaciones ? operaciones += '-' + operacion : operaciones = operacion );
+			filtros.tipoinmueble.forEach( (inmueble: string) => inmuebles ? inmuebles += '-' + inmueble : inmuebles = inmueble );
+			filtros.localidad.forEach( (localidad: string) => localidades ? localidades += '-' + localidad : localidades = localidad);
 
 			const url = `${URL_SERVICIOS}/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
+
 			this.http.get(url).subscribe((data: Avisos) => {
 				if (data.ok && data.avisos.length > 0) {
 					// si se encuentran avisos se lo paso al servicio de avisos. Si yo entro
 					// a la pagina avisos sin pasar por inicio, me va a levantar TODOS los avisos activos.
 					this.avisos = data.avisos;
-					const msg = `Se obtuvieron ${data.avisos.length} avisos`;
-					resolve(msg);
+					resolve(`Se obtuvieron ${data.avisos.length} avisos`);
 				} else {
 					this.avisos = [];
 					reject('No se obtuvieron resultados.');

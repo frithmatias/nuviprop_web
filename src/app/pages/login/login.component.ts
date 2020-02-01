@@ -51,13 +51,13 @@ export class LoginComponent implements OnInit {
 		const token = googleUser.getAuthResponse().id_token;
 		this._usuarioService
 		.loginGoogle(token)
-		.subscribe(() => (window.location.href = '#/dashboard'));
+		.subscribe(() => (window.location.href = '#/avisos'));
 		// si mi backend valida las credenciales pasadas por el frontend, entonces me da el ok y me
 		// redirecciona al dashboard.
 
 		// Hay un problema con el template al redireccionar al dashboard desde el login de google y podemos solucionarlo
 		// haciendo una redirección manual con Vanilla JS. Como uso el HASH # no estoy cargando nuevamente la aplicación.
-		// this.router.navigate(['/dashboard']);
+		// this.router.navigate(['/avisos']);
 	});
   }
 
@@ -81,10 +81,10 @@ export class LoginComponent implements OnInit {
 		.subscribe(
 		// seccion 17 clase 222, capturo el error de throwError del observable POST en el
 		// servicio usuariosService metodo login()
-		correcto => this.router.navigate(['/dashboard']),
+		correcto => this.router.navigate(['/avisos']),
 		err => Swal.fire('Error', err.error.mensaje, 'error')
 		);
-	// this.router.navigate([ '/dashboard' ]);
+	// this.router.navigate([ '/avisos' ]);
   }
 
   cleanEmail(elementEmail, elementPassword) {

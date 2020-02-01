@@ -125,11 +125,14 @@ export class FormsService {
 	}
 
 	localidadesVecinas(localidad: Localidad) {
+		console.log(localidad);
 		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
 			this.localidadesCercanas = data.localidades;
 			this.localidadesCercanas.forEach(thislocalidad => {
 				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
 				thislocalidad.nombre = nombreCapitalizado;
+				// Si la localidad cercana es la que ingrese en el input, la guardo como current para mostrarla en el mapa 
+				// la próxima vez que entre a la página sin pasar por el buscador.
 				(thislocalidad._id === localidad._id) ? thislocalidad.current = true : thislocalidad.current = false;
 				
 			});

@@ -1,8 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../config/config';
 
 @Pipe({
   name: 'imagenPipe'
+})
+
+
+@Injectable({
+	providedIn: 'root' // Only available with angular 6+, else add it to providers
 })
 export class ImagenPipe implements PipeTransform {
   transform(img: string, tipo: string, id: string): any {

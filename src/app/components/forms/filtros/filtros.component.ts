@@ -5,6 +5,7 @@ import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class FiltrosComponent implements OnInit {
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionSelected: EventEmitter<object> = new EventEmitter();
-	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter(); // para enviar al mapa
+	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter<object[]>(); // para enviar al mapa
+	@Output() pruebaObs: EventEmitter<Observable<Number>> = new EventEmitter<Observable<Number>>(); // para enviar al mapa
 
 	// Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera
 	// puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
@@ -68,9 +70,11 @@ export class FiltrosComponent implements OnInit {
 	storageToArraysIDs(){
 
 			this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+
 			this.seleccionOperaciones = [];
 			this.seleccionInmuebles = [];
 			this.seleccionLocalidades = [];
+
 			this.filtrosStorage.tipooperacion.forEach(operacion => {
 				this.seleccionOperaciones.push(operacion); // operacion es un string.
 			});
@@ -124,24 +128,17 @@ export class FiltrosComponent implements OnInit {
 
 	filterUpdate() {
 		this.filtersToObjects();
-		// al hacer un unshift() pongo arriba el ultimo elemento, de modo que al seleccionar el primer elemento 
-		// me aseguro de enviar el último elemento seleccionado.
-		this.localidadesActivas.emit(this.objectsLocalidades);
-
-		// los filtros en seleccionOperaciones, seleccionInmuebles, seleccionLocalidades
-		// son array de strings que van directo al metodo obtenerAvisos(filtros) desde
-		// el componente padre.
+		
 		const filtros = {
 			tipooperacion: this.seleccionOperaciones,
 			tipoinmueble: this.seleccionInmuebles,
 			localidad: this.seleccionLocalidades
 		};
-
-		// guardo los filtros en la localstorage para recuperarlos al recargar la página. 
-		// Para las localidades, ademas guardo en la localstorage el último resultado de localidadesVecinas.
+		
 		localStorage.setItem('filtros', JSON.stringify(filtros));
-
-		// Le aviso al padre que hice cambios en los filtors, que busque nuevas avisos.
+		
+		
+		this.localidadesActivas.emit(this.objectsLocalidades);
 		this.optionSelected.emit(filtros);
 	}
 

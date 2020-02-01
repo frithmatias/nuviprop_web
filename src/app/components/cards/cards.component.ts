@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { UsuarioService } from 'src/app/services/services.index';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cards',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })

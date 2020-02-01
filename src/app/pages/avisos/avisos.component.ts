@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AvisosService, FormsService } from 'src/app/services/services.index';
 import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 declare function init_plugins();
 @Component({
@@ -14,7 +15,6 @@ export class AvisosComponent implements OnInit {
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
 	private getMoreAvisos = false;
-
 	avisos: Aviso[];
 	localidadesActivas: object[]; //viene de un emit del formulario filtros
 	showScrollHeight = 400;
@@ -58,7 +58,6 @@ export class AvisosComponent implements OnInit {
 		contentLista.classList.remove('show.active');
 		contentCards.classList.remove('show.active');
 
-
 		const contents: any = document.getElementsByClassName('tab-pane');
 
 		// activo el tab correspondiente al ultimo seleccionado guardado en el servicio.
@@ -80,8 +79,6 @@ export class AvisosComponent implements OnInit {
 				contentMapa.classList.add('show', 'active');
 				break;
 		}
-
-		// activo el contenedor correspondiente al tab seleccionado.
 	}
 
 	scrollTop() {
@@ -91,13 +88,9 @@ export class AvisosComponent implements OnInit {
 
 	@HostListener('window:scroll', [])
 	onWindowScroll() {
-
 		if ((window.pageYOffset ||
 			document.documentElement.scrollTop ||
 			document.body.scrollTop) > this.showScrollHeight) {
-
-			// al hacer un scroll hacia abajo, el boton que aparece para ir hacia arriba tapa el footer.
-			// corro el telefono hacia la izquierda para que no lo tape.
 			this.showGoUpButton = true;
 		} else if (this.showGoUpButton &&
 			(window.pageYOffset ||
@@ -106,23 +99,9 @@ export class AvisosComponent implements OnInit {
 			< this.hideScrollHeight) {
 			this.showGoUpButton = false;
 		}
-
-		// 1. document.documentElement.scrollTop, posicion absoulta de cota superior de scroll
-		// 2. document.documentElement.clientHeight, altura del scroll
-		// 3. document.documentElement.offsetHeight, altura total de la ventana
-		// 1 + 2 = 3
-		// const contentHeight = document.getElementById('myTabContent').offsetHeight;
-		// if (((document.documentElement.scrollTop + document.documentElement.clientHeight) * 100 / contentHeight) > this.INFINITESCROLL_THRESHOLD) {
-		// 	if (this.getMoreAvisos === false) {
-		// 		this.avisosService.obtenerAvisos();
-		// 	}
-		// 	this.getMoreAvisos = true;
-		// } else {
-		// 	this.getMoreAvisos = false;
-		// }
 	}
 
-	filterSelected(filtros: any) {
+	obtenerAvisos(filtros: any) {
 		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
 			this.snak(res, 2000);
 		}).catch((err) => {
