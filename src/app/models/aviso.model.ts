@@ -10,9 +10,10 @@ export class Avisos {
 		public total: number
 		) { }
 	}
-
-export class Aviso {
+	
+	export class Aviso {
 		constructor(
+		public _id?: string,
 		public imgs?: string[],
 		public calle?: string,
 		public altura?: number,
@@ -26,10 +27,11 @@ export class Aviso {
 		public aptocredito?: boolean,
 		public codigopostal?: string,
 		public activo?: boolean,
+		public destacado?: boolean,
 
+		public tipooperacion?: Operacion,
 		public tipoinmueble?: Inmueble,
 		public tipounidad?: Unidad,
-		public tipooperacion?: Operacion,
 		public localidad?: Localidad,
 		public coords?: {
 				lat?: string, 
@@ -41,12 +43,12 @@ export class Aviso {
 		// el usuario se adjunta en el controlador de avisos en el backend,
 		// lo obtiene el middleware auth cuando verifica el token
 		// public inmobiliaria?: Inmobiliaria,
-		public _id?: string,
 		public __v?: number
 	) {
 		this.imgs = [];
 	}
 }
+
 interface Localidad {
 	nombre: string;
 	id: string;

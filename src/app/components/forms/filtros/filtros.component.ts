@@ -36,9 +36,8 @@ export class FiltrosComponent implements OnInit {
 	objectsLocalidades = [];
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
-	@Output() optionSelected: EventEmitter<object> = new EventEmitter();
+	@Output() optionsSelected: EventEmitter<object> = new EventEmitter();
 	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter<object[]>(); // para enviar al mapa
-	@Output() pruebaObs: EventEmitter<Observable<Number>> = new EventEmitter<Observable<Number>>(); // para enviar al mapa
 
 	// Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera
 	// puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
@@ -139,7 +138,7 @@ export class FiltrosComponent implements OnInit {
 		
 		
 		this.localidadesActivas.emit(this.objectsLocalidades);
-		this.optionSelected.emit(filtros);
+		this.optionsSelected.emit(filtros);
 	}
 
 

@@ -2,15 +2,15 @@
 <div class="content p-3">
     <div class="row">
 
-        <div *ngIf="avisos.length === 0">
+        <div *ngIf="avisos && avisos.length === 0">
             <div class="alert alert-warning" role="alert">
                     No se encontraron avisos.
               </div>
         </div>
+        
         <div class="col-12 col-md-6 col-lg-4 col-xl-4" *ngFor="let aviso of avisos">
             <div class="ribbon-wrapper card cardshadow border">
-                <div class="ribbon ribbon-bookmark ribbon-warning"> <i class="fa fa-check-circle"></i>
-                    Destacado </div>
+                <div class="ribbon ribbon-bookmark ribbon-success" *ngIf="aviso.destacado"> <i class="fa fa-check-circle"></i> Destacado </div>
                 <div class="ribbon-content">
                     <!---------------------------------------------------------------------->
                     <!-- IMAGEN -->
@@ -62,10 +62,9 @@
                 </div>
 
                 <button [routerLink]="['/aviso', aviso._id]"
-                    class="btn btn-primary rounded-0 float-right rounded-bottom rounded-lg"><i
-                        class="mdi mdi-content-paste"></i>
-                    Ver
-                    aviso</button>
+                    class="btn btn-primary rounded-0 float-right rounded-bottom rounded-lg">
+                    <i class="mdi mdi-content-paste"></i> Ver aviso
+                </button>
             </div>
 
         </div>

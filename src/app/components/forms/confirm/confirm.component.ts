@@ -26,13 +26,13 @@ export class ConfirmComponent implements OnInit {
   }
 
 
-  cambiarEstado() {
+  activarAviso() {
     if (this.avisoId === 'nuevo') {
       this.snackBar.open('¡Debe guardar el aviso primero!', 'Aceptar', {
         duration: 2000,
       });
     } else {
-      this.misAvisosService.cambiarEstado(this.aviso._id).subscribe(data => {
+      this.misAvisosService.activarAviso(this.aviso._id).subscribe(data => {
         this.router.navigate(['/avisos']);
       });
     }

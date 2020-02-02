@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { MisAvisosService } from 'src/app/services/services.index';
 import Swal from 'sweetalert2';
@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
 	pagina = 0;
 	totalAvisos = 0;
 	@Input() avisos: Aviso[] = [];
+	@Output() avisosChange: EventEmitter<Aviso[]> = new EventEmitter<Aviso[]>();
 
 	constructor(
 		private misAvisosService: MisAvisosService
@@ -22,7 +23,7 @@ export class ListComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: any){
-		console.log(changes.avisos);
+
 	}
 
 	borrarAviso(aviso: Aviso) {
@@ -57,9 +58,8 @@ export class ListComponent implements OnInit {
 		});
 	}
 
-	cambiarEstado(id: string) {
-		this.misAvisosService.cambiarEstado(id).subscribe((data: Aviso) => {
-			console.log(data);
+	activarAviso(id: string) {
+		this.misAvisosService.activarAviso(id).subscribe((data: Aviso) => {
 			this.avisos.forEach(aviso => {
 				if (aviso._id === data._id) {
 					aviso.activo = data.activo;
@@ -68,6 +68,21 @@ export class ListComponent implements OnInit {
 		});
 	}
 
+	destacarAviso(id: string) {
+		this.misAvisosService.destacarAviso(id).subscribe((data: Aviso) => {
+			this.avisos.forEach(aviso => {
+				if (aviso._id === data._id) {
+					aviso.destacado = data.destacado;
+					// A diferencia de activar/desactivar avisos, este metodo tiene que actualizar un dato que debe 
+					// verse reflejado en un componente "hermano" por lo tanto tengo que avisarle al "padre" que hubo 
+					// cambios para que les envíe a todos los "hijos" los cambios, en este caso en avisos[].
+					// En los hijos, voy a observar los cambios con el ciclo de control de cambios ngOnChanges(){}.
+
+					this.avisosChange.emit(this.avisos);
+				}
+			})
+		});
+	}
 
 
 

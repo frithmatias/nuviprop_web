@@ -19,8 +19,9 @@ export class MapaComponent implements OnInit {
 
 	map: any;
 	mapCenterInit = { lng: "-58.43680066430767", lat: "-34.608870104837614" };
-	mapZoom = 14;
-	markerNuevoAviso: any;
+	mapZoom = 15;
+	markerNuevoAviso: any; // Marker para el mapa Aviso nuevo
+	markersAvisos: any[] = []; // Merkers del mapa avisos.
 	markerInserted = false; // en crear aviso, es necesario crear solo un marker
 
 	constructor(private router: Router, private imagenPipe: ImagenPipe,
@@ -31,6 +32,7 @@ export class MapaComponent implements OnInit {
 			console.log(this.localidadesActivas);
 		}
 	}
+
 
 	ngOnChanges(changes: SimpleChanges) {
 		// Necesito inicializar el mapa en ngOnChanges, antes del ciclo de detección de cambios.
@@ -56,6 +58,7 @@ export class MapaComponent implements OnInit {
 			(changes.localidadesActivas !== undefined) && 
 			(changes.localidadesActivas.currentValue !== undefined) && 
 			(changes.localidadesActivas.currentValue[0] !== undefined)) {
+				console.log('Localidades Activas: ', changes.localidadesActivas.currentValue);
 			this.flyMap(changes.localidadesActivas.currentValue[0].geometry.coordinates);
 		}
 
@@ -64,6 +67,7 @@ export class MapaComponent implements OnInit {
 			(changes.avisos !== undefined) && 
 			(changes.avisos.currentValue !== undefined) && 
 			changes.avisos.currentValue.length > 0) {
+				console.log('Avisos obtenidos: ', changes.avisos.currentValue);
 			if (this.router.url === '/avisos') { // solo si estoy en la page AVISOS voy a crear los puntos en el mapa
 
 				this.avisos.forEach((aviso: any) => {
@@ -90,25 +94,26 @@ export class MapaComponent implements OnInit {
 						var el = document.createElement('div');
 						el.className = 'marker';
 						
-						el.style.backgroundImage = "url('../../../assets/images/mapa/map-icon-30.png')";
+						el.style.backgroundImage = "url('../../../assets/images/mapa/marker-30.png')";
 						el.style.width = '30px';
 						el.style.height = '30px';
 						let newmarker = new mapboxgl.Marker(el)
 							.setLngLat(aviso.coords)
 							.setPopup(popup) // sets a popup on this marker
 							.addTo(this.map);
-
-					} else {
-						// console.log(aviso.coords, this.map)
+						this.markersAvisos.push(newmarker);
+						
 					}
 				})
 			}
 		} 
-		// else {
-		// 	this.markersPoints.forEach(marker => {
-		// 		marker.remove();
-		// 	})
-		// }
+		else {
+			if(this.markersAvisos.length>0){
+				this.markersAvisos.forEach(marker => {
+					marker.remove();
+				})
+			}
+		}
 
 	}
 
@@ -170,3 +175,12 @@ export class MapaComponent implements OnInit {
 
 
 }
+
+
+// function fun_one():any{
+// 	return fun_two;
+// }
+// function fun_two():string{
+// 	return "hola";
+// }
+// console.log(fun_one()());

@@ -25,6 +25,9 @@ export class CardsComponent implements OnInit {
 		}
   }
 
+  ngOnChanges(changes: any){
+	  console.log(changes)
+  }
   // Los favoritos se guardan en la localstorage en 'usuario.favoritos[]'
   agregarFavorito(aviso: Aviso) {
 	this.usuarioService.agregarFavorito(aviso._id).subscribe(

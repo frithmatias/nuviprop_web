@@ -1,8 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AvisosService, FormsService } from 'src/app/services/services.index';
-import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Aviso } from 'src/app/models/aviso.model';
 
 declare function init_plugins();
 @Component({
@@ -15,11 +14,10 @@ export class AvisosComponent implements OnInit {
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
 	private getMoreAvisos = false;
-	avisos: Aviso[];
 	localidadesActivas: object[]; //viene de un emit del formulario filtros
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
-
+	avisos: Aviso[];
 	constructor(
 		private snackBar: MatSnackBar,
 		private avisosService: AvisosService
@@ -103,6 +101,7 @@ export class AvisosComponent implements OnInit {
 
 	obtenerAvisos(filtros: any) {
 		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
+			this.avisos = this.avisosService.avisos;
 			this.snak(res, 2000);
 		}).catch((err) => {
 			this.snak(err, 2000);
@@ -117,5 +116,11 @@ export class AvisosComponent implements OnInit {
 
 	localidadesSeleccionadas(event:any){
 		console.log(event);
+	}
+
+
+	avisosChange(e:any){
+		console.log('Evento desde list', e);
+		this.avisos = e;
 	}
 }

@@ -104,7 +104,7 @@ export class MisAvisosService {
 
 
 
-	cambiarEstado(id: string) {
+	activarAviso(id: string) {
 		let url = URL_SERVICIOS;
 		url += '/avisos/pause/' + id;
 		const headers = new HttpHeaders({
@@ -121,6 +121,33 @@ export class MisAvisosService {
 				} else {
 					Swal.fire({
 						title: '¡Aviso desactivado!',
+						icon: 'success',
+						timer: 1000
+					});
+				}
+				return resp.aviso;
+			})
+		);
+	}
+
+
+	destacarAviso(id: string) {
+		let url = URL_SERVICIOS;
+		url += '/avisos/destacar/' + id;
+		const headers = new HttpHeaders({
+			'x-token': this.usuarioService.token
+		});
+		return this.http.put(url, {}, { headers }).pipe(
+			map((resp: any) => {
+				if (resp.aviso.destacado) {
+					Swal.fire({
+						title: '¡Aviso destacado!',
+						icon: 'success',
+						timer: 1000
+					});
+				} else {
+					Swal.fire({
+						title: '¡El aviso ya no esta destacado!',
 						icon: 'success',
 						timer: 1000
 					});

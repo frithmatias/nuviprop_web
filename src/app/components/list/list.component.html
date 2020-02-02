@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="avisos">
     <div class="row">
         <div class="col-12">
             <table class="animated fadeIn table table-sm table-striped">
@@ -14,13 +14,13 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let aviso of avisos; index as i">
-                        <td>{{ aviso.localidad.properties.nombre | capitalizarPipe }},
-                            {{ aviso.localidad.properties.provincia.nombre | capitalizarPipe }}</td>
-                        <td>{{ aviso.tipooperacion.nombre }}</td>
-                        <td>{{ aviso.tipoinmueble.nombre }}</td>
+                        <td>{{ aviso.localidad[0].properties.nombre | capitalizarPipe }},
+                            {{ aviso.localidad[0].properties.provincia.nombre | capitalizarPipe }}</td>
+                        <td>{{ aviso.tipooperacion[0].nombre }}</td>
+                        <td>{{ aviso.tipoinmueble[0].nombre }}</td>
                         <td>{{ aviso.calle }}</td>
                         <td>{{ aviso.altura }}</td>
-                        <td>{{ aviso.tipocambio.simbolo }} {{ aviso.precio }}</td>
+                        <td>{{ aviso.tipocambio[0].simbolo }} {{ aviso.precio }}</td>
                         <td><span *ngIf="aviso.activo">Activo</span><span *ngIf="!aviso.activo">Inactivo</span></td>
                         <td style="cursor: pointer;">
                             <span class="float-right">
@@ -32,14 +32,22 @@
                                         <div [routerLink]="['/aviso', aviso._id]" class="btn btn-sm btn-dark btn-block">
                                             <i class="fa fa-eye"></i>&nbsp; Ver aviso
                                         </div>
-                                        <div *ngIf="aviso.activo" (click)="cambiarEstado(aviso._id)"
+                                        <div *ngIf="aviso.activo" (click)="activarAviso(aviso._id)"
                                             class="btn btn-sm btn-success btn-block">
-                                            <i class="fa fa-check-circle-o"></i>&nbsp; Desactivar
+                                            <i class="fa fa-check-circle-o"></i>&nbsp; Activado!
                                         </div>
-                                        <div *ngIf="!aviso.activo" (click)="cambiarEstado(aviso._id)"
+                                        <div *ngIf="!aviso.activo" (click)="activarAviso(aviso._id)"
                                             class="btn btn-sm btn-secondary btn-block">
-                                            <i class="fa fa-circle-o"></i>&nbsp; Activar
+                                            <i class="fa fa-circle-o"></i>&nbsp; Desactivado
                                         </div>
+                                        <div *ngIf="aviso.destacado" (click)="destacarAviso(aviso._id)"
+                                        class="btn btn-sm btn-warning btn-block">
+                                        <i class="fa fa-check-circle-o"></i>&nbsp; Destacado!
+                                    </div>
+                                    <div *ngIf="!aviso.destacado" (click)="destacarAviso(aviso._id)"
+                                        class="btn btn-sm btn-secondary btn-block">
+                                        <i class="fa fa-circle-o"></i>&nbsp; No destacado
+                                    </div>
                                         <div [routerLink]="['/aviso-crear', aviso._id ]"
                                             class="btn btn-sm btn-primary btn-block">
                                             <i class="fa fa-edit"></i>&nbsp; Editar
