@@ -23,7 +23,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AvisosComponent } from './avisos/avisos.component';
 import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ProgressComponent } from './progress/progress.component';
 import { MisAvisosComponent } from './misavisos/misavisos.component';
 import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
 import { AvisoComponent } from './aviso/aviso.component';
@@ -36,7 +35,6 @@ import { AdminModule } from './admin/admin.module';
 @NgModule({
 	declarations: [
 		DashboardComponent,
-		ProgressComponent,
 		AccountSettingsComponent,
 		ProfileComponent,
 		UsuariosComponent,
@@ -48,10 +46,6 @@ import { AdminModule } from './admin/admin.module';
 		AvisoComponent,
 		InicioComponent,
 		FavoritosComponent
-
-
-
-
 	],
 	exports: [DashboardComponent],
 	imports: [

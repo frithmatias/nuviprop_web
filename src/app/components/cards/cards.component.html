@@ -1,11 +1,13 @@
 
 <div class="content p-3">
-    <div class="row">
+    <div class="row" style="justify-content: center;">
 
         <div *ngIf="avisos && avisos.length === 0">
-            <div class="alert alert-warning" role="alert">
-                    No se encontraron avisos.
-              </div>
+            <div class="col">
+                <span class="alert alert-warning" role="alert">
+                        No se encontraron avisos.
+                  </span>
+            </div>
         </div>
         
         <div class="col-12 col-md-6 col-lg-4 col-xl-4" *ngFor="let aviso of avisos">
@@ -28,11 +30,11 @@
                             class="mdi mdi-heart aviso-favorito-no"></i></span>
 
                     <span *ngIf="usuarioService.logueado" (click)="agregarFavorito(aviso)">
-                        <span *ngIf="propFavoritas.includes(aviso._id)">
+                        <span *ngIf="checkFavorito(aviso._id)">
                             <i class="mdi mdi-heart aviso-favorito-si"></i>
                         </span>
-                        <span *ngIf="!propFavoritas.includes(aviso._id)">
-                            <i class=" mdi mdi-heart aviso-favorito-no"></i>
+                        <span *ngIf="!checkFavorito(aviso._id)">
+                            <i class="mdi mdi-heart aviso-favorito-no"></i>
                         </span>
                     </span>
                     <!-- 

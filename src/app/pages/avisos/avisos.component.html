@@ -1,40 +1,44 @@
-<div class="row">
+
+   
+  
+
+
+
 
     <!---------------------------------------------------------------------->
-    <!-- COLUMNA FILTROS -->
+    <!-- FILTROS SIDE-BAR -->
     <!---------------------------------------------------------------------->
-    <div class="col-12 pr-sm-0 col-xs-6 col-sm-4 col-md-3 col-xl-2" style="height: 500px;">
-        <app-filtros class="avisos" (localidadesActivas)="localidadesActivas=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
-    </div>
+    <app-filtros class="avisos" (localidadesActivas)="localidadesActivas=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
 
     <!---------------------------------------------------------------------->
     <!-- COLUMNA AVISOS -->
     <!---------------------------------------------------------------------->
-    <div class="col-12 col-xs-6 col-sm-8 col-md-9 col-xl-10 p-0" >
-        <div class="tab-content" id="myTabContent"  style="height:100%">
+    <div class="page-wrapper">
+        
+        <div class="tab-content" id="myTabContent" style="height: 100vh">
 
             <!-- ---------------------------------- -->
-            <!-- TAB MAP -->
+            <!-- PANE MAP -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" style="height:100%" id="mapa">
-                <app-mapa [avisos]="avisosService.avisos" [(center)]="coordsLocalidad"  [localidadesActivas]="localidadesActivas"></app-mapa>
+            <div class="tab-pane fade animated fadeIn" id="mapa" style="height: 100%">
+                <app-mapa [(avisos)]="avisos" [(center)]="coordsLocalidad"  [localidadesActivas]="localidadesActivas"></app-mapa>
             </div>
 
             <!-- ---------------------------------- -->
-            <!-- TAB LIST -->
+            <!-- PANE LIST -->
             <!-- ---------------------------------- -->
 
             <div class="tab-pane fade animated fadeIn" id="lista">
-                <app-list [avisos]="avisosService.avisos" (avisosChange)="avisosChange($event)"></app-list>
+                <app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
             </div>
 
             <!-- ---------------------------------- -->
-            <!-- TAB CARDS -->
+            <!-- PANE CARDS -->
             <!-- ---------------------------------- -->
 
             <div class="tab-pane fade animated fadeIn" id="cards">
-                <app-cards [avisos]="avisosService.avisos"></app-cards>
+                <app-cards [(avisos)]="avisos"></app-cards>
             </div>
 
 
@@ -43,6 +47,5 @@
                     class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
 
         </div>
+   
     </div>
-
-</div>

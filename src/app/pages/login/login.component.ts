@@ -5,7 +5,6 @@ import { UsuarioService } from '../../services/services.index';
 import { Usuario } from '../../models/usuario.model';
 import Swal from 'sweetalert2';
 
-declare function init_plugins();
 declare const gapi: any;
 
 @Component({
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, public _usuarioService: UsuarioService) { }
 
   ngOnInit() {
-	init_plugins();
 	this.googleInit();
 	this.email = localStorage.getItem('email') || '';
 	if (this.email.length > 1) {

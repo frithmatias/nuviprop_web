@@ -64,6 +64,7 @@ export class UploaderService {
 		this.http.put(url, formData, { headers, reportProgress: true }).subscribe(
 		// respuesta durante el proceso
 		(resp: any) => {
+			console.log(resp);
 			// Al igual que en el metodo actualizarUsuario() del servicio UsuarioService
 			// Este if es porque SOLO guardo los datos en la localstorage si estoy
 			// actualizando datos PROPIOS. Si soy ADMIN y estoy cambiando datos en

@@ -25,24 +25,18 @@ export class CardsComponent implements OnInit {
 		}
   }
 
-  ngOnChanges(changes: any){
-	  console.log(changes)
-  }
+  ngOnChanges(changes: any){}
   // Los favoritos se guardan en la localstorage en 'usuario.favoritos[]'
   agregarFavorito(aviso: Aviso) {
-	this.usuarioService.agregarFavorito(aviso._id).subscribe(
-		(data) => {
+	this.usuarioService.agregarFavorito(aviso._id).subscribe((data) => {
 		localStorage.setItem('usuario', JSON.stringify(data));
-		this.propFavoritas = data.favoritos;
-
+		this.propFavoritas = data.favoritos;	
 		// Solo si estoy en Favoritos (no en Avisos) tengo que quitar el aviso de la lista de avisos.
 		if (this.router.url === '/favoritos') {
 			this.avisos = this.avisos.filter(avisoenlista => {
 				return avisoenlista._id !== aviso._id;
 			});
 		}
-
-
 		},
 		err => {
 		// console.log(err);
@@ -50,6 +44,12 @@ export class CardsComponent implements OnInit {
   }
 
 
-
+	checkFavorito(id: string){
+		if(this.propFavoritas.includes(id)){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

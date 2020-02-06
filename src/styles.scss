@@ -41,9 +41,9 @@
 
 .input-icon {
   position        : absolute;
-  top             : -7px;
+  top             : 5px;
   right           : -5px;
-  font-size       : 19px;
+  font-size       : 14px;
   cursor          : pointer;
   // background-color: #ffffff;
   width           : 25px;
@@ -126,7 +126,7 @@
 
 html,
 body {
-  height: 100%;
+  // height: 100%;
 }
 
 body {
@@ -148,6 +148,9 @@ body {
 //     background-color: rgb(255, 255, 255);
 //   }
 // }
+
+
+
 
 .mat-form-field[iniciocss] {
   .mat-form-field-flex {
@@ -250,4 +253,12 @@ visibility: hidden; // le quito el piquito de la flecha que apunta al marker
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
+}
+
+// Todas las paginas que contienen al sidebar llevan la clase page-wrapper, pero las 
+// paginas que no deben contener al sidebar defino una nueva clase que solo debe contener 
+// un margen superior 
+
+.no-sidebar{
+  margin-top: 140px;
 }

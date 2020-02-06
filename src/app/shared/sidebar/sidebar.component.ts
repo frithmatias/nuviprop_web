@@ -3,7 +3,6 @@ import {
   UsuarioService, SidebarService
 } from 'src/app/services/services.index';
 import { Usuario } from 'src/app/models/usuario.model';
-// declare function init_plugins();
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -17,7 +16,6 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // init_plugins();
 
     if (this.userService.logueado) {
       this.usuario = this.userService.usuario;

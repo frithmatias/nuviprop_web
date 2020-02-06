@@ -23,7 +23,6 @@ import { PipesModule } from '../pipes/pipes.module';
 import { NgDropFilesDirective } from '../directives/ng-drop-files.directive';
 
 // COMPONENTES
-import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { UploaderComponent } from '../components/uploader/uploader.component';
 
 // INICIO
@@ -41,7 +40,6 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 @NgModule({
 	declarations: [
 		NgDropFilesDirective,
-		IncrementadorComponent,
 		UploaderComponent,
 		MapaComponent,
 		ListComponent,
@@ -69,7 +67,6 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		MatListModule
 	],
 	exports: [
-		IncrementadorComponent,
 		UploaderComponent,
 		MapaComponent,
 		ListComponent,

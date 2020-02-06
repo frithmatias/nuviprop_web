@@ -66,6 +66,7 @@ export class UploaderComponent implements OnInit {
 			this.archivos.forEach(archivo => {
 				archivo.estaSubiendo = true;
 				this.uploaderService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
+					console.log(data);
 					archivo.progreso = 100;
 					archivo.estaSubiendo = false;
 					count++;
@@ -95,6 +96,7 @@ export class UploaderComponent implements OnInit {
 	obtenerImagenes() {
 		return new Promise((resolve) => {
 			this.misAvisosService.obtenerAviso(this.id).subscribe(data => {
+				console.log('obtenerImagenes', data);
 				this.aviso.imgs = data.imgs;
 				this.archivos = [];
 				resolve();

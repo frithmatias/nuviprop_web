@@ -19,6 +19,13 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+.tabs-overmap {
+    position: absolute;
+    z-index: 1;
+    right: 62px;
+    top: 6px;
+}
+
 .cardshadow {
     box-shadow: 2px;
 }

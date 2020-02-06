@@ -3,10 +3,8 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
-import { Router } from '@angular/router';
-
-declare function init_plugins();
-
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 @Component({
 	selector: 'app-inicio',
 	templateUrl: './inicio.component.html',
@@ -21,11 +19,24 @@ export class InicioComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe,
 		private avisosService: AvisosService,
-		private router: Router
+		private router: Router,
+		private activatedRoute: ActivatedRoute
 	) { }
 
-	ngOnInit() {
-		init_plugins();
+	ngOnInit(){
+		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
+		  map(() => this.activatedRoute))
+		  .subscribe((event) => {
+	
+			  //$.getScript('../assets/plugins/jquery/jquery.min.js');
+			  // init_plugins();
+			  //  $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
+			  //  $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
+			  //  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
+			  //  $.getScript('../assets/js/sidebarmenu.js');
+			  $.getScript('../assets/js/custom.js');
+			
+		});
 	}
 
 	setOperacion(tipooperacion: any, link?: HTMLElement) {

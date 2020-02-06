@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AvisosService, FormsService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Aviso } from 'src/app/models/aviso.model';
+import { Aviso, Avisos } from 'src/app/models/aviso.model';
 
-declare function init_plugins();
+
 @Component({
 	selector: 'app-avisos',
 	templateUrl: './avisos.component.html',
@@ -26,13 +26,26 @@ export class AvisosComponent implements OnInit {
 	}
 
 	ngOnInit() {
+
 		this.cambiarTab(Number(localStorage.getItem('viewtab')) || 0);
 		this.scrollTop(); // envio el scroll hacia arriba
-		const maparef = document.getElementById('mapbox');
-		maparef.setAttribute('style', 'width:100%;');
-		init_plugins();
+
+		if (localStorage.getItem('filtros')) {
+			const filtros = JSON.parse(localStorage.getItem('filtros'));
+			this.obtenerAvisos(filtros);
+		}
 	}
 
+	obtenerAvisos(filtros: any) {
+		this.avisosService.obtenerAvisos(filtros).then((data: Avisos) => {
+			this.avisos = data.avisos;
+			const res = `Se obtuvieron ${data.total} avisos`;
+			this.snak(res, 2000);
+		}).catch((err) => {
+			this.avisos = [];
+			this.snak(err, 2000);
+		});
+	}
 
 
 	cambiarTab(tab: number) {
@@ -99,14 +112,6 @@ export class AvisosComponent implements OnInit {
 		}
 	}
 
-	obtenerAvisos(filtros: any) {
-		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
-			this.avisos = this.avisosService.avisos;
-			this.snak(res, 2000);
-		}).catch((err) => {
-			this.snak(err, 2000);
-		});
-	}
 
 	snak(msg: string, time: number) {
 		this.snackBar.open(msg, 'Aceptar', {
@@ -119,8 +124,13 @@ export class AvisosComponent implements OnInit {
 	}
 
 
+	
 	avisosChange(e:any){
-		console.log('Evento desde list', e);
-		this.avisos = e;
+		console.log('Evento desde list', e); // e contiene los avisos con datos ya modificados.
+		// si sólo modifico propiedades o elementos dentro de un array, el ciclo de detección de cambios 
+		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo array, para que 
+		// el componente hijo pueda detectar que le estoy pasando datos nuevos tengo que pasar un array 
+		// NUEVO y para eso uso el operador SPREAD.
+		this.avisos = [...e]; 
 	}
 }

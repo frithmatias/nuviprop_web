@@ -19,7 +19,7 @@ export class MapaComponent implements OnInit {
 
 	map: any;
 	mapCenterInit = { lng: "-58.43680066430767", lat: "-34.608870104837614" };
-	mapZoom = 15;
+	mapZoom = 14;
 	markerNuevoAviso: any; // Marker para el mapa Aviso nuevo
 	markersAvisos: any[] = []; // Merkers del mapa avisos.
 	markerInserted = false; // en crear aviso, es necesario crear solo un marker
@@ -27,23 +27,30 @@ export class MapaComponent implements OnInit {
 	constructor(private router: Router, private imagenPipe: ImagenPipe,
 		) { }
 
-	ngOnInit() {
-		if(this.localidadesActivas){
-			console.log(this.localidadesActivas);
-		}
-	}
+	ngOnInit() {}
 
 
 	ngOnChanges(changes: SimpleChanges) {
 		// Necesito inicializar el mapa en ngOnChanges, antes del ciclo de detección de cambios.
 		if (!this.map) {
-			console.log('INICALIZANDO MAPA...');
-			// Busco en la localstorage de las localidades vecinas cual fue la última buscada y la centro en el mapa.
-			JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
-				if (localidad.current) {
-					this.mapCenterInit = { lng: localidad.geometry.coordinates[0], lat: localidad.geometry.coordinates[1] };;
+			// Busco en la localstorage de las localidades que fueron seleccionadas.
+			let localidades_checked = JSON.parse(localStorage.getItem('filtros'));
+			console.log(localidades_checked);
+
+			// Busco en las ultimas localidades, la primer coincidencia con alguna que fue seleccionada y la muestro en el mapa.
+			let localidades = JSON.parse(localStorage.getItem('localidades'));
+
+			if(localidades.length>0 && localidades_checked.localidad.length>0){
+				for (let i=0; i<localidades.length; i++){
+					if(localidades_checked.localidad.includes(localidades[i]._id)){
+						this.mapCenterInit = { lng: localidades[i].geometry.coordinates[0], lat: localidades[i].geometry.coordinates[1] };
+						break;
+					}
 				}
-			})
+			}
+			
+		
+		
 			this.inicializarMapa(this.mapbox);
 		}
 		
@@ -58,7 +65,6 @@ export class MapaComponent implements OnInit {
 			(changes.localidadesActivas !== undefined) && 
 			(changes.localidadesActivas.currentValue !== undefined) && 
 			(changes.localidadesActivas.currentValue[0] !== undefined)) {
-				console.log('Localidades Activas: ', changes.localidadesActivas.currentValue);
 			this.flyMap(changes.localidadesActivas.currentValue[0].geometry.coordinates);
 		}
 
@@ -67,7 +73,6 @@ export class MapaComponent implements OnInit {
 			(changes.avisos !== undefined) && 
 			(changes.avisos.currentValue !== undefined) && 
 			changes.avisos.currentValue.length > 0) {
-				console.log('Avisos obtenidos: ', changes.avisos.currentValue);
 			if (this.router.url === '/avisos') { // solo si estoy en la page AVISOS voy a crear los puntos en el mapa
 
 				this.avisos.forEach((aviso: any) => {
@@ -93,7 +98,6 @@ export class MapaComponent implements OnInit {
 						// CREATE MARKER
 						var el = document.createElement('div');
 						el.className = 'marker';
-						
 						el.style.backgroundImage = "url('../../../assets/images/mapa/marker-30.png')";
 						el.style.width = '30px';
 						el.style.height = '30px';
@@ -170,7 +174,8 @@ export class MapaComponent implements OnInit {
 	flyMap(center: string[]) {
 		this.markerInserted = false;
 		if (this.markerNuevoAviso) this.markerNuevoAviso.remove();
-		if (this.map) this.map.flyTo({center});	//this.map.zoomTo(zoom, { duration: 9000 });
+		if (this.map) this.map.flyTo({center});
+		//	this.map.zoomTo(this.mapZoom, { duration: 4000 });
 	}
 
 

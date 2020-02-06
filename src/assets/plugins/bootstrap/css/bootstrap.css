@@ -2409,7 +2409,7 @@ fieldset[disabled] a.btn {
 
 .btn-outline-light:active, .btn-outline-light.active,
 .show > .btn-outline-light.dropdown-toggle {
-  color: #fff;
+  color: #242a33;
   background-color: #f8f9fa;
   border-color: #f8f9fa;
 }
@@ -5426,7 +5426,7 @@ a.bg-dark:focus, a.bg-dark:hover {
 
 .d-flex {
   display: -ms-flexbox !important;
-  display: flex !important;
+  zdisplay: flex !important;
 }
 
 .d-inline-flex {

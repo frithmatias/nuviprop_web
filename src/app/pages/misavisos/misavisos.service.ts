@@ -6,14 +6,11 @@ import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
 import { MatStepper } from '@angular/material/stepper';
-import { Usuario } from 'src/app/models/usuario.model';
-import { observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class MisAvisosService {
-
 
 	constructor(
 		private http: HttpClient,
@@ -58,8 +55,9 @@ export class MisAvisosService {
 		return this.http.get(url);
 	}
 
-	// guardar = crear o actualizar
 	guardarAviso(dataform: any, avisoId: string) {
+		// guardar = crear o actualizar
+
 		let url = URL_SERVICIOS;
 		url += '/avisos';
 		// url += '/avisos/detalles';
@@ -101,9 +99,6 @@ export class MisAvisosService {
 		}
 	}
 
-
-
-
 	activarAviso(id: string) {
 		let url = URL_SERVICIOS;
 		url += '/avisos/pause/' + id;
@@ -130,7 +125,6 @@ export class MisAvisosService {
 		);
 	}
 
-
 	destacarAviso(id: string) {
 		let url = URL_SERVICIOS;
 		url += '/avisos/destacar/' + id;
@@ -156,11 +150,7 @@ export class MisAvisosService {
 			})
 		);
 	}
-	// al momento de guardar los detalles, yo se que tengo una aviso guardada (this.aviso)
-	// por lo tanto puedo pasarle el objeto como argumento donde tengo toda la data.
-	// NO puedo hacer lo mismo con guardarAviso porque puede ser un fromulario en blanco
-	// en ese caso sólo puedo saber si se trata de una aviso NUEVA obteniendo los parametros
-	// de la url con activatedRoute obteniendo params.id que me trae 'nuevo' o el id de la aviso.
+
 	guardarDetalles(dataform: any, aviso: Aviso) {
 		let url = URL_SERVICIOS;
 		console.log(aviso);

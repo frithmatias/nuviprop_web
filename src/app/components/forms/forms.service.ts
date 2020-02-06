@@ -16,9 +16,9 @@ import { Localidades, Localidad } from 'src/app/models/localidad.model';
 })
 export class FormsService {
 
-	tiposOperaciones: TipoOperacion[] = [];
-	tiposInmuebles: TipoInmueble[] = [];
-	tiposCambio: any[] = [];
+	tiposOperaciones: TipoOperacion[];
+	tiposInmuebles: TipoInmueble[];
+	tiposCambio: any[];
 	localidadesCercanas: any[];
 	loading = {
 		tipooperacion: false,
@@ -131,10 +131,6 @@ export class FormsService {
 			this.localidadesCercanas.forEach(thislocalidad => {
 				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
 				thislocalidad.nombre = nombreCapitalizado;
-				// Si la localidad cercana es la que ingrese en el input, la guardo como current para mostrarla en el mapa 
-				// la próxima vez que entre a la página sin pasar por el buscador.
-				(thislocalidad._id === localidad._id) ? thislocalidad.current = true : thislocalidad.current = false;
-				
 			});
 			console.log(this.localidadesCercanas);
 			localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));

@@ -1,6 +1,14 @@
 <form [formGroup]="formAviso" (ngSubmit)="enviarFormulario()" id="formAviso" *ngIf="formData">
   <div class="animated fadeIn">
+
+    <!---------------------------------------------------------------------->
+    <!-- FORM DATOS PRIMARIOS -->
+    <!---------------------------------------------------------------------->
     <div class="row row-aviso-datos-primarios">
+
+      <!---------------------------------------------------------------------->
+      <!-- DATOS PRIMARIOS -->
+      <!---------------------------------------------------------------------->
       <div class="col-md-6 col-sm-12">
 
         <!---------------------------------------------------------------------->
@@ -94,8 +102,10 @@
 
       </div>
 
+      <!---------------------------------------------------------------------->
+      <!-- CONTROLES LAT LNG Y MAPA -->
+      <!---------------------------------------------------------------------->
       <div class="col-md-6 col-sm-12">
-
         <div class="latlngControls">
           <!---------------------------------------------------------------------->
           <!-- LAT -->
@@ -115,8 +125,6 @@
           </mat-form-field>
         </div>
 
-
-
         <!---------------------------------------------------------------------->
         <!-- MAPBOX -->
         <!---------------------------------------------------------------------->
@@ -124,8 +132,12 @@
           <app-mapa [(center)]="coordsLocalidad" (newMarker)="setCoords($event)"></app-mapa>
         </div>
       </div>
+
     </div>
 
+    <!---------------------------------------------------------------------->
+    <!-- FORM DATOS SECUNDARIOS -->
+    <!---------------------------------------------------------------------->
     <div class="row row-aviso-datos-secundarios">
 
 
@@ -187,6 +199,16 @@
         <input matInput formControlName="codigopostal" />
       </mat-form-field>
     </div>
+
+    <div class="row">
+      <div class="d-none d-md-block col-md-6 col-lg-8 col-xl-10">
+
+      </div>
+      <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-2">
+        <button class="btn btn-dark btn-lg btn-block">Guardar</button>
+      </div>
+    </div>
   </div>
-  <button class="btn btn-dark">Guardar</button>
+  
 </form>
+

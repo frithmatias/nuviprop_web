@@ -104,7 +104,8 @@ a.link:hover, a.link:focus {
 *******************/
 .card-no-border .left-sidebar,
 .card-no-border .sidebar-nav {
-  background: #242a33; }
+  background: #242a33; 
+}
 
 .mini-sidebar .sidebar-nav {
   background: transparent; }

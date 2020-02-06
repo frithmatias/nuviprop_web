@@ -1,74 +1,75 @@
 <div class="container-fluid" *ngIf="avisos">
     <div class="row">
         <div class="col-12">
-            <table class="animated fadeIn table table-sm table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Localidad</th>
-                        <th scope="col">Operacion</th>
-                        <th scope="col">Inmueble</th>
-                        <th scope="col">Calle</th>
-                        <th scope="col">Altura</th>
-                        <th scope="col">Precio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let aviso of avisos; index as i">
-                        <td>{{ aviso.localidad[0].properties.nombre | capitalizarPipe }},
-                            {{ aviso.localidad[0].properties.provincia.nombre | capitalizarPipe }}</td>
-                        <td>{{ aviso.tipooperacion[0].nombre }}</td>
-                        <td>{{ aviso.tipoinmueble[0].nombre }}</td>
-                        <td>{{ aviso.calle }}</td>
-                        <td>{{ aviso.altura }}</td>
-                        <td>{{ aviso.tipocambio[0].simbolo }} {{ aviso.precio }}</td>
-                        <td><span *ngIf="aviso.activo">Activo</span><span *ngIf="!aviso.activo">Inactivo</span></td>
-                        <td style="cursor: pointer;">
-                            <span class="float-right">
-                                <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
-                                <mat-menu #menu="matMenu">
-                                    <div class="px-2">
-
-
-                                        <div [routerLink]="['/aviso', aviso._id]" class="btn btn-sm btn-dark btn-block">
-                                            <i class="fa fa-eye"></i>&nbsp; Ver aviso
+            <div class="table-responsive">
+                <table class="animated fadeIn table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Localidad</th>
+                            <th scope="col">Operacion</th>
+                            <th scope="col">Inmueble</th>
+                            <th scope="col">Calle</th>
+                            <th scope="col">Altura</th>
+                            <th scope="col">Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let aviso of avisos; index as i">
+                            <td style="white-space: nowrap;">{{ aviso.localidad.properties.nombre | capitalizarPipe }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.tipooperacion.nombre }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.tipoinmueble.nombre }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.calle }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.altura }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.tipocambio.simbolo }} {{ aviso.precio }}</td>
+                            <td style="white-space: nowrap;"><span *ngIf="aviso.activo">Activo</span><span *ngIf="!aviso.activo">Inactivo</span></td>
+                            <td style="cursor: pointer;">
+                                <span class="float-right">
+                                    <i class="mdi mdi-dots-vertical" [matMenuTriggerFor]="menu"></i>
+                                    <mat-menu #menu="matMenu">
+                                        <div class="px-2">
+    
+    
+                                            <div [routerLink]="['/aviso', aviso._id]" class="btn btn-sm btn-dark btn-block">
+                                                <i class="fa fa-eye"></i>&nbsp; Ver aviso
+                                            </div>
+                                            <div *ngIf="aviso.activo" (click)="activarAviso(aviso._id)"
+                                                class="btn btn-sm btn-success btn-block">
+                                                <i class="fa fa-check-circle-o"></i>&nbsp; Activado!
+                                            </div>
+                                            <div *ngIf="!aviso.activo" (click)="activarAviso(aviso._id)"
+                                                class="btn btn-sm btn-secondary btn-block">
+                                                <i class="fa fa-circle-o"></i>&nbsp; Desactivado
+                                            </div>
+                                            <div *ngIf="aviso.destacado" (click)="destacarAviso(aviso._id)"
+                                            class="btn btn-sm btn-warning btn-block">
+                                            <i class="fa fa-check-circle-o"></i>&nbsp; Destacado!
                                         </div>
-                                        <div *ngIf="aviso.activo" (click)="activarAviso(aviso._id)"
-                                            class="btn btn-sm btn-success btn-block">
-                                            <i class="fa fa-check-circle-o"></i>&nbsp; Activado!
-                                        </div>
-                                        <div *ngIf="!aviso.activo" (click)="activarAviso(aviso._id)"
+                                        <div *ngIf="!aviso.destacado" (click)="destacarAviso(aviso._id)"
                                             class="btn btn-sm btn-secondary btn-block">
-                                            <i class="fa fa-circle-o"></i>&nbsp; Desactivado
+                                            <i class="fa fa-circle-o"></i>&nbsp; No destacado
                                         </div>
-                                        <div *ngIf="aviso.destacado" (click)="destacarAviso(aviso._id)"
-                                        class="btn btn-sm btn-warning btn-block">
-                                        <i class="fa fa-check-circle-o"></i>&nbsp; Destacado!
-                                    </div>
-                                    <div *ngIf="!aviso.destacado" (click)="destacarAviso(aviso._id)"
-                                        class="btn btn-sm btn-secondary btn-block">
-                                        <i class="fa fa-circle-o"></i>&nbsp; No destacado
-                                    </div>
-                                        <div [routerLink]="['/aviso-crear', aviso._id ]"
-                                            class="btn btn-sm btn-primary btn-block">
-                                            <i class="fa fa-edit"></i>&nbsp; Editar
+                                            <div [routerLink]="['/aviso-crear', aviso._id ]"
+                                                class="btn btn-sm btn-primary btn-block">
+                                                <i class="fa fa-edit"></i>&nbsp; Editar
+                                            </div>
+                                            <div (click)="borrarAviso( aviso )" class="btn btn-sm btn-danger btn-block">
+                                                <i class="fa fa-trash-o"></i>&nbsp; Borrar
+                                            </div>
                                         </div>
-                                        <div (click)="borrarAviso( aviso )" class="btn btn-sm btn-danger btn-block">
-                                            <i class="fa fa-trash-o"></i>&nbsp; Borrar
-                                        </div>
-                                    </div>
-                                </mat-menu>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                    </mat-menu>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="col-12">
             <div>
-                <button (click)="cargarAvisos(-1)" class="btn btn-primary m-1">
+                <button (click)="cargarAvisos(-1)" class="btn btn-primary btn-sm m-1">
                     Anteriores
                 </button>
-                <button (click)="cargarAvisos(1)" class="btn btn-primary m-1">
+                <button (click)="cargarAvisos(1)" class="btn btn-primary btn-sm m-1">
                     Siguientes
                 </button>
             </div>

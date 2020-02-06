@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../services/services.index';
 
-declare function init_plugins();
-
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
@@ -16,7 +14,6 @@ export class PagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    init_plugins();
   }
 
 }

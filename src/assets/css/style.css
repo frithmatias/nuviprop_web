@@ -770,7 +770,7 @@ Labels
  Badge
 ******************/
 .badge {
-  font-weight: 400;
+  font-weight: 100;
 }
 
 .badge-xs {
@@ -915,13 +915,14 @@ Main sidebar
   top               : 0px;
   z-index           : 20;
   padding-top       : 70px;
-  background        : #fff;
+  background        : #eaeaea;
   -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
   box-shadow        : 1px 0px 20px rgba(0, 0, 0, 0.08);
 }
 
 .fix-sidebar .left-sidebar {
   position: fixed;
+  left: 0px;
 }
 
 /*******************
@@ -934,7 +935,7 @@ use profile section
 }
 
 .sidebar-nav .user-profile>ul {
-  padding-left: 40px;
+  padding-left: 12px;
 }
 
 /*******************
@@ -952,12 +953,14 @@ sidebar navigation
   /* If using `left`, there shouldn't be a `right`. */
 }
 
+
 .collapse.in {
   display: block;
+  background-color: white; /*background filtros content*/
 }
 
 .sidebar-nav {
-  background: #fff;
+  background: #eaeaea;
   padding   : 15px 0 0 0px;
 }
 
@@ -968,6 +971,14 @@ sidebar navigation
 
 .sidebar-nav ul li {
   list-style: none;
+}
+
+.sidebar-nav ul li mat-selection-list mat-list-option div {
+  color      : #687384;
+  padding    : 8px 35px 8px 15px;
+  display    : block;
+  font-size  : 14px;
+  font-weight: 400;
 }
 
 .sidebar-nav ul li a {
@@ -993,8 +1004,9 @@ sidebar navigation
   color      : #263238;
 }
 
+/* MF_MD: Define el padding de los checkboxes dentro de los filtros */
 .sidebar-nav ul li ul {
-  padding-left: 28px;
+  padding: 10px;
 }
 
 .sidebar-nav ul li ul li a {
@@ -1105,15 +1117,17 @@ When click on sidebar toggler and also for tablet
   }
 
   .mini-sidebar .sidebar-nav #sidebarnav>li>ul {
+
     position      : absolute;
     left          : 70px;
-    top           : 46px;
-    width         : 220px;
-    padding-bottom: 10px;
+    top           : 60px;
+    width         : 219px; /* lo hago 1px mas chico para poder ver la sombra*/
+    padding       : 10px;
     z-index       : 1001;
-    background    : #edf0f5;
+    background    : white !important;
     display       : none;
-    padding-left  : 1px;
+    box-shadow    : 0px 2px 4px -1px rgba(0,0,0,0.25);
+    /* padding-left  : 1px; */
   }
 
   .mini-sidebar .user-profile .profile-img {
@@ -1141,6 +1155,16 @@ When click on sidebar toggler and also for tablet
   .mini-sidebar .sidebar-nav #sidebarnav>li>a.has-arrow:after {
     display: none;
   }
+
+  /* -------------------------------------------------------- */
+  /* Esconder filtros seleccionados y tabs [mapa, lista, cards] */
+  .mini-sidebar .nav-pills {
+    display: none;
+  }
+  .mini-sidebar .show-filters {
+    display: none;
+  }
+  /* -------------------------------------------------------- */
 
   .mini-sidebar .left-sidebar {
     width: 70px;
@@ -1197,7 +1221,7 @@ When click on sidebar toggler and also for tablet
 
   .mini-sidebar .left-sidebar,
   .mini-sidebar .sidebar-footer {
-    left: -240px;
+    left: -264px;
   }
 
   .mini-sidebar.show-sidebar .left-sidebar,
@@ -1252,9 +1276,9 @@ File         : scss
 }
 
 .page-wrapper {
-  background       : #f4f6f9;
-  /* padding-bottom: 60px;*/
-  position         : relative;
+  background    : #f4f6f9;
+  padding-bottom: 60px;
+  position      : relative;
 }
 
 .container-fluid {
@@ -1281,12 +1305,12 @@ File         : scss
 .fix-header .topbar {
   position          : fixed;
   width             : 100%;
-  -webkit-box-shadow: 0 3px 7px rgba(150, 150, 150, 0.5);
-  box-shadow        : 0 3px 7px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  box-shadow        : 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 .fix-header .page-wrapper {
-  /* padding-top: 70px; */
+   padding-top: 70px; 
 }
 
 .fix-header .right-side-panel {
@@ -1369,7 +1393,7 @@ File         : scss
 
 .topbar ul.dropdown-user {
   padding  : 0px;
-  min-width: 270px;
+  min-width: 230px;
 }
 
 .topbar ul.dropdown-user li {
@@ -1425,12 +1449,15 @@ File         : scss
   background: #e6294b;
 }
 
+/* ------------------------------------------------------------- */
+/* MF_MD: Modifica el espaciado de lineas y fuente del menu de usuario */
 .topbar ul.dropdown-user li a {
-  padding  : 2px 12px;
-  display  : block;
-  color    : #67757c;
-  font-size: small;
+  padding: 3px 16px;
+  display: block;
+  color: #67757c;
+  font-size: 13px;
 }
+/* ------------------------------------------------------------- */
 
 .topbar ul.dropdown-user li a:hover {
   background     : #e9edf2;
@@ -1640,7 +1667,7 @@ Notify
 *******************/
 .page-titles {
   background   : #f4f6f9;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   padding      : 0px;
 }
 
@@ -2511,9 +2538,9 @@ Buttons
   -webkit-transition: 0.2s ease-in;
   -o-transition     : 0.2s ease-in;
   transition        : 0.2s ease-in;
-  background-color  : #67757c;
-  color             : #ffffff;
-  border-color      : #67757c;
+  background-color  : #ffffff;
+  color             : #67757c;
+  border-color      : #cccccc;
 }
 
 .btn-secondary:hover,
@@ -2541,7 +2568,7 @@ Buttons
 .btn-secondary.disabled:active {
   color           : #67757c !important;
   background-color: #ffffff;
-  border-color    : #67757c;
+  border-color    : #cccccc;
   cursor          : default;
 }
 
@@ -2854,8 +2881,8 @@ Buttons
 .btn-outline-success:focus {
   -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
   box-shadow        : 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
-  background-color  : #007252;
-  border-color      : #007252;
+  background-color  : #04b381;
+  border-color      : #04b381;
 }
 
 .btn-inicio-tipooperacion {
