@@ -41,17 +41,18 @@
 
 .input-icon {
   position        : absolute;
-  top             : 5px;
+  top             : 6px;
   right           : -5px;
   font-size       : 14px;
   cursor          : pointer;
-  // background-color: #ffffff;
+  background-color: #ffffff;
   width           : 25px;
-  height          : 25px;
-  border-radius   : 11px;
+  height          : 23px;
+  /* border-radius: 11px; */
   text-align      : center;
   padding         : 3px;
   color           : #3e3e3e;
+
 }
 
 .menu-filter {
@@ -234,31 +235,31 @@ input:-webkit-autofill:active {
 ///////////////////////////////////////////////////////////////
 .mapboxgl-popup-content {
   padding: 0px; // le quito el borde
-  top: 0px; // lo dejo en una posicion relativa fija
-  left: 10px;
+  top    : 0px; // lo dejo en una posicion relativa fija
+  left   : 10px;
 }
 
 .mapboxgl-popup {
-display: block; // le quito el borde inferior
-transform: none !important; // evito que se mueva con el mouse
+  display  : block; // le quito el borde inferior
+  transform: none !important; // evito que se mueva con el mouse
 }
 
-.mapboxgl-popup-tip{
-visibility: hidden; // le quito el piquito de la flecha que apunta al marker
+.mapboxgl-popup-tip {
+  visibility: hidden; // le quito el piquito de la flecha que apunta al marker
 }
 
 .marker {
-  display: block;
-  border: none;
+  display      : block;
+  border       : none;
   border-radius: 50%;
-  cursor: pointer;
-  padding: 0;
+  cursor       : pointer;
+  padding      : 0;
 }
 
 // Todas las paginas que contienen al sidebar llevan la clase page-wrapper, pero las 
 // paginas que no deben contener al sidebar defino una nueva clase que solo debe contener 
 // un margen superior 
 
-.no-sidebar{
-  margin-top: 140px;
+.no-sidebar {
+  margin-top: 70px;
 }

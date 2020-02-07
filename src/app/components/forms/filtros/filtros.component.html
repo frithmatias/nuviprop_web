@@ -3,17 +3,21 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
 
+                <!---------------------------------------------------------------------->
+                <!-- TABS BUTTONS MAP-LIST-CARDS -->
+                <!---------------------------------------------------------------------->
+
                 <div class="nav nav-pills tabs-overmap animated fadeIn" style="justify-content: center;" id="myTab"
                     role="tablist">
-                    <button (click)="tabSelected(0)" class="btn btn-outline-light btn-sm rounded-0 m-1" id="mapa-tab"
+                    <button (click)="tabSelected(0)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="mapa-tab"
                         data-toggle="tab" href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">
                         <i class="mdi mdi-google-maps"></i> Mapa
                     </button>
-                    <button (click)="tabSelected(1)" class="btn btn-outline-light btn-sm rounded-0 m-1" id="lista-tab"
+                    <button (click)="tabSelected(1)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="lista-tab"
                         data-toggle="tab" href="#lista" role="tab" aria-controls="lista" aria-selected="true">
                         <i class="mdi mdi-view-list"></i> Lista
                     </button>
-                    <button (click)="tabSelected(2)" class="btn btn-outline-light btn-sm rounded-0 m-1" id="cards-tab"
+                    <button (click)="tabSelected(2)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="cards-tab"
                         data-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">
                         <i class="mdi mdi-view-grid"></i> Cards
                     </button>
@@ -29,7 +33,7 @@
                     <!---------------------------------------------------------------------->
                     <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
                     <div *ngIf="objectsLocalidades">
-                        <span class="badge badge-success text-dark badge-filtros rounded-0 m-1 p-1"
+                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
                             *ngFor="let filtro of objectsLocalidades">
                             &nbsp;{{filtro.nombre}}
                             <span><i class="mdi mdi-close" (click)="removeFilter('localidad', filtro._id)"
@@ -43,7 +47,7 @@
                     <!---------------------------------------------------------------------->
 
                     <div *ngIf="objectsOperaciones">
-                        <span class="badge badge-success text-dark badge-filtros rounded-0 m-1 p-1"
+                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
                             *ngFor="let filtro of objectsOperaciones">
                             &nbsp;{{filtro.nombre}}
                             <span><i class="mdi mdi-close" (click)="removeFilter('operacion', filtro._id)"
@@ -56,7 +60,7 @@
                     <!-- TIPO DE INMUEBLE -->
                     <!---------------------------------------------------------------------->
                     <div *ngIf="objectsInmuebles">
-                        <span class="badge badge-success text-dark badge-filtros rounded-0 m-1 p-1"
+                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
                             *ngFor="let filtro of objectsInmuebles">
                             &nbsp;{{filtro.nombre}}
                             <span><i class="mdi mdi-close" (click)="removeFilter('inmueble', filtro._id)"

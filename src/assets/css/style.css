@@ -915,7 +915,7 @@ Main sidebar
   top               : 0px;
   z-index           : 20;
   padding-top       : 70px;
-  background        : #eaeaea;
+  background        : #ffffff;
   -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
   box-shadow        : 1px 0px 20px rgba(0, 0, 0, 0.08);
 }
@@ -960,7 +960,7 @@ sidebar navigation
 }
 
 .sidebar-nav {
-  background: #eaeaea;
+  background: #ffffff;
   padding   : 15px 0 0 0px;
 }
 
@@ -1860,8 +1860,11 @@ Notify
 /*******************
  Right side toggle
 *******************/
+/*MF_MD: Se modifica para que los boxes de los colores queden en forma horizontal en el div del header*/
 ul#themecolors {
+  padding: 15px; /*MF_MD: original: none*/
   display: block;
+  width: max-content; /*MF_MD: original: none*/
 }
 
 ul#themecolors li {
@@ -1873,8 +1876,8 @@ ul#themecolors li:first-child {
 }
 
 ul#themecolors li a {
-  width   : 50px;
-  height  : 50px;
+  width   : 40px; /*MF_MD: original: 50*/
+  height  : 40px; /*MF_MD: original: 50*/
   display : inline-block;
   margin  : 5px;
   color   : transparent;
@@ -1884,10 +1887,10 @@ ul#themecolors li a {
 ul#themecolors li a.working:before {
   content    : "\f00c";
   font-family: "FontAwesome";
-  font-size  : 18px;
-  line-height: 50px;
-  width      : 50px;
-  height     : 50px;
+  font-size  : 22px;
+  line-height: 40px; /*MF_MD: original: 50*/
+  width      : 40px; /*MF_MD: original: 50*/
+  height     : 40px; /*MF_MD: original: 50*/
   position   : absolute;
   top        : 0;
   left       : 0;
