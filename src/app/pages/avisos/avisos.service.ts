@@ -19,19 +19,6 @@ export class AvisosService {
 	obtenerAvisos(filtros: any) {
 		return new Promise((resolve, reject) => {
 			// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones
-
-			if (filtros.localidad.length === 0) {
-				reject('Seleccione una Localidad.');
-				return;
-			} 	
-			if (filtros.tipooperacion.length === 0)	{ 
-				reject('Seleccione un tipo de Operacion.');
-				return;
-			}
-			if (filtros.tipoinmueble.length === 0) {
-				reject('Seleccione un tipo de Inmueble.');
-				return;
-			}
 			
 			let operaciones: string; // venta-compra-alquiler
 			let inmuebles: string;

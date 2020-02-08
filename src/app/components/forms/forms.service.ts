@@ -126,23 +126,21 @@ export class FormsService {
 
 	localidadesVecinas(localidad: Localidad) {
 		console.log(localidad);
-		this.obtenerLocalidadesVecinas(localidad._id).subscribe((data: Localidades) => {
+			const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + localidad._id;
+			return this.http.get(url).subscribe((data: Localidades) => {
+			
 			this.localidadesCercanas = data.localidades;
+
 			this.localidadesCercanas.forEach(thislocalidad => {
 				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
 				thislocalidad.nombre = nombreCapitalizado;
 			});
+
+			this.localidadesCercanas.unshift({_id: 'indistinto', nombre: 'Todas las localidades', id: 'localidad_indistinto'});
+
 			console.log(this.localidadesCercanas);
 			localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
 		});
-	}
-
-	// Obtiene todas las localidades vecinas a una localidad dada (filtros)
-	obtenerLocalidadesVecinas(idLocalidad: string) {
-		// en los filtros necesito mostrar las localidades vecinas a las que estoy buscando
-		// para ofrecerlas como opción de busqueda.
-		const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + idLocalidad;
-		return this.http.get(url);
 	}
 
 	// Obtiene los tipos de operaciones (scope global)
@@ -151,8 +149,10 @@ export class FormsService {
 		const url = URL_SERVICIOS + '/inicio/operaciones';
 		return this.http.get(url).subscribe((data: TiposOperaciones) => {
 			if (data.ok) { 
+				
 				this.loading.tipooperacion = true; 
 				this.tiposOperaciones = data.operaciones;
+				this.tiposOperaciones.unshift({_id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto'});
 				resolve();
 			}
 		});
@@ -167,6 +167,7 @@ export class FormsService {
 				if (data.ok) { 
 					this.loading.tipoinmueble = true; 
 					this.tiposInmuebles = data.inmuebles;
+					this.tiposInmuebles.unshift({_id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto'});
 					resolve();
 				}
 			});

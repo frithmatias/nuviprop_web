@@ -6,6 +6,7 @@ import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
 import { Observable } from 'rxjs';
+import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 
 
 @Component({
@@ -29,13 +30,21 @@ export class FiltrosComponent implements OnInit {
 	seleccionInmuebles: string[];
 	seleccionLocalidades: string[];
 
+	// allFilters son arrays de string que contienen TODAS las opciones en caso de que sea seleccionada 
+	// la opcion INDISTINTO. No puedo enviar el array seleccionFilter porque con ngModel me estaría 
+	// chequeando las opciones en el mat-selection-list
+	allOperaciones: string[] = [];
+	allInmuebles: string[] = [];
+	allLocalidades: string[] = [];
+
 	// Al hacer click en un filtro, y a partir de los arrays de _ids seleccionados voy a reconstruir 
-	// los objetos para guardarlos en nuevos arrays para consumir los datos como el nombre de cada control.
+	// los objetos para guardarlos en nuevos arrays para consumir los datos como el nombre de cada control
+	// Esta información es usada en los BADGES.
 	objectsOperaciones: object[];
 	objectsInmuebles: object[];
 	objectsLocalidades: object[];
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
-	
+
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionsSelected: EventEmitter<object> = new EventEmitter();
 	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter<object[]>(); // para enviar al mapa
@@ -113,33 +122,127 @@ export class FiltrosComponent implements OnInit {
 			let localidadesCercanas = JSON.parse(localStorage.getItem('localidades'));
 			localidadesCercanas.forEach(localidad => {
 				if (this.seleccionLocalidades.includes(localidad._id)) {
-					if(this.objectLocalidadChecked && (localidad._id === this.objectLocalidadChecked._id)){
+					if (this.objectLocalidadChecked && (localidad._id === this.objectLocalidadChecked._id)) {
 						this.objectsLocalidades.unshift(localidad);
 					} else {
 						this.objectsLocalidades.push(localidad);
 					}
 				}
 			})
-			
+
 		}
 
 
 	}
 
-	filterUpdate() {
+	checkAllOptions(filter: string) {
+		switch (filter) {
+			case 'operacion':
+				this.seleccionOperaciones = ["indistinto"];
+				this.formsService.tiposOperaciones.forEach(operacion => {
+					if (operacion._id != "indistinto") {
+						this.allOperaciones.push(operacion._id);
+					}
+				});
+				break;
+			case 'inmueble':
+				this.seleccionInmuebles = ["indistinto"];
+				this.formsService.tiposInmuebles.forEach(inmueble => {
+					if (inmueble._id != "indistinto") {
+						this.allInmuebles.push(inmueble._id);
+					}
+				});
+				break;
+			case 'localidad':
+				this.seleccionLocalidades = ["indistinto"];
+				this.formsService.localidadesCercanas.forEach(localidad => {
+					if (localidad._id != "indistinto") {
+						this.allLocalidades.push(localidad._id);
+					}
+				});
+				break;
+		}
+	}
+
+
+	filterUpdate(filter?: string, id?: string) {
+		switch (filter) {
+			case 'operacion':
+				this.allOperaciones = [];
+				if (id === "indistinto") { // quito todos los checks y seteo todas las opciones en mi nuevo array allOperaciones
+					this.checkAllOptions(filter);
+				} else { // quito 'indistinto'
+					if (this.seleccionOperaciones.includes("indistinto")) { // si 'indistinto' esta seleccionado, lo quito.
+						this.seleccionOperaciones = this.seleccionOperaciones.filter(operacion => operacion != "indistinto");
+					} else { // si 'indistinto' NO esta seleccionado y no quedaron opciones, entonces "destildé" las opciones y tildo 'indistinto'
+						if (this.seleccionOperaciones.length === 0) {
+							this.checkAllOptions(filter);
+						}
+					}
+				}
+				break;
+
+			case 'inmueble':
+				this.allInmuebles = [];
+				if (id === "indistinto") { 
+					this.checkAllOptions(filter);
+				} else { 
+					if (this.seleccionInmuebles.includes("indistinto")) {
+						this.seleccionInmuebles = this.seleccionInmuebles.filter(inmueble => inmueble != "indistinto");
+					} else {
+						if (this.seleccionInmuebles.length === 0) {
+							this.checkAllOptions(filter);
+						}
+					}
+				}
+				break;
+
+				case 'localidad':
+					this.allLocalidades = [];
+					if (id === "indistinto") { 
+						this.checkAllOptions(filter);
+					} else {
+						if (this.seleccionLocalidades.includes("indistinto")) {
+							this.seleccionLocalidades = this.seleccionLocalidades.filter(localidad => localidad != "indistinto");
+						} else {
+							if (this.seleccionLocalidades.length === 0) {
+								this.checkAllOptions(filter);
+							}
+						}
+					}
+					break;
+
+		}
+
 		this.filtersToObjects();
 
 		const filtros = {
-			tipooperacion: this.seleccionOperaciones,
-			tipoinmueble: this.seleccionInmuebles,
-			localidad: this.seleccionLocalidades
+			tipooperacion: this.allOperaciones.length > 0 ? this.allOperaciones : this.seleccionOperaciones,
+			tipoinmueble: this.allInmuebles.length > 0 ? this.allInmuebles : this.seleccionInmuebles,
+			localidad: this.allLocalidades.length > 0 ? this.allLocalidades : this.seleccionLocalidades
 		};
 
+		console.log(filtros);
 		localStorage.setItem('filtros', JSON.stringify(filtros));
 
-		console.log(this.objectsLocalidades);
+
+		if (filtros.localidad.length === 0) {
+			this.snak('Seleccione una Localidad.', 2000);
+			return;
+		}
+		if (filtros.tipooperacion.length === 0) {
+			this.snak('Seleccione un tipo de Operacion.', 2000);
+			return;
+		}
+		if (filtros.tipoinmueble.length === 0) {
+			this.snak('Seleccione un tipo de Inmueble.', 2000);
+			return;
+		}
+
+
 		this.localidadesActivas.emit(this.objectsLocalidades);
 		this.optionsSelected.emit(filtros);
+
 	}
 
 	removeFilter(filter: string, id: string) {
@@ -155,7 +258,7 @@ export class FiltrosComponent implements OnInit {
 				this.seleccionInmuebles = this.seleccionInmuebles.filter(inmueble => inmueble != id);
 				break;
 		}
-		this.filterUpdate();
+		this.filterUpdate(filter, id);
 	}
 
 
@@ -164,8 +267,15 @@ export class FiltrosComponent implements OnInit {
 	}
 
 
-	setLastLocalidad(object: Localidad){
+	setLastLocalidad(object: Localidad) {
 		this.objectLocalidadChecked = object;
-		this.filterUpdate();
+		this.filterUpdate('localidad', object._id);
+	}
+
+
+	snak(msg: string, time: number) {
+		this.snackBar.open(msg, 'Aceptar', {
+			duration: time,
+		});
 	}
 }

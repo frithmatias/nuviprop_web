@@ -41,7 +41,8 @@ export class MapaComponent implements OnInit {
 			let localidades = JSON.parse(localStorage.getItem('localidades'));
 
 			if(localidades.length>0 && localidades_checked.localidad.length>0){
-				for (let i=0; i<localidades.length; i++){
+				// localidad[0] => 'indistinto / todos'
+				for (let i=1; i<localidades.length; i++){
 					if(localidades_checked.localidad.includes(localidades[i]._id)){
 						this.mapCenterInit = { lng: localidades[i].geometry.coordinates[0], lat: localidades[i].geometry.coordinates[1] };
 						break;
