@@ -23,19 +23,19 @@ export class InicioComponent implements OnInit {
 		private activatedRoute: ActivatedRoute
 	) { }
 
-	ngOnInit(){
+	ngOnInit() {
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
 		  map(() => this.activatedRoute))
 		  .subscribe((event) => {
-	
-			  //$.getScript('../assets/plugins/jquery/jquery.min.js');
+
+			  // $.getScript('../assets/plugins/jquery/jquery.min.js');
 			  // init_plugins();
 			  //  $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
 			  //  $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
 			  //  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
 			  //  $.getScript('../assets/js/sidebarmenu.js');
 			  $.getScript('../assets/js/custom.js');
-			
+
 		});
 	}
 
@@ -67,7 +67,7 @@ export class InicioComponent implements OnInit {
 		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
 		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
 		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
-		this.formsService.setLocalidad(localidad);
+		this.formsService.obtenerLocalidadesVecinas(localidad);
 		this.seleccionLocalidades = [];
 		this.seleccionLocalidades.push(localidad._id);
 	}
@@ -81,7 +81,7 @@ export class InicioComponent implements OnInit {
 		};
 
 		localStorage.setItem('filtros', JSON.stringify(filtros));
-		
+
 		// this.formsService.cleanInput();
 		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
 			this.snak(res, 2000);

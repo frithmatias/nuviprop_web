@@ -14,7 +14,7 @@ export class AvisosComponent implements OnInit {
 	private INFINITESCROLL_THRESHOLD = 80;
 	private showGoUpButton: boolean;
 	private getMoreAvisos = false;
-	localidadesActivas: object[]; //viene de un emit del formulario filtros
+	mapCoords: []; // viene de un emit del formulario filtros
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
 	avisos: Aviso[];
@@ -119,18 +119,18 @@ export class AvisosComponent implements OnInit {
 		});
 	}
 
-	localidadesSeleccionadas(event:any){
+	localidadesSeleccionadas(event: any) {
 		console.log(event);
 	}
 
 
-	
-	avisosChange(e:any){
+
+	avisosChange(e: any) {
 		console.log('Evento desde list', e); // e contiene los avisos con datos ya modificados.
-		// si sólo modifico propiedades o elementos dentro de un array, el ciclo de detección de cambios 
-		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo array, para que 
-		// el componente hijo pueda detectar que le estoy pasando datos nuevos tengo que pasar un array 
+		// si sólo modifico propiedades o elementos dentro de un array, el ciclo de detección de cambios
+		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo array, para que
+		// el componente hijo pueda detectar que le estoy pasando datos nuevos tengo que pasar un array
 		// NUEVO y para eso uso el operador SPREAD.
-		this.avisos = [...e]; 
+		this.avisos = [...e];
 	}
 }

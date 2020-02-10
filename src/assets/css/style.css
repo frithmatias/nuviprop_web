@@ -942,7 +942,8 @@ use profile section
 sidebar navigation
 ******************/
 .scroll-sidebar {
-  height: calc(100% - 70px);
+  /* height: calc(100% - 70px); MF_MD*/ 
+  height: 100%;
 }
 
 .scroll-sidebar.ps .ps__scrollbar-y-rail {

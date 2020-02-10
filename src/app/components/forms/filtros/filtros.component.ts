@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
 import { Observable } from 'rxjs';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
+import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 
 
 @Component({
@@ -23,31 +24,36 @@ export class FiltrosComponent implements OnInit {
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
 	filtrosStorage: any;
 
-	// Arrays donde voy a mapear con [(ngModel)] las opciones seleccionadas en cada filtro 
-	// Las declaro, pero no las inicializo, las necesito UNDEFINED porque en los divs de cada grupo de 
+	// objetos que INCLUYEN 'indistinto'
+	allObjOperaciones: TipoOperacion[];
+	allObjInmuebles: TipoInmueble[];
+	allObjLocalidades: any[];
+
+	// Arrays donde voy a mapear con [(ngModel)] las opciones seleccionadas en cada filtro
+	// Las declaro, pero no las inicializo, las necesito UNDEFINED porque en los divs de cada grupo de
 	// filtros va a esperar con *ngIf a que esten definidas para presentarlos.
-	seleccionOperaciones: string[];
-	seleccionInmuebles: string[];
-	seleccionLocalidades: string[];
+	selStrOperaciones: string[];
+	selStrInmuebles: string[];
+	selStrLocalidades: string[];
 
-	// allFilters son arrays de string que contienen TODAS las opciones en caso de que sea seleccionada 
-	// la opcion INDISTINTO. No puedo enviar el array seleccionFilter porque con ngModel me estaría 
+	// allFilters son arrays de string que contienen TODAS las opciones en caso de que sea seleccionada
+	// la opcion INDISTINTO. No puedo enviar el array seleccionFilter porque con ngModel me estaría
 	// chequeando las opciones en el mat-selection-list
-	allOperaciones: string[] = [];
-	allInmuebles: string[] = [];
-	allLocalidades: string[] = [];
+	allStrOperaciones: string[] = [];
+	allStrInmuebles: string[] = [];
+	allStrLocalidades: string[] = [];
 
-	// Al hacer click en un filtro, y a partir de los arrays de _ids seleccionados voy a reconstruir 
+	// Al hacer click en un filtro, y a partir de los arrays de _ids seleccionados voy a reconstruir
 	// los objetos para guardarlos en nuevos arrays para consumir los datos como el nombre de cada control
 	// Esta información es usada en los BADGES.
-	objectsOperaciones: object[];
-	objectsInmuebles: object[];
-	objectsLocalidades: object[];
+	selObjOperaciones: object[];
+	selObjInmuebles: object[];
+	selObjLocalidades: Localidad[];
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
 
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionsSelected: EventEmitter<object> = new EventEmitter();
-	@Output() localidadesActivas: EventEmitter<object[]> = new EventEmitter<object[]>(); // para enviar al mapa
+	@Output() mapCoords: EventEmitter<object> = new EventEmitter<object>(); // para enviar al mapa
 
 	// Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera
 	// puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
@@ -71,111 +77,157 @@ export class FiltrosComponent implements OnInit {
 		this.filtersToObjects(); // Filter Selected
 	}
 
-	storageToArraysIDs() {
+	async storageToArraysIDs() {
 
 		this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
 
-		this.seleccionOperaciones = [];
-		this.seleccionInmuebles = [];
-		this.seleccionLocalidades = [];
+		this.selStrOperaciones = [];
+		this.selStrInmuebles = [];
+		this.selStrLocalidades = [];
 
-		this.filtrosStorage.tipooperacion.forEach(operacion => {
-			this.seleccionOperaciones.push(operacion); // operacion es un string.
-		});
+		// FROM DB
 
-		this.filtrosStorage.tipoinmueble.forEach(inmueble => {
-			this.seleccionInmuebles.push(inmueble);
-		});
+		if (!this.allObjOperaciones) {
+			await this.formsService.obtenerOperaciones().then((data: TipoOperacion[]) => {
+				this.allObjOperaciones = data;
+			});
+		}
 
-		this.filtrosStorage.localidad.forEach(localidad => {
-			this.seleccionLocalidades.push(localidad);
-		});
+		if (this.filtrosStorage.tipooperacion[0] === 'indistinto') {
+			this.checkAllOptions('operacion');
+		} else {
+			this.filtrosStorage.tipooperacion.forEach(operacion => {
+				this.selStrOperaciones.push(operacion); // operacion es un string.
+			});
+		}
 
+		// FROM DB
+		if (!this.allObjInmuebles) {
+			await this.formsService.obtenerInmuebles().then((data: TipoInmueble[]) => {
+				this.allObjInmuebles = data;
+			});
+		}
+
+		if (this.filtrosStorage.tipoinmueble[0] === 'indistinto') {
+			this.checkAllOptions('inmueble');
+		} else {
+			this.filtrosStorage.tipoinmueble.forEach(inmueble => {
+				this.selStrInmuebles.push(inmueble);
+			});
+		}
+
+		// FROM LOCALSTORAGE
+		if (!this.allObjLocalidades) {
+			if (localStorage.getItem('localidades')) {
+				this.allObjLocalidades = [];
+				JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
+					console.log(localidad);
+					this.allObjLocalidades.push(localidad);
+				});
+			}
+		}
+		if (this.filtrosStorage.localidad[0] === 'indistinto') {
+			this.checkAllOptions('localidad');
+		} else {
+			this.filtrosStorage.localidad.forEach(localidad => {
+				this.selStrLocalidades.push(localidad);
+			});
+		}
+
+
+		this.filterUpdate();
 	}
 
 	filtersToObjects() {
-		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
-		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
-		// this.formsService.localidadesCercanas -> obtiene de la localstorage
+		// this.allObjOperaciones -> obtiene de la bd (necesita await)
+		// this.allObjInmuebles -> obtiene de la bd (necesita await)
+		// this.allObjLocalidades -> obtiene de la localstorage
 
 		// las operaciones y los inmuebles son opciones fijas, representan un subuniverso que no cambia
-		// las localidades en cambio no, representan un subuniverso seleccionado por el usuario y por lo tanto necesito 
+		// las localidades en cambio no, representan un subuniverso seleccionado por el usuario y por lo tanto necesito
 		// guardarlo en la localstorage para poder obtenerlo nuevamente en una próxima visita.
 
-		this.objectsOperaciones = [];
-		this.objectsInmuebles = [];
-		this.objectsLocalidades = [];
+		this.selObjOperaciones = [];
+		this.selObjInmuebles = [];
+		this.selObjLocalidades = [];
 
-		if (this.formsService.tiposOperaciones) {
-			this.formsService.tiposOperaciones.forEach(operacion => {
-				if (this.seleccionOperaciones.includes(operacion._id)) this.objectsOperaciones.unshift(operacion);
-			})
+		if (this.allObjOperaciones) {
+			this.allObjOperaciones.forEach(operacion => {
+				if (this.selStrOperaciones.includes(operacion._id)) { this.selObjOperaciones.unshift(operacion); }
+			});
 		}
 
-		if (this.formsService.tiposInmuebles) {
-			this.formsService.tiposInmuebles.forEach(inmueble => {
-				if (this.seleccionInmuebles.includes(inmueble._id)) this.objectsInmuebles.unshift(inmueble);
-			})
+		if (this.allObjInmuebles) {
+			this.allObjInmuebles.forEach(inmueble => {
+				if (this.selStrInmuebles.includes(inmueble._id)) { this.selObjInmuebles.unshift(inmueble); }
+			});
 		}
 
 		if (localStorage.getItem('localidades')) {
-			let localidadesCercanas = JSON.parse(localStorage.getItem('localidades'));
-			localidadesCercanas.forEach(localidad => {
-				if (this.seleccionLocalidades.includes(localidad._id)) {
-					if (this.objectLocalidadChecked && (localidad._id === this.objectLocalidadChecked._id)) {
-						this.objectsLocalidades.unshift(localidad);
-					} else {
-						this.objectsLocalidades.push(localidad);
-					}
+			const allObjLocalidades = JSON.parse(localStorage.getItem('localidades'));
+			allObjLocalidades.forEach((localidad: Localidad) => {
+				// Si no existen selecciones en 'selStrLocalidades' puede ser que sea porque esta la opcion 'indistinto' seleccionada
+				// lo que me obliga a utilizar el array allStrLocalidades que contiene TODAS las localidades del departamento.
+				if (this.selStrLocalidades.includes(localidad._id)) {
+					this.selObjLocalidades.push(localidad);
 				}
-			})
-
+			});
 		}
-
-
 	}
 
 	checkAllOptions(filter: string) {
 		switch (filter) {
 			case 'operacion':
-				this.seleccionOperaciones = ["indistinto"];
-				this.formsService.tiposOperaciones.forEach(operacion => {
-					if (operacion._id != "indistinto") {
-						this.allOperaciones.push(operacion._id);
+				this.selStrOperaciones = ['indistinto'];
+				this.allObjOperaciones.forEach(operacion => {
+					if (operacion._id !== 'indistinto') {
+						this.allStrOperaciones.push(operacion._id);
 					}
 				});
 				break;
 			case 'inmueble':
-				this.seleccionInmuebles = ["indistinto"];
-				this.formsService.tiposInmuebles.forEach(inmueble => {
-					if (inmueble._id != "indistinto") {
-						this.allInmuebles.push(inmueble._id);
+				this.selStrInmuebles = ['indistinto'];
+				this.allObjInmuebles.forEach(inmueble => {
+					if (inmueble._id !== 'indistinto') {
+						this.allStrInmuebles.push(inmueble._id);
 					}
 				});
 				break;
 			case 'localidad':
-				this.seleccionLocalidades = ["indistinto"];
-				this.formsService.localidadesCercanas.forEach(localidad => {
-					if (localidad._id != "indistinto") {
-						this.allLocalidades.push(localidad._id);
+				this.selStrLocalidades = ['indistinto'];
+				this.allObjLocalidades.forEach(localidad => {
+					if (localidad._id !== 'indistinto') {
+						this.allStrLocalidades.push(localidad._id);
 					}
 				});
 				break;
 		}
 	}
 
+	async setLocalidad(localidad: Localidad) {
+		console.log(localidad);
+		this.selStrLocalidades = [];	// Limpio las selecciones anteriores
+		this.objectLocalidadChecked = localidad;	// Si hay solo una localidad CHECKED la envío al mapa
+		// obtengo las localidades vecinas, necesito que sea sincrona porque cuando paso los filtros a objetos NECESITO TENER
+		// las localidades cercanas en la localstorage, guardadas desde el servicio forms.service.ts
+		await this.formsService.obtenerLocalidadesVecinas(localidad);
+		this.selStrLocalidades.push(localidad._id);	//
+		this.filterUpdate('localidad', localidad);
+	}
 
-	filterUpdate(filter?: string, id?: string) {
+
+	filterUpdate(filter?: string, object?: any) {
+
 		switch (filter) {
 			case 'operacion':
-				this.allOperaciones = [];
-				if (id === "indistinto") { // quito todos los checks y seteo todas las opciones en mi nuevo array allOperaciones
+				this.allStrOperaciones = [];
+				if (object._id === 'indistinto') { // quito todos los checks y seteo todas las opciones en mi nuevo array allStrOperaciones
 					this.checkAllOptions(filter);
 				} else { // quito 'indistinto'
-					if (this.seleccionOperaciones.includes("indistinto")) { // si 'indistinto' esta seleccionado, lo quito.
-						this.seleccionOperaciones = this.seleccionOperaciones.filter(operacion => operacion != "indistinto");
+					if (this.selStrOperaciones.includes('indistinto')) { // si 'indistinto' esta seleccionado, lo quito.
+						this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== 'indistinto');
 					} else { // si 'indistinto' NO esta seleccionado y no quedaron opciones, entonces "destildé" las opciones y tildo 'indistinto'
-						if (this.seleccionOperaciones.length === 0) {
+						if (this.selStrOperaciones.length === 0) {
 							this.checkAllOptions(filter);
 						}
 					}
@@ -183,48 +235,59 @@ export class FiltrosComponent implements OnInit {
 				break;
 
 			case 'inmueble':
-				this.allInmuebles = [];
-				if (id === "indistinto") { 
+				this.allStrInmuebles = [];
+				if (object._id === 'indistinto') {
 					this.checkAllOptions(filter);
-				} else { 
-					if (this.seleccionInmuebles.includes("indistinto")) {
-						this.seleccionInmuebles = this.seleccionInmuebles.filter(inmueble => inmueble != "indistinto");
+				} else {
+					if (this.selStrInmuebles.includes('indistinto')) {
+						this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== 'indistinto');
 					} else {
-						if (this.seleccionInmuebles.length === 0) {
+						if (this.selStrInmuebles.length === 0) {
 							this.checkAllOptions(filter);
 						}
 					}
 				}
 				break;
 
-				case 'localidad':
-					this.allLocalidades = [];
-					if (id === "indistinto") { 
-						this.checkAllOptions(filter);
+			case 'localidad':
+				this.allStrLocalidades = [];
+				if (object._id === 'indistinto') {
+					this.checkAllOptions(filter);
+				} else {
+					if (this.selStrLocalidades.includes('indistinto')) {
+						this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== 'indistinto');
 					} else {
-						if (this.seleccionLocalidades.includes("indistinto")) {
-							this.seleccionLocalidades = this.seleccionLocalidades.filter(localidad => localidad != "indistinto");
-						} else {
-							if (this.seleccionLocalidades.length === 0) {
-								this.checkAllOptions(filter);
-							}
+						if (this.selStrLocalidades.length === 0) {
+							this.checkAllOptions(filter);
 						}
 					}
-					break;
+				}
+				break;
 
 		}
 
 		this.filtersToObjects();
 
+		// Arrays de strings de _ids, para mostrar los CHECKS
+		console.log(this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
+		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
+		console.log(this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
+		// Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
+		console.log(this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
+		// Arrays de objetos con todas las opciones de los selects
+		console.log(this.allObjOperaciones, this.allObjInmuebles, this.allObjLocalidades);
+
 		const filtros = {
-			tipooperacion: this.allOperaciones.length > 0 ? this.allOperaciones : this.seleccionOperaciones,
-			tipoinmueble: this.allInmuebles.length > 0 ? this.allInmuebles : this.seleccionInmuebles,
-			localidad: this.allLocalidades.length > 0 ? this.allLocalidades : this.seleccionLocalidades
+			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,
+			tipoinmueble: this.allStrInmuebles.length > 0 ? this.allStrInmuebles : this.selStrInmuebles,
+			localidad: this.allStrLocalidades.length > 0 ? this.allStrLocalidades : this.selStrLocalidades
 		};
-
-		console.log(filtros);
-		localStorage.setItem('filtros', JSON.stringify(filtros));
-
+		// En localstorage NO guardo allStrOperaciones, allStrInmuebles, etc... sino directamente 'indistinto'
+		localStorage.setItem('filtros', JSON.stringify({
+			tipooperacion: this.allStrOperaciones.length > 0 ? ['indistinto'] : this.selStrOperaciones,
+			tipoinmueble: this.allStrInmuebles.length > 0 ? ['indistinto'] : this.selStrInmuebles,
+			localidad: this.allStrLocalidades.length > 0 ? ['indistinto'] : this.selStrLocalidades
+		}));
 
 		if (filtros.localidad.length === 0) {
 			this.snak('Seleccione una Localidad.', 2000);
@@ -240,8 +303,37 @@ export class FiltrosComponent implements OnInit {
 		}
 
 
-		this.localidadesActivas.emit(this.objectsLocalidades);
 		this.optionsSelected.emit(filtros);
+		// promedio de coordenadas de localidades seleccionadas
+		if (this.selObjLocalidades.length > 0) {
+			// Voy a centrar todas las localidades en el mapa para eso necesito el punto mas SO y el mas NE
+			// lat -34.5768258, lng -58.4956705
+			// lat 0 ecuador, lng 0 greenwich
+			// SO: mas al sur MIN(lat) mas oeste MIN(lng)
+			// NE: mas al norte MAX(lat) mas este MAX(lng)
+
+			// localidad.geometry.coordinates[0] -> LNG -> OE
+			// localidad.geometry.coordinates[1] -> LAT -> NS
+
+			// Doy valores iniciales tomando el primer elemento de mi array de localidades.
+			let O = Number(this.selObjLocalidades[0].geometry.coordinates[0]);
+			let E = Number(this.selObjLocalidades[0].geometry.coordinates[0]);
+			let S = Number(this.selObjLocalidades[0].geometry.coordinates[1]);
+			let N = Number(this.selObjLocalidades[0].geometry.coordinates[1]);
+
+			this.selObjLocalidades.forEach((localidad: Localidad) => {
+				if (Number(localidad.geometry.coordinates[0]) > E) { E = Number(localidad.geometry.coordinates[0]); }
+				if (Number(localidad.geometry.coordinates[0]) < O) { O = Number(localidad.geometry.coordinates[0]); }
+				if (Number(localidad.geometry.coordinates[1]) > N) { N = Number(localidad.geometry.coordinates[1]); }
+				if (Number(localidad.geometry.coordinates[1]) < S) { S = Number(localidad.geometry.coordinates[1]); }
+			});
+
+			// Cuando termino el forEach YA TENGO mi punto mas al SO y NE como ([S,O],[N,E])
+			// envio un PROMEDIO de coordenadas de las localidades seleccionadas.
+
+			const coords = [[O, S], [E, N]];
+			this.mapCoords.emit(coords);
+		}
 
 	}
 
@@ -249,13 +341,13 @@ export class FiltrosComponent implements OnInit {
 		console.log('removiendo filtro: ', filter, id);
 		switch (filter) {
 			case 'localidad':
-				this.seleccionLocalidades = this.seleccionLocalidades.filter(localidad => localidad != id);
+				this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== id);
 				break;
 			case 'operacion':
-				this.seleccionOperaciones = this.seleccionOperaciones.filter(operacion => operacion != id);
+				this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== id);
 				break;
 			case 'inmueble':
-				this.seleccionInmuebles = this.seleccionInmuebles.filter(inmueble => inmueble != id);
+				this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== id);
 				break;
 		}
 		this.filterUpdate(filter, id);
@@ -265,13 +357,6 @@ export class FiltrosComponent implements OnInit {
 	tabSelected(tab: number) {
 		localStorage.setItem('viewtab', String(tab));
 	}
-
-
-	setLastLocalidad(object: Localidad) {
-		this.objectLocalidadChecked = object;
-		this.filterUpdate('localidad', object._id);
-	}
-
 
 	snak(msg: string, time: number) {
 		this.snackBar.open(msg, 'Aceptar', {

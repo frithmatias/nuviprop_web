@@ -26,7 +26,7 @@ export class AvisoComponent implements OnInit {
 	formAviso: FormGroup = new FormGroup({});
 	unidades: TipoUnidad[] = [];
 
-	// Le paso al componente child app-mapa las coordenadas de la localidad seleccionada 
+	// Le paso al componente child app-mapa las coordenadas de la localidad seleccionada
 	coordsLocalidad: string[] = [];
 
 	// Para definir cual va a ser mi formulario de detalles necesito los ID de tipooperacion y tipoinmueble
@@ -211,10 +211,10 @@ export class AvisoComponent implements OnInit {
 		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
 		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
 		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
-		
+
 		// Le paso al child app-mapa las nuevas coordenadas para que centre la posición en el mapa.
 		this.coordsLocalidad = localidad.geometry.coordinates;
-		this.formsService.setLocalidad(localidad);
+		this.formsService.obtenerLocalidadesVecinas(localidad);
 		this.formAviso.patchValue({
 			localidad: localidad._id
 		});
@@ -229,7 +229,7 @@ export class AvisoComponent implements OnInit {
 		}
 	}
 
-	setCoords(e){
+	setCoords(e) {
 		console.log(e);
 		this.formAviso.patchValue({
 			lat: String(e.lat),

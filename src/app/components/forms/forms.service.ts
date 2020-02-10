@@ -25,8 +25,6 @@ export class FormsService {
 		tipoinmueble: false,
 	};
 
-	// Control Autocomplete
-	nombreLocalidad = '';
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
 	localidadesControl = new FormControl();
 	// en localidades guardo la lista de localidades en el AUTOCOMPLETE
@@ -60,11 +58,11 @@ export class FormsService {
 		});
 	}
 
-	async getControlsData(){
-		await this.obtenerOperaciones();
-		await this.obtenerInmuebles();
-		await this.obtenerCambios();
-		this.getUltimasLocalidades();
+	async getControlsData() {
+		// await this.obtenerOperaciones();
+		// await this.obtenerInmuebles();
+		// await this.obtenerCambios();
+		// this.getUltimasLocalidades();
 	}
 
 	// METODOS DEL CONTROL LOCALIDAD
@@ -108,55 +106,41 @@ export class FormsService {
 	}
 
 	cleanInput() {
-		this.nombreLocalidad = '';
 		this.localidadesControl.reset();
 		this.localidades = [];
 	}
 
-	setLocalidad(localidad: Localidad) {
-		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
-		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
-		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
-		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
-		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
-		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
-		this.nombreLocalidad = localidad.properties.nombre + ', ' + localidad.properties.departamento.nombre + ', ' + localidad.properties.provincia.nombre;
-		this.localidadesVecinas(localidad);
-	}
 
-	localidadesVecinas(localidad: Localidad) {
-		console.log(localidad);
+	obtenerLocalidadesVecinas(localidad: Localidad) {
+		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + localidad._id;
-			return this.http.get(url).subscribe((data: Localidades) => {
-			
-			this.localidadesCercanas = data.localidades;
-
-			this.localidadesCercanas.forEach(thislocalidad => {
-				const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
-				thislocalidad.nombre = nombreCapitalizado;
-			});
-
-			this.localidadesCercanas.unshift({_id: 'indistinto', nombre: 'Todas las localidades', id: 'localidad_indistinto'});
-
-			console.log(this.localidadesCercanas);
-			localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
+			// return this.http.get(url).subscribe((data: Localidades) => {
+			// 	// this.localidadesCercanas = data.localidades;
+			// 	this.localidadesCercanas.forEach(thislocalidad => {
+			// 		const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
+			// 		thislocalidad.nombre = nombreCapitalizado;
+			// 	});
+			// 	this.localidadesCercanas.unshift({ _id: 'indistinto', nombre: 'Todas las localidades', id: 'localidad_indistinto' });
+			// 	localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
+			// 	resolve(this.localidadesCercanas);
+			// });
 		});
+
 	}
 
 	// Obtiene los tipos de operaciones (scope global)
 	obtenerOperaciones() {
 		return new Promise((resolve, reject) => {
-		const url = URL_SERVICIOS + '/inicio/operaciones';
-		return this.http.get(url).subscribe((data: TiposOperaciones) => {
-			if (data.ok) { 
-				
-				this.loading.tipooperacion = true; 
-				this.tiposOperaciones = data.operaciones;
-				this.tiposOperaciones.unshift({_id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto'});
-				resolve();
-			}
+			const url = URL_SERVICIOS + '/inicio/operaciones';
+			return this.http.get(url).subscribe((data: TiposOperaciones) => {
+				if (data.ok) {
+					this.loading.tipooperacion = true;
+					this.tiposOperaciones = data.operaciones;
+					this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
+					resolve(data.operaciones);
+				}
+			});
 		});
-	})
 	}
 
 	// Obtiene los tipos de inmuebles (scope global)
@@ -164,14 +148,14 @@ export class FormsService {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/inmuebles';
 			return this.http.get(url).subscribe((data: TiposInmuebles) => {
-				if (data.ok) { 
-					this.loading.tipoinmueble = true; 
+				if (data.ok) {
+					this.loading.tipoinmueble = true;
 					this.tiposInmuebles = data.inmuebles;
-					this.tiposInmuebles.unshift({_id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto'});
-					resolve();
+					this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
+					resolve(data.inmuebles);
 				}
 			});
-		})
+		});
 
 	}
 
@@ -185,12 +169,12 @@ export class FormsService {
 	// Obtiene los tipos de cambio
 	obtenerCambios() {
 		return new Promise((resolve, reject) => {
-		const url = URL_SERVICIOS + '/inicio/cambio';
-		return this.http.get(url).subscribe((data: any) => {
-			this.tiposCambio = data.tipocambio;
-			resolve();
+			const url = URL_SERVICIOS + '/inicio/cambio';
+			return this.http.get(url).subscribe((data: any) => {
+				this.tiposCambio = data.tipocambio;
+				resolve();
+			});
 		});
-	})
 	}
 	// Busca localidades según patrón (inicio y aviso-crear)
 	obtenerLocalidad(event) {
@@ -285,10 +269,5 @@ export class FormsService {
 		});
 		return new FormGroup(group);
 	}
-
-
-
-
-
 
 }

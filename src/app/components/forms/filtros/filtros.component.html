@@ -26,50 +26,62 @@
                 <!---------------------------------------------------------------------->
                 <!-- FILTROS APLICADOS [BADGES] -->
                 <!---------------------------------------------------------------------->
+                <li>
 
-                <div class="show-filters m-3">
-                    <!---------------------------------------------------------------------->
-                    <!-- LOCALIDAD -->
-                    <!---------------------------------------------------------------------->
-                    <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
-                    <div *ngIf="objectsLocalidades">
-                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
-                            *ngFor="let filtro of objectsLocalidades">
-                            &nbsp;{{filtro.nombre}}&nbsp;
-                            <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close pr-1" (click)="removeFilter('localidad', filtro._id)"
-                                    style="cursor: pointer;"></i></span>
-                        </span>
-                    </div>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-tune"></i>
+                        <span class="hide-menu"> Filtros aplicados </span>
+                    </a>
 
+                    <ul aria-expanded="false" class="collapse">
+                        <li class="px-1">
 
-                    <!---------------------------------------------------------------------->
-                    <!-- TIPO DE OPERACION -->
-                    <!---------------------------------------------------------------------->
-
-                    <div *ngIf="objectsOperaciones">
-                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
-                            *ngFor="let filtro of objectsOperaciones">
-                            &nbsp;{{filtro.nombre}}&nbsp;
-                            <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close" (click)="removeFilter('operacion', filtro._id)"
-                                    style="cursor: pointer;"></i></span>
-                        </span>
-                    </div>
+                                <!---------------------------------------------------------------------->
+                                <!-- LOCALIDAD -->
+                                <!---------------------------------------------------------------------->
+                                <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
+                                <div *ngIf="selObjLocalidades">
+                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                        *ngFor="let filtro of selObjLocalidades">
+                                        &nbsp;{{filtro.nombre}}&nbsp;
+                                        <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close pr-1"
+                                                (click)="removeFilter('localidad', filtro._id)"
+                                                style="cursor: pointer;"></i></span>
+                                    </span>
+                                </div>
 
 
-                    <!---------------------------------------------------------------------->
-                    <!-- TIPO DE INMUEBLE -->
-                    <!---------------------------------------------------------------------->
-                    <div *ngIf="objectsInmuebles">
-                        <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
-                            *ngFor="let filtro of objectsInmuebles">
-                            &nbsp;{{filtro.nombre}}&nbsp;
-                            <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close" (click)="removeFilter('inmueble', filtro._id)"
-                                    style="cursor: pointer;"></i></span>
-                        </span>
-                    </div>
+                                <!---------------------------------------------------------------------->
+                                <!-- TIPO DE OPERACION -->
+                                <!---------------------------------------------------------------------->
 
-                </div>
+                                <div *ngIf="selObjOperaciones">
+                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                        *ngFor="let filtro of selObjOperaciones">
+                                        &nbsp;{{filtro.nombre}}&nbsp;
+                                        <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
+                                                (click)="removeFilter('operacion', filtro._id)"
+                                                style="cursor: pointer;"></i></span>
+                                    </span>
+                                </div>
 
+
+                                <!---------------------------------------------------------------------->
+                                <!-- TIPO DE INMUEBLE -->
+                                <!---------------------------------------------------------------------->
+                                <div *ngIf="selObjInmuebles">
+                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                        *ngFor="let filtro of selObjInmuebles">
+                                        &nbsp;{{filtro.nombre}}&nbsp;
+                                        <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
+                                                (click)="removeFilter('inmueble', filtro._id)"
+                                                style="cursor: pointer;"></i></span>
+                                    </span>
+                                </div>
+
+                        </li>
+                    </ul>
+                </li>
                 <!---------------------------------------------------------------------->
                 <!-- FILTROS [CHECKS] -->
                 <!---------------------------------------------------------------------->
@@ -90,7 +102,8 @@
                                 <mat-label>Ingrese localidad</mat-label>
                                 <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number"
                                     matInput [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                                    [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()">
+                                    [value]="formsService.localidadesControl.value?.properties?.nombre"
+                                    (click)="formsService.cleanInput()">
                                 <span class=" input-icon" (click)="formsService.cleanInput()"><i
                                         class="mdi mdi-close"></i></span>
                             </mat-form-field>
@@ -98,7 +111,7 @@
                             <!---------------------------------------------------------------------->
                             <!-- AUTOCOMPLETE LOCALIDADES CERCANAS -->
                             <!---------------------------------------------------------------------->
-                            <mat-autocomplete (optionSelected)="formsService.setLocalidad($event.option.value)"
+                            <mat-autocomplete (optionSelected)="setLocalidad($event.option.value)"
                                 #auto="matAutocomplete">
                                 <mat-option [value]="option" *ngFor="let option of formsService.localidades">
                                     {{option.properties.nombre | capitalizarPipe}},
@@ -110,17 +123,17 @@
                             <!---------------------------------------------------------------------->
                             <!-- CHECKS LOCALIDADES CERCANAS -->
                             <!---------------------------------------------------------------------->
-                            <div *ngIf="formsService.localidadesCercanas">
+                            <div *ngIf="allObjLocalidades">
                                 <!-- muestro el departamento de las localidades -->
 
                                 <h3 class="pl-1">
-                                    {{formsService.localidadesCercanas[1].properties.departamento.nombre}}
+                                    {{allObjLocalidades[1].properties.departamento.nombre}}
                                 </h3>
 
-                                <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionLocalidades" dense>
+                                <mat-selection-list class="animated fadeIn" [(ngModel)]="selStrLocalidades" dense>
                                     <mat-list-option formfiltros-localidades
-                                        *ngFor="let localidad of formsService.localidadesCercanas"
-                                        [value]="localidad._id" (click)="setLastLocalidad(localidad)">
+                                        *ngFor="let localidad of allObjLocalidades" [value]="localidad._id"
+                                        (click)="filterUpdate('localidad', localidad)">
                                         <div class="mat-select-option-nowarp">{{localidad.nombre}}</div>
                                     </mat-list-option>
                                 </mat-selection-list>
@@ -143,10 +156,9 @@
 
                         <li *ngIf="divfiltersoperaciones" class="px-1">
                             <mat-selection-list class="animated fadeIn" class="animated fadeIn"
-                                [(ngModel)]="seleccionOperaciones" dense>
-                                <mat-list-option formfiltros-operaciones
-                                    *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
-                                    (click)="filterUpdate('operacion', operacion._id)">
+                                [(ngModel)]="selStrOperaciones" dense>
+                                <mat-list-option formfiltros-operaciones *ngFor="let operacion of allObjOperaciones"
+                                    [value]="operacion._id" (click)="filterUpdate('operacion', operacion)">
                                     <span class="mat-select-option-nowarp">{{operacion.nombre}}</span>
                                 </mat-list-option>
                             </mat-selection-list>
@@ -167,10 +179,9 @@
 
                         <li *ngIf="divfiltersinmuebles" class="px-1">
 
-                            <mat-selection-list class="animated fadeIn" [(ngModel)]="seleccionInmuebles" dense>
-                                <mat-list-option formfiltros-inmuebles
-                                    *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
-                                    (click)="filterUpdate('inmueble', inmueble._id)">
+                            <mat-selection-list class="animated fadeIn" [(ngModel)]="selStrInmuebles" dense>
+                                <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of allObjInmuebles"
+                                    [value]="inmueble._id" (click)="filterUpdate('inmueble', inmueble)">
                                     <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
                                 </mat-list-option>
                             </mat-selection-list>
