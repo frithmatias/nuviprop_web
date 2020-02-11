@@ -41,7 +41,7 @@
                                 <!---------------------------------------------------------------------->
                                 <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
                                 <div *ngIf="selObjLocalidades">
-                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                    <span class="badge btn-themecolor active badge-filtros rounded-0 m-1 p-1"
                                         *ngFor="let filtro of selObjLocalidades">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close pr-1"
@@ -56,7 +56,7 @@
                                 <!---------------------------------------------------------------------->
 
                                 <div *ngIf="selObjOperaciones">
-                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                    <span class="badge btn-themecolor active badge-filtros rounded-0 m-1 p-1"
                                         *ngFor="let filtro of selObjOperaciones">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
@@ -70,7 +70,7 @@
                                 <!-- TIPO DE INMUEBLE -->
                                 <!---------------------------------------------------------------------->
                                 <div *ngIf="selObjInmuebles">
-                                    <span class="badge btn-themecolor badge-filtros rounded-0 m-1 p-1"
+                                    <span class="badge btn-themecolor active badge-filtros rounded-0 m-1 p-1"
                                         *ngFor="let filtro of selObjInmuebles">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
@@ -104,7 +104,7 @@
                                     matInput [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
                                     [value]="formsService.localidadesControl.value?.properties?.nombre"
                                     (click)="formsService.cleanInput()">
-                                <span class=" input-icon" (click)="formsService.cleanInput()"><i
+                                <span class="input-icon" (click)="formsService.cleanInput()"><i
                                         class="mdi mdi-close"></i></span>
                             </mat-form-field>
 

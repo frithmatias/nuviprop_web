@@ -121,14 +121,15 @@ export class FiltrosComponent implements OnInit {
 			if (localStorage.getItem('localidades')) {
 				this.allObjLocalidades = [];
 				JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
-					console.log(localidad);
 					this.allObjLocalidades.push(localidad);
 				});
 			}
 		}
 		if (this.filtrosStorage.localidad[0] === 'indistinto') {
+			console.log('seteando todas las localidades en background');
 			this.checkAllOptions('localidad');
 		} else {
+			console.log(this.filtrosStorage.localidad);
 			this.filtrosStorage.localidad.forEach(localidad => {
 				this.selStrLocalidades.push(localidad);
 			});
@@ -207,17 +208,20 @@ export class FiltrosComponent implements OnInit {
 	async setLocalidad(localidad: Localidad) {
 		console.log(localidad);
 		this.selStrLocalidades = [];	// Limpio las selecciones anteriores
+		this.selStrLocalidades.push(localidad._id);	//
+
 		this.objectLocalidadChecked = localidad;	// Si hay solo una localidad CHECKED la envío al mapa
 		// obtengo las localidades vecinas, necesito que sea sincrona porque cuando paso los filtros a objetos NECESITO TENER
 		// las localidades cercanas en la localstorage, guardadas desde el servicio forms.service.ts
-		await this.formsService.obtenerLocalidadesVecinas(localidad);
-		this.selStrLocalidades.push(localidad._id);	//
+		await this.formsService.obtenerLocalidadesVecinas(localidad).then((localidades: Localidad[]) => {
+			this.allObjLocalidades = localidades;
+		});
 		this.filterUpdate('localidad', localidad);
 	}
 
 
 	filterUpdate(filter?: string, object?: any) {
-
+		console.log('FILTER-UPDATE:', filter, object);
 		switch (filter) {
 			case 'operacion':
 				this.allStrOperaciones = [];
@@ -268,14 +272,14 @@ export class FiltrosComponent implements OnInit {
 
 		this.filtersToObjects();
 
-		// Arrays de strings de _ids, para mostrar los CHECKS
-		console.log(this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
-		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
-		console.log(this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
-		// Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
-		console.log(this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
-		// Arrays de objetos con todas las opciones de los selects
-		console.log(this.allObjOperaciones, this.allObjInmuebles, this.allObjLocalidades);
+		// // Arrays de strings de _ids, para mostrar los CHECKS
+		console.log('--SEL-STR--\n',  this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
+		// // Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
+		// console.log('SEL-OBJ--\n',  this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
+		// // Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
+		// console.log('--ALL-STR--\n',  this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
+		// // Arrays de objetos con todas las opciones de los selects
+		// console.log('--ALL-OBJ--\n',  this.allObjOperaciones, this.allObjInmuebles, this.allObjLocalidades);
 
 		const filtros = {
 			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,
@@ -305,7 +309,7 @@ export class FiltrosComponent implements OnInit {
 
 		this.optionsSelected.emit(filtros);
 		// promedio de coordenadas de localidades seleccionadas
-		if (this.selObjLocalidades.length > 0) {
+		if (this.selObjLocalidades.length > 0 && this.selObjLocalidades[0]._id !== 'indistinto') {
 			// Voy a centrar todas las localidades en el mapa para eso necesito el punto mas SO y el mas NE
 			// lat -34.5768258, lng -58.4956705
 			// lat 0 ecuador, lng 0 greenwich

@@ -37,14 +37,13 @@ export class FormsService {
 		private capitalizarPipe: CapitalizarPipe
 	) {
 
-		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
 			}
 			const filterValue = data.toLowerCase();
 			if (data.length === 3) {
-				this.buscarLocalidad(filterValue).then((resp: Localidades) => {
+				this.buscarLocalidades(filterValue).then((resp: Localidades) => {
 					// console.log(resp); // trea localidades vecinas, objetos GEO completos
 					resp.localidades.forEach(localidad => {
 						this.localidades.push(localidad);
@@ -58,15 +57,10 @@ export class FormsService {
 		});
 	}
 
-	async getControlsData() {
-		// await this.obtenerOperaciones();
-		// await this.obtenerInmuebles();
-		// await this.obtenerCambios();
-		// this.getUltimasLocalidades();
-	}
+
 
 	// METODOS DEL CONTROL LOCALIDAD
-	buscarLocalidad(pattern) {
+	buscarLocalidades(pattern) {
 		return new Promise((resolve, reject) => {
 			const regex = new RegExp(/^[a-z ñ0-9]+$/i);
 			if (!regex.test(pattern) && pattern) {
@@ -96,34 +90,24 @@ export class FormsService {
 
 	}
 
-	getUltimasLocalidades() {
-		// LOCALIDADES (OBJETOS CON DATOS DE LOCALIDADES CERCANAS)
-		// Los filtros se componen de datos seleccionados de un conjuto ya definido de datos como las operaciones
-		// En el caso de las localidades, tengo que guardar las localidades cercanas para poder mostrarlas al
-		// recargar la página.
-		// this.localidadesCercanas = []
-		this.localidadesCercanas = JSON.parse(localStorage.getItem('localidades'));
-	}
-
 	cleanInput() {
 		this.localidadesControl.reset();
 		this.localidades = [];
 	}
 
-
 	obtenerLocalidadesVecinas(localidad: Localidad) {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + localidad._id;
-			// return this.http.get(url).subscribe((data: Localidades) => {
-			// 	// this.localidadesCercanas = data.localidades;
-			// 	this.localidadesCercanas.forEach(thislocalidad => {
-			// 		const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
-			// 		thislocalidad.nombre = nombreCapitalizado;
-			// 	});
-			// 	this.localidadesCercanas.unshift({ _id: 'indistinto', nombre: 'Todas las localidades', id: 'localidad_indistinto' });
-			// 	localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
-			// 	resolve(this.localidadesCercanas);
-			// });
+			return this.http.get(url).subscribe((data: Localidades) => {
+				this.localidadesCercanas = data.localidades;
+				this.localidadesCercanas.forEach(thislocalidad => {
+					const nombreCapitalizado = this.capitalizarPipe.transform(thislocalidad.properties.nombre);
+					thislocalidad.nombre = nombreCapitalizado;
+				});
+				this.localidadesCercanas.unshift({ _id: 'indistinto', nombre: 'Todo ' + data.localidades[0].properties.departamento.nombre, id: 'localidad_indistinto' });
+				localStorage.setItem('localidades', JSON.stringify(this.localidadesCercanas));
+				resolve(this.localidadesCercanas);
+			});
 		});
 
 	}

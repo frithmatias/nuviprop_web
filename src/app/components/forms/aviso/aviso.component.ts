@@ -38,6 +38,10 @@ export class AvisoComponent implements OnInit {
 	filteredOptions: Observable<string[]>;
 	options: any[] = [];
 
+
+	allObjOperaciones: TipoOperacion[];
+	allObjInmuebles: TipoInmueble[];
+
 	constructor(
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
@@ -46,6 +50,14 @@ export class AvisoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
+		this.formsService.obtenerOperaciones().then((data: TipoOperacion[]) => {
+			this.allObjOperaciones = data;
+		});
+		this.formsService.obtenerInmuebles().then((data: TipoInmueble[]) => {
+			this.allObjInmuebles = data;
+		});
+
 		console.log(this.formData);
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
@@ -184,25 +196,25 @@ export class AvisoComponent implements OnInit {
 
 
 
-	buscarLocalidad(event: any) {
-		const regex = new RegExp(/^[a-z ñ0-9]+$/i);
-		if (!regex.test(event.target.value) && event.target.value) {
-			this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
-				duration: 2000,
-			});
-			return;
-		}
-		if (event.target.value.length === 3) {
-			this.formsService.obtenerLocalidad(event.target.value).subscribe((localidades: Localidades) => {
-				if (localidades.ok) {
-					this.options = [];
-					localidades.localidades.forEach(localidad => {
-						this.options.push(localidad);
-					});
-				}
-			});
-		}
-	}
+	// buscarLocalidad(event: any) {
+	// 	const regex = new RegExp(/^[a-z ñ0-9]+$/i);
+	// 	if (!regex.test(event.target.value) && event.target.value) {
+	// 		this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
+	// 			duration: 2000,
+	// 		});
+	// 		return;
+	// 	}
+	// 	if (event.target.value.length === 3) {
+	// 		this.formsService.obtenerLocalidad(event.target.value).subscribe((localidades: Localidades) => {
+	// 			if (localidades.ok) {
+	// 				this.options = [];
+	// 				localidades.localidades.forEach(localidad => {
+	// 					this.options.push(localidad);
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// }
 
 	setLocalidad(localidad) {
 		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego

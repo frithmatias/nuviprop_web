@@ -38,10 +38,10 @@ export class MapaComponent implements OnInit, OnChanges {
 			// Busco en las ultimas localidades, la primer coincidencia con alguna que fue seleccionada y la muestro en el mapa.
 			const localidades = JSON.parse(localStorage.getItem('localidades'));
 
-			if(localidades.length>0 && localidadesChecked.localidad.length>0){
+			if (localidades.length > 0 && localidadesChecked.localidad.length > 0) {
 				// localidad[0] => 'indistinto / todos'
-				for (let i=1; i<localidades.length; i++){
-					if(localidadesChecked.localidad.includes(localidades[i]._id)){
+				for (let i = 1; i < localidades.length; i++) {
+					if (localidadesChecked.localidad.includes(localidades[i]._id)) {
 						this.mapCenterInit = { lng: localidades[i].geometry.coordinates[0], lat: localidades[i].geometry.coordinates[1] };
 						break;
 					}
@@ -55,9 +55,8 @@ export class MapaComponent implements OnInit, OnChanges {
 
 		// FORM AVISO-CREAR AL HACER CLICK EN EL CONTROL LOCALIDAD
 		if (changes.center) {
-			console.log(changes.center);
 			// Defino la posicion en el mapa dada por el formulario aviso-crear
-			if(changes.center.currentValue != undefined) this.flyMap(changes.center.currentValue);
+			if (changes.center.currentValue !== undefined) { this.flyMap(changes.center.currentValue); }
 		}
 
 		// FORM FILTROS AL HACER CLICK EN UN CHECK DE LOCALIDAD
@@ -77,7 +76,7 @@ export class MapaComponent implements OnInit, OnChanges {
 				this.avisos.forEach((aviso: any) => {
 					if (aviso.coords && this.map) { // solo si tiene coordenadas y el mapa existe
 						// MARKER POPUP DATA
-						var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+						const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
 							`
 							<div class="card rounded">
 							<img class="card-img-top" src="${this.imagenPipe.transform(aviso.imgs[0], 'avisos', aviso._id)}" alt="Card image cap">
@@ -95,7 +94,7 @@ export class MapaComponent implements OnInit, OnChanges {
 							);
 
 						// CREATE MARKER
-						var el = document.createElement('div');
+						const el = document.createElement('div');
 						el.className = 'marker';
 						el.style.backgroundImage = 'url(\'../../../assets/images/mapa/marker-30.png\')';
 						el.style.width = '30px';
@@ -107,14 +106,13 @@ export class MapaComponent implements OnInit, OnChanges {
 						this.markersAvisos.push(newmarker);
 
 					}
-				})
+				});
 			}
-		}
-		else {
-			if(this.markersAvisos.length>0){
+		} else {
+			if (this.markersAvisos.length > 0) {
 				this.markersAvisos.forEach(marker => {
 					marker.remove();
-				})
+				});
 			}
 		}
 
@@ -136,7 +134,7 @@ export class MapaComponent implements OnInit, OnChanges {
 		});
 
 		// CONTROL NAV
-		var nav = new mapboxgl.NavigationControl();
+		const nav = new mapboxgl.NavigationControl();
 		this.map.addControl(nav, 'top-right');
 
 		// MAPA EN CREAR AVISO
@@ -164,7 +162,7 @@ export class MapaComponent implements OnInit, OnChanges {
 		// Soluciona el problema del tamaño del mapa en un nav-tabs de bootstrap
 		this.map.on('load', () => {
 			this.map.resize();
-			   $('[data-toggle="tab"]').on('shown.bs.tab', () => {
+			$('[data-toggle="tab"]').on('shown.bs.tab', () => {
 			 	this.map.resize();
 			   });
 		});
@@ -172,18 +170,18 @@ export class MapaComponent implements OnInit, OnChanges {
 
 	flyMap(center: string[]) {
 		this.markerInserted = false;
-		if (this.markerNuevoAviso) this.markerNuevoAviso.remove();
+		if (this.markerNuevoAviso) { this.markerNuevoAviso.remove(); }
 
 		// Desde filtros.component envío const coords = [[O, S], [E, N]];
 		// Si se trata de UN SOLO Marker, entonces O=E y S=N por lo tanto no hay que centrar con fitBounds sino
 		// que el mapa tiene que viajar hacia un solo punto con flyTo.
-		if(center[0][0]===center[1][0] && center[0][1]===center[1][1]){
-			//	this.map.zoomTo(this.mapZoom, { duration: 4000 });
-			if (this.map) this.map.flyTo({center: [String(center[0][0]), String(center[0][1])]});
+		if (center[0][0] === center[1][0] && center[0][1] === center[1][1]) {
+			// 	this.map.zoomTo(this.mapZoom, { duration: 4000 });
+			if (this.map) { this.map.flyTo({center: [String(center[0][0]), String(center[0][1])]}); }
 		} else {
 			// centro desde el marker mas SO hacia el marker mas NE
 			this.map.fitBounds(center, {
-				padding: {top: 200, bottom:200, left: 200, right: 200}
+				padding: {top: 200, bottom: 200, left: 200, right: 200}
 			  });
 		}
 	}

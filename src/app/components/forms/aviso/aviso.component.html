@@ -18,7 +18,7 @@
           <mat-label>Ingrese localidad</mat-label>
           <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
             [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-            [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()" />
+            [value]="formsService.localidadesControl.value?.properties?.nombre" (click)="formsService.cleanInput()" />
           <span class=" input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
         </mat-form-field>
 
@@ -42,7 +42,7 @@
                     que tenga ese valor. 
                 -->
           <mat-select formControlName="tipooperacion">
-            <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+            <mat-option *ngFor="let operacion of allObjOperaciones" [value]="operacion._id"
               (click)="setOperacion(operacion)">
               {{ operacion.nombre }}
             </mat-option>
@@ -55,7 +55,7 @@
         <mat-form-field class="col-12 col-lg-4 col-md-6">
           <mat-label>Tipo de inmueble</mat-label>
           <mat-select formControlName="tipoinmueble">
-            <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
+            <mat-option *ngFor="let inmueble of allObjInmuebles" [value]="inmueble._id"
               (click)="checkForFills(inmueble)">
               {{ inmueble.nombre }}
             </mat-option>
