@@ -12,7 +12,7 @@
                 <div class="modal-body text-center d-flex justify-content-around">
 
                     <div>
-                        <img *ngIf="!imagenTemp" [src]="'xxx' | imagenPipe" class="w150">
+                        <img *ngIf="!imagenTemp" [src]="'xxx' | imagenPipe:'tipo':'id'" class="w150">
                         <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150">
                     </div>
 

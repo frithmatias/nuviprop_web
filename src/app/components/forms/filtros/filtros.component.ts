@@ -63,7 +63,7 @@ export class FiltrosComponent implements OnInit {
 
 
 	constructor(
-		private formsService: FormsService,
+		public formsService: FormsService,
 		@Inject(LOCALE_ID) private locale: string,
 		private capitalizarPipe: CapitalizarPipe,
 		private avisosService: AvisosService,

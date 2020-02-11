@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { Aviso } from 'src/app/models/aviso.model';
 import { UsuarioService } from 'src/app/services/services.index';
 import { Router } from '@angular/router';
@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent implements OnInit {
+export class CardsComponent implements OnInit, OnChanges {
   @Input() avisos: Aviso[] = [];
   propFavoritas = [];
   params: string;
   constructor(
 	private router: Router,
-	private usuarioService: UsuarioService
+	public usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {

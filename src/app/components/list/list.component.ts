@@ -84,6 +84,9 @@ export class ListComponent implements OnInit {
 		});
 	}
 
+	cargarAvisos(n: number){
+		
+	}
 
 
 }

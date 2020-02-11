@@ -15,7 +15,7 @@ export class InicioComponent implements OnInit {
 	seleccionInmuebles: string[] = [];
 	seleccionLocalidades: string[] = [];
 	constructor(
-		private formsService: FormsService,
+		public formsService: FormsService,
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe,
 		private avisosService: AvisosService,

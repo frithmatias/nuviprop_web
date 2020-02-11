@@ -45,7 +45,7 @@ export class AvisoComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
-		private formsService: FormsService,
+		public formsService: FormsService,
 		private activatedRoute: ActivatedRoute
 	) { }
 

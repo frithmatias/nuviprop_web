@@ -89,7 +89,7 @@
                     <mat-label>Ingrese localidad</mat-label>
                     <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
                         [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                        [value]="formsService.nombreLocalidad" (click)="formsService.cleanInput()">
+                        [value]="formsService.localidadesControl.value?.properties?.nombre" (click)="formsService.cleanInput()">
                     <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
                 </mat-form-field>
 

@@ -55,7 +55,7 @@ export class MapaComponent implements OnInit, OnChanges {
 
 		// FORM AVISO-CREAR AL HACER CLICK EN EL CONTROL LOCALIDAD
 		if (changes.center) {
-			// Defino la posicion en el mapa dada por el formulario aviso-crear
+			// Defino la posicion en el mapa dada por el formulario aviso
 			if (changes.center.currentValue !== undefined) { this.flyMap(changes.center.currentValue); }
 		}
 

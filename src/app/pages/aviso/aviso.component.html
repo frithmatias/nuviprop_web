@@ -51,7 +51,7 @@
 
 
                     <h4 class="card-title m-t-10">{{ aviso.calle }} {{ aviso.altura }} </h4>
-                    <h6 class="card-subtitle">{{ aviso.tipo_inmueble }} en {{ aviso.tipo_operacion }} en
+                    <h6 class="card-subtitle">{{ aviso.tipoinmueble }} en {{ aviso.tipooperacion }} en
                         {{aviso.localidad}} </h6>
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
@@ -72,12 +72,10 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Dirección</small>
-                <h6>{{aviso.calle}} {{aviso.altura}}, {{aviso.localidad}}, {{aviso.departamento}}</h6>
+                <h6>{{aviso.calle}} {{aviso.altura}}, {{aviso.localidad}}</h6>
 
                 <small class="text-muted p-t-30 db">Zona</small>
-                <h6>{{aviso.localidad}}, {{aviso.departamento}} </h6>
-                <h6>{{aviso.provincia}} </h6>
-                <h6>{{aviso.pais}} </h6>
+                <h6>{{aviso.localidad}} </h6>
 
                 <small class="text-muted p-t-30 db">Código Postal</small>
                 <h6>{{aviso.codigopostal}}</h6>

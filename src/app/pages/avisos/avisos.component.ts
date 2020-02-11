@@ -12,7 +12,7 @@ import { Aviso, Avisos } from 'src/app/models/aviso.model';
 
 export class AvisosComponent implements OnInit {
 	private INFINITESCROLL_THRESHOLD = 80;
-	private showGoUpButton: boolean;
+	public showGoUpButton: boolean;
 	private getMoreAvisos = false;
 	mapCoords: []; // viene de un emit del formulario filtros
 	showScrollHeight = 400;

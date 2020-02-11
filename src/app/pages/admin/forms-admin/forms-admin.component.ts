@@ -16,7 +16,7 @@ export class FormsAdminComponent implements OnInit {
   tipooperacion: string;
   tipoinmueble: string;
   parsetemplate = false;
-  constructor(private formsService: FormsService) { }
+  constructor(public formsService: FormsService) { }
 
   ngOnInit() {
     this.obtenerControlesTodos();
