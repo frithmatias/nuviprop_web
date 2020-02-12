@@ -8,7 +8,7 @@ import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Control } from 'src/app/models/form.model';
 import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { Localidades, Localidad } from 'src/app/models/localidad.model';
 
 @Injectable({
@@ -16,10 +16,13 @@ import { Localidades, Localidad } from 'src/app/models/localidad.model';
 })
 export class FormsService {
 
+	// GLOBAL CONTROLS DATA ///////////////////
 	tiposOperaciones: TipoOperacion[];
 	tiposInmuebles: TipoInmueble[];
 	tiposCambio: any[];
 	localidadesCercanas: any[];
+	////////////////////////////////////////////
+
 	loading = {
 		tipooperacion: false,
 		tipoinmueble: false,
@@ -59,62 +62,80 @@ export class FormsService {
 		});
 	}
 
-	async getControlsData() {
-		this.tiposOperaciones = await this.obtenerOperaciones();
-		this.tiposInmuebles = await this.obtenerInmuebles();
-		this.tiposCambio = await this.obtenerCambios();
-		console.log('OBTENIENDO CONTROLES FIN');
-
-		console.log(this.tiposOperaciones);
-		console.log(this.tiposInmuebles);
-		console.log(this.tiposCambio);
-		this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
-		this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
+	dataReady(): Observable<boolean> {
+		return new Observable(observer => {
+			let contador = 0;
+			const timer = setInterval(() => {
+				contador += 1;
+				if (this.tiposOperaciones && this.tiposInmuebles && this.tiposCambio) {
+					clearInterval(timer);
+					observer.next(true);
+					observer.complete();
+				}
+				observer.next(false);
+				//  if(contador === 2){
+				// 		clearInterval(timer);
+				// 		observer.error('Se recibió un 2');
+				//  }
+			}, 100);
+		});
 	}
 
-		// Obtiene los tipos de operaciones (scope global)
-		obtenerOperaciones(): Promise<TipoOperacion[]> {
-			return new Promise((resolve, reject) => {
-				const url = URL_SERVICIOS + '/inicio/operaciones';
-				return this.http.get(url).subscribe((data: TiposOperaciones) => {
-					if (data.ok) {
-						this.loading.tipooperacion = true;
-						resolve(data.operaciones);
-					}
-				});
+
+	async getControlsData() {
+		return new Promise(async (resolve, reject) => {
+			this.tiposOperaciones = await this.obtenerOperaciones();
+			this.tiposInmuebles = await this.obtenerInmuebles();
+			this.tiposCambio = await this.obtenerCambios();
+			this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
+			this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
+			resolve();
+		});
+	}
+
+	// Obtiene los tipos de operaciones (scope global)
+	obtenerOperaciones(): Promise<TipoOperacion[]> {
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/operaciones';
+			return this.http.get(url).subscribe((data: TiposOperaciones) => {
+				if (data.ok) {
+					this.loading.tipooperacion = true;
+					resolve(data.operaciones);
+				}
 			});
-		}
-	
-		// Obtiene los tipos de inmuebles (scope global)
-		obtenerInmuebles(): Promise<TipoInmueble[]> {
-			return new Promise((resolve, reject) => {
-				const url = URL_SERVICIOS + '/inicio/inmuebles';
-				return this.http.get(url).subscribe((data: TiposInmuebles) => {
-					if (data.ok) {
-						this.loading.tipoinmueble = true;
-						resolve(data.inmuebles);
-					}
-				});
+		});
+	}
+
+	// Obtiene los tipos de inmuebles (scope global)
+	obtenerInmuebles(): Promise<TipoInmueble[]> {
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/inmuebles';
+			return this.http.get(url).subscribe((data: TiposInmuebles) => {
+				if (data.ok) {
+					this.loading.tipoinmueble = true;
+					resolve(data.inmuebles);
+				}
 			});
-	
-		}
-	
-		// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
-		obtenerUnidades(idparent: string) {
-			// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
-			const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
-			return this.http.get(url);
-		}
-	
-		// Obtiene los tipos de cambio
-		obtenerCambios(): Promise<any[]> {
-			return new Promise((resolve, reject) => {
-				const url = URL_SERVICIOS + '/inicio/cambio';
-				return this.http.get(url).subscribe((data: any) => {
-					resolve(data.tipocambio);
-				});
+		});
+
+	}
+
+	// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
+	obtenerUnidades(idparent: string) {
+		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
+		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
+		return this.http.get(url);
+	}
+
+	// Obtiene los tipos de cambio
+	obtenerCambios(): Promise<any[]> {
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/cambio';
+			return this.http.get(url).subscribe((data: any) => {
+				resolve(data.tipocambio);
 			});
-		}
+		});
+	}
 
 
 	// METODOS DEL CONTROL LOCALIDAD

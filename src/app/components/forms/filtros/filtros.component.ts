@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormsService } from '../forms.service';
 import { formatDate } from '@angular/common';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 
@@ -15,8 +15,9 @@ import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 	templateUrl: './filtros.component.html',
 	styleUrls: ['./filtros.component.scss']
 })
-export class FiltrosComponent implements OnInit {
+export class FiltrosComponent implements OnInit, OnDestroy {
 
+	dataReady: Subscription;
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
 	filtrosStorage: any;
 
@@ -66,19 +67,29 @@ export class FiltrosComponent implements OnInit {
 		// console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
 	}
 
-	ngOnInit() {
-		this.storageToArraysIDs(); // Filters selected ID's
-		this.filtersToObjects(); // Filter Selected
+	async ngOnInit() {
+		this.dataReady = this.formsService.dataReady().subscribe((data: boolean) => {
+			console.log(data);
+			if (data) {
+				this.storageToArraysIDs(); // Filters selected ID's
+				this.filtersToObjects(); // Filter Selected
+			}
+		});
 	}
 
-	async storageToArraysIDs() {
+	ngOnDestroy() {
+		this.dataReady.unsubscribe();
+	}
 
-		this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
-
+	storageToArraysIDs() {
+		console.log('STORAGETOARRAYS');
 		this.selStrOperaciones = [];
 		this.selStrInmuebles = [];
 		this.selStrLocalidades = [];
 
+		this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+
+		// Tildar las opciones en localstorage para OPERACIONES seleccionadas
 		if (this.filtrosStorage.tipooperacion[0] === 'indistinto') {
 			this.setIndistinto('operacion');
 		} else {
@@ -87,6 +98,7 @@ export class FiltrosComponent implements OnInit {
 			});
 		}
 
+		// Tildar las opciones en localstorage para INMUEBLES seleccionados
 		if (this.filtrosStorage.tipoinmueble[0] === 'indistinto') {
 			this.setIndistinto('inmueble');
 		} else {
@@ -95,15 +107,15 @@ export class FiltrosComponent implements OnInit {
 			});
 		}
 
-		// FROM LOCALSTORAGE
-		if (!this.allObjLocalidades) {
-			if (localStorage.getItem('localidades')) {
-				this.allObjLocalidades = [];
-				JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
-					this.allObjLocalidades.push(localidad);
-				});
-			}
+		// Obtengo las localidades guardadas en localstorage
+		if (localStorage.getItem('localidades')) {
+			this.allObjLocalidades = [];
+			JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
+				this.allObjLocalidades.push(localidad);
+			});
 		}
+
+		// Tildar las opciones en localstorage para LOCALIDADES seleccionadas
 		if (this.filtrosStorage.localidad[0] === 'indistinto') {
 			this.setIndistinto('localidad');
 		} else {
@@ -113,10 +125,19 @@ export class FiltrosComponent implements OnInit {
 		}
 
 
+
+		console.log(this.selStrOperaciones);
+		console.log(this.selStrInmuebles);
+		console.log(this.selStrLocalidades);
+		console.log(this.allObjLocalidades);
+		console.log('STORAGETOARRAYS FIN');
+
+
 		this.filterUpdate();
 	}
 
 	filtersToObjects() {
+		console.log('FILTERSTOOBJECTS');
 		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
 		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
 		// this.allObjLocalidades -> obtiene de la localstorage
@@ -252,7 +273,7 @@ export class FiltrosComponent implements OnInit {
 		// // Arrays de strings de _ids, para mostrar los CHECKS
 		// console.log('--SEL-STR--\n', this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
 		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
-		console.log('SEL-OBJ--\n',  this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
+		console.log('SEL-OBJ--\n', this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
 		// // Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
 		// console.log('--ALL-STR--\n',  this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
 		// // Arrays de objetos con todas las opciones de los selects
