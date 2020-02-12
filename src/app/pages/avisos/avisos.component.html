@@ -1,7 +1,7 @@
 
    
   
-
+    <div class="page-wrapper">
 
 
 
@@ -9,12 +9,36 @@
     <!-- FILTROS SIDE-BAR -->
     <!---------------------------------------------------------------------->
     <app-filtros class="avisos" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
+    <app-breadcrumbs></app-breadcrumbs>
 
     <!---------------------------------------------------------------------->
-    <!-- COLUMNA AVISOS -->
+    <!-- AVISOS -->
     <!---------------------------------------------------------------------->
-    <div class="page-wrapper">
-        
+    <!---------------------------------------------------------------------->  
+    <!-- TABS BUTTONS MAP-LIST-CARDS -->
+    <!---------------------------------------------------------------------->
+
+    <div class="nav  tabs-overmap animated fadeIn" style="justify-content: center;" id="myTab" role="tablist">
+        <button (click)="tabSelected(0)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="mapa-tab" data-toggle="tab"
+            href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">
+            <i class="mdi mdi-google-maps"></i> Mapa
+        </button>
+        <button (click)="tabSelected(1)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="lista-tab" data-toggle="tab"
+            href="#lista" role="tab" aria-controls="lista" aria-selected="true">
+            <i class="mdi mdi-view-list"></i> Lista
+        </button>
+        <button (click)="tabSelected(2)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="cards-tab" data-toggle="tab"
+            href="#cards" role="tab" aria-controls="cards" aria-selected="false">
+            <i class="mdi mdi-view-grid"></i> Cards
+        </button>
+    </div>
+
+
+
+
+        <!---------------------------------------------------------------------->
+        <!-- TABS PANES -->
+        <!---------------------------------------------------------------------->
         <div class="tab-content" id="myTabContent" style="height: 100vh">
 
             <!-- ---------------------------------- -->

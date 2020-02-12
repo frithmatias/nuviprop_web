@@ -1,6 +1,5 @@
 export { UploaderService } from '../components/uploader/uploader.service';
 export { SettingsService } from '../pages/settings/settings.service';
-export { SidebarService } from '../shared/sidebar/sidebar.service';
 export { UsuarioService } from '../pages/usuarios/usuarios.service';
 export { MisAvisosService } from '../pages/misavisos/misavisos.service';
 export { InmobiliariaService } from '../pages/inmobiliarias/inmobiliarias.service';

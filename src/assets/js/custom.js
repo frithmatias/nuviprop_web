@@ -51,12 +51,28 @@ $(function() {
         }
     });
 
+    // ============================================================== 
+    // Al quitar el foco del sidebar, lo oculto.
+    // ============================================================== 
+    $(".tab-pane").on('click', function() {
+        if ($("body").hasClass("mini-sidebar")) {
+            $("body").toggleClass("show-sidebar");
+        } else {
+            $("body").trigger("resize");
+            $("body").addClass("mini-sidebar");
+            $('.navbar-brand span').hide();
+        }
+    });
+
+    // nav-toggler < 768
+    // sidebartoggler >= 768
+
+    
     // this is for close icon when navigation open in mobile view
     $(".nav-toggler").click(function() {
-        console.log('SHOW-SIDEBAR');
         $("body").toggleClass("show-sidebar");
-        $(".nav-toggler i").toggleClass("ti-menu");
-        $(".nav-toggler i").addClass("ti-close");
+        // $(".nav-toggler i").toggleClass("ti-menu");
+        // $(".nav-toggler i").addClass("ti-close"); // search
     });
 
     $(".search-box a, .search-box .app-search .srh-btn").on('click', function() {

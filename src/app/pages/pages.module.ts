@@ -31,6 +31,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
 import { AdminModule } from './admin/admin.module';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 @NgModule({
 	declarations: [
@@ -45,7 +46,8 @@ import { AdminModule } from './admin/admin.module';
 		AvisosComponent,
 		AvisoComponent,
 		InicioComponent,
-		FavoritosComponent
+		FavoritosComponent,
+		BreadcrumbsComponent
 	],
 	exports: [DashboardComponent],
 	imports: [

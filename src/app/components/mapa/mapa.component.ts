@@ -135,7 +135,7 @@ export class MapaComponent implements OnInit, OnChanges {
 
 		// CONTROL NAV
 		const nav = new mapboxgl.NavigationControl();
-		this.map.addControl(nav, 'top-right');
+		this.map.addControl(nav, 'top-left');
 
 		// MAPA EN CREAR AVISO
 		if (this.router.url === '/aviso-crear/nuevo') {

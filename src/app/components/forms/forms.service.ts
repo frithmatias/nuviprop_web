@@ -40,7 +40,6 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe
 	) {
-		console.log('OBTENIENDO CONTROLES');
 		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {

@@ -40,7 +40,7 @@ const pagesRoutes: Routes = [
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
   { path: 'forms', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: FormsAdminComponent, data: { titulo: 'Controles de Formularios' } },
 
-  { path: '', redirectTo: '/avisos', pathMatch: 'full' }
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' }
 ];
 
 // export const PAGES_ROUTES = RouterModule.forChild( pagesRoutes );

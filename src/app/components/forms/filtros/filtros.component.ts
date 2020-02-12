@@ -69,8 +69,8 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		this.dataReady = this.formsService.dataReady().subscribe((data: boolean) => {
-			console.log(data);
 			if (data) {
+				console.log('Controls data ready!')
 				this.storageToArraysIDs(); // Filters selected ID's
 				this.filtersToObjects(); // Filter Selected
 			}
@@ -82,7 +82,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	storageToArraysIDs() {
-		console.log('STORAGETOARRAYS');
 		this.selStrOperaciones = [];
 		this.selStrInmuebles = [];
 		this.selStrLocalidades = [];
@@ -124,20 +123,10 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 			});
 		}
 
-
-
-		console.log(this.selStrOperaciones);
-		console.log(this.selStrInmuebles);
-		console.log(this.selStrLocalidades);
-		console.log(this.allObjLocalidades);
-		console.log('STORAGETOARRAYS FIN');
-
-
 		this.filterUpdate();
 	}
 
 	filtersToObjects() {
-		console.log('FILTERSTOOBJECTS');
 		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
 		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
 		// this.allObjLocalidades -> obtiene de la localstorage
@@ -273,7 +262,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		// // Arrays de strings de _ids, para mostrar los CHECKS
 		// console.log('--SEL-STR--\n', this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
 		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
-		console.log('SEL-OBJ--\n', this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
+		// console.log('SEL-OBJ--\n', this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
 		// // Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
 		// console.log('--ALL-STR--\n',  this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
 		// // Arrays de objetos con todas las opciones de los selects
@@ -355,9 +344,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 
-	tabSelected(tab: number) {
-		localStorage.setItem('viewtab', String(tab));
-	}
 
 	snak(msg: string, time: number) {
 		this.snackBar.open(msg, 'Aceptar', {

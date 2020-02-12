@@ -1358,10 +1358,11 @@ File         : scss
 }
 
 .topbar .top-navbar .navbar-nav>.nav-item>.nav-link {
+  padding-top : 0px;
+  padding-bottom: 0px;
   padding-left : 15px;
   padding-right: 15px;
   font-size    : 17px;
-  line-height  : 54px;
 }
 
 .topbar .top-navbar .navbar-nav>.nav-item>span {
@@ -1668,8 +1669,10 @@ Notify
 *******************/
 .page-titles {
   background   : #f4f6f9;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
+  margin-right: 220px;
   padding      : 0px;
+
 }
 
 .page-titles h3 {

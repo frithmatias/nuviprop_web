@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SidebarService, UsuarioService, SettingsService } from 'src/app/services/services.index';
+import { UsuarioService, SettingsService } from 'src/app/services/services.index';
 import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
@@ -10,18 +10,21 @@ import { Usuario } from 'src/app/models/usuario.model';
 })
 export class HeaderComponent implements OnInit {
 	usuario: Usuario;
-	publicmenu: any[];
+	publicHeaderMenu = [
+		{ icono: 'mdi mdi-cash-usd', titulo: 'Tasaciones', url: '/tasaciones', class: 'nav-item d-none d-md-block' },
+		{ icono: 'mdi mdi-city', titulo: 'Emprendimientos', url: '/emprendimientos', class: 'nav-item d-none d-lg-block' },
+		{ icono: 'mdi mdi-account-card-details', titulo: 'Nosotros', url: '/nosotros', class: 'nav-item d-none d-xl-block' },
+		{ icono: 'mdi mdi-email', titulo: 'Contacto', url: '/contacto', class: 'nav-item d-none d-sm-block' }
+	];
 
 	constructor(
 		private router: Router,
 		public userService: UsuarioService,
-		public sidebarService: SidebarService,
 		public _ajustes: SettingsService
 	) { }
 
 	ngOnInit() {
 		this.colocarCheck();
-		this.publicmenu = this.sidebarService.publicHeaderMenu;
 	}
 
 	buscar(termino: string) {

@@ -3,36 +3,34 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import {
-  SettingsService,
-  SidebarService,
-  UsuarioService,
-  UploaderService,
-  ModalUploadService,
-  MisAvisosService,
-  InmobiliariaService,
-  LoginGuard,
-  AdminGuard,
-  TokenGuard,
-  AvisosService,
-  FormsService
+	SettingsService,
+	UsuarioService,
+	UploaderService,
+	ModalUploadService,
+	MisAvisosService,
+	InmobiliariaService,
+	LoginGuard,
+	AdminGuard,
+	TokenGuard,
+	AvisosService,
+	FormsService
 } from './services.index';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
-  providers: [
-    SettingsService,
-    SidebarService,
-    UsuarioService,
-    UploaderService,
-    ModalUploadService,
-    MisAvisosService,
-    InmobiliariaService,
-    LoginGuard,
-    AdminGuard,
-    TokenGuard,
-    AvisosService,
-    FormsService
-  ],
-  declarations: []
+	imports: [CommonModule, HttpClientModule],
+	providers: [
+		SettingsService,
+		UsuarioService,
+		UploaderService,
+		ModalUploadService,
+		MisAvisosService,
+		InmobiliariaService,
+		LoginGuard,
+		AdminGuard,
+		TokenGuard,
+		AvisosService,
+		FormsService
+	],
+	declarations: []
 })
 export class ServiceModule { }

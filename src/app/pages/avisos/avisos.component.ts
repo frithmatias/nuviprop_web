@@ -133,4 +133,10 @@ export class AvisosComponent implements OnInit {
 		// NUEVO y para eso uso el operador SPREAD.
 		this.avisos = [...e];
 	}
+
+
+	
+	tabSelected(tab: number) {
+		localStorage.setItem('viewtab', String(tab));
+	}
 }

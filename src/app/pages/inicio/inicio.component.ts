@@ -24,6 +24,17 @@ export class InicioComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
+		if(localStorage.getItem('filtros')){
+			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
+			console.log(filtros);
+			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)){
+				this.router.navigate(['/avisos']);
+				console.log('Datos en localstorage, redireccionando hacia avisos.');
+			}
+		}
+
+		// Cargo los scripts fuera del scope de Angular.
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
 		  map(() => this.activatedRoute))
 		  .subscribe((event) => {

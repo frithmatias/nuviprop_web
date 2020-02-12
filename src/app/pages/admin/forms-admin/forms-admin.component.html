@@ -1,4 +1,4 @@
-<div class="content p-2 animated fadeIn">
+<div class="container no-sidebar p-2 animated fadeIn">
     <form [formGroup]="formSettings" (ngSubmit)="enviarFormulario()" id="formSettings" *ngIf="parsetemplate">
 
         <div class="row">
@@ -14,7 +14,7 @@
                 -->
                 <mat-select formControlName="tipooperacion">
                     <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
-                        (click)="checkOperacion(operacion)">
+                        (click)="setOperacion(operacion)">
                         {{ operacion.nombre }}
                     </mat-option>
                 </mat-select>
@@ -26,7 +26,7 @@
                 <mat-label>Tipo de inmueble</mat-label>
                 <mat-select formControlName="tipoinmueble">
                     <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
-                        (click)="checkInmueble(inmueble)">
+                        (click)="setInmueble(inmueble)">
                         {{ inmueble.nombre }}
                     </mat-option>
                 </mat-select>
@@ -37,7 +37,7 @@
             <span>
                 <mat-slide-toggle [formControlName]="control._id" checked="false"> {{control.nombre}}</mat-slide-toggle>
             </span>
-        </div>
+        </div> 
         <button class="btn btn-success">
             <!-- [disabled]="this.formSettings.invalid"> -->
             Guardar

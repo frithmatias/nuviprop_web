@@ -59,12 +59,12 @@ File         : scss
 /*General Elements
 *******************/
 a {
-  color: #e6ebf1;
+  color: #a6b7bf;
 }
 
 a.link:hover,
 a.link:focus {
-  color: #e6ebf1 !important;
+  color: #a6b7bf !important;
 }
 
 .bg-theme {
@@ -91,7 +91,7 @@ a.link:focus {
 }
 
 .text-themecolor {
-  color: #e6ebf1 !important;
+  color: #acb0b6 !important;
 }
 
 .profile-tab li a.nav-link.active,
