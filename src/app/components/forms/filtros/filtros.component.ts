@@ -17,17 +17,8 @@ import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 })
 export class FiltrosComponent implements OnInit {
 
-	divfiltersoperaciones = true;
-	divfiltersinmuebles = true;
-	divfilterslocalidades = true;
-
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
 	filtrosStorage: any;
-
-	// objetos que INCLUYEN 'indistinto'
-	allObjOperaciones: TipoOperacion[];
-	allObjInmuebles: TipoInmueble[];
-	allObjLocalidades: any[];
 
 	// Arrays donde voy a mapear con [(ngModel)] las opciones seleccionadas en cada filtro
 	// Las declaro, pero no las inicializo, las necesito UNDEFINED porque en los divs de cada grupo de
@@ -50,6 +41,9 @@ export class FiltrosComponent implements OnInit {
 	selObjInmuebles: object[];
 	selObjLocalidades: Localidad[];
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
+
+	// objetos que INCLUYEN 'indistinto'
+	allObjLocalidades: any[];
 
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionsSelected: EventEmitter<object> = new EventEmitter();
@@ -85,31 +79,16 @@ export class FiltrosComponent implements OnInit {
 		this.selStrInmuebles = [];
 		this.selStrLocalidades = [];
 
-		// FROM DB
-
-		if (!this.allObjOperaciones) {
-			await this.formsService.obtenerOperaciones().then((data: TipoOperacion[]) => {
-				this.allObjOperaciones = data;
-			});
-		}
-
 		if (this.filtrosStorage.tipooperacion[0] === 'indistinto') {
-			this.checkAllOptions('operacion');
+			this.setIndistinto('operacion');
 		} else {
 			this.filtrosStorage.tipooperacion.forEach(operacion => {
 				this.selStrOperaciones.push(operacion); // operacion es un string.
 			});
 		}
 
-		// FROM DB
-		if (!this.allObjInmuebles) {
-			await this.formsService.obtenerInmuebles().then((data: TipoInmueble[]) => {
-				this.allObjInmuebles = data;
-			});
-		}
-
 		if (this.filtrosStorage.tipoinmueble[0] === 'indistinto') {
-			this.checkAllOptions('inmueble');
+			this.setIndistinto('inmueble');
 		} else {
 			this.filtrosStorage.tipoinmueble.forEach(inmueble => {
 				this.selStrInmuebles.push(inmueble);
@@ -126,10 +105,8 @@ export class FiltrosComponent implements OnInit {
 			}
 		}
 		if (this.filtrosStorage.localidad[0] === 'indistinto') {
-			console.log('seteando todas las localidades en background');
-			this.checkAllOptions('localidad');
+			this.setIndistinto('localidad');
 		} else {
-			console.log(this.filtrosStorage.localidad);
 			this.filtrosStorage.localidad.forEach(localidad => {
 				this.selStrLocalidades.push(localidad);
 			});
@@ -140,8 +117,8 @@ export class FiltrosComponent implements OnInit {
 	}
 
 	filtersToObjects() {
-		// this.allObjOperaciones -> obtiene de la bd (necesita await)
-		// this.allObjInmuebles -> obtiene de la bd (necesita await)
+		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
+		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
 		// this.allObjLocalidades -> obtiene de la localstorage
 
 		// las operaciones y los inmuebles son opciones fijas, representan un subuniverso que no cambia
@@ -152,14 +129,14 @@ export class FiltrosComponent implements OnInit {
 		this.selObjInmuebles = [];
 		this.selObjLocalidades = [];
 
-		if (this.allObjOperaciones) {
-			this.allObjOperaciones.forEach(operacion => {
+		if (this.formsService.tiposOperaciones) {
+			this.formsService.tiposOperaciones.forEach(operacion => {
 				if (this.selStrOperaciones.includes(operacion._id)) { this.selObjOperaciones.unshift(operacion); }
 			});
 		}
 
-		if (this.allObjInmuebles) {
-			this.allObjInmuebles.forEach(inmueble => {
+		if (this.formsService.tiposInmuebles) {
+			this.formsService.tiposInmuebles.forEach(inmueble => {
 				if (this.selStrInmuebles.includes(inmueble._id)) { this.selObjInmuebles.unshift(inmueble); }
 			});
 		}
@@ -176,11 +153,12 @@ export class FiltrosComponent implements OnInit {
 		}
 	}
 
-	checkAllOptions(filter: string) {
+	setIndistinto(filter: string) {
+		console.log(filter);
 		switch (filter) {
 			case 'operacion':
 				this.selStrOperaciones = ['indistinto'];
-				this.allObjOperaciones.forEach(operacion => {
+				this.formsService.tiposOperaciones.forEach(operacion => {
 					if (operacion._id !== 'indistinto') {
 						this.allStrOperaciones.push(operacion._id);
 					}
@@ -188,7 +166,7 @@ export class FiltrosComponent implements OnInit {
 				break;
 			case 'inmueble':
 				this.selStrInmuebles = ['indistinto'];
-				this.allObjInmuebles.forEach(inmueble => {
+				this.formsService.tiposInmuebles.forEach(inmueble => {
 					if (inmueble._id !== 'indistinto') {
 						this.allStrInmuebles.push(inmueble._id);
 					}
@@ -206,7 +184,6 @@ export class FiltrosComponent implements OnInit {
 	}
 
 	async setLocalidad(localidad: Localidad) {
-		console.log(localidad);
 		this.selStrLocalidades = [];	// Limpio las selecciones anteriores
 		this.selStrLocalidades.push(localidad._id);	//
 
@@ -219,67 +196,67 @@ export class FiltrosComponent implements OnInit {
 		this.filterUpdate('localidad', localidad);
 	}
 
-
 	filterUpdate(filter?: string, object?: any) {
-		console.log('FILTER-UPDATE:', filter, object);
-		switch (filter) {
-			case 'operacion':
-				this.allStrOperaciones = [];
-				if (object._id === 'indistinto') { // quito todos los checks y seteo todas las opciones en mi nuevo array allStrOperaciones
-					this.checkAllOptions(filter);
-				} else { // quito 'indistinto'
-					if (this.selStrOperaciones.includes('indistinto')) { // si 'indistinto' esta seleccionado, lo quito.
-						this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== 'indistinto');
-					} else { // si 'indistinto' NO esta seleccionado y no quedaron opciones, entonces "destildé" las opciones y tildo 'indistinto'
-						if (this.selStrOperaciones.length === 0) {
-							this.checkAllOptions(filter);
+		if (filter) {
+			switch (filter) {
+				case 'operacion':
+					this.allStrOperaciones = [];
+					if (object._id === 'indistinto') { // quito todos los checks y seteo todas las opciones en mi nuevo array allStrOperaciones
+						this.setIndistinto(filter);
+					} else { // quito 'indistinto'
+						if (this.selStrOperaciones.includes('indistinto')) { // si 'indistinto' esta seleccionado, lo quito.
+							this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== 'indistinto');
+						} else { // si 'indistinto' NO esta seleccionado y no quedaron opciones, entonces "destildé" las opciones y tildo 'indistinto'
+							if (this.selStrOperaciones.length === 0) {
+								this.setIndistinto(filter);
+							}
 						}
 					}
-				}
-				break;
+					break;
 
-			case 'inmueble':
-				this.allStrInmuebles = [];
-				if (object._id === 'indistinto') {
-					this.checkAllOptions(filter);
-				} else {
-					if (this.selStrInmuebles.includes('indistinto')) {
-						this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== 'indistinto');
+				case 'inmueble':
+					this.allStrInmuebles = [];
+					if (object._id === 'indistinto') {
+						this.setIndistinto(filter);
 					} else {
-						if (this.selStrInmuebles.length === 0) {
-							this.checkAllOptions(filter);
+						if (this.selStrInmuebles.includes('indistinto')) {
+							this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== 'indistinto');
+						} else {
+							if (this.selStrInmuebles.length === 0) {
+								this.setIndistinto(filter);
+							}
 						}
 					}
-				}
-				break;
+					break;
 
-			case 'localidad':
-				this.allStrLocalidades = [];
-				if (object._id === 'indistinto') {
-					this.checkAllOptions(filter);
-				} else {
-					if (this.selStrLocalidades.includes('indistinto')) {
-						this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== 'indistinto');
+				case 'localidad':
+					this.allStrLocalidades = [];
+					if (object._id === 'indistinto') {
+						this.setIndistinto(filter);
 					} else {
-						if (this.selStrLocalidades.length === 0) {
-							this.checkAllOptions(filter);
+						if (this.selStrLocalidades.includes('indistinto')) {
+							this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== 'indistinto');
+						} else {
+							if (this.selStrLocalidades.length === 0) {
+								this.setIndistinto(filter);
+							}
 						}
 					}
-				}
-				break;
+					break;
 
+			}
 		}
 
 		this.filtersToObjects();
 
 		// // Arrays de strings de _ids, para mostrar los CHECKS
-		console.log('--SEL-STR--\n',  this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
-		// // Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
-		// console.log('SEL-OBJ--\n',  this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
+		// console.log('--SEL-STR--\n', this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
+		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
+		console.log('SEL-OBJ--\n',  this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
 		// // Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
 		// console.log('--ALL-STR--\n',  this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
 		// // Arrays de objetos con todas las opciones de los selects
-		// console.log('--ALL-OBJ--\n',  this.allObjOperaciones, this.allObjInmuebles, this.allObjLocalidades);
+		// console.log('--ALL-OBJ--\n',  this.formsService.tiposOperaciones, this.formsService.tiposInmuebles, this.allObjLocalidades);
 
 		const filtros = {
 			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,
@@ -341,20 +318,19 @@ export class FiltrosComponent implements OnInit {
 
 	}
 
-	removeFilter(filter: string, id: string) {
-		console.log('removiendo filtro: ', filter, id);
+	removeFilter(filter: string, object: any) {
 		switch (filter) {
 			case 'localidad':
-				this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== id);
+				this.selStrLocalidades = this.selStrLocalidades.filter(localidad => localidad !== object._id);
 				break;
 			case 'operacion':
-				this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== id);
+				this.selStrOperaciones = this.selStrOperaciones.filter(operacion => operacion !== object._id);
 				break;
 			case 'inmueble':
-				this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== id);
+				this.selStrInmuebles = this.selStrInmuebles.filter(inmueble => inmueble !== object._id);
 				break;
 		}
-		this.filterUpdate(filter, id);
+		this.filterUpdate(filter, object);
 	}
 
 

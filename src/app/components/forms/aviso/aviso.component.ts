@@ -38,10 +38,6 @@ export class AvisoComponent implements OnInit {
 	filteredOptions: Observable<string[]>;
 	options: any[] = [];
 
-
-	allObjOperaciones: TipoOperacion[];
-	allObjInmuebles: TipoInmueble[];
-
 	constructor(
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
@@ -50,13 +46,6 @@ export class AvisoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-
-		this.formsService.obtenerOperaciones().then((data: TipoOperacion[]) => {
-			this.allObjOperaciones = data;
-		});
-		this.formsService.obtenerInmuebles().then((data: TipoInmueble[]) => {
-			this.allObjInmuebles = data;
-		});
 
 		console.log(this.formData);
 		this.activatedRoute.params.subscribe(async params => {

@@ -27,6 +27,7 @@ export class FormsService {
 
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
 	localidadesControl = new FormControl();
+
 	// en localidades guardo la lista de localidades en el AUTOCOMPLETE
 	localidades: any[] = [];
 
@@ -36,7 +37,8 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe
 	) {
-
+		console.log('OBTENIENDO CONTROLES');
+		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
@@ -57,6 +59,62 @@ export class FormsService {
 		});
 	}
 
+	async getControlsData() {
+		this.tiposOperaciones = await this.obtenerOperaciones();
+		this.tiposInmuebles = await this.obtenerInmuebles();
+		this.tiposCambio = await this.obtenerCambios();
+		console.log('OBTENIENDO CONTROLES FIN');
+
+		console.log(this.tiposOperaciones);
+		console.log(this.tiposInmuebles);
+		console.log(this.tiposCambio);
+		this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
+		this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
+	}
+
+		// Obtiene los tipos de operaciones (scope global)
+		obtenerOperaciones(): Promise<TipoOperacion[]> {
+			return new Promise((resolve, reject) => {
+				const url = URL_SERVICIOS + '/inicio/operaciones';
+				return this.http.get(url).subscribe((data: TiposOperaciones) => {
+					if (data.ok) {
+						this.loading.tipooperacion = true;
+						resolve(data.operaciones);
+					}
+				});
+			});
+		}
+	
+		// Obtiene los tipos de inmuebles (scope global)
+		obtenerInmuebles(): Promise<TipoInmueble[]> {
+			return new Promise((resolve, reject) => {
+				const url = URL_SERVICIOS + '/inicio/inmuebles';
+				return this.http.get(url).subscribe((data: TiposInmuebles) => {
+					if (data.ok) {
+						this.loading.tipoinmueble = true;
+						resolve(data.inmuebles);
+					}
+				});
+			});
+	
+		}
+	
+		// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
+		obtenerUnidades(idparent: string) {
+			// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
+			const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
+			return this.http.get(url);
+		}
+	
+		// Obtiene los tipos de cambio
+		obtenerCambios(): Promise<any[]> {
+			return new Promise((resolve, reject) => {
+				const url = URL_SERVICIOS + '/inicio/cambio';
+				return this.http.get(url).subscribe((data: any) => {
+					resolve(data.tipocambio);
+				});
+			});
+		}
 
 
 	// METODOS DEL CONTROL LOCALIDAD
@@ -112,54 +170,6 @@ export class FormsService {
 
 	}
 
-	// Obtiene los tipos de operaciones (scope global)
-	obtenerOperaciones() {
-		return new Promise((resolve, reject) => {
-			const url = URL_SERVICIOS + '/inicio/operaciones';
-			return this.http.get(url).subscribe((data: TiposOperaciones) => {
-				if (data.ok) {
-					this.loading.tipooperacion = true;
-					this.tiposOperaciones = data.operaciones;
-					this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
-					resolve(data.operaciones);
-				}
-			});
-		});
-	}
-
-	// Obtiene los tipos de inmuebles (scope global)
-	obtenerInmuebles() {
-		return new Promise((resolve, reject) => {
-			const url = URL_SERVICIOS + '/inicio/inmuebles';
-			return this.http.get(url).subscribe((data: TiposInmuebles) => {
-				if (data.ok) {
-					this.loading.tipoinmueble = true;
-					this.tiposInmuebles = data.inmuebles;
-					this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
-					resolve(data.inmuebles);
-				}
-			});
-		});
-
-	}
-
-	// Obtiene unidades según tipo de inmueble (solo departamentos y casas)
-	obtenerUnidades(idparent: string) {
-		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
-		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
-		return this.http.get(url);
-	}
-
-	// Obtiene los tipos de cambio
-	obtenerCambios() {
-		return new Promise((resolve, reject) => {
-			const url = URL_SERVICIOS + '/inicio/cambio';
-			return this.http.get(url).subscribe((data: any) => {
-				this.tiposCambio = data.tipocambio;
-				resolve();
-			});
-		});
-	}
 	// Busca localidades según patrón (inicio y aviso-crear)
 	obtenerLocalidad(event) {
 		// le paso un patter con tres caracteres y me devuelve las localidades coincidentes.

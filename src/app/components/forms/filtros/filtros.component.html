@@ -23,6 +23,7 @@
                     </button>
                 </div>
 
+                
                 <!---------------------------------------------------------------------->
                 <!-- FILTROS APLICADOS [BADGES] -->
                 <!---------------------------------------------------------------------->
@@ -37,7 +38,7 @@
                         <li class="px-1">
 
                                 <!---------------------------------------------------------------------->
-                                <!-- LOCALIDAD -->
+                                <!-- LOCALIDAD [BADGES] -->
                                 <!---------------------------------------------------------------------->
                                 <!-- <div class="my-3" *ngIf="avisosService.filtrosLocalidades.length > 0"> -->
                                 <div *ngIf="selObjLocalidades">
@@ -45,14 +46,14 @@
                                         *ngFor="let filtro of selObjLocalidades">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close pr-1"
-                                                (click)="removeFilter('localidad', filtro._id)"
+                                                (click)="removeFilter('localidad', filtro)"
                                                 style="cursor: pointer;"></i></span>
                                     </span>
                                 </div>
 
 
                                 <!---------------------------------------------------------------------->
-                                <!-- TIPO DE OPERACION -->
+                                <!-- TIPO DE OPERACION [BADGES] -->
                                 <!---------------------------------------------------------------------->
 
                                 <div *ngIf="selObjOperaciones">
@@ -60,21 +61,21 @@
                                         *ngFor="let filtro of selObjOperaciones">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
-                                                (click)="removeFilter('operacion', filtro._id)"
+                                                (click)="removeFilter('operacion', filtro)"
                                                 style="cursor: pointer;"></i></span>
                                     </span>
                                 </div>
 
 
                                 <!---------------------------------------------------------------------->
-                                <!-- TIPO DE INMUEBLE -->
+                                <!-- TIPO DE INMUEBLE [BADGES] -->
                                 <!---------------------------------------------------------------------->
                                 <div *ngIf="selObjInmuebles">
                                     <span class="badge btn-themecolor active badge-filtros rounded-0 m-1 p-1"
                                         *ngFor="let filtro of selObjInmuebles">
                                         &nbsp;{{filtro.nombre}}&nbsp;
                                         <span *ngIf="filtro._id != 'indistinto'"><i class="mdi mdi-close"
-                                                (click)="removeFilter('inmueble', filtro._id)"
+                                                (click)="removeFilter('inmueble', filtro)"
                                                 style="cursor: pointer;"></i></span>
                                     </span>
                                 </div>
@@ -83,7 +84,7 @@
                     </ul>
                 </li>
                 <!---------------------------------------------------------------------->
-                <!-- FILTROS [CHECKS] -->
+                <!-- LOCALIDADES [CHECKS] -->
                 <!---------------------------------------------------------------------->
                 <li>
 
@@ -93,7 +94,7 @@
                     </a>
 
                     <ul aria-expanded="false" class="collapse">
-                        <li *ngIf="divfilterslocalidades" class="px-1">
+                        <li class="px-1">
 
                             <!---------------------------------------------------------------------->
                             <!-- INPUT LOCALIDADES CERCANAS -->
@@ -154,10 +155,10 @@
 
                     <ul aria-expanded="false" class="collapse">
 
-                        <li *ngIf="divfiltersoperaciones" class="px-1">
+                        <li *ngIf="formsService.tiposOperaciones" class="px-1">
                             <mat-selection-list class="animated fadeIn" class="animated fadeIn"
                                 [(ngModel)]="selStrOperaciones" dense>
-                                <mat-list-option formfiltros-operaciones *ngFor="let operacion of allObjOperaciones"
+                                <mat-list-option formfiltros-operaciones *ngFor="let operacion of formsService.tiposOperaciones"
                                     [value]="operacion._id" (click)="filterUpdate('operacion', operacion)">
                                     <span class="mat-select-option-nowarp">{{operacion.nombre}}</span>
                                 </mat-list-option>
@@ -177,10 +178,10 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
 
-                        <li *ngIf="divfiltersinmuebles" class="px-1">
+                        <li *ngIf="formsService.tiposInmuebles" class="px-1">
 
                             <mat-selection-list class="animated fadeIn" [(ngModel)]="selStrInmuebles" dense>
-                                <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of allObjInmuebles"
+                                <mat-list-option formfiltros-inmuebles *ngFor="let inmueble of formsService.tiposInmuebles"
                                     [value]="inmueble._id" (click)="filterUpdate('inmueble', inmueble)">
                                     <div class="mat-select-option-nowarp">{{inmueble.nombre}}</div>
                                 </mat-list-option>
