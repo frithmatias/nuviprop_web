@@ -11,10 +11,10 @@ import { Usuario } from 'src/app/models/usuario.model';
 export class HeaderComponent implements OnInit {
 	usuario: Usuario;
 	publicHeaderMenu = [
+		{ icono: 'mdi mdi-cash-usd', titulo: 'Avisos', url: '/avisos', class: 'nav-item' },
 		{ icono: 'mdi mdi-cash-usd', titulo: 'Tasaciones', url: '/tasaciones', class: 'nav-item d-none d-md-block' },
 		{ icono: 'mdi mdi-city', titulo: 'Emprendimientos', url: '/emprendimientos', class: 'nav-item d-none d-lg-block' },
 		{ icono: 'mdi mdi-account-card-details', titulo: 'Nosotros', url: '/nosotros', class: 'nav-item d-none d-xl-block' },
-		{ icono: 'mdi mdi-email', titulo: 'Contacto', url: '/contacto', class: 'nav-item d-none d-sm-block' }
 	];
 
 	constructor(

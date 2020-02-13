@@ -9,7 +9,7 @@ import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { Localidades } from 'src/app/models/localidad.model';
+import { Localidad } from 'src/app/models/localidad.model';
 
 @Component({
 	selector: 'app-form-aviso',
@@ -27,7 +27,7 @@ export class AvisoComponent implements OnInit {
 	unidades: TipoUnidad[] = [];
 
 	// Le paso al componente child app-mapa las coordenadas de la localidad seleccionada
-	coordsLocalidad: string[] = [];
+	coordsLocalidad: number[] = [];
 
 	// Para definir cual va a ser mi formulario de detalles necesito los ID de tipooperacion y tipoinmueble
 	tipooperacion: string;
@@ -205,13 +205,13 @@ export class AvisoComponent implements OnInit {
 	// 	}
 	// }
 
-	setLocalidad(localidad) {
+	setLocalidad(localidad: Localidad) {
 		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
 		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
 		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
 		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
 		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
-		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
+		// SOLO necesita setear en nombre compuesto, y luego buscar localidades cercanas.
 
 		// Le paso al child app-mapa las nuevas coordenadas para que centre la posición en el mapa.
 		this.coordsLocalidad = localidad.geometry.coordinates;

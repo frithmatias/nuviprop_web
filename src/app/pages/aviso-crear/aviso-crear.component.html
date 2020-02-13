@@ -5,21 +5,24 @@
     <mat-horizontal-stepper [linear]=" isLinear" #stepper>
 
         <!-- --------------------------------------------------------------- -->
-        <!-- FORMULARIO DE AVISO -->
+        <!-- STEP 1: FORMULARIO DE AVISO -->
         <!-- --------------------------------------------------------------- -->
 
         <mat-step>
             <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
-            <app-form-aviso [formData]="aviso" (setFormDetalles)="setFormDetalles($event)"
-                (formReady)="guardarAviso($event, stepper)" (stepperReset)="stepperReset(stepper)"
-                *ngIf="parsetemplate">
-            </app-form-aviso>
+                <!-- <button class="btn btn-primary" (click)="misAvisosService.stepperGoNext(stepper)">Siguiente</button> -->
+
+                <app-form-aviso [formData]="aviso" (setFormDetalles)="setFormDetalles($event)"
+                    (formReady)="guardarAviso($event, stepper)" (stepperReset)="stepperReset(stepper)"
+                    *ngIf="parsetemplate">
+                </app-form-aviso>
+
         </mat-step>
 
 
 
         <!-- --------------------------------------------------------------- -->
-        <!-- FORMULARIO DE DETALLES (SOLO PARA VENTA) -->
+        <!-- STEP 2: FORMULARIO DE DETALLES -->
         <!-- --------------------------------------------------------------- -->
 
         <!-- <mat-step *ngIf="ingresaDetalles">
@@ -33,8 +36,9 @@
                 (ingresaDetalles)="ingresaDetalles=$event" (formReady)="guardarDetalles($event, stepper)">
             </app-newforms>
         </mat-step>
+
         <!-- --------------------------------------------------------------- -->
-        <!-- UPLOADER DE IMAGENES -->
+        <!-- STEP 3: UPLOADER DE IMAGENES -->
         <!-- --------------------------------------------------------------- -->
 
         <mat-step>
@@ -53,7 +57,7 @@
 
 
         <!-- --------------------------------------------------------------- -->
-        <!-- CONFIRMACION DE PUBLICACION -->
+        <!-- STEP 4: CONFIRMACION DE PUBLICACION -->
         <!-- --------------------------------------------------------------- -->
 
         <mat-step *ngIf="!aviso.activo || !aviso">

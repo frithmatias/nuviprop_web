@@ -31,42 +31,51 @@ export class MapaComponent implements OnInit, OnChanges {
 
 
 	ngOnChanges(changes: SimpleChanges) {
+		console.log(changes);
 		// Necesito inicializar el mapa en ngOnChanges, antes del ciclo de detección de cambios.
 		if (!this.map) {
 			// Busco en la localstorage de las localidades que fueron seleccionadas.
-			const localidadesChecked = JSON.parse(localStorage.getItem('filtros'));
+			const filtros = JSON.parse(localStorage.getItem('filtros'));
 			// Busco en las ultimas localidades, la primer coincidencia con alguna que fue seleccionada y la muestro en el mapa.
 			const localidades = JSON.parse(localStorage.getItem('localidades'));
 
-			if (localidades.length > 0 && localidadesChecked.localidad.length > 0) {
-				// localidad[0] => 'indistinto / todos'
-				for (let i = 1; i < localidades.length; i++) {
-					if (localidadesChecked.localidad.includes(localidades[i]._id)) {
-						this.mapCenterInit = { lng: localidades[i].geometry.coordinates[0], lat: localidades[i].geometry.coordinates[1] };
-						break;
-					}
+			if (( filtros.localidad.length > 0 ) && ( localidades.length > 0)) {
+				if ( filtros.localidad[0] === 'indistinto') {
+					// Si es indistinto agarro CUALQUIERA de las localidades vecinas de localStorage.getItem('localidades')
+					// tomo localidades[1], porque localidades[0] es la opción 'indistinto'
+					this.mapCenterInit = { lng: localidades[1].geometry.coordinates[0], lat: localidades[1].geometry.coordinates[1] };
 				}
+				
 			}
-
-
 
 			this.inicializarMapa(this.mapbox);
 		}
 
+		// =======================================================================
 		// FORM AVISO-CREAR AL HACER CLICK EN EL CONTROL LOCALIDAD
-		if (changes.center) {
+		// =======================================================================
+		// center: es UN SOLO array de dos valores, y espera DOS arrays de dos valores, lo envio dos veces [center,center]
+		// currentValue: Array(2)
+		// 0: "-58.5142437101484"
+		// 1: "-34.6023803136553"
+		if (changes.center !== undefined && changes.center.currentValue.length > 0) {
 			// Defino la posicion en el mapa dada por el formulario aviso
-			if (changes.center.currentValue !== undefined) { this.flyMap(changes.center.currentValue); }
+			if (changes.center.currentValue !== undefined) { this.flyMap([changes.center.currentValue, changes.center.currentValue]); }
 		}
 
+		// =======================================================================
 		// FORM FILTROS AL HACER CLICK EN UN CHECK DE LOCALIDAD
-		if (
-			(changes.mapCoords !== undefined) &&
-			(changes.mapCoords.currentValue !== undefined)) {
+		// =======================================================================
+		// mapCoords:
+		// 0: (2) [-58.4628575470422, -34.5548815240237]
+		// 1: (2) [-58.4502890947349, -34.5437376606688]
+		if ((changes.mapCoords !== undefined) && (changes.mapCoords.currentValue !== undefined)) {
 			this.flyMap(changes.mapCoords.currentValue);
 		}
 
-		// MAPA AVISOS
+		// =======================================================================
+		// AVISOS
+		// =======================================================================
 		if (
 			(changes.avisos !== undefined) &&
 			(changes.avisos.currentValue !== undefined) &&
@@ -181,7 +190,7 @@ export class MapaComponent implements OnInit, OnChanges {
 		} else {
 			// centro desde el marker mas SO hacia el marker mas NE
 			this.map.fitBounds(center, {
-				padding: {top: 200, bottom: 200, left: 200, right: 200}
+				padding: {top: 50, bottom: 50, left: 50, right: 50}
 			  });
 		}
 	}
