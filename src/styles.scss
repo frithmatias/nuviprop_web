@@ -132,26 +132,14 @@ body {
 
 body {
   margin     : 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: #121212;
 }
 
-// /* Los controles de angular material son transparentes, les defino un color de fondo.*/
-// .mat-form-field[iniciocss] {
-//   .mat-form-field-flex>.mat-form-field-infix {
-//     background-color: rgb(255, 255, 255);
-//   }
-// }
-
-
-
-// .mat-form-field[logincss] {
-//   .mat-form-field-flex>.mat-form-field-infix {
-//     background-color: rgb(255, 255, 255);
-//   }
-// }
-
-
-
+.mat-list-text{
+  font-family: "Montserrat", sans-serif;
+}
 
 .mat-form-field[iniciocss] {
   .mat-form-field-flex {

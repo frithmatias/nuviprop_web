@@ -54,10 +54,12 @@ $(function() {
     // ============================================================== 
     // Al quitar el foco del sidebar, lo oculto.
     // ============================================================== 
-    $(".tab-pane").on('click', function() {
+    $(".tab-content").on('click', function() {
         if ($("body").hasClass("mini-sidebar")) {
-            $("body").toggleClass("show-sidebar");
+            // width < 768
+            $("body").removeClass("show-sidebar");
         } else {
+            // width >= 768
             $("body").trigger("resize");
             $("body").addClass("mini-sidebar");
             $('.navbar-brand span').hide();

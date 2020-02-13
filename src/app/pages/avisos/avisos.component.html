@@ -9,7 +9,7 @@
     <!-- FILTROS SIDE-BAR -->
     <!---------------------------------------------------------------------->
     <app-filtros class="avisos" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
-    <app-breadcrumbs></app-breadcrumbs>
+    <!-- <app-breadcrumbs></app-breadcrumbs> -->
 
     <!---------------------------------------------------------------------->
     <!-- AVISOS -->
@@ -39,13 +39,13 @@
         <!---------------------------------------------------------------------->
         <!-- TABS PANES -->
         <!---------------------------------------------------------------------->
-        <div class="tab-content" id="myTabContent" style="height: 100vh">
+        <div class="tab-content" id="myTabContent" style="height: 100%">
 
             <!-- ---------------------------------- -->
             <!-- PANE MAP -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" id="mapa" style="height: 100%">
+            <div class="tab-pane fade animated fadeIn" id="mapa" style="height: 100vh">
                 <app-mapa [(avisos)]="avisos"  [mapCoords]="mapCoords"></app-mapa>
             </div>
 
@@ -53,7 +53,7 @@
             <!-- PANE LIST -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" id="lista">
+            <div class="tab-pane fade animated fadeIn pt-4" id="lista">
                 <app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
             </div>
 
@@ -61,7 +61,7 @@
             <!-- PANE CARDS -->
             <!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" id="cards">
+            <div class="tab-pane fade animated fadeIn pt-4" id="cards">
                 <app-cards [(avisos)]="avisos"></app-cards>
             </div>
 
