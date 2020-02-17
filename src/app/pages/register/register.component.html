@@ -12,24 +12,24 @@
 
 
  
-                    <mat-form-field color="warn" logincss class="w-100">
-                        <mat-label>Ingresa tu nombre</mat-label>
-                            <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" class="form-control" type="text" required placeholder="Nombre">
+                    <mat-form-field color="warn" appearance="fill" logincss class="w-100">
+                        <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" type="text" required placeholder="Nombre">
                     </mat-form-field>
 
-                    <mat-form-field color="warn" logincss class="w-100">
-                        <mat-label>Ingresa tu email</mat-label>
-                            <input matInput placeholder="Email" formControlName="correo" name="correo" class="form-control" type="email" required placeholder="Correo">
+                    <mat-form-field color="warn" appearance="fill" logincss class="w-100">
+                        <mat-label>Email</mat-label>
+                            <input matInput placeholder="Email" formControlName="correo" name="correo" type="email" required placeholder="Correo">
                     </mat-form-field>
 
-                    <mat-form-field color="warn" logincss class="w-100">
-                        <mat-label>Ingresa una clave</mat-label>
-                        <input matInput placeholder="Clave" formControlName="password" name="password" class="form-control" type="password" required placeholder="Contraseña">
+                    <mat-form-field color="warn" appearance="fill" logincss class="w-100">
+                        <mat-label>Clave</mat-label>
+                        <input matInput placeholder="Clave" formControlName="password" name="password" type="password" required placeholder="Contraseña">
                     </mat-form-field>
 
-                    <mat-form-field color="warn" logincss class="w-100">
-                        <mat-label>Repetí la clave</mat-label>
-                        <input matInput placeholder="Clave" formControlName="password2" name="password2" class="form-control" type="password" required placeholder="Confirma contraseña">
+                    <mat-form-field color="warn" appearance="fill" logincss class="w-100">
+                        <mat-label>Ingresa la clave nuevamente</mat-label>
+                        <input matInput placeholder="Clave" formControlName="password2" name="password2" type="password" required placeholder="Confirma contraseña">
                     </mat-form-field>
 
 
@@ -45,8 +45,8 @@
                         <div class="p-2 rounded">
 
                             <input formControlName="condiciones" name="condiciones" id="checkbox-signup"
-                                type="checkbox" class=" checkbox checkbox-primary">
-                            <label class="text-dark" for="checkbox-signup"> Estoy de acuerdo con los términos</label>
+                                type="checkbox" class="checkbox checkbox-primary">
+                            <label for="checkbox-signup" style="font-size: 12px;">Estoy de acuerdo con los términos</label>
 
 
                         </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group text-center">
 
-                    <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
+                    <button class="btn btn-info btn-block text-uppercase waves-effect waves-light"
                         type="submit">Registrarme</button>
 
                 </div>

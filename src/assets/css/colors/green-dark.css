@@ -126,14 +126,14 @@ a.link:focus {
 *******************/
 .btn-themecolor,
 .btn-themecolor.disabled {
-  background: #242a33;
+  background: #ffffff;
   color     : #06d79c;
   border    : 1px solid #06d79c;
 }
 
 .btn-themecolor:hover,
 .btn-themecolor.disabled:hover {
-  background: #343c49;
+  background: #ffffff;
   opacity   : 1;
   border    : 1px solid #06d79c;
 }
@@ -143,7 +143,7 @@ a.link:focus {
 .btn-themecolor.disabled.active,
 .btn-themecolor.disabled:focus {
   background: #06d79c;
-  color     : #242a33;
+  color     : #ffffff;
 
 }
 
@@ -202,6 +202,16 @@ a.link:focus {
 
 .sidebar-nav ul li.nav-small-cap {
   color: #687384;
+}
+
+/* iconos del sidebar */
+.sidebar-nav>ul>li>a i {
+  color: #06d79c;
+}
+
+/* iconos del menu de usuario */
+.ng-star-inserted>li>a i {
+  color: #06d79c;
 }
 
 @media (min-width: 768px) {

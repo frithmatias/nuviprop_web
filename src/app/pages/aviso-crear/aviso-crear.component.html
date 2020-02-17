@@ -32,9 +32,9 @@
         </mat-step> -->
         <mat-step *ngIf="ingresaDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <app-newforms [formData]="aviso" [(ingresaDetallesData)]="ingresaDetallesData"
+            <app-detalles [formData]="aviso" [(ingresaDetallesData)]="ingresaDetallesData"
                 (ingresaDetalles)="ingresaDetalles=$event" (formReady)="guardarDetalles($event, stepper)">
-            </app-newforms>
+            </app-detalles>
         </mat-step>
 
         <!-- --------------------------------------------------------------- -->

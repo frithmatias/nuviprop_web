@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { UsuarioService } from '../pages/usuarios/usuarios.service';
+import { UsuarioService } from '../services/usuarios.service';
 
 @Injectable()
 export class AdminGuard implements CanActivate {

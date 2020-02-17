@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
-import { UsuarioService, ModalUploadService, UploaderService } from '../../services/services.index';
+import { UsuarioService, UploaderService } from '../../services/services.index';
 import Swal from 'sweetalert2';
 import { FileUpload } from 'src/app/models/fileupload.model';
 
@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(
 	public usuarioService: UsuarioService,
-	public modalUploadService: ModalUploadService,
 	public uploaderService: UploaderService
 
   ) {
@@ -39,16 +38,6 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  // PRIMER FORMA DE SUBIR LA IMAGEN (HACIENDO CLICK EN LA IMAGEN SUBE A TRAVES DEL MODAL)
-  mostrarModal(id: string) {
-	this.modalUploadService.mostrarModal('usuarios', id);
-  }
-
-  // SEGUNDA FORMA DE SUBIR LA IMAGEN (HACIENDO CLICK EN EL BOTON, SUBE SIN MODAL PERO CON SUS MISMOS MÉTODOS)
-  // LOS METODOS SELECCIONIMAGE() Y SUBIRIMAGEN() ESTAN SACADOS DEL COMPONENTE
-  // MODAL-UPLOAD.COMPONENT.TS. En componentes donde la previsualización de la
-  // imagen es grande y no necesita el modal, aplico sus métodos directamente sin
-  // abrir el modal.
   seleccionImage(archivo: File) {
 	console.log('ARCHIVO', archivo);
 	if (!archivo) {
@@ -77,12 +66,9 @@ export class ProfileComponent implements OnInit {
   subirImagen(uid: string) {
 	const imagenSubir = new FileUpload(this.imagenSubir);
 	this.uploaderService
-		// .subirImagen(	imagenSubir, this.modalUploadService.tipo, this.modalUploadService.id)
 		.subirImagen(imagenSubir, 'usuarios', uid)
 		.then((resp: any) => {
 		Swal.fire('Actualizado!', resp.mensaje, 'success');
-		this.modalUploadService.notificacion.emit(resp);
-		// this.cerrarModal();
 		})
 		.catch(err => {
 		console.log('Error en la carga:', err);

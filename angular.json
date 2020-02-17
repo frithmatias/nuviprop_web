@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "inMob": {
+    "nuviprop": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/inMob",
+            "outputPath": "dist/nuviprop",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -70,18 +70,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "inMob:build"
+            "browserTarget": "nuviprop:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "inMob:build:production"
+              "browserTarget": "nuviprop:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "inMob:build"
+            "browserTarget": "nuviprop:build"
           }
         },
         "test": {
@@ -119,16 +119,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "inMob:serve"
+            "devServerTarget": "nuviprop:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "inMob:serve:production"
+              "devServerTarget": "nuviprop:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "inMob"
+  "defaultProject": "nuviprop"
 }

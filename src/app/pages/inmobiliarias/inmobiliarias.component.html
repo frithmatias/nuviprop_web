@@ -40,8 +40,7 @@
                     <tbody>
                         <tr *ngFor="let inmobiliaria of inmobiliarias">
                             <td>
-                                <img (click)="actualizarImagen( inmobiliaria )"
-                                    [src]="inmobiliaria.img | imagenPipe: 'inmobiliarias' : inmobiliaria._id"
+                                <img [src]="inmobiliaria.img | imagenPipe: 'inmobiliarias' : inmobiliaria._id"
                                     class="img-50 pointer">
                             </td>
                             <td>

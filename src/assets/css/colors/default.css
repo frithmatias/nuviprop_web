@@ -43,6 +43,10 @@ File         : scss
 /*******************
 /*General Elements
 *******************/
+a {
+  color: #7e898f;
+}
+
 a.link:hover,
 a.link:focus {
   color: #2a3e52 !important;
@@ -137,6 +141,12 @@ a.link:focus {
   color: #2a3e52;
 }
 
+/* iconos del sidebar */
 .sidebar-nav>ul>li>a i {
-  color: #a6b7bf;
+  color: #2a3e52;
+}
+
+/* iconos del menu de usuario */
+.ng-star-inserted>li>a i {
+  color: #2a3e52;
 }

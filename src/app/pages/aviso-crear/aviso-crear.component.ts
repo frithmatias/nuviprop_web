@@ -34,12 +34,14 @@ export class AvisoCrearComponent implements OnInit {
 			this.avisoId = params.id;
 			if (this.avisoId) {
 				if (this.avisoId === 'nuevo') {
+					// NUEVO AVISO
 					this.aviso.activo = false;  // muestra la ultima etapa para activar el aviso
 					this.aviso.imgs = []; // elimina todas las imagenes cargadas en el uploader
 					this.parsetemplate = true;
 				} else {
 					// EDICION
 					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
+						console.log(data);
 						this.aviso = data;
 						this.parsetemplate = true;
 					});
@@ -90,7 +92,6 @@ export class AvisoCrearComponent implements OnInit {
 	}
 
 	setFormDetalles(event: any): void {
-		console.log(event);
 		// ingresaDetalles=true DEBE ejecutarse en el PADRE porque el resto de las operaciones NECESITAN
 		// del formulario DETALLES, y esta DESHABILITADO al iniciarse el fomulario AVISO.
 

@@ -1,0 +1,65 @@
+.badge-filtros{
+    font-family: monospace;
+    /* font-family: "Montserrat", sans-serif; */
+    font-size: 14px;
+    font-weight: 400;
+}
+
+// CUSTOM SCROLL - START
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #cecece;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #949494;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(71, 71, 71);
+}
+
+// CUSTOM SCROLL - END
+
+.bg-warning-opacity05 {
+    background-color: rgba(255, 176, 41, 0.2);
+}
+
+.bg-success-opacity05 {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.bg-primary-opacity05 {
+    background-color: rgba(115, 90, 242, 0.2);
+}
+
+
+
+// COLOR DEL BACKGROUND DEL TEXTO DE CADA ITEM
+// .mat-list-option[aria-selected="true"] {
+//     background: rgba(200, 210, 90, 0.7);
+//   }
+
+// SCROLL
+// mat-selection-list {
+//     max-height: 200px;
+//     overflow  : auto;
+// }
+
+
+
+.mat-list-base .mat-list-item {
+    height: 25px;
+}
+
+.mat-list-item-content {
+    padding: 0 !important;
+}
+

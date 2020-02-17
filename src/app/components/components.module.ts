@@ -14,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 
 // MODULOS PERSONALIZADOS
 import { PipesModule } from '../pipes/pipes.module';
@@ -31,10 +30,10 @@ import { ListComponent } from './list/list.component';
 import { CardsComponent } from './cards/cards.component';
 
 // FORMULARIOS
-import { ConfirmComponent } from './forms/confirm/confirm.component';
-import { AvisoComponent } from './forms/aviso/aviso.component';
-import { FiltrosComponent } from './forms/filtros/filtros.component';
-import { NewformsComponent } from './forms/newforms/newforms.component';
+import { ConfirmComponent } from '../pages/aviso-crear/confirm/confirm.component';
+import { AvisoComponent } from '../pages/aviso-crear/aviso/aviso.component';
+import { DetallesComponent } from '../pages/aviso-crear/detalles/detalles.component';
+
 
 
 @NgModule({
@@ -46,8 +45,7 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		CardsComponent,
 		ConfirmComponent,
 		AvisoComponent,
-		FiltrosComponent,
-		NewformsComponent
+		DetallesComponent
 
 	],
 	imports: [
@@ -63,8 +61,7 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		MatSelectModule,
 		MatTooltipModule,
 		MatSnackBarModule,
-		MatIconModule,
-		MatListModule
+		MatIconModule
 	],
 	exports: [
 		UploaderComponent,
@@ -74,8 +71,7 @@ import { NewformsComponent } from './forms/newforms/newforms.component';
 		RouterModule,
 		ConfirmComponent,
 		AvisoComponent,
-		FiltrosComponent,
-		NewformsComponent
+		DetallesComponent
 	]
 })
 export class ComponentsModule { }

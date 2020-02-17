@@ -1,0 +1,76 @@
+<div class="container no-sidebar animated pt-3 fadeIn">
+    <form [formGroup]="formSettings" (ngSubmit)="enviarFormulario()" id="formSettings" *ngIf="parsetemplate">
+
+
+        <!---------------------------------------------------------------------->
+        <!-- SELECT OPERACION -->
+        <!---------------------------------------------------------------------->
+        <mat-form-field appearance="fill" class="col-12 col-md-6">
+            <mat-label>Tipo de operación</mat-label>
+            <!-- 
+                    cuando el formControlName, que es la estructura de controles del formulario definido 
+                    del lado del componente, reciba el mismo valor indicado en [value], el control tomara la opción 
+                    que tenga ese valor. 
+                -->
+            <mat-select formControlName="tipooperacion">
+                <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
+                    (click)="setOperacion(operacion)">
+                    {{ operacion.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!---------------------------------------------------------------------->
+        <!-- SELECT INMUEBLE -->
+        <!---------------------------------------------------------------------->
+        <mat-form-field appearance="fill" class="col-12 col-md-6">
+            <mat-label>Tipo de inmueble</mat-label>
+            <mat-select formControlName="tipoinmueble">
+                <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble._id"
+                    (click)="setInmueble(inmueble)">
+                    {{ inmueble.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <div *ngIf="!tipoinmueble || !tipooperacion">
+            <div class="mx-2 alert alert-primary">
+                Seleccione un tipo de operacion y un tipo de inmueble para obtener el
+                formulario que desea configurar. Luego seleccione los controles que se
+                se desean mostrar en el formulario seleccionado.
+            </div>
+        </div>
+
+        <div *ngIf="tipoinmueble && tipooperacion">
+            <div class="mx-2 alert alert-primary">
+                Si el control que necesita en el formulario no esta en la lista haga 
+                click en 'Crear Control'.
+            </div>
+        </div>
+
+        <div *ngIf="tipoinmueble && tipooperacion">
+
+            <div class="px-4">
+                <div class="row row-aviso-datos-secundarios">
+                    <div *ngFor="let control of controls" class="col-12 col-sm-12 col-md-6 col-lg-3">
+                        <mat-slide-toggle [formControlName]="control._id" checked="false" class="w-100">
+                            {{control.nombre}}</mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 col-xs-6">
+                    <button class="btn btn-success btn-block"><i class="fa fa-save"></i>&nbsp; Guardar</button>
+                </div>
+                <div class="col-6 col-xs-6">
+                    <button type="button" routerLink="/controles" class="btn btn-warning btn-block"><i class="fa fa-plus-square-o"></i>&nbsp; Crear Control</button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>

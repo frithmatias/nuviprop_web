@@ -51,6 +51,10 @@ File         : scss
   background: #7460ee;
 }
 
+a {
+  color: #7460ee;
+}
+
 a.link:hover,
 a.link:focus {
   color: #7460ee !important;
@@ -145,6 +149,12 @@ a.link:focus {
   color: #7460ee;
 }
 
+/* iconos del sidebar */
 .sidebar-nav>ul>li>a i {
-  color: #a6b7bf;
+  color: #7460ee;
+}
+
+/* iconos del menu de usuario */
+.ng-star-inserted>li>a i {
+  color: #7460ee;
 }

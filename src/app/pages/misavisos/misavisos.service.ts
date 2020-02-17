@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsuarioService } from '../usuarios/usuarios.service';
+import { UsuarioService } from '../../services/usuarios.service';
 import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
@@ -153,8 +153,6 @@ export class MisAvisosService {
 
 	guardarDetalles(dataform: any, aviso: Aviso) {
 		let url = URL_SERVICIOS;
-		console.log(aviso);
-		console.log(dataform);
 		url += '/avisos/detalles/' + aviso._id;
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token

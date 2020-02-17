@@ -1,81 +1,71 @@
 import { Component, OnInit } from '@angular/core';
 import { Inmobiliaria } from '../../models/inmobiliaria.model';
 import { InmobiliariaService } from '../../services/services.index';
-import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 import Swal from 'sweetalert2';
 
 declare var swal: any;
 
 @Component({
-  selector: 'app-inmobiliarias',
-  templateUrl: './inmobiliarias.component.html',
-  styles: []
+	selector: 'app-inmobiliarias',
+	templateUrl: './inmobiliarias.component.html',
+	styles: []
 })
 export class InmobiliariasComponent implements OnInit {
-  inmobiliarias: Inmobiliaria[] = [];
+	inmobiliarias: Inmobiliaria[] = [];
 
-  constructor(
-    public inmobiliariaService: InmobiliariaService,
-    public modalUploadService: ModalUploadService
-  ) { }
+	constructor(
+		public inmobiliariaService: InmobiliariaService
+	) { }
 
-  ngOnInit() {
-    this.obtenerInmobiliarias();
+	ngOnInit() {
+		this.obtenerInmobiliarias();
+	}
 
-    this.modalUploadService.notificacion.subscribe(() =>
-      console.log('Observable de modal Upload')
+	buscarInmobiliaria(termino: string) {
+		if (termino.length <= 0) {
+			this.obtenerInmobiliarias();
+			return;
+		}
 
-    );
-  }
+		this.inmobiliariaService
+			.buscarInmobiliaria(termino)
+			.subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
+	}
 
-  buscarInmobiliaria(termino: string) {
-    if (termino.length <= 0) {
-      this.obtenerInmobiliarias();
-      return;
-    }
+	obtenerInmobiliarias() {
+		this.inmobiliariaService
+			.obtenerInmobiliarias()
+			.subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
+	}
 
-    this.inmobiliariaService
-      .buscarInmobiliaria(termino)
-      .subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
-  }
+	guardarInmobiliaria(inmobiliaria: Inmobiliaria) {
+		this.inmobiliariaService.actualizarInmobiliaria(inmobiliaria).subscribe();
+	}
 
-  obtenerInmobiliarias() {
-    this.inmobiliariaService
-      .obtenerInmobiliarias()
-      .subscribe(inmobiliarias => (this.inmobiliarias = inmobiliarias));
-  }
+	borrarInmobiliaria(inmobiliaria: Inmobiliaria) {
+		console.log(inmobiliaria);
+		this.inmobiliariaService
+			.borrarInmobiliaria(inmobiliaria._id)
+			.subscribe(() => this.obtenerInmobiliarias());
+	}
 
-  guardarInmobiliaria(inmobiliaria: Inmobiliaria) {
-    this.inmobiliariaService.actualizarInmobiliaria(inmobiliaria).subscribe();
-  }
+	crearInmobiliaria() {
+		Swal.fire({
+			title: 'Alta de Inmobiliaria',
+			text: 'Ingrese el nombre de la inmobiliaria',
+			input: 'text',
+			icon: 'info',
+			showCancelButton: true
+		}).then((valor: any) => {
+			console.log(valor.value);
+			if (!valor.value || valor.value.length === 0) {
+				return;
+			}
+			console.log(valor.value);
+			this.inmobiliariaService
+				.crearInmobiliaria(valor.value)
+				.subscribe(() => this.obtenerInmobiliarias());
+		});
+	}
 
-  borrarInmobiliaria(inmobiliaria: Inmobiliaria) {
-    console.log(inmobiliaria);
-    this.inmobiliariaService
-      .borrarInmobiliaria(inmobiliaria._id)
-      .subscribe(() => this.obtenerInmobiliarias());
-  }
-
-  crearInmobiliaria() {
-    Swal.fire({
-      title: 'Alta de Inmobiliaria',
-      text: 'Ingrese el nombre de la inmobiliaria',
-      input: 'text',
-      icon: 'info',
-      showCancelButton: true
-    }).then((valor: any) => {
-      console.log(valor.value);
-      if (!valor.value || valor.value.length === 0) {
-        return;
-      }
-      console.log(valor.value);
-      this.inmobiliariaService
-        .crearInmobiliaria(valor.value)
-        .subscribe(() => this.obtenerInmobiliarias());
-    });
-  }
-
-  actualizarImagen(inmobiliaria: Inmobiliaria) {
-    this.modalUploadService.mostrarModal('inmobiliarias', inmobiliaria._id);
-  }
 }

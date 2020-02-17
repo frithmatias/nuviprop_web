@@ -42,10 +42,10 @@
 				<h6 class="card-subtitle"> {{usuario.nombre}} </h6>
 
 				<!-- Si no existe imagen temporal muestro la imagen del usuario -->
-				<img *ngIf="!imagenTemp" (click)="mostrarModal( usuario._id )"
+				<img *ngIf="!imagenTemp" 
 					[src]="usuario.img | imagenPipe: 'usuarios' : usuario._id" class="w150">
 				<!-- Una vez que el usuario selecciono una imagen en el input, muestro la imagen temporal seleccionada -->
-				<img *ngIf="imagenTemp" (click)="mostrarModal( usuario._id )" [src]="imagenTemp" class="w150">
+				<img *ngIf="imagenTemp" [src]="imagenTemp" class="w150">
 				<!-- <input (change)="seleccionImage($event.target.files[0])" type="file"> -->
 				<br><br>
 

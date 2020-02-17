@@ -31,7 +31,6 @@ export class MapaComponent implements OnInit, OnChanges {
 
 
 	ngOnChanges(changes: SimpleChanges) {
-		console.log(changes);
 		// Necesito inicializar el mapa en ngOnChanges, antes del ciclo de detección de cambios.
 		if (!this.map) {
 			// Busco en la localstorage de las localidades que fueron seleccionadas.

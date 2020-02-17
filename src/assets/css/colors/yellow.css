@@ -51,10 +51,15 @@ File         : scss
   background: #ffb22b;
 }
 
+a {
+  color: #ffb22b;
+}
+
 a.link:hover,
 a.link:focus {
   color: #ffb22b !important;
 }
+
 
 .bg-theme {
   background-color: #ffb22b !important;
@@ -145,6 +150,12 @@ a.link:focus {
   color: #ffb22b;
 }
 
+/* iconos del sidebar */
 .sidebar-nav>ul>li>a i {
-  color: #a6b7bf;
+  color: #ffb22b;
+}
+
+/* iconos del menu de usuario */
+.ng-star-inserted>li>a i {
+  color: #ffb22b;
 }

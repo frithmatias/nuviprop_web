@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="enviarFormulario()" *ngIf="form && controls">
+    <div class="container animated fadeIn">
+        <div class="row row-aviso-datos-secundarios">
+            <!-- 
+                TODO: implementar ngSwitchCase
+                <div [ngSwitch]="question.controlType">
+                <input *ngSwitchCase="'textbox'"
+                <select *ngSwitchCase="'dropdown'" 
+            -->
+            <div *ngFor="let control of controls" class="col-12 col-sm-12 col-md-6 col-lg-4">
+
+
+                <mat-form-field class="w-100" *ngIf="control.type==='select'">
+                    <mat-label>{{ control.nombre }}</mat-label>
+                    <mat-select [formControlName]="control.id">
+                        <mat-option *ngFor="let option of control.options" [value]="option._id">
+                            {{ option.nombre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-100" *ngIf="control.type==='input_number'">
+                    <mat-label>{{ control.nombre }}</mat-label>
+                    <input matInput type="number" [formControlName]="control.id">
+                </mat-form-field>
+
+                <mat-form-field class="w-100" *ngIf="control.type==='input_text'">
+                    <mat-label>{{ control.nombre }}</mat-label>
+                    <input matInput type="text" [formControlName]="control.id">
+                </mat-form-field>
+
+                <mat-form-field class="w-100" *ngIf="control.type==='textarea'">
+                    <mat-label>{{ control.nombre }}</mat-label>
+                    <textarea matInput [formControlName]="control.id" style="height: 100px;"></textarea>
+                </mat-form-field>
+
+            </div>
+
+        </div>
+    </div>
+    <button class="btn btn-dark">Guardar detalles</button>
+</form>

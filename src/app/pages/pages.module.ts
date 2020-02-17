@@ -12,12 +12,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
 import { PipesModule } from '../pipes/pipes.module';
 
 // COMPONENTES
+import { FiltrosComponent } from './filtros/filtros.component';
 import { BuscarComponent } from './buscar/buscar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AvisosComponent } from './avisos/avisos.component';
@@ -27,7 +29,7 @@ import { MisAvisosComponent } from './misavisos/misavisos.component';
 import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
 import { AvisoComponent } from './aviso/aviso.component';
 import { AccountSettingsComponent } from './settings/settings.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
 import { AdminModule } from './admin/admin.module';
@@ -35,6 +37,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 @NgModule({
 	declarations: [
+		FiltrosComponent,
 		DashboardComponent,
 		AccountSettingsComponent,
 		ProfileComponent,
@@ -65,7 +68,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 		MatAutocompleteModule,
 		MatInputModule,
 		MatSelectModule,
-		MatProgressSpinnerModule
+		MatProgressSpinnerModule,
+		MatListModule
 
 	]
 })

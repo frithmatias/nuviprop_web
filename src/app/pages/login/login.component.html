@@ -1,14 +1,14 @@
 <div class="bg">
 
-    <div class="row w-100 animated fadeIn">
-        <div class="col-12 col-lg-8 col-md-7 col-sm-6">
+    <div class="row w-100 h-sm-100 animated fadeIn p-3">
+        <div class="d-none d-sm-block col-sm-6 col-md-7 col-lg-8">
 
         </div>
-        <div class="col-12 col-lg-4 col-md-5 col-sm-6 float-right">
+        <div class="form-container rounded col-sm-6 col-md-5 col-lg-4">
 
 
             <!-- <form class="form-horizontal form-material" -->
-            <form class="form-container rounded" ngNativeValidate #f="ngForm" (ngSubmit)="ingresar( f )">
+            <form ngNativeValidate #f="ngForm" (ngSubmit)="ingresar( f )">
 
 
                 <!---------------------------------------------------------------------->
@@ -73,10 +73,12 @@
                     <!-- INGRESAR / GOOGLE -->
                     <!---------------------------------------------------------------------->
                     <div class="my-2 text-center w-100">
-                        <button class="btn btn-success btn-lg text-uppercase" type="submit">Ingresar</button>
-                        <button type="button" id="btnGoogle" class="btn btn-googleplus btn-lg ml-2"
-                            data-toggle="tooltip" title="Iniciar sesión con Google"> <i aria-hidden="true"
-                                class="fa fa-google"></i>
+                        <!-- Normal Login -->
+                        <button class="btn btn-success text-uppercase" type="submit">Ingresar</button>
+                        <!-- Google Login -->
+                        <button type="button" id="btnGoogle" class="btn btn-googleplus ml-2"
+                            data-toggle="tooltip"> <i aria-hidden="true"
+                                class="mdi mdi-google-glass"></i>oogle
                         </button>
                     </div>
 
@@ -87,7 +89,7 @@
                         No tienes cuenta? <a routerLink="/register" class="text-primary m-l-5"><b>Crear cuenta</b></a>
                     </div>
                     <div class="mt-4 text-center">
-                        <button routerLink="/inicio" class="btn btn-primary">Inicio</button>
+                        <a routerLink="/inicio">Volver al inicio</a>
                     </div>
                 </div>
             </form>

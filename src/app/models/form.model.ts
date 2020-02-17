@@ -11,7 +11,6 @@ export class Control {
 		public nombre: string,
 		public id: string,
 		public type: string,
-		public datatype: string,
 		public required: boolean,
 		public tipooperacion: string[],
 		public tipoinmueble: string[],

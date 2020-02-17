@@ -31,7 +31,7 @@ File         : scss
 }
 
 .topbar .navbar-light .navbar-nav .nav-item>a.nav-link {
-  color: #a6b7bf;
+  color: #849299;
 }
 
 .topbar .navbar-light .navbar-nav .nav-item>a.nav-link:hover,
@@ -59,12 +59,12 @@ File         : scss
 /*General Elements
 *******************/
 a {
-  color: #a6b7bf;
+  color: #5a6779;
 }
 
 a.link:hover,
 a.link:focus {
-  color: #a6b7bf !important;
+  color: #849299 !important;
 }
 
 .bg-theme {
@@ -110,25 +110,25 @@ a.link:focus {
 *******************/
 .btn-themecolor,
 .btn-themecolor.disabled {
-  background: #242a33;
-  color     : #e6ebf1;
+  background: #ffffff;
+  color     : #2a3e52;
 
-  border: 1px solid #e6ebf1;
+  border: 1px solid #2a3e52;
 }
 
 .btn-themecolor:hover,
 .btn-themecolor.disabled:hover {
-  background: #343c49;
+  background: #ffffff;
   opacity   : 1;
-  border    : 1px solid #e6ebf1;
+  border    : 1px solid #2a3e52;
 }
 
 .btn-themecolor.active,
 .btn-themecolor:focus,
 .btn-themecolor.disabled.active,
 .btn-themecolor.disabled:focus {
-  background: #e6ebf1;
-  color     : #242a33;
+  background: #2a3e52;
+  color     : #ffffff;
 }
 
 /*******************
@@ -188,6 +188,15 @@ a.link:focus {
   color: #687384;
 }
 
+/* iconos del sidebar */
+.sidebar-nav>ul>li>a i {
+  color: #687384;
+}
+
+/* iconos del menu de usuario */
+.ng-star-inserted>li>a i {
+  color: #687384;
+}
 @media (min-width: 768px) {
   .mini-sidebar .sidebar-nav #sidebarnav>li:hover>a {
     background: #1c2128;

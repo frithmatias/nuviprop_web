@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsuarioService } from '../../pages/usuarios/usuarios.service';
+import { UsuarioService } from '../../services/usuarios.service';
 import { FileUpload } from '../../models/fileupload.model';
 
 @Injectable()
