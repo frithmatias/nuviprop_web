@@ -204,8 +204,8 @@ export class UsuarioService implements OnDestroy {
 	return this.http.put(url, { avisoid }, { headers }).pipe(
 		map((resp: any) => {
 		// this.usuario = resp.usuario;
-		const usuarioDB: Usuario = resp.usuario;
-		return usuarioDB;
+
+		return resp;
 		}),
 		// seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
 		catchError(err => {

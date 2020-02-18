@@ -6,18 +6,25 @@
 			<!-- CONTROL LABEL -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Etiqueta</h4>
-						<h6 class="card-subtitle">Ingrese la etiqueta. Es la descripción sobre el metadato que el
-							usuario
-							debe ingresar. Por ejemplo "Cantidad de ambientes".</h6>
-						<div id="the-basics">
-							<mat-form-field iniciocss appearance="fill" class="col-12 p-0">
+				<div class="card rounded">
+					<div class="card-body p-3">
+					
+
+							<i class="mdi mdi-help-circle-outline help-position"
+								(click)="showhelp.etiqueta = !showhelp.etiqueta"></i>
+							<span *ngIf="showhelp.etiqueta">
+								<h4 class="card-title">Etiqueta</h4>
+								<h6 class="card-subtitle">Ingrese la etiqueta. Es la descripción sobre el metadato que
+									el
+									usuario debe ingresar. <br><br>
+									<b>Ejemplo <span class="texto-resaltado">"Cantidad de ambientes"</span>.</b></h6>
+							</span>
+
+							<mat-form-field class="col-12 p-0">
 								<mat-label>Etiqueta</mat-label>
 								<input matInput formControlName="nombre" />
 							</mat-form-field>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -26,20 +33,28 @@
 			<!-- CONTROL ID -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Identificador</h4>
-						<h6 class="card-subtitle">Ingrese el ID. Este ID es hace una referencia al metadato que usara el
-							sistema y
-							la base de datos para almacenar esta información. Se debe usar minusculas, no se deben
-							usar caracteres especiales, ni espacios. Por ejeplo "cantidaddeambientes".</h6>
-						<div id="bloodhound">
-							<mat-form-field iniciocss appearance="fill" class="col-12 p-0">
+				<div class="card rounded">
+					<div class="card-body p-3">
+						
+							<i class="mdi mdi-help-circle-outline help-position"
+								(click)="showhelp.identificador = !showhelp.identificador"></i>
+							<span *ngIf="showhelp.identificador">
+								<h4 class="card-title">Identificador</h4>
+								<h6 class="card-subtitle">Ingrese el ID. Este ID es hace una referencia al metadato que
+									usara el
+									sistema y
+									la base de datos para almacenar esta información. Se debe usar minusculas, no se
+									deben
+									usar caracteres especiales, ni espacios.<br><br>
+									<b>Ejemplo <span class="texto-resaltado">"cantidaddeambientes"</span>.</b></h6>
+							</span>
+
+
+							<mat-form-field class="col-12 p-0">
 								<mat-label>Id</mat-label>
 								<input matInput formControlName="id" />
 							</mat-form-field>
 
-						</div>
 					</div>
 				</div>
 			</div>
@@ -48,17 +63,26 @@
 			<!-- SELECT TIPO DE CONTROL -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Tipo de control</h4>
-						<h6 class="card-subtitle">El tipo de control es el tipo de campo que se vera en el formulario.
-							Puede ser
-							de tipo input_text para ingresar un texto, input_number para ingresar un número,
-							Textarea para ingresar textos largos y descripciones, SELECT para ingresar un control
-							de opciones luego definidas en el que el usario debera seleccionar una en una lista,
-							o SELECT MULTIPLE, similar al SELECT pero el usuario podrá seleccionar varias opciones.</h6>
-						<div id="the-basics">
-							<mat-form-field iniciocss appearance="fill" class="col-12 p-0">
+				<div class="card rounded">
+					<div class="card-body p-3">
+					
+
+							<i class="mdi mdi-help-circle-outline help-position"
+								(click)="showhelp.tipocontrol = !showhelp.tipocontrol"></i>
+							<span *ngIf="showhelp.tipocontrol">
+								<h4 class="card-title">Tipo de control</h4>
+								<h6 class="card-subtitle">El tipo de control es el tipo de campo que se vera en el
+									formulario.
+									Puede ser
+									de tipo input_text para ingresar un texto, input_number para ingresar un número,
+									Textarea para ingresar textos largos y descripciones, SELECT para ingresar un
+									control
+									de opciones luego definidas en el que el usario debera seleccionar una en una lista,
+									o SELECT MULTIPLE, similar al SELECT pero el usuario podrá seleccionar varias
+									opciones.</h6>
+							</span>
+
+							<mat-form-field class="col-12 p-0">
 								<mat-label>Tipo de control</mat-label>
 								<mat-select formControlName="type">
 									<mat-option value="select"> Select </mat-option>
@@ -68,7 +92,7 @@
 									<mat-option value="textarea"> Text Area </mat-option>
 								</mat-select>
 							</mat-form-field>
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -77,21 +101,27 @@
 			<!-- OPCIONES DEL INPUT SELECT -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6" *ngIf="activateOptions">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Ingrese las opciones</h4>
-						<h6 class="card-subtitle">Si seleccionó un tipo de control SELECT o SELECT MULTIPLE debera
-							ingresar las opciones para ofrecer al usuario. El usuario pordra selecionar una sola
-							opción para un SELECT y multiples opciones para SELECT MULTIPLE.
-						</h6>
-						<div id="bloodhound">
+				<div class="card rounded">
+					<div class="card-body p-3">
+						
+
+							<i class="mdi mdi-help-circle-outline help-position"
+								(click)="showhelp.opciones = !showhelp.opciones"></i>
+							<span *ngIf="showhelp.opciones">
+								<h4 class="card-title">Ingrese las opciones</h4>
+								<h6 class="card-subtitle">Si seleccionó un tipo de control SELECT o SELECT MULTIPLE
+									debera
+									ingresar las opciones para ofrecer al usuario. El usuario podrá selecionar una sola
+									opción para un SELECT y multiples opciones para SELECT MULTIPLE.
+								</h6>
+							</span>
 							<div class="w-100" formArrayName="opciones">
-								<input *ngFor="let opcion of formNewControl.controls['opciones'].controls; let i=index"
+								<input *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index"
 									[formControlName]="i" type="text" class="form-control w-100 my-1" name="opciones">
 								<button type="button" class="btn btn-primary mt-2" (click)="agregarOpcion()"
 									[disabled]="!activateOptions">Agregar Opcion</button>
 							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -100,19 +130,24 @@
 			<!-- OBLIGATORIO? -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Es obligatorio?</h4>
-						<h6 class="card-subtitle">Indique si el dato que se le va a pedir al usuario es un
-							dato obligatorio. Si es obligatorio el usuario no podrá omitir ingresar el dato y
-							se lo forzara a ingresarlo para poder continuar con la creación del aviso.
-						</h6>
-						<div id="the-basics">
+				<div class="card rounded">
+					<div class="card-body p-3">
+						
+
+							<i class="mdi mdi-help-circle-outline help-position"
+								(click)="showhelp.obligatorio = !showhelp.obligatorio"></i>
+							<span *ngIf="showhelp.obligatorio">
+								<h4 class="card-title">Es obligatorio?</h4>
+								<h6 class="card-subtitle">Indique si el dato que se le va a pedir al usuario es un
+									dato obligatorio. Si es obligatorio el usuario no podrá omitir ingresar el dato y
+									se lo forzara a ingresarlo para poder continuar con la creación del aviso.
+								</h6>
+							</span>
 
 							<mat-slide-toggle formControlName="required" checked="false" class="my-3">Es dato
 								obligatorio?</mat-slide-toggle>
 
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -121,18 +156,19 @@
 			<!-- SUBMITIR EL CONTROL -->
 			<!---------------------------------------------------------------------->
 			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="card-title">Enviar y guardar el control</h4>
-						<h6 class="card-subtitle">Verifique los datos antes de guardarlos, no podra modificarlos.
-						</h6>
-						<div id="bloodhound">
+				<div class="card rounded">
+					<div class="card-body p-3">
+						
+
+							<h4 class="card-title">Enviar y guardar el control</h4>
+							<h6 class="card-subtitle">Verifique los datos antes de guardarlos, no podra modificarlos.
+							</h6>
 							<button class="btn btn-success btn-block">Enviar</button>
-						</div>
+						
 					</div>
 				</div>
 			</div>
-		
+
 		</div>
 	</form>
 </div>

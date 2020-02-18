@@ -3,4 +3,19 @@
     border-radius: 10px;
     margin-bottom: 15px;
     padding      : 15px;
+    background-color: powderblue;
+}
+
+.texto-resaltado {
+    font-weight: 500;
+    color: darkblue;
+}
+
+
+.help-position {
+    position: absolute;
+    left: 92%;
+    top: 1px;
+    z-index: 10;
+    font-size: 20px;
 }

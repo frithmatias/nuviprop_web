@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ImagenPipe } from './imagen.pipe';
 import { CapitalizarPipe } from './capitalizar.pipe';
 import { RolePipe } from './role.pipe';
+import { PricekPipe } from './pricek.pipe';
 
 @NgModule({
-    declarations: [ImagenPipe, CapitalizarPipe, RolePipe],
-    imports: [CommonModule],
-    exports: [ImagenPipe, CapitalizarPipe, RolePipe]
+	declarations: [ImagenPipe, CapitalizarPipe, RolePipe, PricekPipe],
+	imports: [CommonModule],
+	exports: [ImagenPipe, CapitalizarPipe, RolePipe, PricekPipe]
 })
 export class PipesModule { }

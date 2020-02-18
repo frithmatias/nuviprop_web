@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { FormsService } from 'src/app/services/forms.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-controles',
@@ -12,8 +13,17 @@ export class ControlesComponent implements OnInit {
 
 	constructor(
 		public formsService: FormsService,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private router: Router
 	) { }
+
+	showhelp = {
+		etiqueta: false,
+		identificador: false,
+		tipocontrol: false,
+		opciones: false,
+		obligatorio: false
+	}
 	formNewControl: FormGroup = new FormGroup({});
 	hasOptionsControls = ['select', 'select_multiple'];
 	activateOptions = false;
@@ -109,9 +119,22 @@ export class ControlesComponent implements OnInit {
 			});
 		}
 
+
+		
 		if (this.formNewControl.valid) {
 			this.formsService.createControl(this.formNewControl.value).subscribe(data => {
-			console.log(data);
+				if (data.ok) {
+					this.snackBar.open('Control guardado correctamente.', 'Aceptar', {
+						duration: 2000,
+					}).afterDismissed().subscribe(( snackdata ) => {
+						console.log(snackdata);
+						this.router.navigate(['/forms']);
+					})
+				} else {
+					this.snackBar.open('¡Error! por favor intente mas tarde.', 'Aceptar', {
+						duration: 2000,
+					});
+				}
 			});
 		}
 

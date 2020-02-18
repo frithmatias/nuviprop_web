@@ -125,20 +125,17 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-html,
 body {
-  // height: 100%;
+  margin        : 0;
+  font-family   : "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  // font-family: "Montserrat", sans-serif;
+  font-size     : 14px;
+  color         : #121212;
 }
 
-body {
-  margin     : 0;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  color: #121212;
-}
-
-.mat-list-text{
-  font-family: "Montserrat", sans-serif;
+.mat-list-text {
+  font-family   : "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  // font-family: "Montserrat", sans-serif;
 }
 
 .mat-form-field[iniciocss] {
@@ -242,6 +239,18 @@ input:-webkit-autofill:active {
   border-radius: 50%;
   cursor       : pointer;
   padding      : 0;
+}
+
+.marker-text {
+  font-size       : 14px;
+  font-family: monospace;
+  position        : relative;
+  border-radius   : 5px;
+  top             : -23px;
+  color           : rgb(255, 255, 255);
+  background-color: #f13332;
+  border          : 3px solid white;
+  padding         : 3px;
 }
 
 // Todas las paginas que contienen al sidebar llevan la clase page-wrapper, pero las 

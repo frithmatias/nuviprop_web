@@ -30,11 +30,11 @@
                             class="mdi mdi-heart aviso-favorito-no"></i></span>
 
                     <span *ngIf="usuarioService.logueado" (click)="agregarFavorito(aviso)">
-                        <span *ngIf="checkFavorito(aviso._id)">
-                            <i class="mdi mdi-heart aviso-favorito-si"></i>
+                        <span>
+                            <i [ngClass]="{'mdi mdi-heart aviso-favorito-si': propFavoritas[aviso._id]}"></i>
                         </span>
-                        <span *ngIf="!checkFavorito(aviso._id)">
-                            <i class="mdi mdi-heart aviso-favorito-no"></i>
+                        <span>
+                            <i [ngClass]="{'mdi mdi-heart aviso-favorito-no': !propFavoritas[aviso._id]}"></i>
                         </span>
                     </span>
                     <!-- 

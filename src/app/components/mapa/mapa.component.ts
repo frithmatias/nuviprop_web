@@ -3,6 +3,7 @@ import { Aviso } from 'src/app/models/aviso.model';
 import { MAPBOX_TOKEN } from '../../config/config';
 import { Router } from '@angular/router';
 import { ImagenPipe } from 'src/app/pipes/imagen.pipe';
+import { PricekPipe } from 'src/app/pipes/pricek.pipe';
 
 declare var mapboxgl: any;
 @Component({
@@ -24,10 +25,10 @@ export class MapaComponent implements OnInit, OnChanges {
 	markersAvisos: any[] = []; // Merkers del mapa avisos.
 	markerInserted = false; // en crear aviso, es necesario crear solo un marker
 
-	constructor(private router: Router, private imagenPipe: ImagenPipe,
-		) { }
+	constructor(private router: Router, private imagenPipe: ImagenPipe, private pricekPipe: PricekPipe
+	) { }
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -38,13 +39,13 @@ export class MapaComponent implements OnInit, OnChanges {
 			// Busco en las ultimas localidades, la primer coincidencia con alguna que fue seleccionada y la muestro en el mapa.
 			const localidades = JSON.parse(localStorage.getItem('localidades'));
 
-			if (( filtros.localidad.length > 0 ) && ( localidades.length > 0)) {
-				if ( filtros.localidad[0] === 'indistinto') {
+			if ((filtros.localidad.length > 0) && (localidades.length > 0)) {
+				if (filtros.localidad[0] === 'indistinto') {
 					// Si es indistinto agarro CUALQUIERA de las localidades vecinas de localStorage.getItem('localidades')
 					// tomo localidades[1], porque localidades[0] es la opción 'indistinto'
 					this.mapCenterInit = { lng: localidades[1].geometry.coordinates[0], lat: localidades[1].geometry.coordinates[1] };
 				}
-				
+
 			}
 
 			this.inicializarMapa(this.mapbox);
@@ -81,6 +82,24 @@ export class MapaComponent implements OnInit, OnChanges {
 			changes.avisos.currentValue.length > 0) {
 			if (this.router.url === '/avisos') { // solo si estoy en la page AVISOS voy a crear los puntos en el mapa
 
+				// =======================================================================
+				// ETIQUETAS
+				// =======================================================================
+				this.avisos.forEach((aviso: any) => {
+					if (aviso.coords && this.map) { // solo si tiene coordenadas y el mapa existe
+						// CREATE MARKER
+						const label = document.createElement('div');
+						label.innerHTML = `<span class="marker-text">${aviso.tipocambio.simbolo} ${this.pricekPipe.transform(aviso.precio)}</span>`;
+						const newmarker = new mapboxgl.Marker(label)
+							.setLngLat(aviso.coords)
+							.addTo(this.map);
+						this.markersAvisos.push(newmarker);
+
+					}
+				});
+				// =======================================================================
+				// ICONOS Y POPUPS
+				// =======================================================================
 				this.avisos.forEach((aviso: any) => {
 					if (aviso.coords && this.map) { // solo si tiene coordenadas y el mapa existe
 						// MARKER POPUP DATA
@@ -99,15 +118,15 @@ export class MapaComponent implements OnInit, OnChanges {
 							</div>
 						  </div>
 							`
-							);
+						);
 
 						// CREATE MARKER
-						const el = document.createElement('div');
-						el.className = 'marker';
-						el.style.backgroundImage = 'url(\'../../../assets/images/mapa/marker-30.png\')';
-						el.style.width = '30px';
-						el.style.height = '30px';
-						const newmarker = new mapboxgl.Marker(el)
+						const icon = document.createElement('div');
+						icon.className = 'marker';
+						icon.style.backgroundImage = 'url(\'../../../assets/images/mapa/marker-30.png\')';
+						icon.style.width = '30px';
+						icon.style.height = '30px';
+						const newmarker = new mapboxgl.Marker(icon)
 							.setLngLat(aviso.coords)
 							.setPopup(popup) // sets a popup on this marker
 							.addTo(this.map);
@@ -115,6 +134,7 @@ export class MapaComponent implements OnInit, OnChanges {
 
 					}
 				});
+
 			}
 		} else {
 			if (this.markersAvisos.length > 0) {
@@ -171,8 +191,8 @@ export class MapaComponent implements OnInit, OnChanges {
 		this.map.on('load', () => {
 			this.map.resize();
 			$('[data-toggle="tab"]').on('shown.bs.tab', () => {
-			 	this.map.resize();
-			   });
+				this.map.resize();
+			});
 		});
 	}
 
@@ -185,12 +205,12 @@ export class MapaComponent implements OnInit, OnChanges {
 		// que el mapa tiene que viajar hacia un solo punto con flyTo.
 		if (center[0][0] === center[1][0] && center[0][1] === center[1][1]) {
 			// 	this.map.zoomTo(this.mapZoom, { duration: 4000 });
-			if (this.map) { this.map.flyTo({center: [String(center[0][0]), String(center[0][1])]}); }
+			if (this.map) { this.map.flyTo({ center: [String(center[0][0]), String(center[0][1])] }); }
 		} else {
 			// centro desde el marker mas SO hacia el marker mas NE
 			this.map.fitBounds(center, {
-				padding: {top: 50, bottom: 50, left: 50, right: 50}
-			  });
+				padding: { top: 50, bottom: 50, left: 50, right: 50 }
+			});
 		}
 	}
 
