@@ -8,6 +8,7 @@ import { LoginGuard, TokenGuard } from './services/services.index';
 
 const appRoutes: Routes = [
   { path: 'login',    component: LoginComponent },
+  { path: 'login/activate/:id',    component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {	path: '',	        component: PagesComponent,
 	// canActivate: [LoginGuard, TokenGuard],

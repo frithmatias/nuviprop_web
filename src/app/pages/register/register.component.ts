@@ -67,6 +67,7 @@ export class RegisterComponent implements OnInit {
 	registrarUsuario() {
 
 		if (this.forma.invalid) {
+			Swal.fire('Faltan datos', 'Verifique el el email sea correcto y que las contraseñas coincidadn.', 'warning');
 			return;
 		}
 

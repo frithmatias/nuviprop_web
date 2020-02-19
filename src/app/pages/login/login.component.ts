@@ -1,6 +1,6 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/services.index';
 import { Usuario } from '../../models/usuario.model';
 import { GAPI_UID } from '../../config/config';
@@ -19,10 +19,21 @@ export class LoginComponent implements OnInit {
 	hidepass = true;
 	recuerdame = false;
 	auth2: any;
-
-	constructor(public router: Router, public _usuarioService: UsuarioService) { }
+	constructor(public router: Router, public activatedRoute: ActivatedRoute, public usuarioService: UsuarioService) { }
 
 	ngOnInit() {
+
+		this.activatedRoute.params.subscribe(data => {
+			if (data.id) {
+				// Si dentro de login llega un id -> (login/activate/5e4d3d10ae99042780343f15)
+				// El usuario viene del EMAIL de activación.
+				this.activateUser(data.id).then(() => {
+					this.router.navigate(['/login']);
+				});
+			}
+		});
+
+
 		this.googleInit();
 		this.email = localStorage.getItem('email') || '';
 		if (this.email.length > 1) {
@@ -30,6 +41,24 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
+
+	activateUser(uid: string) {
+		return new Promise((resolve, reject) => {
+			this.usuarioService
+				.activate(uid)
+				.subscribe(
+					(activatedata: any) => {
+						Swal.fire('¡Bienvenido!', activatedata.mensaje, 'success');
+						resolve();
+					},
+					(err) => {
+						Swal.fire('Error', err.error.errors.message, 'error');
+						reject();
+					}
+				);
+		})
+
+	}
 	// ==========================================================
 	// LOGIN GOOGLE
 	// ==========================================================
@@ -52,9 +81,12 @@ export class LoginComponent implements OnInit {
 		this.auth2.attachClickHandler(element, {}, googleUser => {
 			// let profile = googleUser.getBasicProfile();
 			const token = googleUser.getAuthResponse().id_token;
-			this._usuarioService
+			this.usuarioService
 				.loginGoogle(token)
-				.subscribe(() => (window.location.href = '#/avisos'));
+				.subscribe(
+					() => (window.location.href = '#/avisos'),
+					err => Swal.fire('Error', err.error.mensaje, 'error')
+				);
 			// si mi backend valida las credenciales pasadas por el frontend, entonces me da el ok y me
 			// redirecciona al dashboard.
 
@@ -83,7 +115,7 @@ export class LoginComponent implements OnInit {
 			forma.value.password
 		);
 
-		this._usuarioService
+		this.usuarioService
 			.login(usuario, forma.value.recuerdame)
 			.subscribe(
 				// seccion 17 clase 222, capturo el error de throwError del observable POST en el
