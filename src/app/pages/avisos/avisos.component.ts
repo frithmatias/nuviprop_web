@@ -112,21 +112,13 @@ export class AvisosComponent implements OnInit {
 		}
 	}
 
-
 	snak(msg: string, time: number) {
 		this.snackBar.open(msg, 'Aceptar', {
 			duration: time,
 		});
 	}
 
-	localidadesSeleccionadas(event: any) {
-		console.log(event);
-	}
-
-
-
 	avisosChange(e: any) {
-		console.log('Evento desde list', e); // e contiene los avisos con datos ya modificados.
 		// si sólo modifico propiedades o elementos dentro de un array, el ciclo de detección de cambios
 		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo array, para que
 		// el componente hijo pueda detectar que le estoy pasando datos nuevos tengo que pasar un array
@@ -134,8 +126,6 @@ export class AvisosComponent implements OnInit {
 		this.avisos = [...e];
 	}
 
-
-	
 	tabSelected(tab: number) {
 		localStorage.setItem('viewtab', String(tab));
 	}

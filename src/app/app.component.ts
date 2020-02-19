@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
 	// });
 	constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private doc, private router: Router, private activatedRoute: ActivatedRoute) {
 
-
 		// this.time.subscribe(data => {
 		//   console.log(data, `font-weight: bold; font-size: 12px;color: yellow; `, `font-weight: bold; font-size: 12px;color: red; `);
 		// });

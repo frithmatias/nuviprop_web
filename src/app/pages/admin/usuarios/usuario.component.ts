@@ -16,10 +16,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 	// TODO: Paginar usuarios actualmente muestra solo 5 sin paginador
 	ngOnInit() {
 		this.params = this.activatedRoute.params.subscribe(params => {
-			console.log(params);
 			this.userService.obtenerUsuario(params.id).subscribe((user: Usuario) => {
 				this.usuario = user;
-				console.log(this.usuario);
 			});
 		});
 	}

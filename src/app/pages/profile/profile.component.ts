@@ -39,7 +39,6 @@ export class ProfileComponent implements OnInit {
   }
 
   seleccionImage(archivo: File) {
-	console.log('ARCHIVO', archivo);
 	if (!archivo) {
 		this.imagenSubir = null;
 		return;
@@ -71,7 +70,6 @@ export class ProfileComponent implements OnInit {
 		Swal.fire('Actualizado!', resp.mensaje, 'success');
 		})
 		.catch(err => {
-		console.log('Error en la carga:', err);
 		});
   }
 }

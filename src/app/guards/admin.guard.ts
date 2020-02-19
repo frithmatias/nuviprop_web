@@ -5,20 +5,19 @@ import { UsuarioService } from '../services/usuarios.service';
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-  constructor(
-    public usuarioService: UsuarioService
-  ) { }
+	constructor(
+		public usuarioService: UsuarioService
+	) { }
 
-  canActivate() {
+	canActivate() {
 
-    if (this.usuarioService.usuario.role === 'ADMIN_ROLE') {
-      return true;
-    } else {
-      console.log('Bloqueado por el ADMIN GUARD');
-      this.usuarioService.logout();
-      return false;
-    }
+		if (this.usuarioService.usuario.role === 'ADMIN_ROLE') {
+			return true;
+		} else {
+			this.usuarioService.logout();
+			return false;
+		}
 
-  }
+	}
 
 }

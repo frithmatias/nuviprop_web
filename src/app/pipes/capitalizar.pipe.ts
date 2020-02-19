@@ -28,7 +28,6 @@ export class CapitalizarPipe implements PipeTransform {
 	// TODAS: si es verdadero capitaliza todas las palabres en el string.
 	transform(value: string, todas: boolean = true): string {
 		if (!value || typeof value !== 'string') {
-			//console.log('Ingreso un valor no string al PIPE de capitalización.');
 			return;
 		}
 		value = value.toLowerCase();
@@ -40,7 +39,6 @@ export class CapitalizarPipe implements PipeTransform {
 		} else {
 			nombres[0] = nombres[0][0].toUpperCase() + nombres[0].substr(1); // .substr(1) concateno desde la primera posición en adelante
 		}
-		// console.log(args);
 		return nombres.join(' ');
 	}
 }

@@ -64,7 +64,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		private avisosService: AvisosService,
 		private snackBar: MatSnackBar
 	) {
-		// console.log('DATE:', formatDate(new Date(), 'yyyy-MM-dd', this.locale));
 	}
 
 	async ngOnInit() {
@@ -256,15 +255,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		}
 
 		this.filtersToObjects();
-
-		// // Arrays de strings de _ids, para mostrar los CHECKS
-		// console.log('--SEL-STR--\n', this.selStrOperaciones, this.selStrInmuebles, this.selStrLocalidades);
-		// Arrays de objetos, para guardar la data de cada check seleccionado (usado en los badges)
-		// console.log('SEL-OBJ--\n', this.selObjOperaciones, this.selObjInmuebles, this.selObjLocalidades);
-		// // Arrays de strings de _ids, contiene TODOS los _ids de cada filtro para enviar en casos de 'indistinto'
-		// console.log('--ALL-STR--\n',  this.allStrOperaciones, this.allStrInmuebles, this.allStrLocalidades);
-		// // Arrays de objetos con todas las opciones de los selects
-		// console.log('--ALL-OBJ--\n',  this.formsService.tiposOperaciones, this.formsService.tiposInmuebles, this.allObjLocalidades);
 
 		const filtros = {
 			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,

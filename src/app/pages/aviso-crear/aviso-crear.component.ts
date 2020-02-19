@@ -41,7 +41,6 @@ export class AvisoCrearComponent implements OnInit {
 				} else {
 					// EDICION
 					await this.obtenerAviso(this.avisoId).then((data: Aviso) => {
-						console.log(data);
 						this.aviso = data;
 						this.parsetemplate = true;
 					});

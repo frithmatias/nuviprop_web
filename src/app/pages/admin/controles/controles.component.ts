@@ -62,7 +62,6 @@ export class ControlesComponent implements OnInit {
 
 	// validarArray(needOptions: boolean): ValidatorFn {
 	// 	return (control: AbstractControl): ValidationErrors | null => {
-	// 		console.log(control.value.length, needOptions);
 	// 		if (control.value.length <= 1 && needOptions) {
 	// 			return {
 	// 				valorNoPermitido: true // validacion fallo
@@ -79,7 +78,6 @@ export class ControlesComponent implements OnInit {
 		if ((['select', 'select_multiple'].includes(forma.controls.type.value)) && (forma.controls.opciones.controls.length < 2)) {
 			return { error: 'Debe ingresar al menos dos opciones para el control' }
 		}
-		console.log(control);
 		return null;
 	}
 
@@ -101,14 +99,11 @@ export class ControlesComponent implements OnInit {
 		(this.formNewControl.controls.opciones as FormArray).push(
 			new FormControl('', [Validators.required])
 		);
-		//	console.log('cantidadOpciones', cantidadOpciones);
 		// this.formNewControl.controls.opciones.controls[cantidadOpciones].setValidators(this.validarArray.bind(this.formNewControl));
 
 	}
 
 	enviarFormulario() {
-		console.log('VALID', this.formNewControl.valid);
-		console.log('FORMA', this.formNewControl);
 		if (this.formNewControl.errors) {
 			this.snackBar.open(this.formNewControl.errors.error, 'Aceptar', {
 				duration: 2000,
@@ -120,14 +115,13 @@ export class ControlesComponent implements OnInit {
 		}
 
 
-		
+
 		if (this.formNewControl.valid) {
 			this.formsService.createControl(this.formNewControl.value).subscribe(data => {
 				if (data.ok) {
 					this.snackBar.open('Control guardado correctamente.', 'Aceptar', {
 						duration: 2000,
-					}).afterDismissed().subscribe(( snackdata ) => {
-						console.log(snackdata);
+					}).afterDismissed().subscribe((snackdata) => {
 						this.router.navigate(['/forms']);
 					})
 				} else {

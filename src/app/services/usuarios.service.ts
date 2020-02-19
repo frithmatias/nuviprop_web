@@ -32,19 +32,21 @@ export class UsuarioService implements OnDestroy {
 		return this.http.post(url, usuario).pipe(
 			map((resp: any) => {
 				Swal.queue([{
+					icon: 'success',
 					title: `¡Bienvenido ${usuario.nombre}!`,
 					confirmButtonText: 'Reenviar E-mail de activación.',
-					text: `Revisa tu correo para validar tu cuenta.`,
+					text: `Revisa tu correo para activar tu cuenta.`,
 					showLoaderOnConfirm: true,
 					preConfirm: async () => {
 						// http://localhost:3000/usuarios/sendactivationmail/5e4d638d77e1d532ac944429
 						const emailurl = URL_SERVICIOS + '/usuarios/sendactivationmail/' + resp.usuario._id;
 						return this.http.get(emailurl).toPromise()
 							.then((data: any) => Swal.insertQueueStep(data.mensaje))
-							.catch(() => {
+							.catch((err) => {
 								Swal.insertQueueStep({
 									icon: 'error',
-									title: 'Hubo un error al intentar enviar el mail.'
+									title: 'Sucedio un error',
+									text: err.error.mensaje
 								});
 							});
 					}
@@ -136,11 +138,8 @@ export class UsuarioService implements OnDestroy {
 		);
 	}
 
-	// METHODS
-
 	activate(id: string) {
 		const url = URL_SERVICIOS + '/usuarios/activate/' + id;
-
 		return this.http.get(url)
 			.pipe(map(data => {
 				return data;
@@ -175,7 +174,6 @@ export class UsuarioService implements OnDestroy {
 
 	loginGoogle(token: string) {
 		const url = URL_SERVICIOS + '/login/google';
-		// console.log(token);
 		return this.http.post(url, { token }).pipe(
 			map((resp: any) => {
 				this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
@@ -203,7 +201,6 @@ export class UsuarioService implements OnDestroy {
 			.pipe(map((resp: any) => {
 				this.token = resp.token;
 				localStorage.setItem('token', this.token);
-				console.log('Token renovado');
 			}));
 
 	}
@@ -216,7 +213,6 @@ export class UsuarioService implements OnDestroy {
 		// si el usuario se logueo en algun momento verifico la expiracion del token
 		const payload = JSON.parse(atob(this.token.split('.')[1]));
 		const ahora = new Date().getTime() / 1000;
-		// console.log('expira: ', payload.exp, ' ahora: ', ahora);
 		if (payload.exp < ahora) {
 			this.logout();
 			return false; // token expirado

@@ -43,7 +43,6 @@ export class InmobiliariasComponent implements OnInit {
 	}
 
 	borrarInmobiliaria(inmobiliaria: Inmobiliaria) {
-		console.log(inmobiliaria);
 		this.inmobiliariaService
 			.borrarInmobiliaria(inmobiliaria._id)
 			.subscribe(() => this.obtenerInmobiliarias());
@@ -57,11 +56,9 @@ export class InmobiliariasComponent implements OnInit {
 			icon: 'info',
 			showCancelButton: true
 		}).then((valor: any) => {
-			console.log(valor.value);
 			if (!valor.value || valor.value.length === 0) {
 				return;
 			}
-			console.log(valor.value);
 			this.inmobiliariaService
 				.crearInmobiliaria(valor.value)
 				.subscribe(() => this.obtenerInmobiliarias());

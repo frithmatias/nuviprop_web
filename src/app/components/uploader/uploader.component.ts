@@ -66,17 +66,14 @@ export class UploaderComponent implements OnInit {
 			this.archivos.forEach(archivo => {
 				archivo.estaSubiendo = true;
 				this.uploaderService.subirImagen(archivo, this.tipo, this.id).then((data: any) => {
-					console.log(data);
 					archivo.progreso = 100;
 					archivo.estaSubiendo = false;
 					count++;
-					// console.log('count:', count);
 					if (count === this.archivos.length) {
 						resolve();
 					}
 					// actualizo las imagenes en cola quitando la que recién acaba de subirse.
 					// this.archivos = this.archivos.filter(file => file.nombreArchivo !== archivo.nombreArchivo);
-					// console.log(data.aviso.imgs);
 
 					// actualizo las imagenes subidas al server, pero tengo que obtener la ULTIMA respuesta y
 					// no es fácil, pueden venir en distinto orden porque la subida de archivos es un proceso
@@ -96,7 +93,6 @@ export class UploaderComponent implements OnInit {
 	obtenerImagenes() {
 		return new Promise((resolve) => {
 			this.misAvisosService.obtenerAviso(this.id).subscribe(data => {
-				console.log('obtenerImagenes', data);
 				this.aviso.imgs = data.imgs;
 				this.archivos = [];
 				resolve();
@@ -163,19 +159,16 @@ export class UploaderComponent implements OnInit {
 
 	}
 	borrarImagenQueue(nombreArchivo) {
-		// console.log(nombreArchivo);
 		this.archivos = this.archivos.filter(archivo => archivo.nombreArchivo !== nombreArchivo);
 	}
 
 	queueFilesInput(event) {
-		// console.log('QueueFilesInput:', event);
 		this._extraerArchivos(event.target.files); // le envío un objeto que voy a tener que convertir en array
 		this._prevenirDetener(event);
 	}
 
 
 	queueFilesDrop(event) {
-		// console.log('QueueFilesDrop:', event);
 		this._extraerArchivos(event.dataTransfer.files); // le envío un objeto que voy a tener que convertir en array
 		this._prevenirDetener(event);
 	}
@@ -189,7 +182,6 @@ export class UploaderComponent implements OnInit {
 
 	/*Esta función es para trabajar con los archivos, vamos a extraerlos de la constante "transferencia"*/
 	private _extraerArchivos(archivosLista: FileList) {
-		// console.log(archivosLista);
 		// archivosLista: FileList <- OBJETO, LO CONVIERTO A UN ARRAY
 		/*Ya puedo recibir UN OBJETO con la información de los archivos soltados, pero ES UN OBJETO y no me sirve tengo
 		que extraer la información y devolverla como array. A la función getOwnPropertyNames le mando como argumento el
@@ -246,7 +238,6 @@ export class UploaderComponent implements OnInit {
 	private _fileWasDropped(nombreArchivo: string): boolean {
 		for (const archivo of this.archivos) {
 			if (archivo.nombreArchivo === nombreArchivo) {
-				console.log('El archivo ' + nombreArchivo + ' ya fué agregado.');
 				return true;
 			}
 		}

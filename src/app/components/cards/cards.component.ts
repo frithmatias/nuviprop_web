@@ -59,7 +59,6 @@ export class CardsComponent implements OnInit, OnChanges {
 
 		},
 			err => {
-				// console.log(err);
 			});
 	}
 

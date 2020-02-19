@@ -10,7 +10,6 @@ export class RolePipe implements PipeTransform {
 
 	transform(role: string): any {
 		if (!role || typeof role !== 'string') {
-			//console.log('Ingreso un valor no string al PIPE de capitalización.');
 			return;
 		}
 		let resp: string;

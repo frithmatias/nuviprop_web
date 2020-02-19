@@ -22,18 +22,13 @@ export class LoginComponent implements OnInit {
 	constructor(public router: Router, public activatedRoute: ActivatedRoute, public usuarioService: UsuarioService) { }
 
 	ngOnInit() {
-
 		this.activatedRoute.params.subscribe(data => {
 			if (data.id) {
 				// Si dentro de login llega un id -> (login/activate/5e4d3d10ae99042780343f15)
 				// El usuario viene del EMAIL de activación.
-				this.activateUser(data.id).then(() => {
-					this.router.navigate(['/login']);
-				});
+				this.activateUser(data.id);
 			}
 		});
-
-
 		this.googleInit();
 		this.email = localStorage.getItem('email') || '';
 		if (this.email.length > 1) {
@@ -41,28 +36,28 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
-
+	// ==========================================================
+	// FROM EMAIL LINK ACTIVATION
+	// ==========================================================
 	activateUser(uid: string) {
-		return new Promise((resolve, reject) => {
-			this.usuarioService
-				.activate(uid)
-				.subscribe(
-					(activatedata: any) => {
-						Swal.fire('¡Bienvenido!', activatedata.mensaje, 'success');
-						resolve();
-					},
-					(err) => {
-						Swal.fire('Error', err.error.errors.message, 'error');
-						reject();
-					}
-				);
-		})
+		this.usuarioService
+			.activate(uid)
+			.subscribe(
+				(activatedata: any) => {
+					this.router.navigate(['/login']);
+					Swal.fire('¡Bienvenido!', activatedata.mensaje, 'success');
+				},
+				(err) => {
+					this.router.navigate(['/login']);
+					Swal.fire('Error', err.error.errors.message, 'error');
+				}
+			);
 
 	}
+
 	// ==========================================================
 	// LOGIN GOOGLE
 	// ==========================================================
-
 	googleInit() {
 		gapi.load('auth2', () => {
 			this.auth2 = gapi.auth2.init({
@@ -107,8 +102,6 @@ export class LoginComponent implements OnInit {
 
 		// En el modelo de datos, nombre, apellido y nacimiento, son necesarios, pero aca no los necesito
 		// solo necesito email y password, en los que no necesito puedo enviar null.
-		console.log(forma);
-		console.log(forma.value);
 		const usuario = new Usuario(
 			forma.value.email,
 			null,

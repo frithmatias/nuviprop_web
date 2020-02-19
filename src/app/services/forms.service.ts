@@ -47,7 +47,6 @@ export class FormsService {
 			const filterValue = data.toLowerCase();
 			if (data.length === 3) {
 				this.buscarLocalidades(filterValue).then((resp: Localidades) => {
-					// console.log(resp); // trea localidades vecinas, objetos GEO completos
 					resp.localidades.forEach(localidad => {
 						this.localidades.push(localidad);
 					});

@@ -57,7 +57,6 @@ export class UsuariosComponent implements OnInit {
 		this.usuarioService
 			.buscarUsuarios(termino)
 			.subscribe((usuarios: Usuario[]) => {
-				console.log('usuarios: ', usuarios);
 				this.usuarios = usuarios;
 				this.cargando = false;
 			});
@@ -86,19 +85,15 @@ export class UsuariosComponent implements OnInit {
 			if (result.value) {
 				this.usuarioService.borrarUsuario(usuario._id).subscribe(
 					resp => {
-						console.log(resp);
 						this.cargarUsuarios();
 					},
 					err => {
-						console.log('Error: ', err);
 						Swal.fire('Error', err.error.errors.message, 'error');
 					},
 					() => {
-						console.log('El observable esta detenido.');
 					}
 				);
 			} else {
-				console.log('NO BORRAR');
 			}
 		});
 	}
@@ -112,22 +107,18 @@ export class UsuariosComponent implements OnInit {
 			if (borrar) {
 				this.usuarioService.actualizarUsuario(usuario).subscribe(
 					resp => {
-						console.log(resp);
 						this.cargarUsuarios();
 					},
 					err => {
-						console.log('Error: ', err);
 						Swal.fire('Error', err.error.errors.message, 'error');
 					},
 					() => {
-						console.log('El observable esta detenido.');
 					}
 				);
 			}
 		});
 	}
-	editarUsuario(usuario: Usuario){
-		console.log('Editando usuario ', usuario);
+	editarUsuario(usuario: Usuario) {
 		this.router.navigate(['/usuarios', usuario._id]);
 
 	}

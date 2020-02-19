@@ -28,8 +28,6 @@ export class DetallesComponent implements OnInit {
 		this.formsService.obtenerFormControlsAndData(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
 			.subscribe((data: Form) => {
 				this.controls = data.controls;
-				console.log(data);
-				console.log(this.formData)
 
 				// Construyo el group
 				const group: any = {};

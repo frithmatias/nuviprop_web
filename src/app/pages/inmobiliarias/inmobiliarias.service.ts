@@ -40,10 +40,8 @@ export class InmobiliariaService {
 		const headers = new HttpHeaders({
 			'x-token': this.usuarioService.token
 		});
-		console.log(nombre);
 		return this.http.post(url, { nombre }, { headers }).pipe(
 			map((resp: any) => {
-				console.log(resp);
 				//        return resp.hospital;
 			})
 		);

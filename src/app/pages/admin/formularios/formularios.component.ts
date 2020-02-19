@@ -33,7 +33,6 @@ export class FormulariosComponent implements OnInit {
 			// tipooperacion y tipoinmueble, porque son los datos que tengo que definir para los controles en la BD.
 		},
 			(err) => {
-				console.log(err);
 			}
 		);
 	}
@@ -59,7 +58,6 @@ export class FormulariosComponent implements OnInit {
 	// Si estan seteados los controles, la operacion y el inmueble, entonces envía los datos.
 	patchValues() {
 		this.formsService.obtenerFormControls(this.tipooperacion, this.tipoinmueble).subscribe((formulario: any) => {
-			// console.log(formulario);
 			// formulario:
 			// _id: "5e2ca40c35594512e42ac56e"
 			// controls: (21) ["5e2704cce13bdf0c315eb307", ... , "5e2725ece13bdf0c315ecfef"]
@@ -94,7 +92,6 @@ export class FormulariosComponent implements OnInit {
 	}
 
 	enviarFormulario() {
-		console.log(this.formSettings);
 		if (this.formSettings.valid) {
 			const activatedControls = [];
 
@@ -112,7 +109,6 @@ export class FormulariosComponent implements OnInit {
 				tipoinmueble: this.tipoinmueble,
 				controls: activatedControls
 			}).subscribe((data: any) => {
-				console.log(data);
 				if (data.ok) {
 					Swal.fire('Guardado!', 'La configuración del formulario fue guardada en forma exitosa.', 'success');
 				} else {

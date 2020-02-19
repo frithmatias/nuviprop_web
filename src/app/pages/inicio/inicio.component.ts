@@ -39,29 +39,27 @@ export class InicioComponent implements OnInit {
 
 
 		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos
-		if(localStorage.getItem('filtros')){
+		if (localStorage.getItem('filtros')) {
 			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
-			console.log(filtros);
-			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)){
+			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
 				this.router.navigate(['/avisos']);
-				console.log('Datos en localstorage, redireccionando hacia avisos.');
 			}
 		}
 
 		// Cargo los scripts fuera del scope de Angular.
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
-		  map(() => this.activatedRoute))
-		  .subscribe((event) => {
+			map(() => this.activatedRoute))
+			.subscribe((event) => {
 
-			  // $.getScript('../assets/plugins/jquery/jquery.min.js');
-			  // init_plugins();
-			  //  $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
-			  //  $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
-			  //  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
-			  //  $.getScript('../assets/js/sidebarmenu.js');
-			  $.getScript('../assets/js/custom.js');
+				// $.getScript('../assets/plugins/jquery/jquery.min.js');
+				// init_plugins();
+				//  $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
+				//  $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
+				//  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
+				//  $.getScript('../assets/js/sidebarmenu.js');
+				$.getScript('../assets/js/custom.js');
 
-		});
+			});
 	}
 
 	setOperacion(tipooperacion: any, link?: HTMLElement) {

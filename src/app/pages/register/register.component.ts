@@ -21,7 +21,6 @@ export class RegisterComponent implements OnInit {
 	) { }
 
 	sonIguales(campo1: string, campo2: string) {
-
 		return (group: FormGroup) => {
 
 			const pass1 = group.controls[campo1].value;
@@ -87,21 +86,18 @@ export class RegisterComponent implements OnInit {
 		//   public google?: boolean,
 		//   public _id?: string
 		// ) {}
-		console.log(this.forma);
 		const usuario = new Usuario(
 			this.forma.value.correo,
 			this.forma.value.nombre,
 			this.forma.value.password
 		);
-		console.log(usuario);
 		this.usuarioService.crearUsuario(usuario)
 			.subscribe(
 				(resp) => {
 					this.router.navigate(['/login']);
 				},
 				(err) => {
-					console.log(err);
-					Swal.fire('Error en el registro', err.message, 'error');
+					Swal.fire('Error en el registro', err.error.mensaje, 'error');
 				}
 			);
 

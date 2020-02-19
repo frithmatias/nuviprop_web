@@ -1,75 +1,72 @@
-
-   
-  
-    <div class="page-wrapper">
+<div class="page-wrapper">
 
 
 
-    <!---------------------------------------------------------------------->
-    <!-- FILTROS SIDE-BAR -->
-    <!---------------------------------------------------------------------->
-    <app-filtros class="avisos" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
-    <!-- <app-breadcrumbs></app-breadcrumbs> -->
+	<!---------------------------------------------------------------------->
+	<!-- FILTROS SIDE-BAR -->
+	<!---------------------------------------------------------------------->
+	<app-filtros class="avisos" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
+	<!-- <app-breadcrumbs></app-breadcrumbs> -->
 
-    <!---------------------------------------------------------------------->
-    <!-- AVISOS -->
-    <!---------------------------------------------------------------------->
-    <!---------------------------------------------------------------------->  
-    <!-- TABS BUTTONS MAP-LIST-CARDS -->
-    <!---------------------------------------------------------------------->
+	<!---------------------------------------------------------------------->
+	<!-- AVISOS -->
+	<!---------------------------------------------------------------------->
+	<!---------------------------------------------------------------------->
+	<!-- TABS BUTTONS MAP-LIST-CARDS -->
+	<!---------------------------------------------------------------------->
 
-    <div class="nav  tabs-overmap animated fadeIn" style="justify-content: center;" id="myTab" role="tablist">
-        <button (click)="tabSelected(0)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="mapa-tab" data-toggle="tab"
-            href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">
-            <i class="mdi mdi-google-maps"></i> Mapa
-        </button>
-        <button (click)="tabSelected(1)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="lista-tab" data-toggle="tab"
-            href="#lista" role="tab" aria-controls="lista" aria-selected="true">
-            <i class="mdi mdi-view-list"></i> Lista
-        </button>
-        <button (click)="tabSelected(2)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="cards-tab" data-toggle="tab"
-            href="#cards" role="tab" aria-controls="cards" aria-selected="false">
-            <i class="mdi mdi-view-grid"></i> Cards
-        </button>
-    </div>
+	<div class="nav  tabs-overmap animated fadeIn" style="justify-content: center;" id="myTab" role="tablist">
+		<button (click)="tabSelected(0)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="mapa-tab" data-toggle="tab"
+			href="#mapa" role="tab" aria-controls="mapa" aria-selected="false">
+			<i class="mdi mdi-google-maps"></i> Mapa
+		</button>
+		<button (click)="tabSelected(1)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="lista-tab"
+			data-toggle="tab" href="#lista" role="tab" aria-controls="lista" aria-selected="true">
+			<i class="mdi mdi-view-list"></i> Lista
+		</button>
+		<button (click)="tabSelected(2)" class="btn btn-themecolor btn-sm rounded-0 m-1" id="cards-tab"
+			data-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">
+			<i class="mdi mdi-view-grid"></i> Cards
+		</button>
+	</div>
 
 
 
 
-        <!---------------------------------------------------------------------->
-        <!-- TABS PANES -->
-        <!---------------------------------------------------------------------->
-        <div class="tab-content" id="myTabContent" style="height: 100%">
+	<!---------------------------------------------------------------------->
+	<!-- TABS PANES -->
+	<!---------------------------------------------------------------------->
+	<div class="tab-content" id="myTabContent" style="height: 100%">
 
-            <!-- ---------------------------------- -->
-            <!-- PANE MAP -->
-            <!-- ---------------------------------- -->
+		<!-- ---------------------------------- -->
+		<!-- PANE MAP -->
+		<!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn" id="mapa" style="height: 90vh">
-                <app-mapa [(avisos)]="avisos"  [mapCoords]="mapCoords"></app-mapa>
-            </div>
+		<div class="tab-pane fade animated fadeIn" id="mapa" style="height: 90vh">
+			<app-mapa [(avisos)]="avisos" [mapCoords]="mapCoords"></app-mapa>
+		</div>
 
-            <!-- ---------------------------------- -->
-            <!-- PANE LIST -->
-            <!-- ---------------------------------- -->
+		<!-- ---------------------------------- -->
+		<!-- PANE LIST -->
+		<!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn pt-4" id="lista">
-                <app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
-            </div>
+		<div class="tab-pane fade animated fadeIn pt-4" id="lista">
+			<app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
+		</div>
 
-            <!-- ---------------------------------- -->
-            <!-- PANE CARDS -->
-            <!-- ---------------------------------- -->
+		<!-- ---------------------------------- -->
+		<!-- PANE CARDS -->
+		<!-- ---------------------------------- -->
 
-            <div class="tab-pane fade animated fadeIn pt-4" id="cards">
-                <app-cards [(avisos)]="avisos"></app-cards>
-            </div>
+		<div class="tab-pane fade animated fadeIn pt-4" id="cards">
+			<app-cards [(avisos)]="avisos"></app-cards>
+		</div>
 
 
-            <!-- BOTON PARA VOLVER ARRIBA -->
-            <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
-                    class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
+		<!-- BOTON PARA VOLVER ARRIBA -->
+		<button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()"><i
+				class="fa fa-arrow-circle-up"></i>&nbsp; Volver arriba</button>
 
-        </div>
-   
-    </div>
+	</div>
+
+</div>
