@@ -5,6 +5,9 @@ import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
+import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
 	selector: 'app-inicio',
 	templateUrl: './inicio.component.html',
@@ -14,6 +17,10 @@ export class InicioComponent implements OnInit {
 	seleccionOperaciones: string[] = [];
 	seleccionInmuebles: string[] = [];
 	seleccionLocalidades: string[] = [];
+
+	tiposOperaciones: TipoOperacion[];
+	tiposInmuebles: TipoInmueble[];
+
 	constructor(
 		public formsService: FormsService,
 		private snackBar: MatSnackBar,
@@ -23,8 +30,15 @@ export class InicioComponent implements OnInit {
 		private activatedRoute: ActivatedRoute
 	) { }
 
-	ngOnInit() {
+	async ngOnInit() {
 
+		this.tiposInmuebles = await this.formsService.obtenerInmuebles();
+		this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble.id !== 'indistinto');
+		this.tiposOperaciones = await this.formsService.obtenerOperaciones();
+		this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion.id !== 'indistinto');
+
+
+		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos
 		if(localStorage.getItem('filtros')){
 			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
 			console.log(filtros);

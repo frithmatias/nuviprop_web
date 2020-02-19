@@ -22,7 +22,7 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
                     <mat-label>Tipo de operación</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion"
+                        <mat-option *ngFor="let operacion of tiposOperaciones" [value]="operacion"
                             (click)="setOperacion(operacion)">
                             {{operacion.nombre}}
                         </mat-option>
@@ -33,7 +33,7 @@
                 <!---------------------------------------------------------------------->
                 <div class="d-flex">
                     <button #buttonOperacion name="boton_tipo_operacion" type="button"
-                        *ngFor="let operacion of formsService.tiposOperaciones"
+                        *ngFor="let operacion of tiposOperaciones"
                         class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
                         (click)="setOperacion(operacion, buttonOperacion)">
                         <span class="lead">{{operacion.nombre}}</span>
@@ -65,7 +65,7 @@
                 <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
                     <mat-label>Tipo de inmueble</mat-label>
                     <mat-select>
-                        <mat-option *ngFor="let inmueble of formsService.tiposInmuebles" [value]="inmueble"
+                        <mat-option *ngFor="let inmueble of tiposInmuebles" [value]="inmueble"
                             (click)="setInmueble(inmueble)">
                             {{inmueble.nombre}}
                         </mat-option>
