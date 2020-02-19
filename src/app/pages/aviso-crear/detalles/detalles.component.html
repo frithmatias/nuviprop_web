@@ -19,6 +19,15 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="w-100" *ngIf="control.type==='select_multiple'">
+                    <mat-label>{{ control.nombre }}</mat-label>
+                    <mat-select [formControlName]="control.id">
+                        <mat-option *ngFor="let option of control.options" [value]="option._id">
+                            {{ option.nombre }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field class="w-100" *ngIf="control.type==='input_number'">
                     <mat-label>{{ control.nombre }}</mat-label>
                     <input matInput type="number" [formControlName]="control.id">

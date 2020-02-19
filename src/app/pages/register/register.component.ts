@@ -86,12 +86,10 @@ export class RegisterComponent implements OnInit {
 		//   public google?: boolean,
 		//   public _id?: string
 		// ) {}
-
+		console.log(this.forma);
 		const usuario = new Usuario(
 			this.forma.value.correo,
 			this.forma.value.nombre,
-			this.forma.value.apellido,
-			this.forma.value.nacimiento,
 			this.forma.value.password
 		);
 		console.log(usuario);

@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
 	// ==========================================================
 	// LOGIN NORMAL 
 	// ==========================================================
-
+	// TODO: Rehacer el formulario con formbuilder.
 	ingresar(forma: NgForm) {
 		if (forma.invalid) {
 			return;
@@ -75,10 +75,10 @@ export class LoginComponent implements OnInit {
 
 		// En el modelo de datos, nombre, apellido y nacimiento, son necesarios, pero aca no los necesito
 		// solo necesito email y password, en los que no necesito puedo enviar null.
+		console.log(forma);
+		console.log(forma.value);
 		const usuario = new Usuario(
 			forma.value.email,
-			null,
-			null,
 			null,
 			forma.value.password
 		);
