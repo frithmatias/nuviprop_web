@@ -26,7 +26,6 @@ export class AvisoComponent implements OnInit {
 	avisoId: string;
 	formAviso: FormGroup = new FormGroup({});
 	unidades: TipoUnidad[] = [];
-
 	// Le paso al componente child app-mapa las coordenadas de la localidad seleccionada
 	centerMap: number[] = [];
 
@@ -39,6 +38,9 @@ export class AvisoComponent implements OnInit {
 	filteredOptions: Observable<string[]>;
 	options: any[] = [];
 
+	// FLAG AVISO CARGADO, me permite cargar las coordenadas del aviso la primera vez, luego escucha el 
+	// control de localidad para cargar las coordenadas de la localidad si se cambia la localidad.
+	avisoCargado = false;
 	constructor(
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
@@ -47,13 +49,15 @@ export class AvisoComponent implements OnInit {
 		private capitalizarPipe: CapitalizarPipe
 	) { }
 
-	ngOnInit() {
+	async ngOnInit() {
+		await this.buildForm();
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;
 			if (params.id) {
 				if (params.id === 'nuevo') {
-					this.buildNewForm();
+					this.formAviso.reset();
 				} else {
+
 					// si es una EDICION tengo que enviar al padre el tipooperacion y tipoinmueble
 					// para que construya y muestre (ingresaDetalles=true) el formulario de detalles
 					// esto lo hace el metodo setFormDetalles() en el padre (aviso-crear.component.ts)
@@ -61,14 +65,13 @@ export class AvisoComponent implements OnInit {
 						this.emitFormDetalles(this.formData.tipooperacion._id, this.formData.tipoinmueble._id);
 						this.tipooperacion = this.formData.tipooperacion._id;
 						this.tipoinmueble = this.formData.tipoinmueble._id;
-						this.setLocalidad(this.formData.localidad);
+						this.centerMap = [Number(this.formData.coords.lng), Number(this.formData.coords.lat)];
+						this.formsService.localidadesControl.setValue(this.formData.localidad);
 					}
-
-
 				}
 			}
 		});
-		this.buildForm();
+
 		this.filteredOptions = this.localidadesControl.valueChanges
 			.pipe(
 				startWith(''),
@@ -76,9 +79,7 @@ export class AvisoComponent implements OnInit {
 			);
 	}
 
-	buildNewForm() {
-		this.formAviso.reset();
-	}
+
 	// ngOnChanges(changes: SimpleChanges) {
 	// 	// changes.prop contains the old and the new value...
 	// }
@@ -94,55 +95,62 @@ export class AvisoComponent implements OnInit {
 	}
 
 	buildForm() {
-		this.formAviso = this.formBuilder.group({
-			calle: ['', [Validators.required, Validators.minLength(5)]],
-			altura: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
-			piso: ['', [Validators.pattern('[0-9]{1,5}')]],
-			depto: ['', [Validators.pattern('[A-Za-z0-9]{1,5}')]],
-			titulo: ['', [Validators.required, Validators.minLength(10)]],
-			descripcion: ['', [Validators.required, Validators.minLength(20)]],
-			precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
-			tipocambio: ['', [Validators.required]],
-			publicarprecio: ['', [Validators.required]],
-			aptocredito: ['', [Validators.required]],
-			codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]],
-			tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], // _id
-			tipounidad: [null, [Validators.minLength(5)]], // _id
-			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], // _id
-			localidad: ['', [Validators.required, Validators.minLength(5)]], // _id
-			lat: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]],
-			lng: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]]
-		});
-		// COMO ANGULAR NO HACE VALIDACIONES SOBRE CONTROLES 'DISABLED', HAGO UNA VALIDACION A NIVEL FORMULARIO
-		this.formAviso.setValidators(this.validarLatLng.bind(this.formAviso));
-
-		// evita el _id of null
-		const tipooperacionValor = this.formData.tipooperacion ? this.formData.tipooperacion._id : null;
-		const tipoinmuebleValor = this.formData.tipoinmueble ? this.formData.tipoinmueble._id : null;
-		const tipounidadValor = this.formData.tipounidad ? this.formData.tipounidad._id : null;
-		const localidadValor = this.formData.localidad ? this.formData.localidad._id : null;
-
-		if (this.avisoId !== 'nuevo') {
-			this.formAviso.setValue({
-				calle: this.formData.calle,
-				altura: this.formData.altura,
-				piso: this.formData.piso,
-				depto: this.formData.depto,
-				titulo: this.formData.titulo,
-				descripcion: this.formData.descripcion,
-				precio: this.formData.precio,
-				tipocambio: this.formData.tipocambio,
-				publicarprecio: this.formData.publicarprecio,
-				aptocredito: this.formData.aptocredito,
-				codigopostal: this.formData.codigopostal,
-				tipooperacion: tipooperacionValor,
-				tipoinmueble: tipoinmuebleValor,
-				tipounidad: tipounidadValor,
-				localidad: localidadValor,
-				lat: this.formData.coords.lat,
-				lng: this.formData.coords.lng
+		return new Promise((resolve, reject) => {
+			this.formAviso = this.formBuilder.group({
+				calle: ['', [Validators.required, Validators.minLength(5)]],
+				altura: ['', [Validators.required, Validators.pattern('[0-9]{1,5}')]],
+				piso: ['', [Validators.pattern('[0-9]{1,5}')]],
+				depto: ['', [Validators.pattern('[A-Za-z0-9]{1,5}')]],
+				titulo: ['', [Validators.required, Validators.minLength(10)]],
+				descripcion: ['', [Validators.required, Validators.minLength(20)]],
+				precio: ['', [Validators.required, Validators.pattern('[0-9]{1,10}')]],
+				tipocambio: ['', [Validators.required]],
+				publicarprecio: ['', [Validators.required]],
+				aptocredito: ['', [Validators.required]],
+				codigopostal: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{4,10}')]],
+				tipoinmueble: ['', [Validators.required, Validators.minLength(5)]], // _id
+				tipounidad: [null, [Validators.minLength(5)]], // _id
+				tipooperacion: ['', [Validators.required, Validators.minLength(5)]], // _id
+				localidad: ['', [Validators.required, Validators.minLength(5)]], // _id
+				lat: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]],
+				lng: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]]
 			});
-		}
+			// COMO ANGULAR NO HACE VALIDACIONES SOBRE CONTROLES 'DISABLED', HAGO UNA VALIDACION A NIVEL FORMULARIO
+			this.formAviso.setValidators(this.validarLatLng.bind(this.formAviso));
+
+			// evita el _id of null
+			const tipooperacionValor = this.formData.tipooperacion ? this.formData.tipooperacion._id : null;
+			const tipoinmuebleValor = this.formData.tipoinmueble ? this.formData.tipoinmueble._id : null;
+			const tipounidadValor = this.formData.tipounidad ? this.formData.tipounidad._id : null;
+			const localidadValor = this.formData.localidad ? this.formData.localidad._id : null;
+
+			if (this.avisoId !== 'nuevo') {
+				console.log(this.formData);
+				this.formAviso.setValue({
+					calle: this.formData.calle,
+					altura: this.formData.altura,
+					piso: this.formData.piso,
+					depto: this.formData.depto,
+					titulo: this.formData.titulo,
+					descripcion: this.formData.descripcion,
+					precio: this.formData.precio,
+					tipocambio: this.formData.tipocambio,
+					publicarprecio: this.formData.publicarprecio,
+					aptocredito: this.formData.aptocredito,
+					codigopostal: this.formData.codigopostal,
+					tipooperacion: tipooperacionValor,
+					tipoinmueble: tipoinmuebleValor,
+					tipounidad: tipounidadValor,
+					localidad: localidadValor,
+					lat: this.formData.coords.lat,
+					lng: this.formData.coords.lng
+				});
+			}
+
+
+			resolve();
+		});
+
 	}
 
 	validarLatLng(form: FormGroup) {
@@ -197,20 +205,10 @@ export class AvisoComponent implements OnInit {
 	}
 
 	setLocalidad(localidad: Localidad) {
-		console.log(localidad);
-		if (this.formData.localidad._id !== localidad._id) { // estoy cambiando la localidad desde el control 
 			this.centerMap = localidad.geometry.coordinates;
-			// this.formsService.obtenerLocalidadesVecinas(localidad);
 			this.formAviso.patchValue({
 				localidad: localidad._id
 			});
-			console.log(this.formAviso);
-		} else {
-			// esta cargando el aviso desde formData para editar
-			this.centerMap = [Number(this.formData.coords.lng), Number(this.formData.coords.lat)];
-			this.formsService.localidadesControl.setValue(this.formData.localidad);
-			console.log(this.formsService.localidadesControl.value.properties.nombre);
-		}
 	}
 
 	getInputLocalidadNombre(value: any) {

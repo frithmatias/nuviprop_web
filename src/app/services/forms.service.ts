@@ -41,7 +41,6 @@ export class FormsService {
 	) {
 		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
-			console.log(data);
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
 			}
