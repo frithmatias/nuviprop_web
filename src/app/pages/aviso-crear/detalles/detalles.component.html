@@ -7,6 +7,15 @@
                 <input *ngSwitchCase="'textbox'"
                 <select *ngSwitchCase="'dropdown'" 
             -->
+
+            <div *ngIf="controls.length === 0" class="px-3">
+                <h6>
+                    <p>
+                        No existen controles definidos para este formulario. Puede configurar este formulario
+                        desde Menú -> Formularios.
+                    </p>
+                </h6>
+            </div>
             <div *ngFor="let control of controls" class="col-12 col-sm-12 col-md-6 col-lg-4">
 
 

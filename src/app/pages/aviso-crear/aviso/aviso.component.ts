@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { Localidad } from 'src/app/models/localidad.model';
+import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
 @Component({
 	selector: 'app-form-aviso',
@@ -27,7 +28,7 @@ export class AvisoComponent implements OnInit {
 	unidades: TipoUnidad[] = [];
 
 	// Le paso al componente child app-mapa las coordenadas de la localidad seleccionada
-	coordsLocalidad: number[] = [];
+	centerMap: number[] = [];
 
 	// Para definir cual va a ser mi formulario de detalles necesito los ID de tipooperacion y tipoinmueble
 	tipooperacion: string;
@@ -42,7 +43,8 @@ export class AvisoComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private snackBar: MatSnackBar,
 		public formsService: FormsService,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private capitalizarPipe: CapitalizarPipe
 	) { }
 
 	ngOnInit() {
@@ -57,7 +59,12 @@ export class AvisoComponent implements OnInit {
 					// esto lo hace el metodo setFormDetalles() en el padre (aviso-crear.component.ts)
 					if (this.formData.tipooperacion && this.formData.tipoinmueble) {
 						this.emitFormDetalles(this.formData.tipooperacion._id, this.formData.tipoinmueble._id);
+						this.tipooperacion = this.formData.tipooperacion._id;
+						this.tipoinmueble = this.formData.tipoinmueble._id;
+						this.setLocalidad(this.formData.localidad);
 					}
+
+
 				}
 			}
 		});
@@ -103,9 +110,11 @@ export class AvisoComponent implements OnInit {
 			tipounidad: [null, [Validators.minLength(5)]], // _id
 			tipooperacion: ['', [Validators.required, Validators.minLength(5)]], // _id
 			localidad: ['', [Validators.required, Validators.minLength(5)]], // _id
-			lat: ['', [Validators.required, Validators.minLength(5)]],
-			lng: ['', [Validators.required, Validators.minLength(5)]]
+			lat: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]],
+			lng: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]]
 		});
+		// COMO ANGULAR NO HACE VALIDACIONES SOBRE CONTROLES 'DISABLED', HAGO UNA VALIDACION A NIVEL FORMULARIO
+		this.formAviso.setValidators(this.validarLatLng.bind(this.formAviso));
 
 		// evita el _id of null
 		const tipooperacionValor = this.formData.tipooperacion ? this.formData.tipooperacion._id : null;
@@ -136,13 +145,20 @@ export class AvisoComponent implements OnInit {
 		}
 	}
 
+	validarLatLng(form: FormGroup) {
+		if (form.controls.lng && form.controls.lat) {
+			if (form.controls.lng.value.length === 0 || form.controls.lat.value.length === 0) {
+				return { error: 'Debe ingresar la posición en el mapa!' };
+			}
+		}
+		return null;
+	}
 
 	openSnackBar(message: string, action: string) {
 		this.snackBar.open(message, action, {
 			duration: 2000,
 		});
 	}
-
 
 	setOperacion(operacion: TipoOperacion) {
 		this.tipooperacion = operacion._id;
@@ -180,49 +196,39 @@ export class AvisoComponent implements OnInit {
 		});
 	}
 
-
-
-	// buscarLocalidad(event: any) {
-	// 	const regex = new RegExp(/^[a-z ñ0-9]+$/i);
-	// 	if (!regex.test(event.target.value) && event.target.value) {
-	// 		this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
-	// 			duration: 2000,
-	// 		});
-	// 		return;
-	// 	}
-	// 	if (event.target.value.length === 3) {
-	// 		this.formsService.obtenerLocalidad(event.target.value).subscribe((localidades: Localidades) => {
-	// 			if (localidades.ok) {
-	// 				this.options = [];
-	// 				localidades.localidades.forEach(localidad => {
-	// 					this.options.push(localidad);
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// }
-
 	setLocalidad(localidad: Localidad) {
-		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
-		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
-		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
-		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
-		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
-		// SOLO necesita setear en nombre compuesto, y luego buscar localidades cercanas.
+		console.log(localidad);
+		if (this.formData.localidad._id !== localidad._id) { // estoy cambiando la localidad desde el control 
+			this.centerMap = localidad.geometry.coordinates;
+			// this.formsService.obtenerLocalidadesVecinas(localidad);
+			this.formAviso.patchValue({
+				localidad: localidad._id
+			});
+			console.log(this.formAviso);
+		} else {
+			// esta cargando el aviso desde formData para editar
+			this.centerMap = [Number(this.formData.coords.lng), Number(this.formData.coords.lat)];
+			this.formsService.localidadesControl.setValue(this.formData.localidad);
+			console.log(this.formsService.localidadesControl.value.properties.nombre);
+		}
+	}
 
-		// Le paso al child app-mapa las nuevas coordenadas para que centre la posición en el mapa.
-		this.coordsLocalidad = localidad.geometry.coordinates;
-		this.formsService.obtenerLocalidadesVecinas(localidad);
-		this.formAviso.patchValue({
-			localidad: localidad._id
-		});
+	getInputLocalidadNombre(value: any) {
+		if (value) {
+			const capval = this.capitalizarPipe.transform(value.properties.nombre);
+			return capval;
+		}
 	}
 
 	enviarFormulario() {
 		if (this.formAviso.valid) {
-			this.formReady.emit(this.formAviso);
+			this.formReady.emit(this.formAviso.getRawValue()); // envio raw para que incluya los value de los controles disabled.
 		} else {
-			this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
+			if (this.formAviso.errors && this.formAviso.errors.error) {
+				this.openSnackBar(this.formAviso.errors.error, 'Aceptar');
+			} else {
+				this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
+			}
 		}
 	}
 

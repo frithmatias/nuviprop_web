@@ -66,7 +66,7 @@ export class AvisoCrearComponent implements OnInit {
 			return;
 		}
 		this.misAvisosService
-			.guardarAviso(event.value, this.avisoId) // Envío avisoId para saber si inserta ('nuevo') o actualiza ('id')
+			.guardarAviso(event, this.avisoId) // Envío avisoId para saber si inserta ('nuevo') o actualiza ('id')
 			.subscribe(resp => {
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
@@ -75,10 +75,11 @@ export class AvisoCrearComponent implements OnInit {
 
 	}
 
-	stepperReset(stepper) {
-		this.misAvisosService.stepperReset(stepper);
+	setFormDetalles(event: any): void {
+		this.ingresaDetalles = true;
+		this.ingresaDetallesData = event; // le envío al formuario detalles los datos de tipooperacion y tipoinmueble para fabricar mi formulario detalles
 	}
-
+	
 	guardarDetalles(event, stepper) {
 		if (event.invalid) {
 			return;
@@ -90,18 +91,9 @@ export class AvisoCrearComponent implements OnInit {
 
 	}
 
-	setFormDetalles(event: any): void {
-		// ingresaDetalles=true DEBE ejecutarse en el PADRE porque el resto de las operaciones NECESITAN
-		// del formulario DETALLES, y esta DESHABILITADO al iniciarse el fomulario AVISO.
-
-		// [HIJO]														[PADRE]
-		// FORM AVISO 		-> {tipooperacion, tipoinmueble} 		-> AVISO-CREAR -> ingresaDetalles=true
-		// FORM DETALLES 	<- {tipooperacion, tipoinmueble} 		<- AVISO-CREAR
-		// FORM DETALLES 	-> formsService.obtenerFormControls()
-		// 					-> OK	-> Fin
-		// 					-> ERR	-> 								-> AVISO-CREAR -> ingresaDetalles=false
-		//
-		this.ingresaDetalles = true;
-		this.ingresaDetallesData = event; // le envío al formuario detalles los datos de tipooperacion y tipoinmueble para fabricar mi formulario detalles
+	stepperReset(stepper) {
+		this.misAvisosService.stepperReset(stepper);
 	}
+
+
 }

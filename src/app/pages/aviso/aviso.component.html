@@ -3,7 +3,7 @@
 <!-- ============================================================== -->
 <!-- Row -->
 
-<div class="row" *ngIf="parsetemplate">
+<div class="row no-sidebar" *ngIf="parsetemplate">
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
         <div class="card">
@@ -51,8 +51,18 @@
 
 
                     <h4 class="card-title m-t-10">{{ aviso.calle }} {{ aviso.altura }} </h4>
-                    <h6 class="card-subtitle">{{ aviso.tipoinmueble }} en {{ aviso.tipooperacion }} en
-                        {{aviso.localidad}} </h6>
+
+                    <h6>
+                        <span *ngIf="aviso.piso"> Piso {{ aviso.piso }} </span>
+                        <span *ngIf="aviso.depto"> Depto {{ aviso.depto }} </span>
+                    </h6>
+
+                    <h6 class="card-subtitle">
+                        {{ aviso.tipoinmueble.nombre }} en
+                        {{ aviso.tipooperacion.nombre }} en
+                        {{ aviso.localidad.properties.nombre | capitalizarPipe }}
+                    </h6>
+
                     <div class="row text-center justify-content-md-center">
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i
                                     class="icon-size-fullscreen"></i>
@@ -62,7 +72,8 @@
                                 <div class="font-medium text-muted">{{ aviso.imgs.length }}</div>
                             </a></div>
                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-money"></i>
-                                <div class="font-medium text-muted">{{ aviso.precio }}</div>
+                                <div class="font-medium text-muted">{{ aviso.tipocambio.simbolo}} {{ aviso.precio }}
+                                </div>
                             </a></div>
                     </div>
                 </div>
@@ -72,10 +83,14 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Dirección</small>
-                <h6>{{aviso.calle}} {{aviso.altura}}, {{aviso.localidad}}</h6>
+                <h6>{{aviso.calle}} {{aviso.altura}}, {{ aviso.localidad.properties.nombre | capitalizarPipe }}</h6>
 
                 <small class="text-muted p-t-30 db">Zona</small>
-                <h6>{{aviso.localidad}} </h6>
+                <h6>
+                    {{ aviso.localidad.properties.departamento.nombre | capitalizarPipe }},
+                    {{ aviso.localidad.properties.provincia.nombre | capitalizarPipe }}
+                    C.P ({{ aviso.codigopostal }})
+                </h6>
 
                 <small class="text-muted p-t-30 db">Código Postal</small>
                 <h6>{{aviso.codigopostal}}</h6>
@@ -85,7 +100,7 @@
                 <div style="height: 200px;">
                     <app-mapa></app-mapa>
                 </div>
-         
+
 
                 <small class="text-muted p-t-30 db">Social Profile</small>
                 <br />
@@ -100,40 +115,28 @@
 
 
 
-
     <!-- Column -->
     <div class="col-lg-8 col-xlg-9 col-md-7">
         <div class="card">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs profile-tab" role="tablist">
-                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#descripcion"
-                        role="tab">Descripción</a>
+
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#detalles"
+                        role="tab">Detalles</a> 
                 </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#especificaciones"
-                        role="tab">Especificaciones</a> </li>
+
+
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
                 </li>
             </ul>
 
 
 
-
             <!-- Tab panes -->
             <div class="tab-content">
 
-                <!-- DESCRIPCION -->
-                <div class="tab-pane active" id="descripcion" role="tabpanel">
-                    <div class="card-title">
-                        {{aviso.titulo}}
-                    </div>
-                    <div class="card-body">
-                        {{aviso.descripcion}}
-                    </div>
-                </div>
-
-
-                <!--second tab-->
-                <div class="tab-pane" id="especificaciones" role="tabpanel">
+                <!-- DETALLES -->
+                <div class="tab-pane active" id="detalles" role="tabpanel">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 col-xs-6 b-r"> <strong>Superficie total</strong>
@@ -154,17 +157,9 @@
                             </div>
                         </div>
                         <hr>
-                        <p class="m-t-30">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                            justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis
-                            pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                            eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries </p>
-                        <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.</p>
+                        <h4 class="font-medium m-t-30">{{ aviso.titulo }}</h4>
+                        <p class="m-t-30">{{ aviso.descripcion }}</p>
+
                         <h4 class="font-medium m-t-30">Skill Set</h4>
                         <hr>
                         <h5 class="m-t-30">Wordpress <span class="pull-right">80%</span></h5>
@@ -194,7 +189,7 @@
                     </div>
                 </div>
 
-
+                <!-- SETTINGS  -->
                 <div class="tab-pane" id="settings" role="tabpanel">
                     <div class="card-body">
 

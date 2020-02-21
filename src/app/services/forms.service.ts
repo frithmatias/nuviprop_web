@@ -41,6 +41,7 @@ export class FormsService {
 	) {
 		this.getControlsData();
 		this.localidadesControl.valueChanges.subscribe(data => {
+			console.log(data);
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
 			}
@@ -129,6 +130,10 @@ export class FormsService {
 		});
 	}
 
+	// obtenerLocalidad(): Localidad {
+
+	// }
+
 	buscarLocalidades(pattern) {
 		return new Promise((resolve, reject) => {
 			const regex = new RegExp(/^[a-z ñ0-9]+$/i);
@@ -144,8 +149,8 @@ export class FormsService {
 			// Con el fin de evitar sobrecargar al server con peticiones de datos duplicados, le pido al backend
 			// que me envíe resultados SOLO cuando ingreso tres caracteres, a partir de esos resultados
 			// el filtro lo hace el cliente en el frontend con los datos ya almacenados en this.localidades.
-
-			this.obtenerLocalidad(pattern).subscribe((resp: Localidades) => {
+			const url = URL_SERVICIOS + '/buscar/localidades/' + pattern;
+			this.http.get(url).subscribe((resp: Localidades) => {
 				if (resp.ok) {
 					resp.localidades.forEach(localidad => {
 						localidad.properties.nombre = this.capitalizarPipe.transform(localidad.properties.nombre);
@@ -179,12 +184,6 @@ export class FormsService {
 			});
 		});
 
-	}
-
-	obtenerLocalidad(event) {
-		// le paso un patter con tres caracteres y me devuelve las localidades coincidentes.
-		const url = URL_SERVICIOS + '/buscar/localidades/' + event;
-		return this.http.get(url);
 	}
 
 	createControl(control: Control) {

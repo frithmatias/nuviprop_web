@@ -60,7 +60,7 @@
         <!-- STEP 4: CONFIRMACION DE PUBLICACION -->
         <!-- --------------------------------------------------------------- -->
 
-        <mat-step *ngIf="!aviso.activo || !aviso">
+        <mat-step *ngIf="aviso && !aviso.activo">
             <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
             <app-form-confirm [aviso]="aviso">
             </app-form-confirm>

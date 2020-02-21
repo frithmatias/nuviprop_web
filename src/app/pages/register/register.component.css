@@ -1,6 +1,6 @@
 .bg {
   background-image   : url("../../../assets/images/background/house-moutain.jpg");
-  min-height: -webkit-fill-available;
+  height             : 100vh;
   background-position: center;
   background-repeat  : no-repeat;
   background-size    : cover;
@@ -10,8 +10,8 @@
 }
 
 .form-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding         : 5%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding         : 20px;
 }
 
 .inputs-container {

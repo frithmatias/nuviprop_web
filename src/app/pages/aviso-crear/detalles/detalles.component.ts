@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { FormsService } from '../../../services/forms.service';
 import { Form, Control, Option } from 'src/app/models/form.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Aviso } from 'src/app/models/aviso.model';
+import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 
 @Component({
 	selector: 'app-detalles',
 	templateUrl: './detalles.component.html',
 	styleUrls: ['./detalles.component.scss']
 })
-export class DetallesComponent implements OnInit {
+export class DetallesComponent implements OnInit, OnChanges {
 	@Input() formData: Aviso;
 	@Input() ingresaDetallesData: any = {}; // Se obtiene {tipooperacion:_id, tipoinmueble:_id} desde formAvisos
 	@Output() ingresaDetalles: EventEmitter<boolean> = new EventEmitter();
@@ -24,23 +25,36 @@ export class DetallesComponent implements OnInit {
 		private formsService: FormsService
 	) { }
 
+
+	ngOnChanges(changes: any) {
+		if (changes.ingresaDetallesData) {
+			const tipooperacion = changes.ingresaDetallesData.currentValue.tipooperacion;
+			const tipoinmueble = changes.ingresaDetallesData.currentValue.tipoinmueble;
+			this.formsService.obtenerFormControlsAndData(tipooperacion, tipoinmueble)
+				.subscribe((data: Form) => {
+					if (data) {
+						this.controls = data.controls;
+						// Construyo el group
+						const group: any = {};
+						this.controls.forEach(control => {
+							group[control.id] = control.required ? new FormControl(this.formData.detalles ? this.formData.detalles[control.id] : '', Validators.required) : new FormControl('');
+						});
+						this.form = new FormGroup(group);
+					} else {
+						this.controls = [];
+					}
+
+				},
+					(err) => {
+						this.ingresaDetalles.emit(false); // muestro el formulario detalles en el STEPPER
+					}
+				);
+
+		}
+	}
+
 	ngOnInit() {
-		this.formsService.obtenerFormControlsAndData(this.ingresaDetallesData.tipooperacion, this.ingresaDetallesData.tipoinmueble)
-			.subscribe((data: Form) => {
-				this.controls = data.controls;
 
-				// Construyo el group
-				const group: any = {};
-				this.controls.forEach(control => {
-					group[control.id] = control.required ? new FormControl(this.formData.detalles ? this.formData.detalles[control.id] : '', Validators.required) : new FormControl('');
-				});
-				this.form = new FormGroup(group);
-
-			},
-				(err) => {
-					this.ingresaDetalles.emit(false); // muestro el formulario detalles en el STEPPER
-				}
-			);
 	}
 
 	enviarFormulario() {

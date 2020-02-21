@@ -7,7 +7,7 @@ export class Localidades {
 
 export class Localidad {
 	constructor(
-		public coords: any[],
+		// public coords: any[],
 		// tslint:disable-next-line:variable-name
 		public _id: string,
 		public properties: Properties,
