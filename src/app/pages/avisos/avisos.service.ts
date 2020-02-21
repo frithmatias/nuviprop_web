@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -15,6 +15,12 @@ export class AvisosService {
 	constructor(
 		private http: HttpClient
 	) {}
+
+	buscarAviso(termino: string) {
+		const url = URL_SERVICIOS + '/buscar/avisos/' + termino;
+		return this.http.get(url);
+	}
+	
 	// Obtiene avisos según criterios de busqueda (inicio)
 	obtenerAvisos(filtros: any) {
 		return new Promise((resolve, reject) => {

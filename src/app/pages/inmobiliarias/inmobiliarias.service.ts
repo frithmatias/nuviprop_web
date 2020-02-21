@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UsuarioService } from '../../services/usuarios.service';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 import { map } from 'rxjs/operators';

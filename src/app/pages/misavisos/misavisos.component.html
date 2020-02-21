@@ -1,27 +1,16 @@
 <div class="no-sidebar">
 
-    <div class="row animated fadeIn" *ngIf="cargando">
-        <div class="col-sm-12">
-            <div class="text-center">
-                <strong>Cargando</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Espere por favor</span>
-            </div>
-        </div>
-    </div>
 
 
-    <div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="row animated fadeIn">
         <div class="col-12">
 
-            <div class=" m-3 p-2">
+            <div class="m-3 p-2">
                 <input #input (keyup)="buscarAviso( input.value )" type="text" class="form-control"
                     placeholder="Buscar aviso...">
             </div>
 
-            <div class=" m-3 p-2">
+            <div class="m-3 p-2">
                 <button [routerLink]="['/aviso-crear','nuevo']" type="button"
                     class="btn waves-effect waves-light btn-warning float-right">
                     <i class="fa fa-plus"></i>

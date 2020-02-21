@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from 'src/app/models/usuario.model';
 import { Aviso } from 'src/app/models/aviso.model';
 import { Inmobiliaria } from 'src/app/models/inmobiliaria.model';
 import { ActivatedRoute } from '@angular/router';
+import { FormsService } from 'src/app/services/forms.service';
 
 @Component({
 	selector: 'app-buscar',
@@ -19,7 +20,8 @@ export class BuscarComponent implements OnInit {
 
 	constructor(
 		private http: HttpClient,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private formService: FormsService
 	) {
 		activatedRoute.params.subscribe(params => {
 			const termino = params.termino;
@@ -28,14 +30,19 @@ export class BuscarComponent implements OnInit {
 	}
 
 	ngOnInit() { }
+
+
 	buscar(termino: string) {
-
-		const url = URL_SERVICIOS + '/buscar/' + termino;
-
-		this.http.get(url).subscribe((resp: any) => {
-			this.usuarios = resp.usuarios;
-			this.avisos = resp.avisos;
-			this.inmobiliarias = resp.inmobiliarias;
+		this.formService.buscar( termino ).subscribe( data => {
+			console.log(data);
 		});
+
+		// const url = URL_SERVICIOS + '/buscar/' + termino;
+
+		// this.http.get(url).subscribe((resp: any) => {
+		// 	this.usuarios = resp.usuarios;
+		// 	this.avisos = resp.avisos;
+		// 	this.inmobiliarias = resp.inmobiliarias;
+		// });
 	}
 }

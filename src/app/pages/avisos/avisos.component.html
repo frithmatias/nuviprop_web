@@ -49,8 +49,11 @@
 		<!-- ---------------------------------- -->
 		<!-- PANE LIST -->
 		<!-- ---------------------------------- -->
-
 		<div class="tab-pane fade animated fadeIn pt-4" id="lista">
+			<div class="m-3 p-2">
+				<input #inputlist (keyup)="buscarAviso( inputlist.value )" type="text" class="form-control"
+					placeholder="Buscar aviso...">
+			</div>
 			<app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
 		</div>
 
@@ -59,6 +62,10 @@
 		<!-- ---------------------------------- -->
 
 		<div class="tab-pane fade animated fadeIn pt-4" id="cards">
+			<div class="m-3 p-2">
+                <input #inputcards (keyup)="buscarAviso( inputcards.value )" type="text" class="form-control"
+                    placeholder="Buscar aviso...">
+            </div>
 			<app-cards [(avisos)]="avisos"></app-cards>
 		</div>
 

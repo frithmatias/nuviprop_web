@@ -59,6 +59,7 @@ export class MisAvisosComponent implements OnInit {
 		if (regex.test(termino)) {
 			this.cargando = true;
 			this.misAvisosService.buscarAviso(termino).subscribe((resp: any) => {
+				console.log(resp);
 				this.avisos = resp.avisos;
 				this.cargando = false;
 			});

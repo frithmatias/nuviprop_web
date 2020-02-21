@@ -17,6 +17,7 @@ export class AvisosComponent implements OnInit {
 	mapCoords: []; // viene de un emit del formulario filtros
 	showScrollHeight = 400;
 	hideScrollHeight = 200;
+	cargando = false;
 	avisos: Aviso[];
 	constructor(
 		private snackBar: MatSnackBar,
@@ -35,6 +36,37 @@ export class AvisosComponent implements OnInit {
 			this.obtenerAvisos(filtros);
 		}
 	}
+
+	buscarAviso(termino: string) {
+		// /^[a-z0-9]+$/i
+		// ^         Start of string
+		// [a-z0-9]  a or b or c or ... z or 0 or 1 or ... 9
+		// +         one or more times (change to * to allow empty string)
+		// $         end of string
+		// /i        case-insensitive
+
+		if (termino.length <= 0) {
+			console.log('CERO')
+			const filtros = JSON.parse(localStorage.getItem('filtros'));
+			this.obtenerAvisos(filtros);
+			return;
+		}
+
+		const regex = new RegExp(/^[a-z0-9]+$/i);
+		if (regex.test(termino)) {
+			this.cargando = true;
+			this.avisosService.buscarAviso(termino).subscribe((resp: any) => {
+				console.log(resp);
+				this.avisos = resp.avisos;
+				this.cargando = false;
+			});
+		} else {
+			this.snackBar.open('¡Ingrese sólo caracteres alfanuméricos!', 'Aceptar', {
+				duration: 2000,
+			});
+		}
+	}
+
 
 	obtenerAvisos(filtros: any) {
 		this.avisosService.obtenerAvisos(filtros).then((data: Avisos) => {

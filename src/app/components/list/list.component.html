@@ -15,7 +15,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let aviso of avisos; index as i">
-                            <td style="white-space: nowrap;">{{ aviso.localidad.properties.nombre | capitalizarPipe }}</td>
+                            <td style="white-space: nowrap;">{{ aviso.localidad.properties?.nombre | capitalizarPipe }}</td>
                             <td style="white-space: nowrap;">{{ aviso.tipooperacion.nombre }}</td>
                             <td style="white-space: nowrap;">{{ aviso.tipoinmueble.nombre }}</td>
                             <td style="white-space: nowrap;">{{ aviso.calle }}</td>

@@ -270,7 +270,7 @@ export class UsuarioService implements OnDestroy {
 	}
 
 	buscarUsuarios(termino: string) {
-		const url = URL_SERVICIOS + '/busqueda/usuarios/' + termino;
+		const url = URL_SERVICIOS + '/buscar/usuarios/' + termino;
 		return this.http.get(url).pipe(map((resp: any) => resp.usuarios));
 	}
 

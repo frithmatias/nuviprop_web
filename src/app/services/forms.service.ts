@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS } from 'src/environments/environment';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -130,9 +130,10 @@ export class FormsService {
 		});
 	}
 
-	// obtenerLocalidad(): Localidad {
-
-	// }
+	buscar(termino: string) {
+		const url = URL_SERVICIOS + '/buscar/' + termino;
+		return this.http.get(url);
+	}
 
 	buscarLocalidades(pattern) {
 		return new Promise((resolve, reject) => {
