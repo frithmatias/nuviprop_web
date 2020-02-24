@@ -29,8 +29,6 @@ export class FormulariosComponent implements OnInit {
 			this.controls = data.controls;
 			this.buildForm();
 			this.parsetemplate = true;
-			// al group ademas de los controles, les voy a sumar los controles propios del formulario "Aviso"
-			// tipooperacion y tipoinmueble, porque son los datos que tengo que definir para los controles en la BD.
 		},
 			(err) => {
 			}
@@ -87,6 +85,9 @@ export class FormulariosComponent implements OnInit {
 			group[control._id] = new FormControl(false); // false default value
 		});
 		this.formSettings = new FormGroup(group); // build group
+
+		// al group ademas de los controles, les voy a sumar los controles propios del formulario "Aviso"
+		// tipooperacion y tipoinmueble, porque son los datos que tengo que definir para los controles en la BD.
 		this.formSettings.addControl('tipooperacion', new FormControl(tipooperacion ? this.tipooperacion : '', Validators.required));
 		this.formSettings.addControl('tipoinmueble', new FormControl(tipoinmueble ? this.tipoinmueble : '', Validators.required));
 	}

@@ -30,8 +30,9 @@ export class DetallesComponent implements OnInit, OnChanges {
 		if (changes.ingresaDetallesData) {
 			const tipooperacion = changes.ingresaDetallesData.currentValue.tipooperacion;
 			const tipoinmueble = changes.ingresaDetallesData.currentValue.tipoinmueble;
-			this.formsService.obtenerFormControlsAndData(tipooperacion, tipoinmueble)
+			this.formsService.obtenerFormControlsAndOptions(tipooperacion, tipoinmueble)
 				.subscribe((data: Form) => {
+					console.log(data);
 					if (data) {
 						this.controls = data.controls;
 						// Construyo el group

@@ -43,6 +43,7 @@ const pagesRoutes: Routes = [
   { path: 'inmobiliarias', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: InmobiliariasComponent, data: { titulo: 'Administracion de Inmobiliarias' } },
   { path: 'forms', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: FormulariosComponent, data: { titulo: 'Controles de Formularios' } },
   { path: 'controles', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: ControlesComponent, data: { titulo: 'Agregar Controles de Formularios' } },
+  { path: 'controles/:id', canActivate: [LoginGuard, TokenGuard, AdminGuard], component: ControlesComponent, data: { titulo: 'Editar Controles de Formularios' } },
 
   { path: '', redirectTo: '/inicio', pathMatch: 'full' }
 ];

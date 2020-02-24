@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-// import { URL_SERVICIOS } from 'src/environments/environment';
-import { URL_SERVICIOS } from 'src/environments/environment';
+// import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UsuarioService } from '../../services/usuarios.service';
 import { Avisos, Aviso } from 'src/app/models/aviso.model';

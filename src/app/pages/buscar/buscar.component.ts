@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { URL_SERVICIOS } from 'src/environments/environment';
+import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from 'src/app/models/usuario.model';
 import { Aviso } from 'src/app/models/aviso.model';

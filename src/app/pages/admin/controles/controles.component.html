@@ -1,5 +1,6 @@
 <div class="container no-sidebar animated pt-3 fadeIn">
-	<form [formGroup]="formNewControl" (ngSubmit)="enviarFormulario()" id="formNewControl" class="form-decorator">
+	<a routerLink='/forms'>Volver a Formularios</a>
+	<form *ngIf="parseform" [formGroup]="formNewControl" (ngSubmit)="enviarFormulario()" id="formNewControl" class="form-decorator">
 		<div class="row">
 
 			<!---------------------------------------------------------------------->
@@ -116,8 +117,16 @@
 								</h6>
 							</span>
 							<div class="w-100" formArrayName="opciones">
-								<input *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index"
+								<!-- <input *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index"
 									[formControlName]="i" type="text" class="form-control w-100 my-1" name="opciones">
+							 -->
+							 
+							 <mat-form-field class="col-12 p-0" *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index">
+								<mat-label>{{formNewControl.controls.opcionesdata.value[i].id}}</mat-label>
+								<input matInput [formControlName]="i" type="text" >
+							</mat-form-field>
+							
+							
 								<button type="button" class="btn btn-primary mt-2" (click)="agregarOpcion()"
 									[disabled]="!activateOptions">Agregar Opcion</button>
 							</div>

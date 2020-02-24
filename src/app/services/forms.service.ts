@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICIOS } from 'src/environments/environment';
+import { URL_SERVICIOS } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -63,6 +63,7 @@ export class FormsService {
 		return new Observable(observer => {
 			let contador = 0;
 			const timer = setInterval(() => {
+				console.log('Esperando datos ...', contador);
 				contador += 1;
 				if (this.tiposOperaciones && this.tiposInmuebles && this.tiposCambio) {
 					clearInterval(timer);
@@ -74,7 +75,7 @@ export class FormsService {
 				// 		clearInterval(timer);
 				// 		observer.error('Se recibió un 2');
 				//  }
-			}, 100);
+			}, 1000);
 		});
 	}
 
@@ -186,13 +187,17 @@ export class FormsService {
 
 	}
 
-	createControl(control: Control) {
+	createControl(control: Control, controlId?: string) {
+
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
 			'x-token': token
 		});
-		const url = URL_SERVICIOS + `/forms/createcontrol`;
 
+		let url = URL_SERVICIOS;
+		controlId ? url += `/forms/editcontrol/` + controlId : url += `/forms/createcontrol`;
+		console.log(url);
+		console.log(control);
 		return this.http.post(url, control, { headers })
 			.pipe(
 				map((data: any) => data),
@@ -219,12 +224,12 @@ export class FormsService {
 
 	}
 
-	obtenerFormControlsAndData(tipooperacion?: string, tipoinmueble?: string) {
+	obtenerFormControlsAndOptions(tipooperacion?: string, tipoinmueble?: string) {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
 			'x-token': token
 		});
-		const url = URL_SERVICIOS + `/forms/getcontrolsdata/${tipooperacion}/${tipoinmueble}`;
+		const url = URL_SERVICIOS + `/forms/getcontrolsoptions/${tipooperacion}/${tipoinmueble}`;
 
 		return this.http.get(url, { headers })
 			.pipe(
@@ -234,6 +239,22 @@ export class FormsService {
 				})
 			);
 
+	}
+
+	obtenerControlData(controlId: string){
+		const token = localStorage.getItem('token');
+		const headers = new HttpHeaders({
+			'x-token': token
+		});
+		const url = URL_SERVICIOS + `/forms/getcontroloptions/${controlId}`;
+
+		return this.http.get(url, { headers })
+			.pipe(
+				// map((data: any) => data),
+				catchError((err) => {
+					return throwError(err); // Devuelve un error al suscriptor de mi observable.
+				})
+			);
 	}
 
 	getAllControls() {

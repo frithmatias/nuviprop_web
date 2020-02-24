@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
-import { URL_SERVICIOS } from 'src/environments/environment';
+import { URL_SERVICIOS } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
