@@ -10,10 +10,10 @@
 }
 
 .form-container {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
   width           : 90%;
   padding         : 5%;
-  border-radius   : 20px !important;
+  border-radius   : 10px !important;
 }
 
 .example-h2 {

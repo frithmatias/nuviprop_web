@@ -21,6 +21,7 @@ export class InicioComponent implements OnInit {
 	tiposOperaciones: TipoOperacion[];
 	tiposInmuebles: TipoInmueble[];
 
+	failCounter = 0;
 	constructor(
 		public formsService: FormsService,
 		private snackBar: MatSnackBar,
@@ -32,10 +33,19 @@ export class InicioComponent implements OnInit {
 
 	async ngOnInit() {
 
-		this.tiposInmuebles = await this.formsService.obtenerInmuebles();
-		this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble.id !== 'indistinto');
-		this.tiposOperaciones = await this.formsService.obtenerOperaciones();
-		this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion.id !== 'indistinto');
+		// Espera a que los datos esten disponibles en el servicio
+		this.formsService.dataReady().subscribe((data: any) => {
+			if (data.ok) {
+				this.tiposInmuebles = this.formsService.tiposInmuebles;
+				this.tiposOperaciones = this.formsService.tiposOperaciones;
+				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble.id !== 'indistinto');
+				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion.id !== 'indistinto');
+			} else {
+				this.failCounter = data.contador;
+				this.formsService.getControlsData();
+			}
+		});
+
 
 
 		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos

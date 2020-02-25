@@ -59,23 +59,22 @@ export class FormsService {
 		});
 	}
 
-	dataReady(): Observable<boolean> {
+	dataReady(): Observable<object> {
 		return new Observable(observer => {
 			let contador = 0;
 			const timer = setInterval(() => {
-				console.log('Esperando datos ...', contador);
 				contador += 1;
 				if (this.tiposOperaciones && this.tiposInmuebles && this.tiposCambio) {
 					clearInterval(timer);
-					observer.next(true);
+					observer.next({ ok: true, contador });
 					observer.complete();
 				}
-				observer.next(false);
+				observer.next({ ok: false, contador });
 				//  if(contador === 2){
 				// 		clearInterval(timer);
 				// 		observer.error('Se recibió un 2');
 				//  }
-			}, 1000);
+			}, 5000);
 		});
 	}
 
@@ -86,31 +85,50 @@ export class FormsService {
 			this.tiposCambio = await this.obtenerCambios();
 			this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
 			this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
-			resolve();
+
+			if (this.loading.tipoinmueble && this.loading.tipooperacion) {
+				resolve('Datos obtenidos correctamente.');
+			} else {
+				reject('No se pudieron obtener los datos.');
+			}
 		});
 	}
 
 	obtenerOperaciones(): Promise<TipoOperacion[]> {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/operaciones';
-			return this.http.get(url).subscribe((data: TiposOperaciones) => {
-				if (data.ok) {
-					this.loading.tipooperacion = true;
-					resolve(data.operaciones);
-				}
-			});
+			this.http.get(url).pipe(
+				map((data: TiposOperaciones) => {
+					if (data.ok) {
+						this.loading.tipooperacion = true;
+						resolve(data.operaciones);
+					} else {
+						reject();
+					}
+				}),
+				catchError((err) => {
+					return throwError(err); // Devuelve un error al suscriptor de mi observable.
+				})
+			);
 		});
 	}
 
 	obtenerInmuebles(): Promise<TipoInmueble[]> {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/inmuebles';
-			return this.http.get(url).subscribe((data: TiposInmuebles) => {
-				if (data.ok) {
-					this.loading.tipoinmueble = true;
-					resolve(data.inmuebles);
-				}
-			});
+			this.http.get(url).pipe(
+				map((data: TiposInmuebles) => {
+					if (data.ok) {
+						this.loading.tipoinmueble = true;
+						resolve(data.inmuebles);
+					} else {
+						reject();
+					}
+				}),
+				catchError((err) => {
+					return throwError(err); // Devuelve un error al suscriptor de mi observable.
+				})
+			);
 		});
 
 	}
@@ -241,7 +259,7 @@ export class FormsService {
 
 	}
 
-	obtenerControlData(controlId: string){
+	obtenerControlData(controlId: string) {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
 			'x-token': token

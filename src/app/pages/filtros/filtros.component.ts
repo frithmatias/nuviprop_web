@@ -67,10 +67,12 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.dataReady = this.formsService.dataReady().subscribe((data: boolean) => {
-			if (data) {
+		this.dataReady = this.formsService.dataReady().subscribe((data: any) => {
+			if (data.ok) {
 				this.storageToArraysIDs(); // Filters selected ID's
 				this.filtersToObjects(); // Filter Selected
+			} else {
+				this.formsService.getControlsData();
 			}
 		});
 	}

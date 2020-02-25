@@ -1,139 +1,137 @@
 <div class="bg no-sidebar">
-    <form ngNativeValidate (ngSubmit)="submitForm()" class="animated fadeIn form-container rounded">
-        <div class="row my-2">
-            <!---------------------------------------------------------------------->
-            <!-- IF LOADING -->
-            <!---------------------------------------------------------------------->
-            <div *ngIf="!formsService.loading.tipooperacion" class="spinner-container">
-                <div>
-                    <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="20"
-                        diameter="25">
-                    </mat-progress-spinner>
-                </div>
-                <div>
-                    Cargando...
-                </div>
-            </div>
 
-            <div *ngIf="formsService.loading.tipooperacion" class="col-12">
-                <!---------------------------------------------------------------------->
-                <!-- TIPO DE OPERACION [SELECT] -->
-                <!---------------------------------------------------------------------->
-                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
-                    <mat-label>Tipo de operación</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let operacion of tiposOperaciones" [value]="operacion"
-                            (click)="setOperacion(operacion)">
-                            {{operacion.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <!---------------------------------------------------------------------->
-                <!-- TIPO DE OPERACION [BOTONES]-->
-                <!---------------------------------------------------------------------->
-                <div class="d-flex">
-                    <button #buttonOperacion name="boton_tipo_operacion" type="button"
-                        *ngFor="let operacion of tiposOperaciones"
-                        class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
-                        (click)="setOperacion(operacion, buttonOperacion)">
-                        <span class="lead">{{operacion.nombre}}</span>
-                    </button>
-                </div>
-            </div>
 
+    <!---------------------------------------------------------------------->
+    <!-- IF NO DATA -->
+    <!---------------------------------------------------------------------->
+    <div *ngIf="!formsService.loading.tipoinmueble || !formsService.loading.tipooperacion" class="col-12 col-md-3 col-lg-3 spinner-container form-container">
+        <div>
+            <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="20"
+                diameter="25">
+            </mat-progress-spinner>
         </div>
-        <div class="row my-2 px-3">
+        <div>
+            Cargando por favor espere... {{failCounter}}
+        </div>
+    </div>
 
-            <!---------------------------------------------------------------------->
-            <!-- IF LOADING -->
-            <!---------------------------------------------------------------------->
-            <div *ngIf="!formsService.loading.tipoinmueble" class="col-12 col-md-3 col-lg-3 spinner-container">
-                <div>
-                    <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="20"
-                        diameter="25">
-                    </mat-progress-spinner>
-                </div>
-                <div>
-                    Cargando...
+    <!---------------------------------------------------------------------->
+    <!-- IF DATA OK -->
+    <!---------------------------------------------------------------------->
+    <div  *ngIf="formsService.loading.tipoinmueble && formsService.loading.tipooperacion">
+        <form ngNativeValidate (ngSubmit)="submitForm()" class="animated fadeIn form-container rounded">
+            <!-- TIPO DE OPERACION -->
+            <div class="row my-2">
+               <div class="col-12">
+
+                    <!-- TIPO DE OPERACION [SELECT] -->
+                    <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 px-3 d-lg-none">
+                        <mat-label>Tipo de operación</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let operacion of tiposOperaciones" [value]="operacion"
+                                (click)="setOperacion(operacion)">
+                                {{operacion.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- TIPO DE OPERACION [BOTONES]-->
+                    <div class="d-flex">
+                        <button #buttonOperacion name="boton_tipo_operacion" type="button"
+                            *ngFor="let operacion of tiposOperaciones"
+                            class="btn btn-inicio-tipooperacion btn-block d-none d-lg-block my-0 mx-3 mb-4 py-3"
+                            (click)="setOperacion(operacion, buttonOperacion)">
+                            <span class="lead">{{operacion.nombre}}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
+            
+            <!-- TIPO DE INMUEBLE / LOCALIDAD -->
+            <div class="row my-2 px-3">
 
-            <div *ngIf="formsService.loading.tipoinmueble" class="col-12 col-md-3 col-lg-3">
-                <!---------------------------------------------------------------------->
                 <!-- TIPO DE INMUEBLE -->
-                <!---------------------------------------------------------------------->
-                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
-                    <mat-label>Tipo de inmueble</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let inmueble of tiposInmuebles" [value]="inmueble"
-                            (click)="setInmueble(inmueble)">
-                            {{inmueble.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                <div class="col-12 col-md-3 col-lg-3">
+                    <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 mb-2 mb-lg-0">
+                        <mat-label>Tipo de inmueble</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let inmueble of tiposInmuebles" [value]="inmueble"
+                                (click)="setInmueble(inmueble)">
+                                {{inmueble.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
 
-            <div class=" col-12 col-md-9 col-lg-9">
-                <!---------------------------------------------------------------------->
                 <!-- LOCALIDAD -->
-                <!---------------------------------------------------------------------->
-                <!-- 
-                El atributo [value] en <input> se utiliza para mostrar el contenido en el control cuando se carga. 
-                El artibuto [value] en <mat-option> se utiliza para ENVIAR el contenido al input al seleccionar una opción.
-                    Si yo no pongo [value] en <input> no voy a ver datos hasta que yo seleccione una opcion en 
-                    el select. Si yo no pongo [value] en <mat-select> voy a ver datos al principio, pero desaparecen
-                    cuando yo hago un click en una opcion del select.
-                -->
-
-                <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
-                    <mat-label>Ingrese localidad</mat-label>
-                    <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
-                        [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
-                        [value]="formsService.localidadesControl.value?.properties?.nombre" (click)="formsService.cleanInput()">
-                    <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
-                </mat-form-field>
-
-                <mat-autocomplete (optionSelected)="setLocalidad($event.option.value)" iniciocss
-                    #auto="matAutocomplete">
-                    <mat-option [value]="option" *ngFor="let option of formsService.localidades">
-                        {{option.properties.nombre | capitalizarPipe}},
-                        {{option.properties.departamento.nombre}},
-                        {{option.properties.provincia.nombre}}
-                    </mat-option>
-                </mat-autocomplete>
+                <div class=" col-12 col-md-9 col-lg-9">
+                    <!-- LOCALIDAD -->
+                    <!-- 
+                    El atributo [value] en <input> se utiliza para mostrar el contenido en el control cuando se carga. 
+                    El artibuto [value] en <mat-option> se utiliza para ENVIAR el contenido al input al seleccionar una opción.
+                        Si yo no pongo [value] en <input> no voy a ver datos hasta que yo seleccione una opcion en 
+                        el select. Si yo no pongo [value] en <mat-select> voy a ver datos al principio, pero desaparecen
+                        cuando yo hago un click en una opcion del select.
+                    -->
+                    <mat-form-field color="warn" iniciocss appearance="fill" class="w-100 example-form-field">
+                        <mat-label>Ingrese localidad</mat-label>
+                        <input type="text" #inputLocalidad placeholder="Ingrese localidad" aria-label="Number" matInput
+                            [formControl]="formsService.localidadesControl" [matAutocomplete]="auto"
+                            [value]="formsService.localidadesControl.value?.properties?.nombre"
+                            (click)="formsService.cleanInput()">
+                        <span class="input-icon" (click)="formsService.cleanInput()"><i class="mdi mdi-close"></i></span>
+                    </mat-form-field>
+    
+                    <mat-autocomplete (optionSelected)="setLocalidad($event.option.value)" iniciocss
+                        #auto="matAutocomplete">
+                        <mat-option [value]="option" *ngFor="let option of formsService.localidades">
+                            {{option.properties.nombre | capitalizarPipe}},
+                            {{option.properties.departamento.nombre}},
+                            {{option.properties.provincia.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
             </div>
-
-        </div>
-
-        <!---------------------------------------------------------------------->
-        <!-- BOTON SUBMIT -->
-        <!---------------------------------------------------------------------->
-        <div class="row my-2 px-3">
-            <div class="col-12">
-                <button class="btn btn-inicio-submit float-right"><i class="ti-search"></i>&nbsp;
-                    Buscar</button>
+    
+            <!---------------------------------------------------------------------->
+            <!-- BOTON SUBMIT -->
+            <!---------------------------------------------------------------------->
+            <div class="row my-2 px-3">
+                <div class="col-12">
+                    <button class="btn btn-inicio-submit float-right"><i class="ti-search"></i>&nbsp;
+                        Buscar</button>
+                </div>
             </div>
-        </div>
-
-
-    </form>
+        </form>
+    </div>
 </div>
 
 
-    <!-- ============================================================== -->
-    <!-- Start Page Content -->
-    <!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
 
-    <div class="row">
-        <div class="col-12">
-          <div class="card">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
             <div class="card-body">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis distinctio voluptatibus unde, suscipit praesentium quam ullam dicta voluptatum ab mollitia amet enim maiores? Dolorum, dolore asperiores officiis corporis nihil laboriosam perferendis adipisci quos ullam dignissimos in provident! Perferendis beatae illo obcaecati delectus quod accusantium nostrum unde eum incidunt quos. Repudiandae fuga quisquam sunt doloribus, quasi quod a placeat excepturi debitis aliquam iure molestiae. Cupiditate quibusdam eos ratione, aut totam sit aliquid modi ullam? Mollitia iusto labore esse ratione ad hic ducimus, fugiat possimus provident aspernatur ipsum similique quaerat! Commodi at fuga omnis quasi et fugit perferendis assumenda eligendi minima, iure in aperiam nostrum placeat ullam ea? Soluta exercitationem, voluptate rerum architecto dolorem nihil error? Impedit, dolorem temporibus. Perferendis, dolorem. Eum voluptatem quae eius debitis maiores laborum animi nesciunt voluptatum expedita sint asperiores, libero, ducimus aperiam ex nemo ullam iure exercitationem est deleniti beatae consequatur tempore. Voluptatibus quas repellendus esse assumenda.
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis distinctio voluptatibus unde,
+                suscipit praesentium quam ullam dicta voluptatum ab mollitia amet enim maiores? Dolorum, dolore
+                asperiores officiis corporis nihil laboriosam perferendis adipisci quos ullam dignissimos in provident!
+                Perferendis beatae illo obcaecati delectus quod accusantium nostrum unde eum incidunt quos. Repudiandae
+                fuga quisquam sunt doloribus, quasi quod a placeat excepturi debitis aliquam iure molestiae. Cupiditate
+                quibusdam eos ratione, aut totam sit aliquid modi ullam? Mollitia iusto labore esse ratione ad hic
+                ducimus, fugiat possimus provident aspernatur ipsum similique quaerat! Commodi at fuga omnis quasi et
+                fugit perferendis assumenda eligendi minima, iure in aperiam nostrum placeat ullam ea? Soluta
+                exercitationem, voluptate rerum architecto dolorem nihil error? Impedit, dolorem temporibus.
+                Perferendis, dolorem. Eum voluptatem quae eius debitis maiores laborum animi nesciunt voluptatum
+                expedita sint asperiores, libero, ducimus aperiam ex nemo ullam iure exercitationem est deleniti beatae
+                consequatur tempore. Voluptatibus quas repellendus esse assumenda.
             </div>
-          </div>
         </div>
-      </div>
-  
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
