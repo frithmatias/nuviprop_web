@@ -11,9 +11,9 @@
 
 .form-container {
   background-color: rgba(0, 0, 0, 0.4);
-  width           : 90%;
   padding         : 5%;
   border-radius   : 10px !important;
+  margin          : 10%;
 }
 
 .example-h2 {

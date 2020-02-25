@@ -17,7 +17,7 @@ import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 })
 export class FiltrosComponent implements OnInit, OnDestroy {
 
-	dataReady: Subscription;
+	waitData: Subscription;
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
 	filtrosStorage: any;
 
@@ -67,18 +67,21 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.dataReady = this.formsService.dataReady().subscribe((data: any) => {
+		this.waitData = this.formsService.waitData().subscribe((data: any) => {
 			if (data.ok) {
 				this.storageToArraysIDs(); // Filters selected ID's
 				this.filtersToObjects(); // Filter Selected
 			} else {
 				this.formsService.getControlsData();
 			}
+		},
+		(err) => {
+			console.log(err);
 		});
 	}
 
 	ngOnDestroy() {
-		this.dataReady.unsubscribe();
+		this.waitData.unsubscribe();
 	}
 
 	storageToArraysIDs() {

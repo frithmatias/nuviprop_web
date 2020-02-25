@@ -2,8 +2,9 @@
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->
 <header class="topbar">
-    <nav class="navbar top-navbar navbar-expand-sm navbar-light">
+    <nav class="navbar top-navbar navbar-expand-sm navbar-light" >
 
+        
         <!-- ============================================================== -->
         <!-- Logo -->
         <!-- ============================================================== -->
@@ -28,14 +29,11 @@
         <!-- End Logo -->
         <!-- ============================================================== -->
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-
-
-
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01" *ngIf="formsService.dataReady.tipooperacion && formsService.dataReady.tipoinmueble">
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto animated bounceInLeft">
 
                 <!-- ============================================================== -->
                 <!-- toggle sidebar -->

@@ -34,17 +34,23 @@ export class InicioComponent implements OnInit {
 	async ngOnInit() {
 
 		// Espera a que los datos esten disponibles en el servicio
-		this.formsService.dataReady().subscribe((data: any) => {
+		this.formsService.waitData().subscribe((data: any) => {
 			if (data.ok) {
 				this.tiposInmuebles = this.formsService.tiposInmuebles;
 				this.tiposOperaciones = this.formsService.tiposOperaciones;
-				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble.id !== 'indistinto');
-				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion.id !== 'indistinto');
+				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble._id !== 'indistinto');
+				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion._id !== 'indistinto');
 			} else {
 				this.failCounter = data.contador;
-				this.formsService.getControlsData();
+				this.formsService.getControlsData().then((dataPromise) => {
+					console.log(dataPromise);
+				}).catch(err => console.log(err));
 			}
-		});
+		},
+		(err) => {
+			console.log(err);
+		}
+		);
 
 
 

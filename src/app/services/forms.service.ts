@@ -23,7 +23,7 @@ export class FormsService {
 	localidadesCercanas: any[];
 	////////////////////////////////////////////
 
-	loading = {
+	dataReady = {
 		tipooperacion: false,
 		tipoinmueble: false,
 	};
@@ -59,7 +59,7 @@ export class FormsService {
 		});
 	}
 
-	dataReady(): Observable<object> {
+	waitData(): Observable<object> {
 		return new Observable(observer => {
 			let contador = 0;
 			const timer = setInterval(() => {
@@ -79,14 +79,14 @@ export class FormsService {
 	}
 
 	async getControlsData() {
-		return new Promise(async (resolve, reject) => {
+			return new Promise( async (resolve, reject) => {
 			this.tiposOperaciones = await this.obtenerOperaciones();
 			this.tiposInmuebles = await this.obtenerInmuebles();
 			this.tiposCambio = await this.obtenerCambios();
+
 			this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
 			this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
-
-			if (this.loading.tipoinmueble && this.loading.tipooperacion) {
+			if (this.dataReady.tipoinmueble && this.dataReady.tipooperacion) {
 				resolve('Datos obtenidos correctamente.');
 			} else {
 				reject('No se pudieron obtener los datos.');
@@ -95,42 +95,40 @@ export class FormsService {
 	}
 
 	obtenerOperaciones(): Promise<TipoOperacion[]> {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			const url = URL_SERVICIOS + '/inicio/operaciones';
-			this.http.get(url).pipe(
-				map((data: TiposOperaciones) => {
-					if (data.ok) {
-						this.loading.tipooperacion = true;
-						resolve(data.operaciones);
-					} else {
-						reject();
-					}
-				}),
-				catchError((err) => {
-					return throwError(err); // Devuelve un error al suscriptor de mi observable.
-				})
-			);
+			this.http.get(url)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe(
+					(data: TiposOperaciones) => {
+						if (data.ok) {
+							this.dataReady.tipooperacion = true;
+							resolve(data.operaciones);
+						}
+					},
+					(err) => {
+						return err;
+					});
 		});
+
 	}
 
 	obtenerInmuebles(): Promise<TipoInmueble[]> {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			const url = URL_SERVICIOS + '/inicio/inmuebles';
-			this.http.get(url).pipe(
-				map((data: TiposInmuebles) => {
-					if (data.ok) {
-						this.loading.tipoinmueble = true;
-						resolve(data.inmuebles);
-					} else {
-						reject();
-					}
-				}),
-				catchError((err) => {
-					return throwError(err); // Devuelve un error al suscriptor de mi observable.
-				})
-			);
+			this.http.get(url)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe(
+					(data: TiposInmuebles) => {
+						if (data.ok) {
+							this.dataReady.tipoinmueble = true;
+							resolve(data.inmuebles);
+						}
+					},
+					(err) => {
+						return err;
+					});
 		});
-
 	}
 
 	obtenerUnidades(idparent: string) {
@@ -142,7 +140,9 @@ export class FormsService {
 	obtenerCambios(): Promise<any[]> {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/cambio';
-			return this.http.get(url).subscribe((data: any) => {
+			return this.http.get(url)
+			.pipe(catchError((err) => throwError(err)))
+			.subscribe((data: any) => {
 				resolve(data.tipocambio);
 			});
 		});

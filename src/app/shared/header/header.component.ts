@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService, SettingsService } from 'src/app/services/services.index';
+import { UsuarioService, SettingsService, FormsService } from 'src/app/services/services.index';
 import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
 	constructor(
 		private router: Router,
 		public userService: UsuarioService,
+		public formsService: FormsService,
 		public _ajustes: SettingsService
 	) { }
 
