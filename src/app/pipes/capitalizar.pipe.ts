@@ -33,9 +33,10 @@ export class CapitalizarPipe implements PipeTransform {
 		value = value.toLowerCase();
 		const nombres = value.split(' ');
 		if (todas) {
-			for (const i in nombres) {
+			nombres.forEach((nombre , i) => {
+			// for (const i in nombres) {
 				nombres[i] = nombres[i][0].toUpperCase() + nombres[i].substr(1); // .substr(1) concateno desde la primera posición en adelante
-			}
+			});
 		} else {
 			nombres[0] = nombres[0][0].toUpperCase() + nombres[0].substr(1); // .substr(1) concateno desde la primera posición en adelante
 		}

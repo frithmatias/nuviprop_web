@@ -56,7 +56,7 @@
         <!---------------------------------------------------------------------->            
             <div class="px-4">
                 <div class="row row-aviso-datos-secundarios rounded div-control">
-                    <div *ngFor="let control of controls" class="col-12 col-sm-12 col-md-6 col-lg-3 w-100">
+                    <div *ngFor="let control of controls" class="col-12 col-sm-12 col-md-6 col-lg-4 w-100">
                         <mat-slide-toggle [formControlName]="control._id" checked="false"> {{control.nombre}} </mat-slide-toggle>
                         <a [routerLink]="['/controles', control._id]"><i class="fa fa-edit mt-1 float-right"></i></a>
                     </div>
@@ -73,7 +73,5 @@
             </div>
 
         </div>
-
-
     </form>
 </div>

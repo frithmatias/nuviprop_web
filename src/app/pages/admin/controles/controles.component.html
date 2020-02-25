@@ -21,7 +21,7 @@
 									<b>Ejemplo <span class="texto-resaltado">"Cantidad de ambientes"</span>.</b></h6>
 							</span>
 
-							<mat-form-field class="col-12 p-0">
+							<mat-form-field appearance="fill" class="col-12 p-0">
 								<mat-label>Etiqueta</mat-label>
 								<input matInput formControlName="nombre" />
 							</mat-form-field>
@@ -51,7 +51,7 @@
 							</span>
 
 
-							<mat-form-field class="col-12 p-0">
+							<mat-form-field appearance="fill" class="col-12 p-0">
 								<mat-label>Id</mat-label>
 								<input matInput formControlName="id" />
 							</mat-form-field>
@@ -83,7 +83,7 @@
 									opciones.</h6>
 							</span>
 
-							<mat-form-field class="col-12 p-0">
+							<mat-form-field appearance="fill" class="col-12 p-0">
 								<mat-label>Tipo de control</mat-label>
 								<mat-select formControlName="type">
 									<mat-option value="select"> Select </mat-option>
@@ -121,8 +121,8 @@
 									[formControlName]="i" type="text" class="form-control w-100 my-1" name="opciones">
 							 -->
 							 
-							 <mat-form-field class="col-12 p-0" *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index">
-								<mat-label>{{formNewControl.controls.opcionesdata.value[i].id}}</mat-label>
+							 <mat-form-field appearance="fill" class="col-12 p-0" *ngFor="let opcion of formNewControl.get('opciones')['controls']; let i=index">
+								<mat-label>{{formNewControl.controls?.opcionesdata?.value[i].id}}</mat-label>
 								<input matInput [formControlName]="i" type="text" >
 							</mat-form-field>
 							
