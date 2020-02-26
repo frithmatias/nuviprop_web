@@ -1,14 +1,9 @@
 import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormsService } from '../../services/forms.service';
 import { formatDate } from '@angular/common';
-import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
-import { AvisosService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
-import { Observable, Subscription } from 'rxjs';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
-
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-filtros',
@@ -60,8 +55,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	constructor(
 		public formsService: FormsService,
 		@Inject(LOCALE_ID) private locale: string,
-		private capitalizarPipe: CapitalizarPipe,
-		private avisosService: AvisosService,
 		private snackBar: MatSnackBar
 	) {
 	}

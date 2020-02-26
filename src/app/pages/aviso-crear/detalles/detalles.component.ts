@@ -59,6 +59,7 @@ export class DetallesComponent implements OnInit, OnChanges {
 	}
 
 	enviarFormulario() {
+		console.log(this.form);
 		if (this.form.valid) {
 			this.formReady.emit(this.form);
 		} else {

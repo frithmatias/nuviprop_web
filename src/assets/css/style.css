@@ -981,8 +981,7 @@ sidebar navigation
   display    : block;
   font-size  : 14px;
   font-weight: 400;
-  /* font-family: "Proxima Nova",-apple-system,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif; */
-  /* font-family: "Montserrat", sans-serif; */
+  font-family: "Montserrat", sans-serif;
 }
 
 .sidebar-nav ul li a {
@@ -1367,7 +1366,7 @@ File         : scss
   padding-right: 15px;
   font-size    : 16px;
   font-weight: normal;
-  font-family: "Proxima Nova",-apple-system,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .topbar .top-navbar .navbar-nav>.nav-item>span {

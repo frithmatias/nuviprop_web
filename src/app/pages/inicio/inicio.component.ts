@@ -33,35 +33,6 @@ export class InicioComponent implements OnInit {
 
 	async ngOnInit() {
 
-		// Espera a que los datos esten disponibles en el servicio
-		this.formsService.waitData().subscribe((data: any) => {
-			if (data.ok) {
-				this.tiposInmuebles = this.formsService.tiposInmuebles;
-				this.tiposOperaciones = this.formsService.tiposOperaciones;
-				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble._id !== 'indistinto');
-				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion._id !== 'indistinto');
-			} else {
-				this.failCounter = data.contador;
-				this.formsService.getControlsData().then((dataPromise) => {
-					console.log(dataPromise);
-				}).catch(err => console.log(err));
-			}
-		},
-		(err) => {
-			console.log(err);
-		}
-		);
-
-
-
-		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos
-		if (localStorage.getItem('filtros')) {
-			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
-			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
-				this.router.navigate(['/avisos']);
-			}
-		}
-
 		// Cargo los scripts fuera del scope de Angular.
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
 			map(() => this.activatedRoute))
@@ -74,8 +45,38 @@ export class InicioComponent implements OnInit {
 				//  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
 				//  $.getScript('../assets/js/sidebarmenu.js');
 				$.getScript('../assets/js/custom.js');
-
 			});
+
+
+		// Espera a que los datos esten disponibles en el servicio
+		this.formsService.waitData().subscribe((data: any) => {
+			if (data.ok) {
+				this.tiposInmuebles = this.formsService.tiposInmuebles;
+				this.tiposOperaciones = this.formsService.tiposOperaciones;
+				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble._id !== 'indistinto');
+				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion._id !== 'indistinto');
+				this.getLocalStorage();
+			} else {
+				this.failCounter = data.contador;
+				this.formsService.getControlsData().then((dataPromise) => {
+					console.log(dataPromise);
+				}).catch(err => console.log(err));
+			}
+		},
+			(err) => {
+				console.log(err);
+			}
+		);
+	}
+
+	getLocalStorage() {
+		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos
+		if (localStorage.getItem('filtros')) {
+			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
+			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
+				this.router.navigate(['/avisos']);
+			}
+		}
 	}
 
 	setOperacion(tipooperacion: any, link?: HTMLElement) {
@@ -100,12 +101,6 @@ export class InicioComponent implements OnInit {
 	}
 
 	setLocalidad(localidad) {
-		// setLocalidad() es un metodo que se encuentra en los componentes INICIO y AVISO, se llama localmente y luego
-		// se llama al metodo setLocalidad() en el servicio formsService, que setea globalmente el nombre compuesto de
-		// la localidad seleccionada, y luego busca localidades cercanas. En el componente de FILTROS no se necesita
-		// invocar a este metodo localmente, porque NO NECESITA setear el _id para submitirlo, como SI es necesario en
-		// INICIO (push) y AVISO (patchValue) porque se trata de componenentes en un formulario. El componente FILTROS
-		// SOLO necesita setear en lombre compuesto, y luego buscar localidades cercanas.
 		this.formsService.obtenerLocalidadesVecinas(localidad);
 		this.seleccionLocalidades = [];
 		this.seleccionLocalidades.push(localidad._id);
@@ -121,16 +116,12 @@ export class InicioComponent implements OnInit {
 
 		localStorage.setItem('filtros', JSON.stringify(filtros));
 
-		// this.formsService.cleanInput();
 		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
 			this.snak(res, 2000);
 			this.router.navigate(['/avisos']);
 		}).catch((err) => {
 			this.snak(err, 2000);
 		});
-
-
-
 	}
 
 	snak(msg: string, time: number) {

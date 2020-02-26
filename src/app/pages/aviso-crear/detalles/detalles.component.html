@@ -30,7 +30,7 @@
 
                 <mat-form-field class="w-100" *ngIf="control.type==='select_multiple'">
                     <mat-label>{{ control.nombre }}</mat-label>
-                    <mat-select [formControlName]="control.id">
+                    <mat-select [formControlName]="control.id" multiple>
                         <mat-option *ngFor="let option of control.options" [value]="option._id">
                             {{ option.nombre }}
                         </mat-option>
