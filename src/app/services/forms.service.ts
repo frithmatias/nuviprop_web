@@ -68,34 +68,27 @@ export class FormsService {
 					clearInterval(timer);
 					observer.next({ ok: true, contador });
 					observer.complete();
+				} else {
+					observer.next({ ok: false, contador });
 				}
-				observer.next({ ok: false, contador });
-				//  if(contador === 2){
-				// 		clearInterval(timer);
-				// 		observer.error('Se recibió un 2');
-				//  }
-			}, 5000);
+				if (contador === 10) {
+					console.log('Reconectando.');
+					this.getControlsData();
+					contador = 0;
+					// observer.error('Se recibió un 2');
+				}
+			}, 1000);
 		});
 	}
 
 	async getControlsData() {
-			return new Promise( async (resolve, reject) => {
-			this.tiposOperaciones = await this.obtenerOperaciones();
-			this.tiposInmuebles = await this.obtenerInmuebles();
-			this.tiposCambio = await this.obtenerCambios();
-
-			this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
-			this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
-			if (this.dataReady.tipoinmueble && this.dataReady.tipooperacion) {
-				resolve('Datos obtenidos correctamente.');
-			} else {
-				reject('No se pudieron obtener los datos.');
-			}
-		});
+			await this.obtenerOperaciones().catch(err => console.log(err));
+			await this.obtenerInmuebles().catch(err => console.log(err));
+			await this.obtenerCambios().catch(err => console.log(err));
 	}
 
 	obtenerOperaciones(): Promise<TipoOperacion[]> {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/operaciones';
 			this.http.get(url)
 				.pipe(catchError((err) => throwError(err)))
@@ -103,11 +96,13 @@ export class FormsService {
 					(data: TiposOperaciones) => {
 						if (data.ok) {
 							this.dataReady.tipooperacion = true;
+							this.tiposOperaciones = data.operaciones;
+							this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
 							resolve(data.operaciones);
 						}
 					},
 					(err) => {
-						return err;
+						reject(err);
 					});
 		});
 
@@ -122,6 +117,8 @@ export class FormsService {
 					(data: TiposInmuebles) => {
 						if (data.ok) {
 							this.dataReady.tipoinmueble = true;
+							this.tiposInmuebles = data.inmuebles;
+							this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
 							resolve(data.inmuebles);
 						}
 					},
@@ -141,10 +138,11 @@ export class FormsService {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/cambio';
 			return this.http.get(url)
-			.pipe(catchError((err) => throwError(err)))
-			.subscribe((data: any) => {
-				resolve(data.tipocambio);
-			});
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe((data: any) => {
+					this.tiposCambio = data.tipocambio;
+					resolve(data.tipocambio);
+				});
 		});
 	}
 

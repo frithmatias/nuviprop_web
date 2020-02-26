@@ -62,15 +62,16 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		this.waitData = this.formsService.waitData().subscribe((data: any) => {
 			if (data.ok) {
+				// console.log(data); // {ok: true, contador: 1}
 				this.storageToArraysIDs(); // Filters selected ID's
 				this.filtersToObjects(); // Filter Selected
 			} else {
 				this.formsService.getControlsData();
 			}
 		},
-		(err) => {
-			console.log(err);
-		});
+			(err) => {
+				console.log(err);
+			});
 	}
 
 	ngOnDestroy() {
@@ -78,51 +79,58 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	storageToArraysIDs() {
-		this.selStrOperaciones = [];
-		this.selStrInmuebles = [];
-		this.selStrLocalidades = [];
 
-		this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+		if (localStorage.getItem('filtros')) {
 
-		// Tildar las opciones en localstorage para OPERACIONES seleccionadas
-		if (this.filtrosStorage.tipooperacion[0] === 'indistinto') {
-			this.setIndistinto('operacion');
-		} else {
-			this.filtrosStorage.tipooperacion.forEach(operacion => {
-				this.selStrOperaciones.push(operacion); // operacion es un string.
-			});
+			this.selStrOperaciones = [];
+			this.selStrInmuebles = [];
+			this.selStrLocalidades = [];
+
+			this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
+
+			// Ingresar los filtros en localstorage para OPERACIONES seleccionadas
+
+			if (this.filtrosStorage.tipooperacion[0] === 'indistinto') {
+				this.setIndistinto('operacion');
+			} else {
+				this.filtrosStorage.tipooperacion.forEach(operacion => {
+					this.selStrOperaciones.push(operacion); // operacion es un string.
+				});
+			}
+
+			// Ingresar los filtros en localstorage para INMUEBLES seleccionados
+
+			if (this.filtrosStorage.tipoinmueble[0] === 'indistinto') {
+				this.setIndistinto('inmueble');
+			} else {
+				this.filtrosStorage.tipoinmueble.forEach(inmueble => {
+					this.selStrInmuebles.push(inmueble);
+				});
+			}
+
+			// Obtengo las localidades guardadas en localstorage
+			if (localStorage.getItem('localidades')) {
+				this.allObjLocalidades = [];
+				JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
+					this.allObjLocalidades.push(localidad);
+				});
+			}
+
+			// Ingresar los filtros en localstorage para LOCALIDADES seleccionadas
+			if (this.filtrosStorage.localidad[0] === 'indistinto') {
+				this.setIndistinto('localidad');
+			} else {
+				this.filtrosStorage.localidad.forEach(localidad => {
+					this.selStrLocalidades.push(localidad);
+				});
+			}
+
+			this.filterUpdate();
 		}
-
-		// Tildar las opciones en localstorage para INMUEBLES seleccionados
-		if (this.filtrosStorage.tipoinmueble[0] === 'indistinto') {
-			this.setIndistinto('inmueble');
-		} else {
-			this.filtrosStorage.tipoinmueble.forEach(inmueble => {
-				this.selStrInmuebles.push(inmueble);
-			});
-		}
-
-		// Obtengo las localidades guardadas en localstorage
-		if (localStorage.getItem('localidades')) {
-			this.allObjLocalidades = [];
-			JSON.parse(localStorage.getItem('localidades')).forEach((localidad: any) => {
-				this.allObjLocalidades.push(localidad);
-			});
-		}
-
-		// Tildar las opciones en localstorage para LOCALIDADES seleccionadas
-		if (this.filtrosStorage.localidad[0] === 'indistinto') {
-			this.setIndistinto('localidad');
-		} else {
-			this.filtrosStorage.localidad.forEach(localidad => {
-				this.selStrLocalidades.push(localidad);
-			});
-		}
-
-		this.filterUpdate();
 	}
 
 	filtersToObjects() {
+
 		// this.formsService.tiposOperaciones -> obtiene de la bd (necesita await)
 		// this.formsService.tiposInmuebles -> obtiene de la bd (necesita await)
 		// this.allObjLocalidades -> obtiene de la localstorage
@@ -201,7 +209,10 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		this.filterUpdate('localidad', localidad);
 	}
 
+	// actualiza el estdo de los CHECKS 
 	filterUpdate(filter?: string, object?: any) {
+
+		// Preparo los array de strings con los IDs de los checks seleccionados.
 		if (filter) {
 			switch (filter) {
 				case 'operacion':
@@ -252,35 +263,28 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 			}
 		}
 
+		// Creo los objetos que van a guardar la data de los filtros seleccionados en los checks.
 		this.filtersToObjects();
 
+		// GUARDAR LAS OPCIONES EN MI OBJETO FILTROS
+		// El objeto 'filtros' que será enviado con un EMIT al componente padre (avisos)
 		const filtros = {
 			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,
 			tipoinmueble: this.allStrInmuebles.length > 0 ? this.allStrInmuebles : this.selStrInmuebles,
 			localidad: this.allStrLocalidades.length > 0 ? this.allStrLocalidades : this.selStrLocalidades
 		};
+
+		// GUARDAR LAS OPCIONES EN LA LOCALSTORAGE
+		// Si existen valores en los arrays 'allStr' es que fue seleccionada la opción 'indistinto', en ese caso 
 		// En localstorage NO guardo allStrOperaciones, allStrInmuebles, etc... sino directamente 'indistinto'
 		localStorage.setItem('filtros', JSON.stringify({
 			tipooperacion: this.allStrOperaciones.length > 0 ? ['indistinto'] : this.selStrOperaciones,
 			tipoinmueble: this.allStrInmuebles.length > 0 ? ['indistinto'] : this.selStrInmuebles,
 			localidad: this.allStrLocalidades.length > 0 ? ['indistinto'] : this.selStrLocalidades
 		}));
-
-		if (filtros.localidad.length === 0) {
-			this.snak('Seleccione una Localidad.', 2000);
-			return;
-		}
-		if (filtros.tipooperacion.length === 0) {
-			this.snak('Seleccione un tipo de Operacion.', 2000);
-			return;
-		}
-		if (filtros.tipoinmueble.length === 0) {
-			this.snak('Seleccione un tipo de Inmueble.', 2000);
-			return;
-		}
-
-
+		console.log(filtros);
 		this.optionsSelected.emit(filtros);
+		// CENTRAR EL MAPA SEGUN LAS LOCALIDADES SELECCIONADAS
 		// promedio de coordenadas de localidades seleccionadas
 		if (this.selObjLocalidades.length > 0 && this.selObjLocalidades[0]._id !== 'indistinto') {
 			// Voy a centrar todas las localidades en el mapa para eso necesito el punto mas SO y el mas NE
@@ -327,13 +331,5 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 				break;
 		}
 		this.filterUpdate(filter, object);
-	}
-
-
-
-	snak(msg: string, time: number) {
-		this.snackBar.open(msg, 'Aceptar', {
-			duration: time,
-		});
 	}
 }

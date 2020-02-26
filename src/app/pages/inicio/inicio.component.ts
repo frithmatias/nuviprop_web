@@ -4,10 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, catchError } from 'rxjs/operators';
 import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { throwError } from 'rxjs';
 @Component({
 	selector: 'app-inicio',
 	templateUrl: './inicio.component.html',
@@ -49,33 +50,51 @@ export class InicioComponent implements OnInit {
 
 
 		// Espera a que los datos esten disponibles en el servicio
-		this.formsService.waitData().subscribe((data: any) => {
-			if (data.ok) {
-				this.tiposInmuebles = this.formsService.tiposInmuebles;
-				this.tiposOperaciones = this.formsService.tiposOperaciones;
-				this.tiposInmuebles = this.tiposInmuebles.filter(inmueble => inmueble._id !== 'indistinto');
-				this.tiposOperaciones = this.tiposOperaciones.filter(operacion => operacion._id !== 'indistinto');
-				this.getLocalStorage();
-			} else {
-				this.failCounter = data.contador;
-				this.formsService.getControlsData().then((dataPromise) => {
-					console.log(dataPromise);
-				}).catch(err => console.log(err));
-			}
-		},
-			(err) => {
-				console.log(err);
-			}
-		);
+		if (this.formsService.tiposOperaciones && this.formsService.tiposInmuebles) {
+			this.setData();
+		} else {
+			this.formsService.waitData()
+			.pipe(catchError((err) => throwError(err)))
+			.subscribe(
+				(data: any) => {
+					if (data.ok) {
+						this.setData();
+					} else {
+						this.failCounter = data.contador;
+					}
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+
+		}
+
+
+	}
+
+	setData() {
+		this.tiposInmuebles = this.formsService.tiposInmuebles.filter(inmueble => inmueble._id !== 'indistinto');
+		this.tiposOperaciones = this.formsService.tiposOperaciones.filter(operacion => operacion._id !== 'indistinto');
+		this.getLocalStorage();
 	}
 
 	getLocalStorage() {
-		// Si ya hubo una busqueda anterior y existe filtros en localstorage se redirecciona a /avisos
+		// Si ya hubo una busqueda anterior y existen filtros en localstorage se redirecciona a /avisos
 		if (localStorage.getItem('filtros')) {
+
 			const filtros: any = JSON.parse(localStorage.getItem('filtros'));
+
+			// Una vez en avisos, vuelvo a verificar, si falta un dato vuelve a 'inicio'
 			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
 				this.router.navigate(['/avisos']);
+			} else {
+				this.snak('Faltan datos verifique.', 2000);
+				return;
 			}
+		} else {
+			this.snak('Seleccione opciones de búsqueda.', 2000);
+			return;
 		}
 	}
 
@@ -114,14 +133,14 @@ export class InicioComponent implements OnInit {
 			localidad: this.seleccionLocalidades
 		};
 
-		localStorage.setItem('filtros', JSON.stringify(filtros));
-
-		this.avisosService.obtenerAvisos(filtros).then((res: string) => {
-			this.snak(res, 2000);
-			this.router.navigate(['/avisos']);
-		}).catch((err) => {
-			this.snak(err, 2000);
-		});
+		if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
+			console.log(filtros);
+			localStorage.setItem('filtros', JSON.stringify(filtros));
+			this.router.navigate(['/avisos']); // En avivos hace la búsqueda con los datos en la localstorage
+		} else {
+			this.snak('Faltan datos verifique.', 2000);
+			return;
+		}
 	}
 
 	snak(msg: string, time: number) {

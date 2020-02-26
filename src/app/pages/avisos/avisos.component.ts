@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AvisosService, FormsService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class AvisosComponent implements OnInit {
 	avisos: Aviso[];
 	constructor(
 		private snackBar: MatSnackBar,
-		private avisosService: AvisosService
+		private avisosService: AvisosService,
+		private router: Router
 	) {
 		this.showGoUpButton = false;
 	}
@@ -33,7 +35,20 @@ export class AvisosComponent implements OnInit {
 
 		if (localStorage.getItem('filtros')) {
 			const filtros = JSON.parse(localStorage.getItem('filtros'));
-			this.obtenerAvisos(filtros);
+			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
+				// La búsqueda viene del lado de los filtros cuando son seteados automáticamente los criterios
+				// de búsqueda, no es necesario volver a buscar.
+
+				// this.avisosService.obtenerAvisos(filtros).then((res: string) => {
+				// 	this.snak(res, 2000);
+				// }).catch((err) => {
+				// 	this.snak(err.statusText || err, 2000);
+				// });
+			} else {
+				this.router.navigate(['/inicio']);
+			}
+		} else {
+			this.router.navigate(['/inicio']);
 		}
 	}
 
@@ -75,7 +90,7 @@ export class AvisosComponent implements OnInit {
 			this.snak(res, 2000);
 		}).catch((err) => {
 			this.avisos = [];
-			this.snak(err, 2000);
+			this.snak(err, 5000);
 		});
 	}
 
