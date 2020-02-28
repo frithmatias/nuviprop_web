@@ -33,8 +33,8 @@ export class BuscarComponent implements OnInit {
 
 
 	buscar(termino: string) {
-		this.formService.buscar( termino ).subscribe( data => {
-			console.log(data);
+		this.formService.buscar(termino).subscribe(data => {
+
 		});
 
 		// const url = URL_SERVICIOS + '/buscar/' + termino;

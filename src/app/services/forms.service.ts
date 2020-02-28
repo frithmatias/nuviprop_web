@@ -72,7 +72,7 @@ export class FormsService {
 					observer.next({ ok: false, contador });
 				}
 				if (contador === 10) {
-					console.log('Reconectando.');
+
 					this.getControlsData();
 					contador = 0;
 					// observer.error('Se recibió un 2');
@@ -82,9 +82,9 @@ export class FormsService {
 	}
 
 	async getControlsData() {
-			await this.obtenerOperaciones().catch(err => console.log(err));
-			await this.obtenerInmuebles().catch(err => console.log(err));
-			await this.obtenerCambios().catch(err => console.log(err));
+		await this.obtenerOperaciones().catch(err => console.log(err));
+		await this.obtenerInmuebles().catch(err => console.log(err));
+		await this.obtenerCambios().catch(err => console.log(err));
 	}
 
 	obtenerOperaciones(): Promise<TipoOperacion[]> {
@@ -212,8 +212,7 @@ export class FormsService {
 
 		let url = URL_SERVICIOS;
 		controlId ? url += `/forms/editcontrol/` + controlId : url += `/forms/createcontrol`;
-		console.log(url);
-		console.log(control);
+
 		return this.http.post(url, control, { headers })
 			.pipe(
 				map((data: any) => data),
@@ -296,5 +295,11 @@ export class FormsService {
 		});
 		const url = URL_SERVICIOS + `/forms/setformcontrols`;
 		return this.http.put(url, controls, { headers });
+	}
+
+	snack(message: string, action: string) {
+		this.snackBar.open(message, action, {
+			duration: 2000,
+		});
 	}
 }

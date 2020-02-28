@@ -49,10 +49,11 @@ export class AvisoComponent implements OnInit {
 		private capitalizarPipe: CapitalizarPipe
 	) { }
 
-	async ngOnInit() {
-		await this.buildForm();
-		this.activatedRoute.params.subscribe(async params => {
+	ngOnInit() {
+		this.activatedRoute.params.subscribe(params => {
 			this.avisoId = params.id;
+			this.buildForm();
+
 			if (params.id) {
 				if (params.id === 'nuevo') {
 					this.formAviso.reset();
@@ -116,7 +117,7 @@ export class AvisoComponent implements OnInit {
 				lng: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(5)]]
 			});
 			// COMO ANGULAR NO HACE VALIDACIONES SOBRE CONTROLES 'DISABLED', HAGO UNA VALIDACION A NIVEL FORMULARIO
-			this.formAviso.setValidators(this.validarLatLng.bind(this.formAviso));
+			this.formAviso.setValidators(this.validarLatLng.bind(this));
 
 			// evita el _id of null
 			const tipooperacionValor = this.formData.tipooperacion ? this.formData.tipooperacion._id : null;
@@ -125,7 +126,7 @@ export class AvisoComponent implements OnInit {
 			const localidadValor = this.formData.localidad ? this.formData.localidad._id : null;
 
 			if (this.avisoId !== 'nuevo') {
-				console.log(this.formData);
+
 				this.formAviso.setValue({
 					calle: this.formData.calle,
 					altura: this.formData.altura,
@@ -154,15 +155,13 @@ export class AvisoComponent implements OnInit {
 	}
 
 	validarLatLng(form: FormGroup) {
-		if (form.controls.lng && form.controls.lat) {
-			if (form.controls.lng.value.length === 0 || form.controls.lat.value.length === 0) {
-				return { error: 'Debe ingresar la posición en el mapa!' };
-			}
+		if (!form.controls.lng || !form.controls.lat) {
+			return { error: 'Debe ingresar la posición en el mapa!' };
 		}
 		return null;
 	}
 
-	openSnackBar(message: string, action: string) {
+	snack(message: string, action: string) {
 		this.snackBar.open(message, action, {
 			duration: 2000,
 		});
@@ -205,10 +204,10 @@ export class AvisoComponent implements OnInit {
 	}
 
 	setLocalidad(localidad: Localidad) {
-			this.centerMap = localidad.geometry.coordinates;
-			this.formAviso.patchValue({
-				localidad: localidad._id
-			});
+		this.centerMap = localidad.geometry.coordinates;
+		this.formAviso.patchValue({
+			localidad: localidad._id
+		});
 	}
 
 	getInputLocalidadNombre(value: any) {
@@ -219,13 +218,14 @@ export class AvisoComponent implements OnInit {
 	}
 
 	enviarFormulario() {
+		console.log(this.formAviso);
 		if (this.formAviso.valid) {
 			this.formReady.emit(this.formAviso.getRawValue()); // envio raw para que incluya los value de los controles disabled.
 		} else {
 			if (this.formAviso.errors && this.formAviso.errors.error) {
-				this.openSnackBar(this.formAviso.errors.error, 'Aceptar');
+				this.snack(this.formAviso.errors.error, 'Aceptar');
 			} else {
-				this.openSnackBar('Faltan datos, por favor verifique.', 'Aceptar');
+				this.snack('Faltan datos, por favor verifique.', 'Aceptar');
 			}
 		}
 	}

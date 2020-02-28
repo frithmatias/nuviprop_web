@@ -80,7 +80,6 @@ export class ControlesComponent implements OnInit {
 			this.formsService.obtenerControlData(id).subscribe((data: ControlDataResp) => {
 				if (data.ok) {
 					// si recibo data ok construyo mi array de opciones.
-					console.log(data);
 					this.controlData = data;
 					resolve();
 				} else {
@@ -98,7 +97,7 @@ export class ControlesComponent implements OnInit {
 			this.formNewControl.addControl('opcionesdata', new FormArray([new FormControl('')]));
 		}
 		this.formNewControl.addControl('nombre', new FormControl(this.controlData ? this.controlData.control.nombre : '', [Validators.required, this.validatorSetId.bind(this)]));
-		this.formNewControl.addControl('id', new FormControl(this.controlData ? { value: this.controlData.control.id, disabled: true } : { value : '', disabled: true}));
+		this.formNewControl.addControl('id', new FormControl(this.controlData ? { value: this.controlData.control.id, disabled: true } : { value: '', disabled: true }));
 		this.formNewControl.addControl('type', new FormControl(this.controlData ? this.controlData.control.type : '', Validators.required));
 		this.formNewControl.addControl('opciones', new FormArray([new FormControl('', Validators.required)]));
 		this.formNewControl.addControl('required', new FormControl(this.controlData ? this.controlData.control.required : false, Validators.required));
@@ -108,7 +107,7 @@ export class ControlesComponent implements OnInit {
 
 	validatorSetId(control: FormControl): any {
 		// utilizo el pipe getidstring que limpia de acentos, ñ, espacios y me devuelve un tolower.
-		this.formNewControl.patchValue({id: this.getidstring.transform(control.value)});
+		this.formNewControl.patchValue({ id: this.getidstring.transform(control.value) });
 		return null;
 	}
 
@@ -155,7 +154,7 @@ export class ControlesComponent implements OnInit {
 		if ((['select', 'select_multiple'].includes(forma.controls.type.value)) && (forma.controls.opciones.controls.length < 2)) {
 			return { error: 'Debe ingresar al menos dos opciones para el control' }
 		}
-		
+
 		return null;
 	}
 
@@ -183,7 +182,6 @@ export class ControlesComponent implements OnInit {
 
 	enviarFormulario() {
 
-		console.log(this.formNewControl);
 		if (this.formNewControl.errors) {
 			this.snackBar.open(this.formNewControl.errors.error, 'Aceptar', {
 				duration: 2000,
@@ -201,7 +199,6 @@ export class ControlesComponent implements OnInit {
 			// .getRawValue() es el metodo para incluir los 'value' de los controles 'disabled'
 			this.formsService.createControl(this.formNewControl.getRawValue(), this.controlId).subscribe(data => {
 				if (data.ok) {
-					console.log(data);
 					this.snackBar.open('Control guardado correctamente.', 'Aceptar', {
 						duration: 2000,
 					}).afterDismissed().subscribe((snackdata) => {

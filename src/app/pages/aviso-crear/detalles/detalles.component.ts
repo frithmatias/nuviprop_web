@@ -32,7 +32,6 @@ export class DetallesComponent implements OnInit, OnChanges {
 			const tipoinmueble = changes.ingresaDetallesData.currentValue.tipoinmueble;
 			this.formsService.obtenerFormControlsAndOptions(tipooperacion, tipoinmueble)
 				.subscribe((data: Form) => {
-					console.log(data);
 					if (data) {
 						this.controls = data.controls;
 						// Construyo el group
@@ -59,7 +58,6 @@ export class DetallesComponent implements OnInit, OnChanges {
 	}
 
 	enviarFormulario() {
-		console.log(this.form);
 		if (this.form.valid) {
 			this.formReady.emit(this.form);
 		} else {

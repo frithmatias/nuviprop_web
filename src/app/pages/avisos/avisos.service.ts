@@ -23,7 +23,7 @@ export class AvisosService {
 
 	// Obtiene avisos según criterios de busqueda (inicio)
 	obtenerAvisos(filtros: any) {
-		console.log(filtros);
+
 		return new Promise((resolve, reject) => {
 			// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones
 

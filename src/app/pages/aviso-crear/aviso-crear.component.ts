@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { MisAvisosService, UploaderService, FormsService } from 'src/app/services/services.index';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Aviso } from 'src/app/models/aviso.model';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 
 @Component({
 	selector: 'app-aviso-crear',
 	templateUrl: './aviso-crear.component.html',
-	styleUrls: ['./aviso-crear.component.scss']
-
+	styleUrls: ['./aviso-crear.component.scss'],
+	providers: [{
+		provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+	}]
 })
 export class AvisoCrearComponent implements OnInit {
 
@@ -79,15 +82,19 @@ export class AvisoCrearComponent implements OnInit {
 		this.ingresaDetalles = true;
 		this.ingresaDetallesData = event; // le envío al formuario detalles los datos de tipooperacion y tipoinmueble para fabricar mi formulario detalles
 	}
-	
+
 	guardarDetalles(event, stepper) {
 		if (event.invalid) {
 			return;
 		}
-		this.misAvisosService.guardarDetalles(event.value, this.aviso).subscribe(resp => {
-			this.aviso = resp.aviso;
-			this.misAvisosService.stepperGoNext(stepper);
-		});
+		if (this.avisoId === 'nuevo') { // El aviso ya fue guardado
+			this.misAvisosService.snack('Debe guardar el formulario Avisos!', 'Aceptar');
+		} else { // Intenta guardar detalles de un aviso NO guardado
+			this.misAvisosService.guardarDetalles(event.value, this.aviso).subscribe(resp => {
+				this.aviso = resp.aviso;
+				this.misAvisosService.stepperGoNext(stepper);
+			});
+		}
 
 	}
 

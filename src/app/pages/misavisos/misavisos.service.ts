@@ -7,6 +7,7 @@ import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
 import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
 	providedIn: 'root'
@@ -15,7 +16,9 @@ export class MisAvisosService {
 
 	constructor(
 		private http: HttpClient,
-		private usuarioService: UsuarioService
+		private usuarioService: UsuarioService,
+		private snackBar: MatSnackBar,
+
 	) { }
 
 	cargarMisAvisos(pagina: number) {
@@ -212,5 +215,11 @@ export class MisAvisosService {
 
 	stepperReset(stepper: MatStepper) {
 		stepper.reset();
+	}
+
+	snack(message: string, action: string) {
+		this.snackBar.open(message, action, {
+			duration: 2000,
+		});
 	}
 }

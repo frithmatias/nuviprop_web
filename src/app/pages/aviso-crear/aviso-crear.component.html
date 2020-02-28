@@ -1,15 +1,43 @@
 <div class="row no-sidebar animated fadeIn">
     <div class="col-12">
 
-    
-    <mat-horizontal-stepper [linear]=" isLinear" #stepper>
 
-        <!-- --------------------------------------------------------------- -->
-        <!-- STEP 1: FORMULARIO DE AVISO -->
-        <!-- --------------------------------------------------------------- -->
+        <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+            <ng-template matStepperIcon="edit">
+                <i class="mdi mdi-lead-pencil"></i>
+            </ng-template>
 
-        <mat-step>
-            <ng-template matStepLabel><i class="mdi mdi-home-outline h5"></i>&nbsp; Aviso</ng-template>
+            <ng-template matStepperIcon="done">
+                <!-- <mat-icon>done_all</mat-icon> -->
+                <i class="mdi mdi-check-circle-outline"></i>
+            </ng-template>
+
+            <ng-template matStepperIcon="aviso">
+                <i class="mdi mdi-home-outline"></i>
+            </ng-template>
+
+            <ng-template matStepperIcon="detalles">
+                <i class="mdi mdi-content-paste"></i>
+            </ng-template>
+
+            <ng-template matStepperIcon="fotos">
+                <i class="mdi mdi-camera"></i>
+            </ng-template>
+
+            <ng-template matStepperIcon="confirmar">
+                <i class="mdi mdi-check-circle-outline"></i>
+            </ng-template>
+
+            <!-- Custom icon with a context variable. -->
+            <ng-template matStepperIcon="number" let-index="index">
+                <i class="mdi mdi-lead-pencil"></i>
+            </ng-template>
+            <!-- --------------------------------------------------------------- -->
+            <!-- STEP 1: FORMULARIO DE AVISO -->
+            <!-- --------------------------------------------------------------- -->
+
+            <mat-step state="aviso">
+                <ng-template matStepLabel>Aviso</ng-template>
                 <!-- <button class="btn btn-primary" (click)="misAvisosService.stepperGoNext(stepper)">Siguiente</button> -->
 
                 <app-form-aviso [formData]="aviso" (setFormDetalles)="setFormDetalles($event)"
@@ -17,55 +45,56 @@
                     *ngIf="parsetemplate">
                 </app-form-aviso>
 
-        </mat-step>
+            </mat-step>
 
 
 
-        <!-- --------------------------------------------------------------- -->
-        <!-- STEP 2: FORMULARIO DE DETALLES -->
-        <!-- --------------------------------------------------------------- -->
+            <!-- --------------------------------------------------------------- -->
+            <!-- STEP 2: FORMULARIO DE DETALLES -->
+            <!-- --------------------------------------------------------------- -->
 
-        <!-- <mat-step *ngIf="ingresaDetalles">
+            <!-- <mat-step *ngIf="ingresaDetalles">
             <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
             <app-form-detalles [formData]="aviso" (formReady)="guardarDetalles($event, stepper)" *ngIf="parsetemplate">
             </app-form-detalles>
         </mat-step> -->
-        <mat-step *ngIf="ingresaDetalles">
-            <ng-template matStepLabel><i class="mdi mdi-content-paste h5"></i>&nbsp; Detalles</ng-template>
-            <app-detalles [formData]="aviso" [(ingresaDetallesData)]="ingresaDetallesData"
-                (ingresaDetalles)="ingresaDetalles=$event" (formReady)="guardarDetalles($event, stepper)">
-            </app-detalles>
-        </mat-step>
+            <mat-step *ngIf="ingresaDetalles" state="detalles">
+                <ng-template matStepLabel>Detalles</ng-template>
+                <app-detalles [formData]="aviso" [(ingresaDetallesData)]="ingresaDetallesData"
+                    (ingresaDetalles)="ingresaDetalles=$event" (formReady)="guardarDetalles($event, stepper)">
+                </app-detalles>
+            </mat-step>
 
-        <!-- --------------------------------------------------------------- -->
-        <!-- STEP 3: UPLOADER DE IMAGENES -->
-        <!-- --------------------------------------------------------------- -->
+            <!-- --------------------------------------------------------------- -->
+            <!-- STEP 3: UPLOADER DE IMAGENES -->
+            <!-- --------------------------------------------------------------- -->
 
-        <mat-step>
-            <ng-template matStepLabel><i class="mdi mdi-camera h5"></i>&nbsp; Fotos</ng-template>
-            <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
-                <div class="col-12">
-                    <h2 class="text-white bold">
-                        Subir Imagenes
-                    </h2>
+            <mat-step state="fotos">
+                <ng-template matStepLabel>Fotos</ng-template>
+                <div class="p-3 my-3 bg-dark row rounded rounded-lg animated fadeIn">
+                    <div class="col-12">
+                        <h2 class="text-white bold">
+                            Subir Imagenes
+                        </h2>
+                    </div>
                 </div>
-            </div>
-            <app-uploader [aviso]="aviso" tipo="avisos" [id]="avisoId"
-                (cargaFinalizada)="misAvisosService.stepperGoNext(stepper)">
-            </app-uploader>
-        </mat-step>
+                <app-uploader [aviso]="aviso" tipo="avisos" [id]="avisoId"
+                    (cargaFinalizada)="misAvisosService.stepperGoNext(stepper)">
+                </app-uploader>
+            </mat-step>
 
 
-        <!-- --------------------------------------------------------------- -->
-        <!-- STEP 4: CONFIRMACION DE PUBLICACION -->
-        <!-- --------------------------------------------------------------- -->
+            <!-- --------------------------------------------------------------- -->
+            <!-- STEP 4: CONFIRMACION DE PUBLICACION -->
+            <!-- --------------------------------------------------------------- -->
 
-        <mat-step *ngIf="aviso && !aviso.activo">
-            <ng-template matStepLabel><i class="mdi mdi-check-circle-outline h5"></i>&nbsp; Confirmar</ng-template>
-            <app-form-confirm [aviso]="aviso">
-            </app-form-confirm>
-        </mat-step>
+            <mat-step state="confirmar" *ngIf="aviso && !aviso.activo">
+                <ng-template matStepLabel>!Hecho!</ng-template>
+                <app-form-confirm [aviso]="aviso">
+                </app-form-confirm>
+            </mat-step>
 
-    </mat-horizontal-stepper>
-</div>
+
+        </mat-horizontal-stepper>
+    </div>
 </div>

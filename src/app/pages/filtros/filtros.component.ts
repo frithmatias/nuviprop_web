@@ -60,6 +60,8 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
+		// Con el método waitData() obtengo los datos necesarios y obligatoros para hacer búsquedas 
+		// como tipoOperaciones y tipoInmuebles
 		this.waitData = this.formsService.waitData().subscribe((data: any) => {
 			if (data.ok) {
 				// console.log(data); // {ok: true, contador: 1}
@@ -70,7 +72,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 			}
 		},
 			(err) => {
-				console.log(err);
 			});
 	}
 
@@ -282,7 +283,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 			tipoinmueble: this.allStrInmuebles.length > 0 ? ['indistinto'] : this.selStrInmuebles,
 			localidad: this.allStrLocalidades.length > 0 ? ['indistinto'] : this.selStrLocalidades
 		}));
-		console.log(filtros);
+
 		this.optionsSelected.emit(filtros);
 		// CENTRAR EL MAPA SEGUN LAS LOCALIDADES SELECCIONADAS
 		// promedio de coordenadas de localidades seleccionadas

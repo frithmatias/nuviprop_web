@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MisAvisosService  } from 'src/app/services/services.index';
+import { MisAvisosService } from 'src/app/services/services.index';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -59,7 +59,6 @@ export class MisAvisosComponent implements OnInit {
 		if (regex.test(termino)) {
 			this.cargando = true;
 			this.misAvisosService.buscarAviso(termino).subscribe((resp: any) => {
-				console.log(resp);
 				this.avisos = resp.avisos;
 				this.cargando = false;
 			});

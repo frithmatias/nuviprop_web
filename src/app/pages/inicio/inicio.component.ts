@@ -54,19 +54,18 @@ export class InicioComponent implements OnInit {
 			this.setData();
 		} else {
 			this.formsService.waitData()
-			.pipe(catchError((err) => throwError(err)))
-			.subscribe(
-				(data: any) => {
-					if (data.ok) {
-						this.setData();
-					} else {
-						this.failCounter = data.contador;
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe(
+					(data: any) => {
+						if (data.ok) {
+							this.setData();
+						} else {
+							this.failCounter = data.contador;
+						}
+					},
+					(err) => {
 					}
-				},
-				(err) => {
-					console.log(err);
-				}
-			);
+				);
 
 		}
 
@@ -134,7 +133,6 @@ export class InicioComponent implements OnInit {
 		};
 
 		if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
-			console.log(filtros);
 			localStorage.setItem('filtros', JSON.stringify(filtros));
 			this.router.navigate(['/avisos']); // En avivos hace la búsqueda con los datos en la localstorage
 		} else {

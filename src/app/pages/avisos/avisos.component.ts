@@ -4,6 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { Router } from '@angular/router';
 
+interface Ordenamientos {
+	value: string;
+	label: string;
+}
 
 @Component({
 	selector: 'app-avisos',
@@ -20,6 +24,15 @@ export class AvisosComponent implements OnInit {
 	hideScrollHeight = 200;
 	cargando = false;
 	avisos: Aviso[];
+
+	ordenadoPorPrecio = false;
+	ordenPorPrecio: string; //ASC o DESC
+
+	ordenamientos: Ordenamientos[] = [
+		{ value: 'preciomenor', label: 'Menor Precio' },
+		{ value: 'preciomayor', label: 'Mayor Precio' },
+	];
+
 	constructor(
 		private snackBar: MatSnackBar,
 		private avisosService: AvisosService,
@@ -36,8 +49,8 @@ export class AvisosComponent implements OnInit {
 		if (localStorage.getItem('filtros')) {
 			const filtros = JSON.parse(localStorage.getItem('filtros'));
 			if ((filtros.tipooperacion.length > 0) && (filtros.tipoinmueble.length > 0) && (filtros.localidad.length > 0)) {
-				// La búsqueda viene del lado de los filtros cuando son seteados automáticamente los criterios
-				// de búsqueda, no es necesario volver a buscar.
+				// Los avisos vienen llamados por los filtros cuando son seteados automáticamente los criterios
+				// de búsqueda (checks), no es necesario volver a buscar.
 
 				// this.avisosService.obtenerAvisos(filtros).then((res: string) => {
 				// 	this.snak(res, 2000);
@@ -52,6 +65,7 @@ export class AvisosComponent implements OnInit {
 		}
 	}
 
+	// busca avisos en titulos y descripciones desde el input
 	buscarAviso(termino: string) {
 		// /^[a-z0-9]+$/i
 		// ^         Start of string
@@ -61,7 +75,7 @@ export class AvisosComponent implements OnInit {
 		// /i        case-insensitive
 
 		if (termino.length <= 0) {
-			console.log('CERO')
+
 			const filtros = JSON.parse(localStorage.getItem('filtros'));
 			this.obtenerAvisos(filtros);
 			return;
@@ -71,7 +85,6 @@ export class AvisosComponent implements OnInit {
 		if (regex.test(termino)) {
 			this.cargando = true;
 			this.avisosService.buscarAviso(termino).subscribe((resp: any) => {
-				console.log(resp);
 				this.avisos = resp.avisos;
 				this.cargando = false;
 			});
@@ -82,7 +95,7 @@ export class AvisosComponent implements OnInit {
 		}
 	}
 
-
+	// obtiene avisos según criterio de búsqueda (viene desde filtros)
 	obtenerAvisos(filtros: any) {
 		this.avisosService.obtenerAvisos(filtros).then((data: Avisos) => {
 			this.avisos = data.avisos;
@@ -92,6 +105,73 @@ export class AvisosComponent implements OnInit {
 			this.avisos = [];
 			this.snak(err, 5000);
 		});
+	}
+
+
+	// primero? si, menor? si -> unshift();
+	// primero? si, menor? no -> nada (es el primero, tiene que haber otro elemento!)
+	// primero? no, menor? si -> splice(); 
+	// primero? no, menor? no -> ultimo? si -> push(), no -> nada
+
+	// avisos	avisosorden
+	// 310      -> 123 unshift() 
+	// 123		-> 310 push()
+	// 212 		
+	// 345 
+	// 984 
+
+	ordenarAvisosPrecio(orden: string) {
+		// ordeno de menor a mayor
+		if (!this.ordenadoPorPrecio) {
+			const avisosordenprecio = [];
+			console.log(this.avisos, avisosordenprecio, this.ordenPorPrecio);
+
+			console.log('asdfasdf');
+			this.avisos.forEach((aviso, i) => {
+				if (i === 0) { // si es el primer item, hago un push a mi array ordenado del primer item.
+					avisosordenprecio.push(aviso);
+				} else { // si en mi array ordenado hay mas de uno entonces tengo que rular.
+					avisosordenprecio.forEach((avisoorden, e) => {
+						if (e === 0) { // si es el primero
+							if (aviso.precio < avisoorden.precio) {
+								avisosordenprecio.unshift(aviso);
+							}
+						} else if ((e > 0) && (e < avisosordenprecio.length)) { // si llegué al último item en mi array ordenado
+							if (aviso.precio < avisoorden.precio) {
+								avisosordenprecio.splice(e, 0, aviso);
+							} 
+						} else if (e === avisosordenprecio.length) {
+							if (aviso.precio < avisoorden.precio) {
+								avisosordenprecio.splice(e, 0, aviso);
+							} else {
+								avisosordenprecio.push(aviso);
+							}
+						}
+
+					})
+
+				}
+
+			});
+			this.avisos = avisosordenprecio;
+			this.ordenadoPorPrecio = true;
+			this.ordenPorPrecio = 'ASC';
+		}
+
+		if (orden === 'preciomenor') {
+			if (this.ordenPorPrecio === 'DESC') {
+				this.ordenPorPrecio = 'ASC';
+				this.avisos.reverse();
+			}
+		} else if (orden === 'preciomayor') {
+			console.log(this.avisos);
+			if (this.ordenPorPrecio === 'ASC') {
+				this.ordenPorPrecio = 'DESC';
+				this.avisos.reverse();
+			}
+		}
+
+
 	}
 
 
@@ -167,7 +247,7 @@ export class AvisosComponent implements OnInit {
 
 	avisosChange(e: any) {
 		// si sólo modifico propiedades o elementos dentro de un array, el ciclo de detección de cambios
-		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo array, para que
+		// en el componente hijo no detecta los cambios porque le estoy pasando el mismo objeto, para que
 		// el componente hijo pueda detectar que le estoy pasando datos nuevos tengo que pasar un array
 		// NUEVO y para eso uso el operador SPREAD.
 		this.avisos = [...e];

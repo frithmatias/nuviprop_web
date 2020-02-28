@@ -31,8 +31,6 @@
 	</div>
 
 
-
-
 	<!---------------------------------------------------------------------->
 	<!-- TABS PANES -->
 	<!---------------------------------------------------------------------->
@@ -49,24 +47,70 @@
 		<!-- ---------------------------------- -->
 		<!-- PANE LIST -->
 		<!-- ---------------------------------- -->
-		<div class="tab-pane fade animated fadeIn pt-4" id="lista">
-			<div class="m-3 p-2">
-				<input #inputlist (keyup)="buscarAviso( inputlist.value )" type="text" class="form-control"
-					placeholder="Buscar aviso...">
+		<div class="tab-pane fade animated fadeIn pt-5" id="lista">
+			<div class="row mx-2">
+				<div class="col">
+
+					<!-- BUSCAR -->
+					<mat-form-field class="w-100" appearance="outline">
+						<mat-label>Buscar en títulos, descripciones y calles...</mat-label>
+						<input matInput #inputlist (keyup)="buscarAviso( inputlist.value )"
+							placeholder="Buscar en títulos, descripciones y calles...">
+					</mat-form-field>
+
+					<!-- ORDERNAR POR -->
+					<mat-form-field class="float-right">
+						<mat-label>Ordenar por:</mat-label>
+						<mat-select>
+							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenarAvisosPrecio(orden.value)">
+								{{orden.label}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
 			</div>
-			<app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
+
+
+			<div class="row">
+				<div class="col">
+					<app-list [(avisos)]="avisos" (avisosChange)="avisosChange($event)"></app-list>
+				</div>
+			</div>
 		</div>
 
 		<!-- ---------------------------------- -->
 		<!-- PANE CARDS -->
 		<!-- ---------------------------------- -->
 
-		<div class="tab-pane fade animated fadeIn pt-4" id="cards">
-			<div class="m-3 p-2">
-                <input #inputcards (keyup)="buscarAviso( inputcards.value )" type="text" class="form-control"
-                    placeholder="Buscar aviso...">
-            </div>
-			<app-cards [(avisos)]="avisos"></app-cards>
+		<div class="tab-pane fade animated fadeIn pt-5" id="cards">
+			<div class="row mx-2">
+				<div class="col">
+
+					<!-- BUSCAR -->
+					<mat-form-field class="w-100" appearance="outline">
+						<mat-label>Buscar en títulos, descripciones y calles...</mat-label>
+						<input matInput #inputcards (keyup)="buscarAviso( inputcards.value )"
+							placeholder="Buscar en títulos, descripciones y calles...">
+					</mat-form-field>
+
+					<!-- ORDERNAR POR -->
+					<mat-form-field class="float-right">
+						<mat-label>Ordenar por:</mat-label>
+						<mat-select>
+							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenarAvisosPrecio(orden.value)">
+								{{orden.label}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col">
+					<app-cards [(avisos)]="avisos"></app-cards>
+				</div>
+			</div>
 		</div>
 
 
