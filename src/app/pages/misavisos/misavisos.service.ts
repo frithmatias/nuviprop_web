@@ -5,9 +5,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UsuarioService } from '../../services/usuarios.service';
 import { Avisos, Aviso } from 'src/app/models/aviso.model';
 import Swal from 'sweetalert2';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { throwError } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -83,6 +84,10 @@ export class MisAvisosService {
 						timer: 1000
 					});
 					return resp;
+				}),
+				// seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
+				catchError(err => {
+					return throwError(err);
 				})
 			);
 		} else {
@@ -173,6 +178,10 @@ export class MisAvisosService {
 						timer: 1000
 					});
 					return resp;
+				}),
+				// seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
+				catchError(err => {
+					return throwError(err);
 				})
 			);
 		} else {
@@ -186,6 +195,10 @@ export class MisAvisosService {
 						timer: 1000
 					});
 					return resp;
+				}),
+				// seccion 17 clase 222, capturo el error con throwError en PROFILE.COMPONENT.TS
+				catchError(err => {
+					return throwError(err);
 				})
 			);
 		}

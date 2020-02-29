@@ -10,7 +10,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 	templateUrl: './aviso-crear.component.html',
 	styleUrls: ['./aviso-crear.component.scss'],
 	providers: [{
-		provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+		provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
 	}]
 })
 export class AvisoCrearComponent implements OnInit {
@@ -74,7 +74,11 @@ export class AvisoCrearComponent implements OnInit {
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
 				this.router.navigate(['/aviso-crear', resp.aviso._id]);
-			});
+			},
+				(err) => {
+					if (err.error.mensaje) { this.misAvisosService.snack(err.error.mensaje, 'Aceptar'); }
+					console.log(err.error.errors.errors);
+				});
 
 	}
 
@@ -93,7 +97,11 @@ export class AvisoCrearComponent implements OnInit {
 			this.misAvisosService.guardarDetalles(event.value, this.aviso).subscribe(resp => {
 				this.aviso = resp.aviso;
 				this.misAvisosService.stepperGoNext(stepper);
-			});
+			},
+				(err) => {
+					this.misAvisosService.snack(err.error.mensaje, 'Aceptar');
+					console.log(err.error.errors.errors);
+				});
 		}
 
 	}

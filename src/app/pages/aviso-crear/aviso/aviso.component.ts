@@ -155,8 +155,10 @@ export class AvisoComponent implements OnInit {
 	}
 
 	validarLatLng(form: FormGroup) {
-		if (!form.controls.lng || !form.controls.lat) {
-			return { error: 'Debe ingresar la posición en el mapa!' };
+		console.log('Validator', form);
+
+		if (!form.controls.lng || !form.controls.lat || form.controls.lng.value === null || form.controls.lat.value === null) {
+			return { error: 'Por favor, ingrese la posición en el mapa' };
 		}
 		return null;
 	}
