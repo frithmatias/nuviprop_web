@@ -76,7 +76,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.waitData.unsubscribe();
+		if (this.waitData) { this.waitData.unsubscribe(); }
 	}
 
 	storageToArraysIDs() {

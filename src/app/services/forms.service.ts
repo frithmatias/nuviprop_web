@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS, CURRENCYLAYER_ENDPOINT } from 'src/app/config/config';
 import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -15,6 +15,7 @@ import { Localidades, Localidad } from 'src/app/models/localidad.model';
 	providedIn: 'root'
 })
 export class FormsService {
+	public valorDolar = 62; // TODO: buscar endpoint para currency, CURRENCYLAYER_ENDPOINT no soporta https
 
 	// GLOBAL CONTROLS DATA ///////////////////
 	tiposOperaciones: TipoOperacion[];
@@ -85,6 +86,20 @@ export class FormsService {
 		await this.obtenerOperaciones().catch(err => console.log(err));
 		await this.obtenerInmuebles().catch(err => console.log(err));
 		await this.obtenerCambios().catch(err => console.log(err));
+		// this.obtenerCurrency(); // el endpoint de currencylayer no soporta peticiones get sobre https
+	}
+
+	obtenerCurrency() {
+		return new Promise((resolve, reject) => {
+			const currencyEndPoint = CURRENCYLAYER_ENDPOINT;
+			return this.http.get(currencyEndPoint)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe((data: any) => {
+					console.log('Valor del dólar:', data.quotes.USDARS);
+					this.valorDolar = data.quotes.USDARS;
+					resolve(data.tipocambio);
+				});
+		});
 	}
 
 	obtenerOperaciones(): Promise<TipoOperacion[]> {

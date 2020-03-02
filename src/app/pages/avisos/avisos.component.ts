@@ -5,7 +5,8 @@ import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { Router } from '@angular/router';
 
 interface Ordenamientos {
-	value: string;
+	by: string;
+	order: string;
 	label: string;
 }
 
@@ -29,14 +30,17 @@ export class AvisosComponent implements OnInit {
 	ordenPorPrecio: string; //ASC o DESC
 
 	ordenamientos: Ordenamientos[] = [
-		{ value: 'preciomenor', label: 'Menor Precio' },
-		{ value: 'preciomayor', label: 'Mayor Precio' },
+		{ by: 'precio', order: 'asc', label: 'Menor Precio' },
+		{ by: 'precio', order: 'desc', label: 'Mayor Precio' },
+		{ by: 'calle', order: 'asc', label: 'Calle' },
+		{ by: 'codigopostal', order: 'asc', label: 'Código Postal' }
 	];
 
 	constructor(
 		private snackBar: MatSnackBar,
 		private avisosService: AvisosService,
-		private router: Router
+		private router: Router,
+		private formsService: FormsService
 	) {
 		this.showGoUpButton = false;
 	}
@@ -120,61 +124,37 @@ export class AvisosComponent implements OnInit {
 	// 345 
 	// 984 
 
-	ordenarAvisosPrecio(orden: string) {
-		// ordeno de menor a mayor
-		if (!this.ordenadoPorPrecio) {
-			const avisosordenprecio = [];
-			console.log(this.avisos, avisosordenprecio, this.ordenPorPrecio);
-
-			console.log('asdfasdf');
-			this.avisos.forEach((aviso, i) => {
-				if (i === 0) { // si es el primer item, hago un push a mi array ordenado del primer item.
-					avisosordenprecio.push(aviso);
-				} else { // si en mi array ordenado hay mas de uno entonces tengo que rular.
-					avisosordenprecio.forEach((avisoorden, e) => {
-						if (e === 0) { // si es el primero
-							if (aviso.precio < avisoorden.precio) {
-								avisosordenprecio.unshift(aviso);
-							}
-						} else if ((e > 0) && (e < avisosordenprecio.length)) { // si llegué al último item en mi array ordenado
-							if (aviso.precio < avisoorden.precio) {
-								avisosordenprecio.splice(e, 0, aviso);
-							} 
-						} else if (e === avisosordenprecio.length) {
-							if (aviso.precio < avisoorden.precio) {
-								avisosordenprecio.splice(e, 0, aviso);
-							} else {
-								avisosordenprecio.push(aviso);
-							}
-						}
-
-					})
-
-				}
-
-			});
-			this.avisos = avisosordenprecio;
-			this.ordenadoPorPrecio = true;
-			this.ordenPorPrecio = 'ASC';
-		}
-
-		if (orden === 'preciomenor') {
-			if (this.ordenPorPrecio === 'DESC') {
-				this.ordenPorPrecio = 'ASC';
-				this.avisos.reverse();
-			}
-		} else if (orden === 'preciomayor') {
-			console.log(this.avisos);
-			if (this.ordenPorPrecio === 'ASC') {
-				this.ordenPorPrecio = 'DESC';
-				this.avisos.reverse();
-			}
-		}
-
-
+	ordenarAvisosPrecio(option: Ordenamientos) {
+		this.avisos.sort(this.compareValues(option.by, option.order).bind(this));
 	}
 
+	compareValues(key, order = 'asc') {
+		return (a, b) => {
+			if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+				// la propiedad no existe en ningún objeto
+				return 0;
+			}
+			let varA: any;
+			let varB: any;
+			if (key === 'precio') { // los precios se comparan en PESOS al tipo de cambio del día.
+				varA = (a.tipocambio.nombre === 'Pesos') ? a[key] : a[key] * this.formsService.valorDolar;
+				varB = (b.tipocambio.nombre === 'Pesos') ? b[key] : b[key] * this.formsService.valorDolar;
+			} else {
+				varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
+				varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+			}
+			let comparison = 0;
+			if (varA > varB) {
+				comparison = 1;
+			} else if (varA < varB) {
+				comparison = -1;
+			}
 
+			return (
+				(order === 'desc') ? (comparison * -1) : comparison
+			);
+		};
+	}
 	cambiarTab(tab: number) {
 		// guardo en el servico el tab seleccionado por última vez, para que al volver de
 		// ver un aviso, quede seleccionado el ultimo tab seleccionado.

@@ -99,7 +99,7 @@ export class AvisoCrearComponent implements OnInit {
 				this.misAvisosService.stepperGoNext(stepper);
 			},
 				(err) => {
-					this.misAvisosService.snack(err.error.mensaje, 'Aceptar');
+					if (err.error.mensaje) { this.misAvisosService.snack(err.error.mensaje, 'Aceptar'); }
 					console.log(err.error.errors.errors);
 				});
 		}
