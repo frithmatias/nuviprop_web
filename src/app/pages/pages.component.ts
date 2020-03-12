@@ -7,13 +7,8 @@ import { UsuarioService } from '../services/services.index';
   styles: []
 })
 export class PagesComponent implements OnInit {
-  setclass = true;
-
   constructor(private usuarioService: UsuarioService) {
-
   }
-
   ngOnInit() {
   }
-
 }

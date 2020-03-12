@@ -83,9 +83,9 @@ export class FormsService {
 	}
 
 	async getControlsData() {
-		await this.obtenerOperaciones().catch(err => console.log(err));
-		await this.obtenerInmuebles().catch(err => console.log(err));
-		await this.obtenerCambios().catch(err => console.log(err));
+		await this.obtenerOperaciones().catch(err => console.log(err.message));
+		await this.obtenerInmuebles().catch(err => console.log(err.message));
+		await this.obtenerCambios().catch(err => console.log(err.message));
 		// this.obtenerCurrency(); // el endpoint de currencylayer no soporta peticiones get sobre https
 	}
 

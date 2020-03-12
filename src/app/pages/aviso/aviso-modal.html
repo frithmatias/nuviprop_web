@@ -1,0 +1,3 @@
+<div class="fotorama" data-nav="thumbs">
+    <img *ngFor="let img of data.imgs" [src]="img | imagenPipe : 'avisos' : data._id">
+</div>

@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
 export class CardsComponent implements OnInit, OnChanges {
 	@Input() avisos: Aviso[] = [];
 	propFavoritas = {};
+	cantidad = 0;
 	params: string;
+	parsetemplate = false;
 	constructor(
 		private router: Router,
 		public usuarioService: UsuarioService
@@ -20,6 +22,9 @@ export class CardsComponent implements OnInit, OnChanges {
 
 
 	ngOnInit() {
+		console.log('CARGANDO SCRIPT');
+		$.getScript('../../../assets/fotorama/fotorama.dev.js');
+
 		if (localStorage.getItem('usuario')) {
 			const usuario = JSON.parse(localStorage.getItem('usuario'));
 			usuario.favoritos.forEach(favorito => {
@@ -29,6 +34,13 @@ export class CardsComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: any) {
+		console.log(changes);
+		if (changes.avisos && changes.avisos.currentValue && changes.avisos.currentValue.length > 0) {
+			$.getScript('../../../assets/fotorama/fotorama.dev.js');
+			this.cantidad = changes.avisos.currentValue.length;
+			this.parsetemplate = true;
+		}
+
 	}
 	// Los favoritos se guardan en la localstorage en 'usuario.favoritos[]'
 

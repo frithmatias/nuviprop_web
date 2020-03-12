@@ -29,10 +29,12 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/fotorama/fotorama.dev.css"
             ],
             "scripts": [
-              "src/assets/js/custom.js"
+              "src/assets/js/custom.js",
+              "src/assets/fotorama/fotorama.dev.js"
             ]
           },
           "configurations": {

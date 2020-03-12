@@ -13,10 +13,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule} from '@angular/material/dialog';
 
 // MODULOS PERSONALIZADOS
 import { ComponentsModule } from '../components/components.module';
 import { PipesModule } from '../pipes/pipes.module';
+import { AdminModule } from './admin/admin.module';
 
 // COMPONENTES
 import { FiltrosComponent } from './filtros/filtros.component';
@@ -27,14 +29,20 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
 import { ProfileComponent } from './profile/profile.component';
 import { MisAvisosComponent } from './misavisos/misavisos.component';
 import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
-import { AvisoComponent } from './aviso/aviso.component';
+import { AvisoComponent, AvisoModalComponent } from './aviso/aviso.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
-import { AdminModule } from './admin/admin.module';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
+
+
+// Configuring dialog content via entryComponents
+// Because MatDialog instantiates components at run-time, the Angular compiler needs extra information 
+// to create the necessary ComponentFactory for your dialog content component.
+// For any component loaded into a dialog, you must include your component class in the list of entryComponents 
+// in your NgModule definition so that the Angular compiler knows to create the ComponentFactory for it.
 @NgModule({
 	declarations: [
 		FiltrosComponent,
@@ -48,10 +56,14 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 		BuscarComponent,
 		AvisosComponent,
 		AvisoComponent,
+		AvisoModalComponent,
 		InicioComponent,
 		FavoritosComponent,
 		BreadcrumbsComponent
 	],
+	entryComponents: [
+		AvisoModalComponent
+	  ],
 	exports: [DashboardComponent],
 	imports: [
 		PipesModule,
@@ -69,7 +81,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 		MatInputModule,
 		MatSelectModule,
 		MatProgressSpinnerModule,
-		MatListModule
+		MatListModule,
+		MatDialogModule
 
 	]
 })
