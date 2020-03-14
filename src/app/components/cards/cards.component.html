@@ -17,10 +17,10 @@
                     <!---------------------------------------------------------------------->
                     <!-- IMAGEN -->
                     <!---------------------------------------------------------------------->
-                    <div class="fotorama" data-nav="thumbs" *ngIf="aviso.imgs.length > 0">
+                    <div class="fotorama" data-nav="false" *ngIf="aviso.imgs.length > 0">
                         <img *ngFor="let img of aviso.imgs" [src]="img | imagenPipe : 'avisos' : aviso._id">
                     </div>
-                    <div class="fotorama" data-nav="thumbs" *ngIf="aviso.imgs.length === 0">
+                    <div class="fotorama" data-nav="false" *ngIf="aviso.imgs.length === 0">
                         <img class="card-img-top rounded-top rounded-lg" [src]="aviso.imgs[0] | imagenPipe : 'avisos' : aviso._id" alt="Card image cap">
                     </div>
                     <!-- <img class="card-img-top rounded-top rounded-lg" [src]="aviso.imgs[0] | imagenPipe : 'avisos' : aviso._id" alt="Card image cap"> -->

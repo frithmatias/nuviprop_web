@@ -6,10 +6,7 @@ import { Usuario } from 'src/app/models/usuario.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, filter } from 'rxjs/operators';
 import { ScriptsService } from 'src/app/services/scripts.service';
-export interface DialogData {
-	animal: string;
-	name: string;
-}
+
 
 @Component({
 	selector: 'app-aviso',
@@ -22,7 +19,7 @@ export class AvisoComponent implements OnInit {
 	aviso: Aviso;
 	anunciante: Usuario;
 	id: string;
-	scriptloaded = false;
+	// scriptloaded = false;
 	constructor(
 		private scriptsService: ScriptsService,
 		private router: Router,
@@ -31,7 +28,6 @@ export class AvisoComponent implements OnInit {
 		public dialog: MatDialog) { }
 
 	ngOnInit() {
-		$.getScript('../assets/fotorama/fotorama.dev.js');
 		// this.scriptsService.load('fotorama').then(data => {
 		// 	console.log('script loaded ', data);
 		// 	this.scriptloaded = true;
@@ -44,23 +40,8 @@ export class AvisoComponent implements OnInit {
 			this.id = params.id;
 			await this.cargarAviso(this.id).then(() => {
 				this.parsetemplate = true;
+				$.getScript('../assets/fotorama/fotorama.dev.js');
 			});
-		});
-	}
-
-
-
-	openDialog(): void {
-		const dialogRef = this.dialog.open(AvisoModalComponent, {
-			height: '90%',
-			width: '450px',
-			data: this.aviso
-		});
-
-		// Me puedo subscribir y obtener data desde el modal
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
-			console.log(result);
 		});
 	}
 
@@ -77,22 +58,3 @@ export class AvisoComponent implements OnInit {
 	}
 }
 
-@Component({
-	selector: 'app-aviso-modal',
-	templateUrl: 'aviso-modal.html',
-})
-export class AvisoModalComponent implements OnInit {
-	constructor(
-		public dialogRef: MatDialogRef<AvisoModalComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: DialogData
-	) {}
-
-	ngOnInit(){
-		$.getScript('../assets/fotorama/fotorama.dev.js');
-
-	}
-	onNoClick(): void {
-		this.dialogRef.close();
-	}
-
-}

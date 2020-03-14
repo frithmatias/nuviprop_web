@@ -29,7 +29,7 @@ import { InmobiliariasComponent } from './inmobiliarias/inmobiliarias.component'
 import { ProfileComponent } from './profile/profile.component';
 import { MisAvisosComponent } from './misavisos/misavisos.component';
 import { AvisoCrearComponent } from './aviso-crear/aviso-crear.component';
-import { AvisoComponent, AvisoModalComponent } from './aviso/aviso.component';
+import { AvisoComponent } from './aviso/aviso.component';
 import { AccountSettingsComponent } from './settings/settings.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -56,13 +56,11 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 		BuscarComponent,
 		AvisosComponent,
 		AvisoComponent,
-		AvisoModalComponent,
 		InicioComponent,
 		FavoritosComponent,
 		BreadcrumbsComponent
 	],
 	entryComponents: [
-		AvisoModalComponent
 	  ],
 	exports: [DashboardComponent],
 	imports: [
