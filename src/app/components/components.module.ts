@@ -33,7 +33,6 @@ import { CardsComponent } from './cards/cards.component';
 import { ConfirmComponent } from '../pages/aviso-crear/confirm/confirm.component';
 import { AvisoComponent } from '../pages/aviso-crear/aviso/aviso.component';
 import { DetallesComponent } from '../pages/aviso-crear/detalles/detalles.component';
-import { GalleryComponent } from './gallery/gallery.component';
 
 
 
@@ -46,8 +45,7 @@ import { GalleryComponent } from './gallery/gallery.component';
 		CardsComponent,
 		ConfirmComponent,
 		AvisoComponent,
-		DetallesComponent,
-		GalleryComponent
+		DetallesComponent
 
 	],
 	imports: [
@@ -64,8 +62,7 @@ import { GalleryComponent } from './gallery/gallery.component';
 		MatTooltipModule,
 		MatSnackBarModule,
 		MatIconModule
-		
-	],
+		],
 	exports: [
 		UploaderComponent,
 		MapaComponent,

@@ -18,7 +18,6 @@ import { FavoritosComponent } from './favoritos/favoritos.component';
 import { FormulariosComponent } from './admin/formularios/formularios.component';
 import { UsuarioComponent } from './admin/usuarios/usuario.component';
 import { ControlesComponent } from './admin/controles/controles.component';
-import { GalleryComponent } from '../components/gallery/gallery.component';
 
 const pagesRoutes: Routes = [
   // TODO: Crear un módulo admin.module.ts para cargar con lazyload,
@@ -29,7 +28,6 @@ const pagesRoutes: Routes = [
   { path: 'avisos', component: AvisosComponent },
   { path: 'aviso/:id', component: AvisoComponent },
   { path: 'buscar/:termino', component: BuscarComponent, data: { titulo: 'Buscador' } },
-  { path: 'galeria', component: GalleryComponent },
 
   // USER PAGES
   { path: 'account-settings', canActivate: [LoginGuard, TokenGuard], component: AccountSettingsComponent },

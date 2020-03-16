@@ -124,8 +124,8 @@ export class AvisosComponent implements OnInit {
 	// 345 
 	// 984 
 
-	ordenarAvisosPrecio(option: Ordenamientos) {
-		this.avisos.sort(this.compareValues(option.by, option.order).bind(this));
+	ordenar(option: Ordenamientos) {
+		this.avisos = [...this.avisos.sort(this.compareValues(option.by, option.order).bind(this))];
 	}
 
 	compareValues(key, order = 'asc') {

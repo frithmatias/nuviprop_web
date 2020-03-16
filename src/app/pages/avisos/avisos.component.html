@@ -62,7 +62,7 @@
 					<mat-form-field class="float-right">
 						<mat-label>Ordenar por:</mat-label>
 						<mat-select>
-							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenarAvisosPrecio(orden)">
+							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenar(orden)">
 								{{orden.label}}
 							</mat-option>
 						</mat-select>
@@ -97,7 +97,7 @@
 					<mat-form-field class="float-right">
 						<mat-label>Ordenar por:</mat-label>
 						<mat-select>
-							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenarAvisosPrecio(orden)">
+							<mat-option *ngFor="let orden of ordenamientos" (click)="ordenar(orden)">
 								{{orden.label}}
 							</mat-option>
 						</mat-select>

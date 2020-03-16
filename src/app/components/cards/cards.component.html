@@ -11,7 +11,7 @@
         </div>
         
         <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let aviso of avisos">
-            <div class="ribbon-wrapper card cardshadow border">
+            <div class="ribbon-wrapper card np-aviso-shadow border">
                 <div class="ribbon ribbon-bookmark ribbon-success" *ngIf="aviso.destacado"> <i class="fa fa-check-circle"></i> Destacado </div>
                 <div class="ribbon-content">
                     <!---------------------------------------------------------------------->
@@ -27,7 +27,7 @@
                     <!---------------------------------------------------------------------->
                     <!-- PRECIO -->
                     <!---------------------------------------------------------------------->
-                    <span class="aviso-precio">{{ aviso.precio }}</span>
+                    <span class="aviso-precio">{{ aviso.tipocambio.simbolo }} {{ aviso.precio }} </span>
                     <!---------------------------------------------------------------------->
                     <!-- FAVORITOS -->
                     <!---------------------------------------------------------------------->
@@ -48,30 +48,35 @@
                     </div> -->
                     <!-- <span *ngIf="usuarioService.logueado"></span> -->
 
-                    <!---------------------------------------------------------------------->
-                    <!-- DIRECCION -->
-                    <!---------------------------------------------------------------------->
                     <div class="card-body p-2">
+
+                        <!---------------------------------------------------------------------->
+                        <!-- DIRECCION Y LOCALIDAD-->
+                        <!---------------------------------------------------------------------->
                         <div class="aviso-direccion">
-                            {{aviso.calle}} {{aviso.altura}}, {{aviso.localidad.nombre | capitalizarPipe}}
+                            {{aviso.calle}} {{aviso.altura}}, {{aviso.localidad.properties.nombre | capitalizarPipe}}
                         </div>
-                        <div class="aviso-operacion mb-2">
+
+                        <!---------------------------------------------------------------------->
+                        <!-- TIPO DE INMUEBLE Y TIPO DE OPERACION -->
+                        <!---------------------------------------------------------------------->
+                        <div class="aviso-operacion">
                             {{aviso.tipoinmueble.nombre}} en {{aviso.tipooperacion.nombre}}
                         </div>
 
                         <!---------------------------------------------------------------------->
                         <!-- TITULO Y DESCRIPCION -->
                         <!---------------------------------------------------------------------->
+                        <div class="aviso-titulo">{{aviso.titulo}}</div>
+                        <!-- <p>{{aviso.descripcion}}</p> -->
 
-                        <h5 class="card-title">{{aviso.titulo}}</h5>
-                        <p>{{aviso.descripcion}}</p>
+                        <button [routerLink]="['/aviso', aviso._id]"
+                            class="btn btn-info btn-block rounded-0">
+                            <i class="mdi mdi-content-paste"></i> Ver aviso
+                        </button>
                     </div>
                 </div>
 
-                <button [routerLink]="['/aviso', aviso._id]"
-                    class="btn btn-dark rounded-0 float-right rounded-bottom rounded-lg">
-                    <i class="mdi mdi-content-paste"></i> Ver aviso
-                </button>
             </div>
 
         </div>

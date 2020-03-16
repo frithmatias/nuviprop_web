@@ -2,11 +2,11 @@
 	<div class="scroll-sidebar">
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav">
+
 				<!---------------------------------------------------------------------->
 				<!-- FILTROS APLICADOS [BADGES] -->
 				<!---------------------------------------------------------------------->
 				<li>
-
 					<a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
 						<i class="mdi mdi-tune"></i>
 						<span class="hide-menu"> Filtros aplicados </span>
@@ -31,7 +31,6 @@
 							<!---------------------------------------------------------------------->
 							<!-- TIPO DE OPERACION [BADGES] -->
 							<!---------------------------------------------------------------------->
-
 							<div *ngIf="selObjOperaciones">
 								<span class="badge btn-themecolor active badge-filtros rounded-0 m-1 p-1"
 									*ngFor="let filtro of selObjOperaciones">
@@ -59,6 +58,9 @@
 						</li>
 					</ul>
 				</li>
+
+
+
 				<!---------------------------------------------------------------------->
 				<!-- LOCALIDADES [CHECKS] -->
 				<!---------------------------------------------------------------------->
@@ -73,7 +75,7 @@
 						<li class="px-1">
 
 							<!---------------------------------------------------------------------->
-							<!-- INPUT LOCALIDADES CERCANAS -->
+							<!-- INPUT LOCALIDAD -->
 							<!---------------------------------------------------------------------->
 							<mat-form-field color="warn" class="w-100 example-form-field">
 								<mat-label>Ingrese localidad</mat-label>
@@ -86,7 +88,7 @@
 							</mat-form-field>
 
 							<!---------------------------------------------------------------------->
-							<!-- AUTOCOMPLETE LOCALIDADES CERCANAS -->
+							<!-- AUTOCOMPLETE LOCALIDAD -->
 							<!---------------------------------------------------------------------->
 							<mat-autocomplete (optionSelected)="setLocalidad($event.option.value)"
 								#auto="matAutocomplete">

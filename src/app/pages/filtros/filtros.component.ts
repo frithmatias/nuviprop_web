@@ -51,7 +51,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 
 	JSON: JSON = JSON;
 
-
+	checkstyle = 'formfiltros-localidades';
 	constructor(
 		public formsService: FormsService,
 		@Inject(LOCALE_ID) private locale: string,
