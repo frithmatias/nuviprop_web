@@ -59,10 +59,8 @@
 					</ul>
 				</li>
 
-
-
 				<!---------------------------------------------------------------------->
-				<!-- LOCALIDADES [CHECKS] -->
+				<!-- UBICACION [CHECKS] -->
 				<!---------------------------------------------------------------------->
 				<li>
 
@@ -132,9 +130,8 @@
 					</a>
 
 					<ul aria-expanded="false" class="collapse">
-
 						<li *ngIf="formsService.tiposOperaciones" class="px-1">
-							<mat-selection-list class="animated fadeIn" class="animated fadeIn"
+							<mat-selection-list class="animated fadeIn"
 								[(ngModel)]="selStrOperaciones" dense>
 								<mat-list-option formfiltros-operaciones
 									*ngFor="let operacion of formsService.tiposOperaciones" [value]="operacion._id"
@@ -143,7 +140,6 @@
 								</mat-list-option>
 							</mat-selection-list>
 						</li>
-
 					</ul>
 				</li>
 
@@ -156,7 +152,6 @@
 						<span class="hide-menu"> Tipo de inmueble </span>
 					</a>
 					<ul aria-expanded="false" class="collapse">
-
 						<li *ngIf="formsService.tiposInmuebles" class="px-1">
 
 							<mat-selection-list class="animated fadeIn" [(ngModel)]="selStrInmuebles" dense>
@@ -168,10 +163,32 @@
 							</mat-selection-list>
 
 						</li>
-
-
 					</ul>
 				</li>
+
+				
+				<!---------------------------------------------------------------------->
+				<!-- FILTROS AVANZADOS -->
+				<!---------------------------------------------------------------------->
+					<li *ngFor="let filtro of filtrosavanzados">
+						<a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+							<i class="mdi mdi-home-outline"></i>
+							<span class="hide-menu"> {{ filtro.nombre}} </span>
+						</a>
+						<ul aria-expanded="false" class="collapse">
+							<li *ngIf="filtro.options" class="px-1">
+	
+								<mat-selection-list class="animated fadeIn" [(ngModel)]="selStrInmuebles" dense>
+									<mat-list-option formfiltros-inmuebles
+										*ngFor="let option of filtro.options" [value]="option._id"
+										(click)="filterUpdate('filtroavanzado', option)">
+										<div class="mat-select-option-nowarp">{{option.nombre}}</div>
+									</mat-list-option>
+								</mat-selection-list>
+	
+							</li>
+						</ul>
+					</li>
 
 			</ul>
 		</nav>

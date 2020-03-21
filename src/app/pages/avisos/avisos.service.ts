@@ -21,20 +21,18 @@ export class AvisosService {
 		return this.http.get(url);
 	}
 
-	// Obtiene avisos según criterios de busqueda (inicio)
-	obtenerAvisos(filtros: any) {
-
+	// Obtiene los avisos para TI y TO
+	obtenerAvisos(filtros: Filtros) {
 		return new Promise((resolve, reject) => {
 			// Una vez que ya tengo los objetos JS armo una cadena string con los IDs de las operaciones
 
-			let operaciones: string; // venta-compra-alquiler
+			let operaciones: string; // _id.venta-_id.compra-_id.alquiler
 			let inmuebles: string;
 			let localidades: string;
 
 			filtros.tipooperacion.forEach((operacion: string) => operaciones ? operaciones += '-' + operacion : operaciones = operacion);
 			filtros.tipoinmueble.forEach((inmueble: string) => inmuebles ? inmuebles += '-' + inmueble : inmuebles = inmueble);
 			filtros.localidad.forEach((localidad: string) => localidades ? localidades += '-' + localidad : localidades = localidad);
-
 
 			if ((operaciones === 'undefined') || (inmuebles === 'undefined') || (localidades === 'undefined')) { reject('Flatan datos por favor verifique.'); }
 			const url = `${URL_SERVICIOS}/avisos/${operaciones}/${inmuebles}/${localidades}/0`;
@@ -57,4 +55,11 @@ export class AvisosService {
 
 		});
 	}
+
+}
+
+interface Filtros {
+	tipooperacion: string[];
+	tipoinmueble: string[];
+	localidad: string[];
 }

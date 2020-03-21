@@ -5,7 +5,7 @@
 	<!---------------------------------------------------------------------->
 	<!-- FILTROS SIDE-BAR -->
 	<!---------------------------------------------------------------------->
-	<app-filtros class="avisos" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisos($event)"></app-filtros>
+	<app-filtros class="avisos" [filtrosavanzados]="filtros" (mapCoords)="mapCoords=$event" (optionsSelected)="obtenerAvisosFiltros($event)"></app-filtros>
 	<!-- <app-breadcrumbs></app-breadcrumbs> -->
 
 	<!---------------------------------------------------------------------->

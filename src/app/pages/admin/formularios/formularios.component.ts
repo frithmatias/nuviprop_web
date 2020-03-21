@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsService } from 'src/app/services/services.index';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
+import { TipoOperacion } from 'src/app/models/aviso.model';
+import { TipoInmueble } from 'src/app/models/aviso.model';
 import { Control, Form } from 'src/app/models/form.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -25,7 +25,7 @@ export class FormulariosComponent implements OnInit {
 
 	// Muestra TODOS los controles posibles
 	obtenerControlesTodos() {
-		this.formsService.getAllControls().subscribe((data: Form) => {
+		this.formsService.obtenerControlesTodos().subscribe((data: Form) => {
 			this.controls = data.controls;
 			this.buildForm();
 			this.parsetemplate = true;

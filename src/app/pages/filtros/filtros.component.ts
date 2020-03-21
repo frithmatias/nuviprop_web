@@ -1,16 +1,17 @@
-import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, Output, EventEmitter, OnDestroy, Input, OnChanges } from '@angular/core';
 import { FormsService } from '../../services/forms.service';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Localidad } from 'src/app/models/localidad.model';
 import { Subscription } from 'rxjs';
+import { OpcionDormitorios, TipoInmueble, TipoOperacion } from 'src/app/models/aviso.model';
 
 @Component({
 	selector: 'app-filtros',
 	templateUrl: './filtros.component.html',
 	styleUrls: ['./filtros.component.scss']
 })
-export class FiltrosComponent implements OnInit, OnDestroy {
+export class FiltrosComponent implements OnInit, OnDestroy, OnChanges {
 
 	waitData: Subscription;
 	// filtrosStorage va a guardar los filtros almacenados en la localStorage
@@ -22,6 +23,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	selStrOperaciones: string[];
 	selStrInmuebles: string[];
 	selStrLocalidades: string[];
+	selStrDormitorios: string[];
 
 	// allFilters son arrays de string que contienen TODAS las opciones en caso de que sea seleccionada
 	// la opcion INDISTINTO. No puedo enviar el array seleccionFilter porque con ngModel me estaría
@@ -33,8 +35,8 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	// Al hacer click en un filtro, y a partir de los arrays de _ids seleccionados voy a reconstruir
 	// los objetos para guardarlos en nuevos arrays para consumir los datos como el nombre de cada control
 	// Esta información es usada en los BADGES.
-	selObjOperaciones: object[];
-	selObjInmuebles: object[];
+	selObjOperaciones: TipoOperacion[];
+	selObjInmuebles: TipoInmueble[];
 	selObjLocalidades: Localidad[];
 	objectLocalidadChecked: Localidad; // Ultima localidad seleccionada para guardar en posicion 0 del array
 
@@ -44,7 +46,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	// Cada vez que se hace un click en el filtro le pido al componente padre que actualice las avisos.
 	@Output() optionsSelected: EventEmitter<object> = new EventEmitter();
 	@Output() mapCoords: EventEmitter<object> = new EventEmitter<object>(); // para enviar al mapa
-
+	@Input() filtrosavanzados: object[];
 	// Declaro un nuevo aviso de tipo JSON para poder utilizar sus metodos en el template. De esta manera
 	// puedo guardar un objeto en el valor de cada control CHECK guardando los datos como un string.
 	// [value]="JSON.stringify(inmueble)"
@@ -59,6 +61,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	) {
 	}
 
+
 	async ngOnInit() {
 		// Con el método waitData() obtengo los datos necesarios y obligatoros para hacer búsquedas 
 		// como tipoOperaciones y tipoInmuebles
@@ -68,11 +71,16 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 				this.storageToArraysIDs(); // Filters selected ID's
 				this.filtersToObjects(); // Filter Selected
 			} else {
-				this.formsService.getControlsData();
+				this.formsService.obtenerControlesData();
 			}
 		},
 			(err) => {
 			});
+	}
+
+	ngOnChanges(event: any) {
+		console.log(event);
+		console.log(this.filtrosavanzados);
 	}
 
 	ngOnDestroy() {
@@ -86,7 +94,6 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 			this.selStrOperaciones = [];
 			this.selStrInmuebles = [];
 			this.selStrLocalidades = [];
-
 			this.filtrosStorage = JSON.parse(localStorage.getItem('filtros'));
 
 			// Ingresar los filtros en localstorage para OPERACIONES seleccionadas
@@ -144,17 +151,20 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		this.selObjInmuebles = [];
 		this.selObjLocalidades = [];
 
+		// Construye los objetos de las OPERACIONES seleccionadas
 		if (this.formsService.tiposOperaciones) {
 			this.formsService.tiposOperaciones.forEach(operacion => {
 				if (this.selStrOperaciones.includes(operacion._id)) { this.selObjOperaciones.unshift(operacion); }
 			});
 		}
 
+		// Construye los objetos de los INMUEBLES seleccionados
 		if (this.formsService.tiposInmuebles) {
 			this.formsService.tiposInmuebles.forEach(inmueble => {
 				if (this.selStrInmuebles.includes(inmueble._id)) { this.selObjInmuebles.unshift(inmueble); }
 			});
 		}
+
 
 		if (localStorage.getItem('localidades')) {
 			const allObjLocalidades = JSON.parse(localStorage.getItem('localidades'));
@@ -213,7 +223,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 	// actualiza el estdo de los CHECKS 
 	filterUpdate(filter?: string, object?: any) {
 
-		// Preparo los array de strings con los IDs de los checks seleccionados.
+		// Manejo el check "indistinto", tildandolo o destildandolo según sea o no seleccionada alguna opción.
 		if (filter) {
 			switch (filter) {
 				case 'operacion':
@@ -260,19 +270,20 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 						}
 					}
 					break;
-
 			}
 		}
 
-		// Creo los objetos que van a guardar la data de los filtros seleccionados en los checks.
+		// Creo los objetos que van a guardar la data de los filtros seleccionados en los checks (BADGES)
 		this.filtersToObjects();
 
 		// GUARDAR LAS OPCIONES EN MI OBJETO FILTROS
 		// El objeto 'filtros' que será enviado con un EMIT al componente padre (avisos)
 		const filtros = {
+			// allStr contiene TODAS las opciones de cada filtro, si tiene valores envío todas las opciones,
+			// si no, entonces envío sólo las opciones seleccionadas.
 			tipooperacion: this.allStrOperaciones.length > 0 ? this.allStrOperaciones : this.selStrOperaciones,
 			tipoinmueble: this.allStrInmuebles.length > 0 ? this.allStrInmuebles : this.selStrInmuebles,
-			localidad: this.allStrLocalidades.length > 0 ? this.allStrLocalidades : this.selStrLocalidades
+			localidad: this.allStrLocalidades.length > 0 ? this.allStrLocalidades : this.selStrLocalidades,
 		};
 
 		// GUARDAR LAS OPCIONES EN LA LOCALSTORAGE
@@ -281,10 +292,15 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		localStorage.setItem('filtros', JSON.stringify({
 			tipooperacion: this.allStrOperaciones.length > 0 ? ['indistinto'] : this.selStrOperaciones,
 			tipoinmueble: this.allStrInmuebles.length > 0 ? ['indistinto'] : this.selStrInmuebles,
-			localidad: this.allStrLocalidades.length > 0 ? ['indistinto'] : this.selStrLocalidades
+			localidad: this.allStrLocalidades.length > 0 ? ['indistinto'] : this.selStrLocalidades,
 		}));
 
+		// **************************************************************************
+		// ENVIO LOS FILTROS AL PADRE (AVISOS -> AVISOS.SERVICE)
 		this.optionsSelected.emit(filtros);
+		// **************************************************************************
+
+
 		// CENTRAR EL MAPA SEGUN LAS LOCALIDADES SELECCIONADAS
 		// promedio de coordenadas de localidades seleccionadas
 		if (this.selObjLocalidades.length > 0 && this.selObjLocalidades[0]._id !== 'indistinto') {
@@ -318,7 +334,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 		}
 
 	}
-
+	// Eliminar un filtro en los BADGES
 	removeFilter(filter: string, object: any) {
 		switch (filter) {
 			case 'localidad':

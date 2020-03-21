@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_SERVICIOS, CURRENCYLAYER_ENDPOINT } from 'src/app/config/config';
-import { TiposOperaciones, TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { TipoInmueble, TiposInmuebles } from 'src/app/models/aviso_tipoinmueble.model';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+// Models
+import {
+	TiposOperaciones,
+	TipoOperacion,
+	TipoInmueble,
+	TiposInmuebles
+} from 'src/app/models/aviso.model';
+
+import { FormControl } from '@angular/forms';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Control } from 'src/app/models/form.model';
@@ -27,6 +33,7 @@ export class FormsService {
 	dataReady = {
 		tipooperacion: false,
 		tipoinmueble: false,
+		habitaciones: false
 	};
 
 	// declaro mi nuevo control donde voy a capturar los datos ingresados para la busqueda.
@@ -40,7 +47,7 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe
 	) {
-		this.getControlsData();
+		this.obtenerControlesData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {
 				return;
@@ -59,113 +66,7 @@ export class FormsService {
 			}
 		});
 	}
-
-	waitData(): Observable<object> {
-		return new Observable(observer => {
-			let contador = 0;
-			const timer = setInterval(() => {
-				contador += 1;
-				if (this.tiposOperaciones && this.tiposInmuebles && this.tiposCambio) {
-					clearInterval(timer);
-					observer.next({ ok: true, contador });
-					observer.complete();
-				} else {
-					observer.next({ ok: false, contador });
-				}
-				if (contador === 10) {
-
-					this.getControlsData();
-					contador = 0;
-					// observer.error('Se recibió un 2');
-				}
-			}, 1000);
-		});
-	}
-
-	async getControlsData() {
-		await this.obtenerOperaciones().catch(err => console.log(err.message));
-		await this.obtenerInmuebles().catch(err => console.log(err.message));
-		await this.obtenerCambios().catch(err => console.log(err.message));
-		// this.obtenerCurrency(); // el endpoint de currencylayer no soporta peticiones get sobre https
-	}
-
-	obtenerCurrency() {
-		return new Promise((resolve, reject) => {
-			const currencyEndPoint = CURRENCYLAYER_ENDPOINT;
-			return this.http.get(currencyEndPoint)
-				.pipe(catchError((err) => throwError(err)))
-				.subscribe((data: any) => {
-					console.log('Valor del dólar:', data.quotes.USDARS);
-					this.valorDolar = data.quotes.USDARS;
-					resolve(data.tipocambio);
-				});
-		});
-	}
-
-	obtenerOperaciones(): Promise<TipoOperacion[]> {
-		return new Promise((resolve, reject) => {
-			const url = URL_SERVICIOS + '/inicio/operaciones';
-			this.http.get(url)
-				.pipe(catchError((err) => throwError(err)))
-				.subscribe(
-					(data: TiposOperaciones) => {
-						if (data.ok) {
-							this.dataReady.tipooperacion = true;
-							this.tiposOperaciones = data.operaciones;
-							this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
-							resolve(data.operaciones);
-						}
-					},
-					(err) => {
-						reject(err);
-					});
-		});
-
-	}
-
-	obtenerInmuebles(): Promise<TipoInmueble[]> {
-		return new Promise((resolve) => {
-			const url = URL_SERVICIOS + '/inicio/inmuebles';
-			this.http.get(url)
-				.pipe(catchError((err) => throwError(err)))
-				.subscribe(
-					(data: TiposInmuebles) => {
-						if (data.ok) {
-							this.dataReady.tipoinmueble = true;
-							this.tiposInmuebles = data.inmuebles;
-							this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
-							resolve(data.inmuebles);
-						}
-					},
-					(err) => {
-						return err;
-					});
-		});
-	}
-
-	obtenerUnidades(idparent: string) {
-		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
-		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
-		return this.http.get(url);
-	}
-
-	obtenerCambios(): Promise<any[]> {
-		return new Promise((resolve, reject) => {
-			const url = URL_SERVICIOS + '/inicio/cambio';
-			return this.http.get(url)
-				.pipe(catchError((err) => throwError(err)))
-				.subscribe((data: any) => {
-					this.tiposCambio = data.tipocambio;
-					resolve(data.tipocambio);
-				});
-		});
-	}
-
-	buscar(termino: string) {
-		const url = URL_SERVICIOS + '/buscar/' + termino;
-		return this.http.get(url);
-	}
-
+	// busca localidades según pattern al iniciar el servicio
 	buscarLocalidades(pattern) {
 		return new Promise((resolve, reject) => {
 			const regex = new RegExp(/^[a-z ñ0-9]+$/i);
@@ -195,12 +96,118 @@ export class FormsService {
 
 
 	}
+	// espera para obtener la data de localidades, tipooperacion, tipoinmueble en inicio/filtros
+	waitData(): Observable<object> {
+		return new Observable(observer => {
+			let contador = 0;
+			const timer = setInterval(() => {
+				contador += 1;
+				if (this.tiposOperaciones && this.tiposInmuebles && this.tiposCambio) {
+					clearInterval(timer);
+					observer.next({ ok: true, contador });
+					observer.complete();
+				} else {
+					observer.next({ ok: false, contador });
+				}
+				if (contador === 10) {
 
+					this.obtenerControlesData();
+					contador = 0;
+					// observer.error('Se recibió un 2');
+				}
+			}, 1000);
+		});
+	}
+	// obtiene la data tipooperaciones/tipoinmuebles/tipocambios
+	obtenerControlesData() {
+		this.obtenerOperaciones().catch(err => console.log(err.message));
+		this.obtenerInmuebles().catch(err => console.log(err.message));
+		this.obtenerCambios().catch(err => console.log(err.message));
+		// this.obtenerCurrency(); // el endpoint de currencylayer no soporta peticiones get sobre https
+	}
+	// obtiene cotización del dólar
+	obtenerCurrency() {
+		return new Promise((resolve, reject) => {
+			const currencyEndPoint = CURRENCYLAYER_ENDPOINT;
+			return this.http.get(currencyEndPoint)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe((data: any) => {
+					console.log('Valor del dólar:', data.quotes.USDARS);
+					this.valorDolar = data.quotes.USDARS;
+					resolve(data.tipocambio);
+				});
+		});
+	}
+	// obtiene los tipos de operaciones
+	obtenerOperaciones(): Promise<TipoOperacion[]> {
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/operaciones';
+			this.http.get(url)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe(
+					(data: TiposOperaciones) => {
+						if (data.ok) {
+							this.dataReady.tipooperacion = true;
+							this.tiposOperaciones = data.operaciones;
+							this.tiposOperaciones.unshift({ _id: 'indistinto', nombre: 'Todas las operaciones', id: 'tipooperacion_indistinto' });
+							resolve(data.operaciones);
+						}
+					},
+					(err) => {
+						reject(err);
+					});
+		});
+
+	}
+	// obtiene los tipos de inmuebles
+	obtenerInmuebles(): Promise<TipoInmueble[]> {
+		return new Promise((resolve) => {
+			const url = URL_SERVICIOS + '/inicio/inmuebles';
+			this.http.get(url)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe(
+					(data: TiposInmuebles) => {
+						if (data.ok) {
+							this.dataReady.tipoinmueble = true;
+							this.tiposInmuebles = data.inmuebles;
+							this.tiposInmuebles.unshift({ _id: 'indistinto', nombre: 'Todos los inmuebles', id: 'tipoinmueble_indistinto' });
+							resolve(data.inmuebles);
+						}
+					},
+					(err) => {
+						return err;
+					});
+		});
+	}
+	// obtiene los tipos de unidades segun un tipo de inmueble dado
+	obtenerUnidades(idparent: string) {
+		// http://localhost:3000/inicio/unidades/tipoinmueble_departamento
+		const url = URL_SERVICIOS + '/inicio/unidades/' + idparent;
+		return this.http.get(url);
+	}
+	// obtiene los tipos de cambio
+	obtenerCambios(): Promise<any[]> {
+		return new Promise((resolve, reject) => {
+			const url = URL_SERVICIOS + '/inicio/cambio';
+			return this.http.get(url)
+				.pipe(catchError((err) => throwError(err)))
+				.subscribe((data: any) => {
+					this.tiposCambio = data.tipocambio;
+					resolve(data.tipocambio);
+				});
+		});
+	}
+	// busca en el header (DESUSO) se reemplazo en componentes avisos>cards/list por el metodo avisosService.buscarAviso(termino)
+	buscar(termino: string) {
+		const url = URL_SERVICIOS + '/buscar/' + termino;
+		return this.http.get(url);
+	}
+	// limpia control input localidad en inicio/filtros/aviso-crear
 	cleanInput() {
 		this.localidadesControl.reset();
 		this.localidades = [];
 	}
-
+	// obtiene localidades en departamento para una localidad dada
 	obtenerLocalidadesVecinas(localidad: Localidad) {
 		return new Promise((resolve, reject) => {
 			const url = URL_SERVICIOS + '/inicio/localidadesendepartamento/' + localidad._id;
@@ -217,8 +224,8 @@ export class FormsService {
 		});
 
 	}
-
-	createControl(control: Control, controlId?: string) {
+	// crea un control nuevo para admin>formularios
+	crearControl(control: Control, controlId?: string) {
 
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
@@ -236,7 +243,7 @@ export class FormsService {
 				})
 			);
 	}
-
+	// obtiene los controles asignados segun tipooperacion y tipoinmueble para admin>formularios
 	obtenerFormControls(tipooperacion?: string, tipoinmueble?: string) {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
@@ -253,24 +260,28 @@ export class FormsService {
 			);
 
 	}
-
-	obtenerFormControlsAndOptions(tipooperacion?: string, tipoinmueble?: string) {
+	// obtiene todos los controles para admin>formularios
+	obtenerControlesTodos() {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
 			'x-token': token
 		});
-		const url = URL_SERVICIOS + `/forms/getcontrolsoptions/${tipooperacion}/${tipoinmueble}`;
+		const url = URL_SERVICIOS + `/forms/getallcontrols`; // TODoS los controles (forms-admin)
 
-		return this.http.get(url, { headers })
-			.pipe(
-				// map((data: any) => data),
-				catchError((err) => {
-					return throwError(err); // Devuelve un error al suscriptor de mi observable.
-				})
-			);
+		return this.http.get(url, { headers }).pipe(
+			map((data: any) => data),
+			catchError((err) => {
+				return throwError(err.error.mensaje); // Devuelve un error al suscriptor de mi observable.
+			})
+		);
 
 	}
-
+	// obtiene los controles y sus opciones para aviso-crear>detalles
+	obtenerFormControlsAndOptions(tipooperacion?: string, tipoinmueble?: string) {
+		const url = URL_SERVICIOS + `/forms/getcontrolsoptions/${tipooperacion}/${tipoinmueble}`;
+		return this.http.get(url);
+	}
+	// obtiene las opciones de un control específico para admin>controles
 	obtenerControlData(controlId: string) {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
@@ -286,23 +297,12 @@ export class FormsService {
 				})
 			);
 	}
-
-	getAllControls() {
-		const token = localStorage.getItem('token');
-		const headers = new HttpHeaders({
-			'x-token': token
-		});
-		const url = URL_SERVICIOS + `/forms/getallcontrols`; // TODoS los controles (forms-admin)
-
-		return this.http.get(url, { headers }).pipe(
-			map((data: any) => data),
-			catchError((err) => {
-				return throwError(err.error.mensaje); // Devuelve un error al suscriptor de mi observable.
-			})
-		);
-
+	// obtiene los filtros dadas las opciones TO y TI seleccionadas en filtros-dinamicos
+	obtenerFiltros(to: string[], ti: string[]){
+		console.log('to', to);
+		console.log('ti', ti);
 	}
-
+	// setea una nueva configuracion de controles enviando un objeto (TO,TI,ID_CONTROLS)
 	setFormControls(controls: any) {
 		const token = localStorage.getItem('token');
 		const headers = new HttpHeaders({
@@ -311,10 +311,11 @@ export class FormsService {
 		const url = URL_SERVICIOS + `/forms/setformcontrols`;
 		return this.http.put(url, controls, { headers });
 	}
-
+	// muestra una oblea
 	snack(message: string, action: string) {
 		this.snackBar.open(message, action, {
 			duration: 2000,
 		});
 	}
 }
+

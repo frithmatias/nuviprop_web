@@ -5,8 +5,7 @@ import { FormsService, AvisosService } from 'src/app/services/services.index';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, catchError } from 'rxjs/operators';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
-import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
+import { TipoOperacion, TipoInmueble } from 'src/app/models/aviso.model';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { throwError } from 'rxjs';
 @Component({

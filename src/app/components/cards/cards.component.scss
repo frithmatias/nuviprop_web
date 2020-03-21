@@ -3,28 +3,30 @@ img {
     height    : 250px;
     object-fit: cover;
 }
-
 .np-aviso-shadow {
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
 
-.aviso-operacion {
-    font-family: "Montserrat", sans-serif;
-    font-size  : 14px;
-    font-weight: 500;
-    color      : green;
-}
-
 .aviso-direccion {
     font-family: "Montserrat", sans-serif;
-    font-size  : 12px;
+    @media (min-width: 576px) { font-size  : .9em; }
+    @media (max-width: 575px) { font-size  : 1.4em; }
     font-weight: 500;
     color: #014d9e;
 }
 
+.aviso-operacion {
+    font-family: "Montserrat", sans-serif;
+    @media (min-width: 576px) { font-size  : .9em; }
+    @media (max-width: 575px) { font-size  : 1.4em; }
+    font-weight: 500;
+    color      : green;
+}
+
 .aviso-titulo {
     font-family: "Montserrat", sans-serif;
-    font-size: 12px;
+    @media (min-width: 576px) { font-size  : .9em; }
+    @media (max-width: 575px) { font-size  : 1.4em; }
     font-weight: 500;
     color: #717171;
     margin: 10px 0px;
@@ -32,8 +34,9 @@ img {
 
 .aviso-precio {
     font-family: "Montserrat", sans-serif;
-    font-size: 20px;
-    font-weight: 400;
+    @media (min-width: 576px) { font-size  : 1.3em; }
+    @media (max-width: 575px) { font-size  : 1.8em; }
+    font-weight: 500;
     color: #06d79c;
     position: absolute;
     top: 0px;

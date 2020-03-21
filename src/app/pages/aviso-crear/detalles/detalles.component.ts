@@ -4,7 +4,6 @@ import { Form, Control, Option } from 'src/app/models/form.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Aviso } from 'src/app/models/aviso.model';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 
 @Component({
 	selector: 'app-detalles',

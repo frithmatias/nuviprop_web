@@ -197,7 +197,7 @@ export class ControlesComponent implements OnInit {
 		if (this.formNewControl.valid) {
 			// Si se trata de una edición, envío como segundo parámetro el idcontrol.
 			// .getRawValue() es el metodo para incluir los 'value' de los controles 'disabled'
-			this.formsService.createControl(this.formNewControl.getRawValue(), this.controlId).subscribe(data => {
+			this.formsService.crearControl(this.formNewControl.getRawValue(), this.controlId).subscribe(data => {
 				if (data.ok) {
 					this.snackBar.open('Control guardado correctamente.', 'Aceptar', {
 						duration: 2000,

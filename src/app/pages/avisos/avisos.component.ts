@@ -3,6 +3,7 @@ import { AvisosService, FormsService } from 'src/app/services/services.index';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Aviso, Avisos } from 'src/app/models/aviso.model';
 import { Router } from '@angular/router';
+import { Form } from 'src/app/models/form.model';
 
 interface Ordenamientos {
 	by: string;
@@ -25,7 +26,7 @@ export class AvisosComponent implements OnInit {
 	hideScrollHeight = 200;
 	cargando = false;
 	avisos: Aviso[];
-
+	filtros = []; // obtengo los controles para cada TI, TO y los ingreso como filtros.
 	ordenadoPorPrecio = false;
 	ordenPorPrecio: string; //ASC o DESC
 
@@ -37,10 +38,10 @@ export class AvisosComponent implements OnInit {
 	];
 
 	constructor(
-		private snackBar: MatSnackBar,
-		private avisosService: AvisosService,
 		private router: Router,
-		private formsService: FormsService
+		private avisosService: AvisosService,
+		private formsService: FormsService,
+		private snackBar: MatSnackBar
 	) {
 		this.showGoUpButton = false;
 	}
@@ -99,8 +100,15 @@ export class AvisosComponent implements OnInit {
 		}
 	}
 
+
+
+	obtenerAvisosFiltros(filtros: Filtros) {
+		this.obtenerAvisos(filtros);
+		this.obtenerFiltrosAvanzados(filtros);
+
+	}
 	// obtiene avisos según criterio de búsqueda (viene desde filtros)
-	obtenerAvisos(filtros: any) {
+	obtenerAvisos(filtros: Filtros) {
 		this.avisosService.obtenerAvisos(filtros).then((data: Avisos) => {
 			this.avisos = data.avisos;
 			const res = `Se obtuvieron ${data.total} avisos`;
@@ -111,18 +119,35 @@ export class AvisosComponent implements OnInit {
 		});
 	}
 
+	// async obtenerFiltrosAvanzados(filtros: Filtros) {
+	// 	for (const to of filtros.tipooperacion) {
+	// 		for (const ti of filtros.tipoinmueble) {
+	// 			console.log('consultando ', to, ti);
+	// 			await this.consultar().then(() => {
+	// 				console.log('terminado');
+	// 			})
+	// 		}
+	// 	}
+	// }
+	obtenerFiltrosAvanzados(filtros: Filtros) {
 
-	// primero? si, menor? si -> unshift();
-	// primero? si, menor? no -> nada (es el primero, tiene que haber otro elemento!)
-	// primero? no, menor? si -> splice(); 
-	// primero? no, menor? no -> ultimo? si -> push(), no -> nada
-
-	// avisos	avisosorden
-	// 310      -> 123 unshift() 
-	// 123		-> 310 push()
-	// 212 		
-	// 345 
-	// 984 
+		const controlsIDs = []; // cargo los IDs para evitar ingresar dos veces un mismo control.
+		filtros.tipoinmueble.forEach(ti => {
+			filtros.tipooperacion.forEach(to => {
+				this.formsService.obtenerFormControlsAndOptions(to, ti)
+				.subscribe((data: Form) => {
+					if (data && data.ok) {
+						data.controls.forEach(control => {
+							if (!controlsIDs.includes(control._id)) {
+								this.filtros.push(control);
+								controlsIDs.push(control._id);
+							}
+						});
+					}
+				});
+			});
+		});
+	}
 
 	ordenar(option: Ordenamientos) {
 		this.avisos = [...this.avisos.sort(this.compareValues(option.by, option.order).bind(this))];
@@ -155,6 +180,7 @@ export class AvisosComponent implements OnInit {
 			);
 		};
 	}
+
 	cambiarTab(tab: number) {
 		// guardo en el servico el tab seleccionado por última vez, para que al volver de
 		// ver un aviso, quede seleccionado el ultimo tab seleccionado.
@@ -236,4 +262,10 @@ export class AvisosComponent implements OnInit {
 	tabSelected(tab: number) {
 		localStorage.setItem('viewtab', String(tab));
 	}
+}
+
+interface Filtros {
+	tipooperacion: string[];
+	tipoinmueble: string[];
+	localidad: string[];
 }

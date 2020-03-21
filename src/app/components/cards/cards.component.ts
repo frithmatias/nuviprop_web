@@ -22,9 +22,7 @@ export class CardsComponent implements OnInit, OnChanges {
 
 
 	ngOnInit() {
-		console.log('CARGANDO SCRIPT');
 		$.getScript('../../../assets/fotorama/fotorama.dev.js');
-
 		if (localStorage.getItem('usuario')) {
 			const usuario = JSON.parse(localStorage.getItem('usuario'));
 			usuario.favoritos.forEach(favorito => {
@@ -34,7 +32,7 @@ export class CardsComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: any) {
-		console.log(changes);
+		// console.log(changes);
 		if (changes.avisos && changes.avisos.currentValue && changes.avisos.currentValue.length > 0) {
 			$.getScript('../../../assets/fotorama/fotorama.dev.js');
 			this.cantidad = changes.avisos.currentValue.length;

@@ -154,6 +154,7 @@ File: js
 
     var AdminMenu = function () {
       function AdminMenu(element, config) {
+        console.log(config);
         _classCallCheck(this, AdminMenu);
 
         this._element = element;
@@ -164,12 +165,30 @@ File: js
       }
 
       AdminMenu.prototype.init = function init() {
+        console.log(this);
         var self = this;
-        $(this._element).find(this._config.parentTrigger + '.' + this._config.activeClass).has(this._config.subMenu).children(this._config.subMenu).attr('aria-expanded', true).addClass(this._config.collapseClass + ' ' + this._config.collapseInClass);
+        $(this._element)
+        .find(this._config.parentTrigger + '.' + this._config.activeClass)
+        .has(this._config.subMenu)
+        .children(this._config.subMenu)
+        .attr('aria-expanded', true)
+        .addClass(this._config.collapseClass + ' ' + this._config.collapseInClass);
 
-        $(this._element).find(this._config.parentTrigger).not('.' + this._config.activeClass).has(this._config.subMenu).children(this._config.subMenu).attr('aria-expanded', false).addClass(this._config.collapseClass);
+        $(this._element)
+        .find(this._config.parentTrigger)
+        .not('.' + this._config.activeClass)
+        .has(this._config.subMenu)
+        .children(this._config.subMenu)
+        .attr('aria-expanded', false)
+        .addClass(this._config.collapseClass);
 
-        $(this._element).find(this._config.parentTrigger).has(this._config.subMenu).children(this._config.triggerElement).on(Event.CLICK_DATA_API, function (e) {
+        $(this._element)
+        .find(this._config.parentTrigger)
+        .has(this._config.subMenu)
+        .children(this._config.triggerElement)
+        .on(Event.CLICK_DATA_API, function (e) {
+          
+          console.log(e);
           var _this = $(this);
           var _parent = _this.parent(self._config.parentTrigger);
           var _siblings = _parent.siblings(self._config.parentTrigger).children(self._config.triggerElement);

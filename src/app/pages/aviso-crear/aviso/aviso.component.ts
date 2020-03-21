@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { Aviso } from 'src/app/models/aviso.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsService } from '../../../services/forms.service';
-import { TipoInmueble } from 'src/app/models/aviso_tipoinmueble.model';
-import { TipoUnidad, TiposUnidades } from 'src/app/models/aviso_tipounidad.model';
+import { TipoUnidad, TiposUnidades, TipoInmueble, TipoOperacion } from 'src/app/models/aviso.model';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
-import { TipoOperacion } from 'src/app/models/aviso_tipooperacion.model';
 import { Localidad } from 'src/app/models/localidad.model';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
