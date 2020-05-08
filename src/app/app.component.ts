@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-declare function init_plugins();
+import { LoadScriptsService } from './services/loadscripts.service';
 
 @Component({
 	selector: 'app-root',
@@ -10,43 +10,36 @@ declare function init_plugins();
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
 	// time = new Observable<string>((observer: Observer<string>) => {
 	//   setInterval(() => observer.next(new Date().toString()), 1000);
 	// });
-	constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private doc, private router: Router, private activatedRoute: ActivatedRoute) {
-
+	constructor(
+		private elementRef: ElementRef,
+		@Inject(DOCUMENT) private doc,
+		private router: Router,
+		private activatedRoute: ActivatedRoute
+	) {
+		$.ajaxSetup({
+			cache: true
+		});
 		// this.time.subscribe(data => {
 		//   console.log(data, `font-weight: bold; font-size: 12px;color: yellow; `, `font-weight: bold; font-size: 12px;color: red; `);
 		// });
 	}
 
+	// ngAfterViewInit -> cuando se hizo attach del template
+	// ngAfterContentInit -> cuando se hizo attach del template y sus childs 
+
+
 
 	ngOnInit() {
+
 		this.print_console();
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
 			map(() => this.activatedRoute))
 			.subscribe((event) => {
-
-				// $.getScript('../assets/plugins/jquery/jquery.min.js');
-				// init_plugins();
-				// $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
-				// $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
-				$.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
-				// $.getScript('../assets/js/sidebarmenu.js');
-				$.getScript('../assets/js/custom.js');
-
 			});
-
-
-
-
-
-
-		// var jquery = document.createElement("script");
-		// jquery.type = "text/javascript";
-		// jquery.src = "../assets/plugins/jquery/jquery.min.js";
-		// this.elementRef.nativeElement.appendChild(jquery);
-		// init_plugins();
 	}
 
 

@@ -18,6 +18,7 @@ export class UsuarioService implements OnDestroy {
 	favoritos = [];
 	constructor(public http: HttpClient, public router: Router) {
 		//
+		console.log("Servicio de usuarios cargado!");
 		this.cargarStorage();
 		this.logueado = this.estaLogueado();
 	}
@@ -284,7 +285,7 @@ export class UsuarioService implements OnDestroy {
 		localStorage.removeItem('usuario');
 		localStorage.removeItem('menu');
 
-		this.router.navigate(['/inicio']);
+		this.router.navigate(['/avisos']);
 	}
 
 

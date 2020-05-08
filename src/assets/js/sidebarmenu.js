@@ -1,9 +1,3 @@
-/*
-Template Name: Admin Pro Admin
-Author: Wrappixel
-Email: niravjoshi87@gmail.com
-File: js
-*/
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(['jquery'], factory);
@@ -154,7 +148,6 @@ File: js
 
     var AdminMenu = function () {
       function AdminMenu(element, config) {
-        console.log(config);
         _classCallCheck(this, AdminMenu);
 
         this._element = element;
@@ -165,7 +158,6 @@ File: js
       }
 
       AdminMenu.prototype.init = function init() {
-        console.log(this);
         var self = this;
         $(this._element)
         .find(this._config.parentTrigger + '.' + this._config.activeClass)
@@ -188,7 +180,6 @@ File: js
         .children(this._config.triggerElement)
         .on(Event.CLICK_DATA_API, function (e) {
           
-          console.log(e);
           var _this = $(this);
           var _parent = _this.parent(self._config.parentTrigger);
           var _siblings = _parent.siblings(self._config.parentTrigger).children(self._config.triggerElement);

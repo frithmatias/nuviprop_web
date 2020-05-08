@@ -47,6 +47,7 @@ export class FormsService {
 		private snackBar: MatSnackBar,
 		private capitalizarPipe: CapitalizarPipe
 	) {
+		console.log('Servicio de formularios cargado.')
 		this.obtenerControlesData();
 		this.localidadesControl.valueChanges.subscribe(data => {
 			if (typeof data !== 'string' || data.length <= 0) {

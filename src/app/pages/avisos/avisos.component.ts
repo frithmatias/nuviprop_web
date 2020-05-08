@@ -119,6 +119,7 @@ export class AvisosComponent implements OnInit {
 		});
 	}
 
+	// Para obtener los filtros de forma sincrona puedo usar for en lugar de forEach
 	// async obtenerFiltrosAvanzados(filtros: Filtros) {
 	// 	for (const to of filtros.tipooperacion) {
 	// 		for (const ti of filtros.tipoinmueble) {

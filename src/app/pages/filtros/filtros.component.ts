@@ -79,8 +79,7 @@ export class FiltrosComponent implements OnInit, OnDestroy, OnChanges {
 	}
 
 	ngOnChanges(event: any) {
-		console.log(event);
-		console.log(this.filtrosavanzados);
+
 	}
 
 	ngOnDestroy() {

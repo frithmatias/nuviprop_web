@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Aviso } from 'src/app/models/aviso.model';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
-
 @Component({
 	selector: 'app-aviso-crear',
 	templateUrl: './aviso-crear.component.html',
@@ -32,6 +31,7 @@ export class AvisoCrearComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
 		this.misAvisosService.scrollTop();
 		this.activatedRoute.params.subscribe(async params => {
 			this.avisoId = params.id;

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsService, AvisosService } from 'src/app/services/services.index';
-import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
+import { FormsService } from 'src/app/services/services.index';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, catchError } from 'rxjs/operators';
 import { TipoOperacion, TipoInmueble } from 'src/app/models/aviso.model';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { throwError } from 'rxjs';
 @Component({
 	selector: 'app-inicio',
@@ -25,28 +22,17 @@ export class InicioComponent implements OnInit {
 	constructor(
 		public formsService: FormsService,
 		private snackBar: MatSnackBar,
-		private capitalizarPipe: CapitalizarPipe,
-		private avisosService: AvisosService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute
 	) { }
 
 	async ngOnInit() {
-
 		// Cargo los scripts fuera del scope de Angular.
 		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(
 			map(() => this.activatedRoute))
 			.subscribe((event) => {
 
-				// $.getScript('../assets/plugins/jquery/jquery.min.js');
-				// init_plugins();
-				//  $.getScript('../assets/plugins/bootstrap/js/popper.min.js');
-				//  $.getScript('../assets/plugins/bootstrap/js/bootstrap.min.js');
-				//  $.getScript('../assets/js/perfect-scrollbar.jquery.min.js');
-				//  $.getScript('../assets/js/sidebarmenu.js');
-				$.getScript('../assets/js/custom.js');
 			});
-
 
 		// Espera a que los datos esten disponibles en el servicio
 		if (this.formsService.tiposOperaciones && this.formsService.tiposInmuebles) {
